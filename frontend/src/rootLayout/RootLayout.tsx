@@ -1,13 +1,15 @@
 import { Outlet } from 'react-router-dom';
 import NavBar from '../navBar/NavBar';
+import classes from "./RootLayout.module.css"
 
 const RootLayout: React.FC = () => {
   return (
-    <>
+    <div>
       <NavBar />
-      <h1>Root Layout</h1>
+      <div className={classes.container}>
       <Outlet />
-    </>
+      </div>
+    </div>
   );
 };
 export default RootLayout;
