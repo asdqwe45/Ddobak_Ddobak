@@ -11,7 +11,7 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-
+S
   cache:
     type: redis
     redis:
