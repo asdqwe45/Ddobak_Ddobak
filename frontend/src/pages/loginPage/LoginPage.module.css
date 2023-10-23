@@ -1,0 +1,45 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 85px;
+    position: relative;
+}
+
+.loginBtn {
+    width: 300px;
+    height: 48px;
+    background-color: #D71718;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border: 0px;
+    border-radius: 6.5px;
+    cursor: pointer;
+    margin-top: 22px;
+    margin-bottom: 8px;
+}
+
+.loginBtn:hover {
+    background-color: #F66C5C;
+}
+
+.passwordIcon {
+    position: absolute;
+    transform: translate(260px, -45px);
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.passwordIcon:hover {
+    opacity: 0.6
+}
+
+.navigator {
+    margin-top: 18px;
+    text-decoration: none;
+    color: black;
+    font-size: 17px;
+    font-weight: 700;
+}

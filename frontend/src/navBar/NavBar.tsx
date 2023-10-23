@@ -8,7 +8,7 @@ const NavBar: React.FC = () => {
       <nav className={classes.header}>
         <div className={classes.list}>
           <div className={classes.leftBox}>
-            <div className={classes.smallBox}>
+            <div className={classes.logoBox}>
               <NavLink to="/">
                 <img src={NavLogo} alt="NavLogo" className={classes.navImage} />
               </NavLink>
