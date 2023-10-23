@@ -12,19 +12,19 @@ const NavBar: React.FC = () => {
           </NavLink>
 
           <NavLink
-            to="/product"
+            to="/fontMake"
             className={({ isActive }) => (isActive ? classes.active : classes.navPont)}
           >
             제작하기
           </NavLink>
           <NavLink
-            to="/pontList"
+            to="/fontList"
             className={({ isActive }) => (isActive ? classes.active : undefined)}
           >
             PontList
           </NavLink>
           <NavLink
-            to="/question"
+            to="/faqPage"
             className={({ isActive }) => (isActive ? classes.active : undefined)}
           >
             Question
@@ -36,7 +36,7 @@ const NavBar: React.FC = () => {
             로그인 해주세요
           </NavLink>
           {/* <NavLink
-            to="/signUp"
+            to="/signup"
             className={({ isActive }) =>
               isActive ? classes.active : undefined
             }

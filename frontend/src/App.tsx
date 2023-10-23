@@ -11,9 +11,9 @@ import MainPage from './pages/mainPage/MainPage';
 import MyPage from './pages/myPage/MyPage';
 import LoginPage from './pages/loginPage/LoginPage';
 import SignupPage from './pages/signupPage/SignupPage';
-import PontListPage from './pages/pontListPage/PontListPage';
-import ProductPage from './pages/productPage/ProductPage';
-import QuestionPage from './pages/questionPage/QuestionPage';
+import FontListPage from './pages/fontListPage/FontListPage';
+import FontMakePage from './pages/fontMakePage/FontMakePage';
+import FaqPage from './pages/faqPage/FaqPage';
 
 const router = createBrowserRouter([
   {
@@ -24,10 +24,10 @@ const router = createBrowserRouter([
       { path: '/', element: <MainPage /> },
       { path: '/myPage', element: <MyPage /> },
       { path: '/login', element: <LoginPage /> },
-      { path: '/signUp', element: <SignupPage /> },
-      { path: '/pontList', element: <PontListPage /> },
-      { path: '/product', element: <ProductPage /> },
-      { path: '/question', element: <QuestionPage /> },
+      { path: '/signup', element: <SignupPage /> },
+      { path: '/fontList', element: <FontListPage /> },
+      { path: '/fontMake', element: <FontMakePage /> },
+      { path: '/faqPage', element: <FaqPage /> },
     ],
   },
 ]);
