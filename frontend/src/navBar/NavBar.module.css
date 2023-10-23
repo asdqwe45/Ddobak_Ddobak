@@ -2,6 +2,9 @@
   width: 100%;
   height: 92px;
   border-bottom: 2.5px solid #d9d9d9;
+  position: sticky;
+  top: 0;
+  background-color: white;
 }
 
 .navImage {
