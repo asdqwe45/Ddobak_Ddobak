@@ -1,0 +1,60 @@
+.stepContainer {
+    margin-top: 70px;
+    display: flex;
+    justify-content: center;
+    font-size: 22px;
+    text-align: center;
+}
+
+p {
+    margin-top: -40px;
+}
+
+/* 공통 스타일 */
+.stepBar {
+    width: 300px;
+    height: 12px;
+    border-radius: 20px;
+    margin: 5px;
+}
+
+.nowStep {
+    color: black;
+    font-weight: 550;
+    background-color: #D71718;
+}
+
+.restStep {
+    color: grey;
+    background-color: #FFF1F0;
+}
+
+/* 단계별 내용 */
+.contentContainer {
+    margin-top: 50px;
+    margin-bottom: 60px;
+}
+
+.btnContainer {
+    display: flex;
+    justify-content: flex-end
+}
+
+.nextBtn {
+    background-color: #484848;
+    border-radius: 10px;
+    width: 120px;
+    height: 45px;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    border: none;
+}
+
+.nextBtn:hover {
+    background-color: #ffffff; /* 조금 더 어두운 빨간색으로 변경 */
+    color: #484848; /* 텍스트 색상을 밝은 회색으로 변경 */
+    border: 2px solid #484848;
+    cursor: pointer; /* 마우스를 버튼 위에 올렸을 때의 커서 모양을 손가락 모양으로 변경 */
+}
