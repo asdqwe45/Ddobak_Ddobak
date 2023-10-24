@@ -3,8 +3,8 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding-top: 20px;
     position: relative;
+    padding-top: 10px;
 }
 
 .navigator {
