@@ -2,20 +2,21 @@
     padding-left: 100px;
     padding-right: 100px;
 }
-
+/* CSS 파일 내에서 */
+body::-webkit-scrollbar {
+    display: none; /* 스크롤바를 숨깁니다 */
+}
 .screen {
     width: 100%;
 }
 
 ::-webkit-scrollbar {
-    height: 80%;
-    width: 10px;
+    width: 15px;
 }
 
-/* 스크롤바 막대 */
 ::-webkit-scrollbar-thumb {
     background: #D71718;
-    /* 스크롤바 막대 색상 */
+    max-height: 100px;
     border-radius: 12px 12px 12px 12px;
 }
 
@@ -23,14 +24,11 @@
     background-color: #B6B6B6;
 }
 
-/* 스크롤이 움직이는 뒷 배경 */
 ::-webkit-scrollbar-track {
     background: #EBB4AD;
-    /* 스크롤바 뒷 배경 색상 */
     border-radius: 12px 12px 12px 12px;
 }
+
 ::-webkit-scrollbar-track:hover {
     background: #ECECEC;
-    /* 스크롤바 뒷 배경 색상 */
 }
-/* ECECEC */
