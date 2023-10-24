@@ -2,6 +2,35 @@
     padding-left: 100px;
     padding-right: 100px;
 }
+
 .screen {
     width: 100%;
 }
+
+::-webkit-scrollbar {
+    height: 80%;
+    width: 10px;
+}
+
+/* 스크롤바 막대 */
+::-webkit-scrollbar-thumb {
+    background: #D71718;
+    /* 스크롤바 막대 색상 */
+    border-radius: 12px 12px 12px 12px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #B6B6B6;
+}
+
+/* 스크롤이 움직이는 뒷 배경 */
+::-webkit-scrollbar-track {
+    background: #EBB4AD;
+    /* 스크롤바 뒷 배경 색상 */
+    border-radius: 12px 12px 12px 12px;
+}
+::-webkit-scrollbar-track:hover {
+    background: #ECECEC;
+    /* 스크롤바 뒷 배경 색상 */
+}
+/* ECECEC */
