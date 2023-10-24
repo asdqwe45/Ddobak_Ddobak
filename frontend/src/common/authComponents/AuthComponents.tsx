@@ -18,4 +18,5 @@ export const AuthHeader = styled.p`
   font-size: 30px;
   font-weight: bold;
   margin-bottom: 10px;
+  margin-top: 0px;
 `;
