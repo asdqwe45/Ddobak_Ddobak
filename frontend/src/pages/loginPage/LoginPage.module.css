@@ -4,7 +4,6 @@
     align-items: center;
     flex-direction: column;
     padding-top: 85px;
-    position: relative;
 }
 
 .loginBtn {
@@ -17,7 +16,6 @@
     border: 0px;
     border-radius: 6.5px;
     cursor: pointer;
-    margin-top: 22px;
     margin-bottom: 8px;
 }
 
