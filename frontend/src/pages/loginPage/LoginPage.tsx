@@ -30,7 +30,7 @@ const LoginPage: React.FC = () => {
     <div className={classes.container}>
       <AuthHeader>로그인</AuthHeader>
       <AuthInput placeholder="이메일" ref={emailInputRef}></AuthInput>
-      <div>
+      <div style={{marginBottom: 40}}>
         <AuthInput
           placeholder="비밀번호"
           ref={passwordInputRef}
