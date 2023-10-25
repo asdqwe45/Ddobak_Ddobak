@@ -24,6 +24,7 @@ const FontListPage: React.FC = () => {
           />
           <FaSistrix size={24} color="black" />
         </div>
+      <div>폰트 필터링</div>
       </div>
       <div className={classes.fontBoxContainer}>
         {renderFontBoxes()}
