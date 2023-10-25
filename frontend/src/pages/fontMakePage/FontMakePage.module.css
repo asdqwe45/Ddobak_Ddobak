@@ -54,10 +54,7 @@ p {
 
 .nextBtn:hover {
     background-color: #ffffff;
-    /* 조금 더 어두운 빨간색으로 변경 */
     color: #484848;
-    /* 텍스트 색상을 밝은 회색으로 변경 */
     border: 2px solid #484848;
     cursor: pointer;
-    /* 마우스를 버튼 위에 올렸을 때의 커서 모양을 손가락 모양으로 변경 */
 }

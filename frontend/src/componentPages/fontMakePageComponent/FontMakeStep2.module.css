@@ -45,6 +45,11 @@
     border-radius: 30px;
     width: 350px;
     font-size: 18px;
+    cursor: pointer;
+}
+
+label {
+    cursor: pointer;
 }
 
 .upLoadList {
@@ -60,6 +65,13 @@
 .upLoadFile {
     display: flex;
     align-items: center;
+    line-height: 30px;
+}
+
+.deleteIcon {
+    margin-left: 10px; 
+    color: #484848;
+    cursor: pointer;
 }
 
 .info {
