@@ -15,10 +15,13 @@ import MainPageLargeManuscript from './mainPageComponents/MainPageLargeManuscrip
 const MainPage: React.FC = () => {
   return (
     <main className={classes.container}>
+      {/* 첫 번째 메인 페이지 */}
       <MainLargePage>
         <MainPageLargeManuscript />
       </MainLargePage>
+      {/* 두 번째 메인 페이지 */}
       <MainLargePage></MainLargePage>
+      {/* 세 번째 메인 페이지 */}
       <MainLargePage></MainLargePage>
       <MainFooter>
         <MainFooterBetween>
