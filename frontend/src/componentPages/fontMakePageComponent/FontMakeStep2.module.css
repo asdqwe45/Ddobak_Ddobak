@@ -1,0 +1,17 @@
+.downBtn {
+    background-color: #ffffff;
+    border: 2px solid #D71718;
+    color: #D71718;
+    border-radius: 10px;
+    width: 120px;
+    height: 45px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.downBtn:hover {
+    background-color: #D71718; /* 조금 더 어두운 빨간색으로 변경 */
+    color: #fff; /* 텍스트 색상을 밝은 회색으로 변경 */
+    cursor: pointer; /* 마우스를 버튼 위에 올렸을 때의 커서 모양을 손가락 모양으로 변경 */
+}

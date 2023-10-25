@@ -8,11 +8,16 @@ import {
   MainFooterMiddle,
   MainFooterBetweenInnerBox,
 } from './mainPageComponents/MainPageComponents';
+// 조금 큰 컴포넌트
 import MainPageMiniManuscript from './mainPageComponents/MainPageMiniManuscript';
+import MainPageLargeManuscript from './mainPageComponents/MainPageLargeManuscript';
+
 const MainPage: React.FC = () => {
   return (
     <main className={classes.container}>
-      <MainLargePage></MainLargePage>
+      <MainLargePage>
+        <MainPageLargeManuscript />
+      </MainLargePage>
       <MainLargePage></MainLargePage>
       <MainLargePage></MainLargePage>
       <MainFooter>
