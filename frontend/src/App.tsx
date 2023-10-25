@@ -14,6 +14,7 @@ import SignupPage from './pages/signupPage/SignupPage';
 import FontListPage from './pages/fontListPage/FontListPage';
 import FontMakePage from './pages/fontMakePage/FontMakePage';
 import FaqPage from './pages/faqPage/FaqPage';
+import MakerPage from 'pages/makerPage/MakerPage';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       { path: '/fontList', element: <FontListPage /> },
       { path: '/fontMake', element: <FontMakePage /> },
       { path: '/faqPage', element: <FaqPage /> },
+      { path: '/maker', element: <MakerPage /> },
     ],
   },
 ]);
