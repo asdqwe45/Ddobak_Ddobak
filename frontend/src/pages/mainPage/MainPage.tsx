@@ -8,27 +8,13 @@ import {
   MainFooterMiddle,
   MainFooterBetweenInnerBox,
 } from './mainPageComponents/MainPageComponents';
-// 조금 큰 컴포넌트
 import MainPageMiniManuscript from './mainPageComponents/MainPageMiniManuscript';
-import MainPageLargeManuscript from './mainPageComponents/MainPageLargeManuscript';
-import MainPageFontList from './mainPageComponents/MainPageFontList';
-import MainPageGuide from './mainPageComponents/MainPageGuide';
-
 const MainPage: React.FC = () => {
   return (
     <main className={classes.container}>
-      {/* 첫 번째 메인 페이지 */}
-      <MainLargePage>
-        <MainPageLargeManuscript />
-      </MainLargePage>
-      {/* 두 번째 메인 페이지 */}
-      <MainLargePage>
-        <MainPageFontList />
-      </MainLargePage>
-      {/* 세 번째 메인 페이지 */}
-      <MainLargePage>
-        <MainPageGuide />
-      </MainLargePage>
+      <MainLargePage></MainLargePage>
+      <MainLargePage></MainLargePage>
+      <MainLargePage></MainLargePage>
       <MainFooter>
         <MainFooterBetween>
           <MainFooterBetweenInnerBox>

@@ -3,7 +3,7 @@ const MyPage: React.FC = () => {
     <>
       <h1>MyPage</h1>
     </>
-  );
-};
+  )
+}
 
-export default MyPage;
+export default MyPage

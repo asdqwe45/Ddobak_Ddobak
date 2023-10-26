@@ -18,7 +18,7 @@
 .manuscriptSmallBox {
   width: 40px;
   height: 40px;
-  border: 2px solid #d71718;
+  border: 2px solid #D71718;
   border-left-width: 1px;
   border-right-width: 1px;
   display: flex;
@@ -29,14 +29,14 @@
 .manuscriptSmallBetweenBoxLeft {
   width: 40px;
   height: 40px;
-  border: 2px solid #d71718;
+  border: 2px solid #D71718;
   border-left-width: 0px;
   border-right-width: 1px;
 }
 .manuscriptSmallBetweenBoxRight {
   width: 40px;
   height: 40px;
-  border: 2px solid #d71718;
+  border: 2px solid #D71718;
   border-left-width: 1px;
   border-right-width: 0px;
 }
@@ -47,7 +47,7 @@
   width: 100%;
 }
 .manuscriptLine {
-  border: 2px solid #d71718;
+  border: 2px solid #D71718;
 }
 
 .manuscriptText {

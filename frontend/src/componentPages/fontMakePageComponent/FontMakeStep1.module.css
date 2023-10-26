@@ -1,69 +1,70 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .titleBox {
-  background-color: #d71718;
-  border-radius: 10px;
-  width: 120px;
-  height: 45px;
-  text-align: center;
-  color: white;
-  font-size: 20px;
-  margin: auto;
-  /* 중앙 정렬 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background-color: #D71718;
+    border-radius: 10px;
+    width: 120px;
+    height: 45px;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    margin: auto;
+    /* 중앙 정렬 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .supplyContainer {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .supplyBox {
-  border: 1px solid #b6b6b6;
-  border-radius: 15px;
-  padding: 30px 35px;
-  width: 400px;
-  height: 150px;
-  margin: 15px 10px;
+    border: 1px solid #B6B6B6;
+    border-radius: 15px;
+    padding: 30px 35px;
+    width: 400px;
+    height: 150px;
+    margin: 15px 10px;
 }
 
 .supplyTitle {
-  font-size: 21px;
-  font-weight: 600;
-  text-decoration: underline 5px #d71718;
+    font-size: 21px;
+    font-weight: 600;
+    text-decoration: underline 5px #D71718;
 }
 
 .supplyContent {
-  font-size: 19px;
-  line-height: 32px;
-  /* 행간 */
+    font-size: 18px;
+    line-height: 33px;
+    /* 행간 */
 }
 
 .warningBox {
-  border: 1px solid #b6b6b6;
-  border-radius: 15px;
-  width: 875px;
-  padding: 30px 45px;
-  margin-top: 5px;
-  display: flex;
-  align-items: center;
+    border: 1px solid #B6B6B6;
+    border-radius: 15px;
+    width: 875px;
+    padding: 20px 45px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
 }
 
 .warningTitle {
-  font-size: 21px;
-  font-weight: 600;
-  color: #d71718;
-  margin-right: 80px;
+    font-size: 21px;
+    font-weight: 600;
+    color: #D71718;
+    margin-right: 80px;
 }
 
 .warningContent {
-  font-size: 19px;
-  /* 행간 */
-  line-height: 32px;
+    font-size: 18px;
+    /* 행간 */
+    line-height: 33px;
 }
