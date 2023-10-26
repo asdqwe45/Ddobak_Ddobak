@@ -1,35 +1,29 @@
 import classes from './MainPageLargeManuscript.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 const MainPageLargeManuscript: React.FC = () => {
   // 애니메이션 효과 함수
   // 각 문구의 상태를 표현하는 배열
   const [visibility, setVisibility] = useState(new Array(17).fill(false));
-  useEffect(() => {
-    // 각 문자가 나타나는 데 걸리는 시간을 정의합니다. 총 시간을 문자의 수로 나눕니다.
-    const timeout = 4000 / 17; // 예를 들어, 4초 동안 모든 문자가 나타나야 합니다.
-
-    // 각 문자가 순차적으로 나타나게 하는 타이머를 설정합니다.
-    const timerIds = visibility.map((_, index) => {
-      return setTimeout(
-        () => {
-          setVisibility((oldVisibility) => {
-            const newVisibility = [...oldVisibility];
-            newVisibility[index] = true;
-            return newVisibility;
-          });
-        },
-        timeout * (index + 1),
-      ); // 각 항목이 이전 항목 다음에 나타나도록 시간 간격을 설정합니다.
+  const revealCharacter = useCallback((index: number) => {
+    setVisibility((oldVisibility) => {
+      const newVisibility = [...oldVisibility];
+      newVisibility[index] = true;
+      return newVisibility;
     });
+  }, []); // 여기에는 의존성이 없습니다.
 
-    // 컴포넌트가 언마운트되거나 업데이트되는 경우 타이머를 정리합니다.
+  useEffect(() => {
+    const timeout = 4000 / 17;
+
+    const timerIds = visibility.map((_, index) =>
+      setTimeout(() => revealCharacter(index), timeout * (index + 1)),
+    );
+
     return () => {
       timerIds.forEach((timerId) => clearTimeout(timerId));
     };
-    // 의도적으로 빈 배열을 넣었습니다.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [revealCharacter, visibility]); // 의존성 배열에 'revealCharacter'와 'visibility'를 포함합니다.
 
   return (
     <div className={classes.container}>
