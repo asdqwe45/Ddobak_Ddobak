@@ -1,0 +1,15 @@
+.btnContainer {
+    display: flex;
+}
+
+.keyword {
+    border: 2px solid #D71718;
+    border-radius: 30px;
+    font-size: 19px;
+    width: 160px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+}

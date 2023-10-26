@@ -24,6 +24,13 @@
     margin-right: 10px;
 }
 
+.subContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
 .makerContainer {
     display: flex;
 }
@@ -37,11 +44,85 @@
     margin-right: 5px;
 }
 
+.buyContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #D71718;
+    border: 2px solid #D71718;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 19px;
+    width: 180px;
+    height: 40px;
+}
+
+.buy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #D71718;
+    border-radius: 10px;
+    font-size: 19px;
+    width: 180px;
+    height: 40px;
+    margin: 0 10px;
+}
+
 .introBox {
-    height: 60px;
+    height: 80px;
     border: 1px solid #484848;
-    padding : 30px;
+    padding: 30px;
     font-size: 20px;
     white-space: pre-line;
     line-height: 30px;
+    margin-top: 10px;
+}
+
+.titleContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 10px;
+}
+
+.fontContainer {
+    margin: 40px 0;
+}
+
+.subContainer span,
+.fontContainer span {
+    background-color: #FFF1F0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* 예시 문구, 슬라이더 */
+.testContainer {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 40px;
+}
+
+.typingBar {
+    border: 2px solid #B6B6B6;
+    padding: 10px 25px;
+    border-radius: 30px;
+    width: 30vw;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    color: #484848;
+}
+
+.typingBar input {
+    border: none;
+    outline: none;
+    flex-grow: 1;
+    font-size: 16px;
 }
