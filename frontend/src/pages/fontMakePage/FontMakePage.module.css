@@ -6,8 +6,8 @@
   text-align: center;
 }
 
-p {
-  margin-top: -40px;
+.stepBar p {
+    margin-top: -40px;
 }
 
 /* 공통 스타일 */

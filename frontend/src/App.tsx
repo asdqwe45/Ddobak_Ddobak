@@ -16,6 +16,9 @@ import FontMakePage from './pages/fontMakePage/FontMakePage';
 import FaqPage from './pages/faqPage/FaqPage';
 import MakerPage from 'pages/makerPage/MakerPage';
 
+// components
+import FontDetailPage from './componentPages/fontDetailComponent/FontDetail';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -27,6 +30,7 @@ const router = createBrowserRouter([
       { path: '/login', element: <LoginPage /> },
       { path: '/signup', element: <SignupPage /> },
       { path: '/fontList', element: <FontListPage /> },
+      { path: '/font/:fontId', element: <FontDetailPage /> }, 
       { path: '/fontMake', element: <FontMakePage /> },
       { path: '/faqPage', element: <FaqPage /> },
       { path: '/maker', element: <MakerPage /> },
