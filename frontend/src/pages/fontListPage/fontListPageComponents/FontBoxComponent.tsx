@@ -1,5 +1,5 @@
-import React from "react"
-import classes from "./FontBoxComponent.module.css"
+import React from 'react';
+import classes from './FontBoxComponent.module.css';
 
 // 폰트 찜 before
 import { FaRegBookmark } from 'react-icons/fa';
@@ -20,11 +20,9 @@ const FontBoxComponent: React.FC = () => {
         <div className={classes.fontMaker}>제작자 닉네임</div>
         {/* box 중앙 선 */}
         <div className={classes.borderTop}></div>
-        <div className={classes.content}>
-          다람쥐 헌 쳇바퀴에 타고파
-        </div>
+        <div className={classes.content}>다람쥐 헌 쳇바퀴에 타고파</div>
       </div>
     </>
-  )
-}
-export default FontBoxComponent
+  );
+};
+export default FontBoxComponent;
