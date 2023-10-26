@@ -6,6 +6,6 @@ const FontMakeStep3: React.FC = () => {
     <>
       <h1>FontMakeStep3</h1>
     </>
-  )
-}
-export default FontMakeStep3
+  );
+};
+export default FontMakeStep3;

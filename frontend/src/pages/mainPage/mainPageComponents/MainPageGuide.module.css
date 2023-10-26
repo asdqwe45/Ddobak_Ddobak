@@ -1,0 +1,114 @@
+/* export const bolderColor = "#B6B6B6"
+export const likeCountColor = "#484848"
+export const mainRedColor = "#D71718" */
+.container {
+  width: 100%;
+  height: 100%;
+}
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+.headerTextBox {
+  padding-top: 40px;
+  padding-bottom: 5px;
+  border-bottom: 5px #d71718 solid;
+}
+
+.headerText {
+  margin: 0;
+  font-size: 40px;
+  font-weight: bold;
+  padding: 0px 25px;
+}
+.content {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.contentBox {
+  width: 30%;
+  height: 75%;
+  background-color: #ececec;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-radius: 30px;
+}
+.nextBox {
+  width: 50px;
+  height: 75%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 10px;
+}
+.contentTextBox {
+  padding: 20px 20px;
+  height: 220px;
+}
+
+.contentHeader {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0px;
+  margin-bottom: 10px;
+}
+.contentText {
+  margin: 0px;
+  font-size: 26px;
+  white-space: normal;
+}
+.contentImgBox {
+  width: 100%;
+  object-fit: cover;
+  position: relative;
+}
+.contentImgBox::after {
+  display: block;
+  content: '';
+  padding-bottom: 90%;
+}
+
+.aspectImg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.btnBox {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-bottom: 0px;
+  padding: 20px 0px;
+}
+.downloadBtn {
+  background-color: #ffffff;
+  border: 2px solid #d71718;
+  color: #d71718;
+  border-radius: 10px;
+  width: 240px;
+  height: 45px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+}
+.downloadBtn:hover {
+  background-color: #d71718;
+  color: white;
+  cursor: pointer;
+}
+.contentImg {
+  width: 100%;
+}
