@@ -8,10 +8,10 @@ import { FaRegBookmark } from 'react-icons/fa';
 // import { FaBookmark } from 'react-icons/fa';
 
 interface FontBoxProps {
-  id: string;
-  title: string;
-  maker: string;
-  content: string;
+  id?: string;
+  title?: string;
+  maker?: string;
+  content?: string;
 }
 
 const FontBoxComponent: React.FC<FontBoxProps> = (props) => {
