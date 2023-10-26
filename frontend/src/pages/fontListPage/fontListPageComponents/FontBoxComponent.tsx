@@ -47,6 +47,6 @@ const FontBoxComponent: React.FC<FontBoxProps> = (props) => {
         </div>
       </div>
     </>
-  )
-}
-export default FontBoxComponent
+  );
+};
+export default FontBoxComponent;

@@ -4,7 +4,6 @@ import { FaSistrix, FaAngleDown } from 'react-icons/fa';
 import FontBoxComponent from "./fontListPageComponents/FontBoxComponent";
 
 const FontListPage: React.FC = () => {
-  const [showFilterOptions, setShowFilterOptions] = useState(false);
 
   const renderFontBoxes = () => {
     const fonts = [
@@ -54,8 +53,8 @@ const FontListPage: React.FC = () => {
           <input
             type="text"
             placeholder="폰트명, 제작자 검색"
-          // value={searchTerm}
-          // onChange={e => setSearchTerm(e.target.value)}
+            // value={searchTerm}
+            // onChange={e => setSearchTerm(e.target.value)}
           />
           <FaSistrix size={24} color="black" />
         </div>
@@ -76,6 +75,6 @@ const FontListPage: React.FC = () => {
       </div>
 
     </>
-  )
-}
-export default FontListPage
+  );
+};
+export default FontListPage;

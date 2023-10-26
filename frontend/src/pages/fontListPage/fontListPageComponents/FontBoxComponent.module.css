@@ -1,21 +1,21 @@
 .container {
-    border: 1px solid #B6B6B6;
-    width: 300px;
-    height: 270px;
-    box-sizing: border-box;
-    margin: 20px;
+  border: 1px solid #b6b6b6;
+  width: 300px;
+  height: 270px;
+  box-sizing: border-box;
+  margin: 20px;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 15px 0 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 15px 0 15px;
 }
 
 .title {
-    font-size: 22px;
-    font-weight: bold;
+  font-size: 22px;
+  font-weight: bold;
 }
 
 .bookIcon {
@@ -25,15 +25,15 @@
 }
 
 .fontMaker {
-    font-size: 19px;
-    padding: 5px 0 15px 15px;
+  font-size: 19px;
+  padding: 5px 0 15px 15px;
 }
 
 .borderTop {
-    border-top: 1px solid #B6B6B6;
+  border-top: 1px solid #b6b6b6;
 }
 
 .content {
-    font-size: 25px;
-    padding: 15px;
+  font-size: 25px;
+  padding: 15px;
 }

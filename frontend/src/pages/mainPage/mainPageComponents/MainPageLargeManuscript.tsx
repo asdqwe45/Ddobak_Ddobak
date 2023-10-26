@@ -1,42 +1,43 @@
 import classes from './MainPageLargeManuscript.module.css';
 import { useEffect, useState } from 'react';
 
-
 const MainPageLargeManuscript: React.FC = () => {
   // 애니메이션 효과 함수
   // 각 문구의 상태를 표현하는 배열
-  const [visibility, setVisibility] = useState(new Array(17).fill(false)); // 여기서는 14개의 문자/단어가 있다고 가정합니다.
-  useEffect(() => {
-    // 각 문자가 나타나는 데 걸리는 시간을 정의합니다. 총 시간을 문자의 수로 나눕니다.
-    const timeout = 4000 / visibility.length; // 예를 들어, 4초 동안 모든 문자가 나타나야 합니다.
- 
-    // 각 문자가 순차적으로 나타나게 하는 타이머를 설정합니다.
-    const timerIds = visibility.map((_, index) => {
-      return setTimeout(() => {
-        setVisibility((oldVisibility) => {
-          const newVisibility = [...oldVisibility];
-          newVisibility[index] = true;
-          return newVisibility;
-        });
-      }, timeout * (index + 1)); // 각 항목이 이전 항목 다음에 나타나도록 시간 간격을 설정합니다.
+  const [visibility, setVisibility] = useState(new Array(17).fill(false));
+  const revealCharacter = (index: number) => {
+    setVisibility((oldVisibility) => {
+      const newVisibility = [...oldVisibility];
+      newVisibility[index] = true;
+      return newVisibility;
     });
+  };
 
-    // 컴포넌트가 언마운트되거나 업데이트되는 경우 타이머를 정리합니다.
-    return () => {
-      timerIds.forEach(timerId => clearTimeout(timerId));
-    };
-  }, []);
-  
-  
+  useEffect(() => {
+    const timeout = 4000 / 17;
+
+    // 각 문자마다 개별 타이머를 생성합니다.
+    for (let i = 0; i < 17; i++) {
+      window.setTimeout(() => {
+        revealCharacter(i);
+      }, i * timeout);
+    }
+
+    // 컴포넌트가 언마운트되는 경우 여기에 정리 로직을 추가할 수 있습니다.
+    // 예를 들면, setTimeout을 취소할 수 있습니다.
+
+    // 주의: 만약 컴포넌트가 여러 번 렌더링되면, 이 useEffect 내에서 생성된 여러 타이머가
+    // 중복 실행될 수 있습니다. 필요한 경우 타이머 ID를 추적하고 취소하는 로직을 추가하세요.
+  }, []); // 의존성 배열이 비어 있으므로 이 훅은 컴포넌트가 마운트될 때 단 한 번만 실행됩니다.
   return (
     <div className={classes.container}>
       {/* 원고지 헤더 시작 */}
       <div className={classes.headerBox}>
         <div className={classes.headerTextBox}>
-            <p className={classes.headerNoText}>No.</p>
-            <div className={classes.headerDiv}>
-              <p className={classes.headerBigText}>1</p>
-            </div>
+          <p className={classes.headerNoText}>No.</p>
+          <div className={classes.headerDiv}>
+            <p className={classes.headerBigText}>1</p>
+          </div>
         </div>
       </div>
       {/* 원고지 헤더 끝 */}
@@ -67,19 +68,25 @@ const MainPageLargeManuscript: React.FC = () => {
           {/* 당 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[0] ? 1 : 0 }}>당</p>
+              <p className={classes.contentText} style={{ opacity: visibility[0] ? 1 : 0 }}>
+                당
+              </p>
             </div>
           </div>
           {/* 신 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[1] ? 1 : 0 }}>신</p>
+              <p className={classes.contentText} style={{ opacity: visibility[1] ? 1 : 0 }}>
+                신
+              </p>
             </div>
           </div>
           {/* 의 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[2] ? 1 : 0 }}>의</p>
+              <p className={classes.contentText} style={{ opacity: visibility[2] ? 1 : 0 }}>
+                의
+              </p>
             </div>
           </div>
           {/* 빈칸 */}
@@ -89,25 +96,33 @@ const MainPageLargeManuscript: React.FC = () => {
           {/* 손 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[3] ? 1 : 0 }}>손</p>
+              <p className={classes.contentText} style={{ opacity: visibility[3] ? 1 : 0 }}>
+                손
+              </p>
             </div>
           </div>
           {/* 글 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[4] ? 1 : 0 }}>글</p>
+              <p className={classes.contentText} style={{ opacity: visibility[4] ? 1 : 0 }}>
+                글
+              </p>
             </div>
           </div>
           {/* 씨 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[5] ? 1 : 0 }}>씨</p>
+              <p className={classes.contentText} style={{ opacity: visibility[5] ? 1 : 0 }}>
+                씨
+              </p>
             </div>
           </div>
           {/* 를 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[6] ? 1 : 0 }}>를</p>
+              <p className={classes.contentText} style={{ opacity: visibility[6] ? 1 : 0 }}>
+                를
+              </p>
             </div>
           </div>
           <div className={classes.smallBox}>
@@ -140,19 +155,25 @@ const MainPageLargeManuscript: React.FC = () => {
           {/* 폰 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[7] ? 1 : 0 }}>폰</p>
+              <p className={classes.contentText} style={{ opacity: visibility[7] ? 1 : 0 }}>
+                폰
+              </p>
             </div>
           </div>
           {/* 트 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[8] ? 1 : 0 }}>트</p>
+              <p className={classes.contentText} style={{ opacity: visibility[8] ? 1 : 0 }}>
+                트
+              </p>
             </div>
           </div>
           {/* 로 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[9] ? 1 : 0 }}>로</p>
+              <p className={classes.contentText} style={{ opacity: visibility[9] ? 1 : 0 }}>
+                로
+              </p>
             </div>
           </div>
           {/* 빈칸 */}
@@ -162,19 +183,25 @@ const MainPageLargeManuscript: React.FC = () => {
           {/* 만 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[10] ? 1 : 0 }}>만</p>
+              <p className={classes.contentText} style={{ opacity: visibility[10] ? 1 : 0 }}>
+                만
+              </p>
             </div>
           </div>
           {/* 들 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[11] ? 1 : 0 }}>들</p>
+              <p className={classes.contentText} style={{ opacity: visibility[11] ? 1 : 0 }}>
+                들
+              </p>
             </div>
           </div>
           {/* 어 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[12] ? 1 : 0 }}>어</p>
+              <p className={classes.contentText} style={{ opacity: visibility[12] ? 1 : 0 }}>
+                어
+              </p>
             </div>
           </div>
           {/* 빈칸 */}
@@ -184,25 +211,33 @@ const MainPageLargeManuscript: React.FC = () => {
           {/* 드 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[13] ? 1 : 0 }}>드</p>
+              <p className={classes.contentText} style={{ opacity: visibility[13] ? 1 : 0 }}>
+                드
+              </p>
             </div>
           </div>
           {/* 립 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[14] ? 1 : 0 }}>립</p>
+              <p className={classes.contentText} style={{ opacity: visibility[14] ? 1 : 0 }}>
+                립
+              </p>
             </div>
           </div>
           {/* 니 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[15] ? 1 : 0 }}>니</p>
+              <p className={classes.contentText} style={{ opacity: visibility[15] ? 1 : 0 }}>
+                니
+              </p>
             </div>
           </div>
           {/* 다 */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} style={{ opacity: visibility[16] ? 1 : 0 }}>다</p>
+              <p className={classes.contentText} style={{ opacity: visibility[16] ? 1 : 0 }}>
+                다
+              </p>
             </div>
           </div>
           <div className={classes.smallBox}>
@@ -223,13 +258,11 @@ const MainPageLargeManuscript: React.FC = () => {
       </div>
       {/* 원고지 끝 */}
       {/* 원고지 푸터 시작 */}
-        <div className={classes.footerBox}>
-          <div className={classes.footerTextBox}>
-            <p className={classes.footerText}>
-              16 X 6
-            </p>
-          </div>
+      <div className={classes.footerBox}>
+        <div className={classes.footerTextBox}>
+          <p className={classes.footerText}>16 X 6</p>
         </div>
+      </div>
       {/* 원고지 푸터 끝 */}
     </div>
   );
@@ -244,7 +277,7 @@ const renderSmallBoxes = () => {
   let boxes = [];
   for (let i = 0; i < NUMBER_OF_SMALLBOXES; i++) {
     boxes.push(
-      <div key={i} className={classes.smallBox}>
+      <div key={i + 'a'} className={classes.smallBox}>
         <div className={classes.content}></div>
       </div>,
     );
@@ -257,12 +290,16 @@ const renderLineBoxes = () => {
   let lineBoxes = [];
   for (let i = 0; i < NUMBER_OF_LINEBOXES; i++) {
     lineBoxes.push(
-      <div key={i} className={classes.lineBox}>
+      <div key={i + 'b1'} className={classes.lineBox}>
         {renderSmallBoxes()}
       </div>,
     );
     if (i === 0) {
-      lineBoxes.push(<div className={classes.blankMiddleLine}>{renderLineBlank()}</div>);
+      lineBoxes.push(
+        <div key={i + 'b2'} className={classes.blankMiddleLine}>
+          {renderLineBlank()}
+        </div>,
+      );
     }
   }
   return lineBoxes;
@@ -273,19 +310,19 @@ const renderLineBlank = () => {
   for (let i = 0; i < NUMBER_OF_SMALLBOXES; i++) {
     if (i === 0) {
       boxes.push(
-        <div className={classes.blankBoxleft}>
+        <div key={i + 'c1'} className={classes.blankBoxleft}>
           <div className={classes.blankContent}></div>
         </div>,
       );
     } else if (i === NUMBER_OF_SMALLBOXES - 1) {
       boxes.push(
-        <div className={classes.blankBoxRight}>
+        <div key={i + 'c2'} className={classes.blankBoxRight}>
           <div className={classes.blankContent}></div>
         </div>,
       );
     } else {
       boxes.push(
-        <div className={classes.blankBox}>
+        <div key={i + 'c3'} className={classes.blankBox}>
           <div className={classes.blankContent}></div>
         </div>,
       );
@@ -298,7 +335,7 @@ const renderTopBlank = () => {
   let boxes = [];
   for (let i = 0; i < NUMBER_OF_SMALLBOXES; i++) {
     boxes.push(
-      <div className={classes.blankTopBox}>
+      <div key={i + 'd'} className={classes.blankTopBox}>
         <div className={classes.blankContent}></div>
       </div>,
     );
@@ -309,7 +346,7 @@ const renderBottomBlank = () => {
   let boxes = [];
   for (let i = 0; i < NUMBER_OF_SMALLBOXES; i++) {
     boxes.push(
-      <div className={classes.blankBottomBox}>
+      <div key={i + 'e'} className={classes.blankBottomBox}>
         <div className={classes.blankContent}></div>
       </div>,
     );
