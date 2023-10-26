@@ -1,0 +1,23 @@
+.container {
+  width: 100%;
+  height: 100%;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.header {
+  width: 100%;
+  height: 140px;
+  padding-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+.content {
+  width: 100%;
+  height: 530px;
+  box-sizing: border-box;
+  padding: 0px 20px;
+}
+.ImgStyle {
+  width: 100%;
+  height: 100%;
+}
