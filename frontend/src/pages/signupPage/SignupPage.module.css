@@ -1,75 +1,75 @@
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-    padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  padding-top: 10px;
 }
 
 .navigator {
-    margin-top: 18px;
-    text-decoration: none;
-    color: black;
-    font-size: 17px;
-    font-weight: 700;
+  margin-top: 18px;
+  text-decoration: none;
+  color: black;
+  font-size: 17px;
+  font-weight: 700;
 }
 
 .passwordIcon {
-    position: absolute;
-    transform: translate(260px, -45px);
-    cursor: pointer;
-    transition: opacity 0.3s ease;
+  position: absolute;
+  transform: translate(260px, -45px);
+  cursor: pointer;
+  transition: opacity 0.3s ease;
 }
 
 .passwordIcon:hover {
-    opacity: 0.6
+  opacity: 0.6;
 }
 
 .profileBox {
-    width: 100px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cameraTransfrom {
-    transform: translate(30px, 30px);
+  transform: translate(30px, 30px);
 }
 
 .signupBtn {
-    width: 300px;
-    height: 48px;
-    background-color: #D71718;
-    color: white;
-    font-size: 17px;
-    font-weight: bold;
-    border: 0px;
-    border-radius: 6.5px;
-    cursor: pointer;
-    margin-top: 8.5px;
-    margin-bottom: 8.5px;
+  width: 300px;
+  height: 48px;
+  background-color: #d71718;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  border: 0px;
+  border-radius: 6.5px;
+  cursor: pointer;
+  margin-top: 8.5px;
+  margin-bottom: 8.5px;
 }
 
 .signupBtn:hover {
-    background-color: #F66C5C;
+  background-color: #f66c5c;
 }
 
 .emailCheckBtn {
-    background-color: #D71718;
-    position: absolute;
-    transform: translate(-105px, 14.5px);
-    border-radius: 6.5px;
-    border: 0px;
-    height: 40px;
-    width: 100px;
-    color: white;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
+  background-color: #d71718;
+  position: absolute;
+  transform: translate(-105px, 14.5px);
+  border-radius: 6.5px;
+  border: 0px;
+  height: 40px;
+  width: 100px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .emailCheckBtn:hover {
-    background-color: #F66C5C;
+  background-color: #f66c5c;
 }

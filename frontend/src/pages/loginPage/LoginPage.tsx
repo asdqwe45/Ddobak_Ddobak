@@ -30,13 +30,18 @@ const LoginPage: React.FC = () => {
     <div className={classes.container}>
       <AuthHeader>로그인</AuthHeader>
       <AuthInput placeholder="이메일" ref={emailInputRef}></AuthInput>
-      <div>
+      <div style={{ marginBottom: 40 }}>
         <AuthInput
           placeholder="비밀번호"
           ref={passwordInputRef}
           type={wantSee ? undefined : 'password'}
         ></AuthInput>
-        <div className={classes.passwordIcon} onClick={() => {setWantSee(!wantSee)}}>
+        <div
+          className={classes.passwordIcon}
+          onClick={() => {
+            setWantSee(!wantSee);
+          }}
+        >
           {wantSee ? <FaEye size={24} color="black" /> : <FaEyeSlash size={24} color="black" />}
         </div>
       </div>
