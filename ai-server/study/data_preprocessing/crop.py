@@ -50,7 +50,7 @@ def crop_image_uniform(src_dir, dst_dir):
             if not code:
                 break
             else:
-                name = dst_dir + "/uni" + code.strip() + ".png"
+                name = dst_dir + "/" + chr(int(code.strip(),16)) + ".png"
                 cropped_image = img.crop((left, upper, right, lower))
                 cropped_image = cropped_image.resize((128,128), Image.LANCZOS)
                 # Increase constrast
