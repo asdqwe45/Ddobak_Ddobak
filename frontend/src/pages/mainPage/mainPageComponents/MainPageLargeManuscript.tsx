@@ -1,30 +1,34 @@
 import classes from './MainPageLargeManuscript.module.css';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 
 const MainPageLargeManuscript: React.FC = () => {
   // 애니메이션 효과 함수
   // 각 문구의 상태를 표현하는 배열
   const [visibility, setVisibility] = useState(new Array(17).fill(false));
-  const revealCharacter = useCallback((index: number) => {
+  const revealCharacter = (index: number) => {
     setVisibility((oldVisibility) => {
       const newVisibility = [...oldVisibility];
       newVisibility[index] = true;
       return newVisibility;
     });
-  }, []); // 여기에는 의존성이 없습니다.
+  };
 
   useEffect(() => {
     const timeout = 4000 / 17;
 
-    const timerIds = visibility.map((_, index) =>
-      setTimeout(() => revealCharacter(index), timeout * (index + 1)),
-    );
+    // 각 문자마다 개별 타이머를 생성합니다.
+    for (let i = 0; i < 17; i++) {
+      window.setTimeout(() => {
+        revealCharacter(i);
+      }, i * timeout);
+    }
 
-    return () => {
-      timerIds.forEach((timerId) => clearTimeout(timerId));
-    };
-  }, [revealCharacter, visibility]); // 의존성 배열에 'revealCharacter'와 'visibility'를 포함합니다.
+    // 컴포넌트가 언마운트되는 경우 여기에 정리 로직을 추가할 수 있습니다.
+    // 예를 들면, setTimeout을 취소할 수 있습니다.
 
+    // 주의: 만약 컴포넌트가 여러 번 렌더링되면, 이 useEffect 내에서 생성된 여러 타이머가
+    // 중복 실행될 수 있습니다. 필요한 경우 타이머 ID를 추적하고 취소하는 로직을 추가하세요.
+  }, []); // 의존성 배열이 비어 있으므로 이 훅은 컴포넌트가 마운트될 때 단 한 번만 실행됩니다.
   return (
     <div className={classes.container}>
       {/* 원고지 헤더 시작 */}
