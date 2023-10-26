@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import classes from './FontMakeStep2.module.css'
-import MinuGuide from './fontMakePageAssets/guideline_ex.png'
+import classes from './FontMakeStep2.module.css';
+import MinuGuide from './fontMakePageAssets/guideline_ex.png';
 
-import { FaRegTimesCircle } from "react-icons/fa";
+import { FaRegTimesCircle } from 'react-icons/fa';
 
 const FontMakeStep2: React.FC = () => {
   const [fileNames, setFileNames] = useState<string[]>([]);
@@ -14,12 +14,12 @@ const FontMakeStep2: React.FC = () => {
       for (let i = 0; i < files.length; i++) {
         newFileNames.push(files[i].name);
       }
-      setFileNames(prev => [...prev, ...newFileNames]);
+      setFileNames((prev) => [...prev, ...newFileNames]);
     }
   };
 
   const removeFile = (index: number) => {
-    setFileNames(prev => prev.filter((_, i) => i !== index));
+    setFileNames((prev) => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -50,7 +50,10 @@ const FontMakeStep2: React.FC = () => {
               <div key={index} className={classes.upLoadFile}>
                 {name}
                 {/* 아이콘 클릭 시 파일명 삭제 */}
-                <FaRegTimesCircle className={classes.deleteIcon} onClick={() => removeFile(index)} />
+                <FaRegTimesCircle
+                  className={classes.deleteIcon}
+                  onClick={() => removeFile(index)}
+                />
               </div>
             ))}
           </div>
@@ -61,6 +64,6 @@ const FontMakeStep2: React.FC = () => {
         </div>
       </div>
     </>
-  )
-}
-export default FontMakeStep2
+  );
+};
+export default FontMakeStep2;

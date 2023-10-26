@@ -279,7 +279,7 @@ const renderSmallBoxes = () => {
   let boxes = [];
   for (let i = 0; i < NUMBER_OF_SMALLBOXES; i++) {
     boxes.push(
-      <div key={i} className={classes.smallBox}>
+      <div key={i + 'a'} className={classes.smallBox}>
         <div className={classes.content}></div>
       </div>,
     );
@@ -292,12 +292,16 @@ const renderLineBoxes = () => {
   let lineBoxes = [];
   for (let i = 0; i < NUMBER_OF_LINEBOXES; i++) {
     lineBoxes.push(
-      <div key={i} className={classes.lineBox}>
+      <div key={i + 'b1'} className={classes.lineBox}>
         {renderSmallBoxes()}
       </div>,
     );
     if (i === 0) {
-      lineBoxes.push(<div className={classes.blankMiddleLine}>{renderLineBlank()}</div>);
+      lineBoxes.push(
+        <div key={i + 'b2'} className={classes.blankMiddleLine}>
+          {renderLineBlank()}
+        </div>,
+      );
     }
   }
   return lineBoxes;
@@ -308,19 +312,19 @@ const renderLineBlank = () => {
   for (let i = 0; i < NUMBER_OF_SMALLBOXES; i++) {
     if (i === 0) {
       boxes.push(
-        <div className={classes.blankBoxleft}>
+        <div key={i + 'c1'} className={classes.blankBoxleft}>
           <div className={classes.blankContent}></div>
         </div>,
       );
     } else if (i === NUMBER_OF_SMALLBOXES - 1) {
       boxes.push(
-        <div className={classes.blankBoxRight}>
+        <div key={i + 'c2'} className={classes.blankBoxRight}>
           <div className={classes.blankContent}></div>
         </div>,
       );
     } else {
       boxes.push(
-        <div className={classes.blankBox}>
+        <div key={i + 'c3'} className={classes.blankBox}>
           <div className={classes.blankContent}></div>
         </div>,
       );
@@ -333,7 +337,7 @@ const renderTopBlank = () => {
   let boxes = [];
   for (let i = 0; i < NUMBER_OF_SMALLBOXES; i++) {
     boxes.push(
-      <div className={classes.blankTopBox}>
+      <div key={i + 'd'} className={classes.blankTopBox}>
         <div className={classes.blankContent}></div>
       </div>,
     );
@@ -344,7 +348,7 @@ const renderBottomBlank = () => {
   let boxes = [];
   for (let i = 0; i < NUMBER_OF_SMALLBOXES; i++) {
     boxes.push(
-      <div className={classes.blankBottomBox}>
+      <div key={i + 'e'} className={classes.blankBottomBox}>
         <div className={classes.blankContent}></div>
       </div>,
     );

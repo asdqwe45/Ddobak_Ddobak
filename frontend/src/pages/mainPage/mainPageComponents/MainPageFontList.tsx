@@ -8,9 +8,8 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 // button img
-import leftButton from "../mainPageAssets/leftButton.svg"
-import rightButton from "../mainPageAssets/rightButton.svg"
-
+import leftButton from '../mainPageAssets/leftButton.svg';
+import rightButton from '../mainPageAssets/rightButton.svg';
 
 import classes from './MainPageFontList.module.css';
 
@@ -43,7 +42,7 @@ const MainPageFontList: React.FC = () => {
           <img src={leftButton} alt="" />
         </div>
         <Swiper
-        onBeforeInit={(swiper: SwiperInstance) => swiperRef.current = swiper} // ref에 swiper 저장
+          onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
           slidesPerView={3}
           spaceBetween={21}
           loop={true}
@@ -75,7 +74,7 @@ const FontBoxSwiper = () => {
   let boxes = [];
   for (let i = 0; i < NUMBER_OF_SWIPERSLID; i++) {
     boxes.push(
-      <SwiperSlide className={classes.swiperSlid}>
+      <SwiperSlide key={i + 'f'} className={classes.swiperSlid}>
         <FontBoxComponent />
       </SwiperSlide>,
     );
