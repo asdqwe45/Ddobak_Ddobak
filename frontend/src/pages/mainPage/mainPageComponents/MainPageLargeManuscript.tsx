@@ -27,6 +27,7 @@ const MainPageLargeManuscript: React.FC = () => {
     return () => {
       timerIds.forEach((timerId) => clearTimeout(timerId));
     };
+    // 의도적으로 빈 배열을 넣었습니다.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
