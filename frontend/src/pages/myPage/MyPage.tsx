@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   ProfileBox,
   PointBox,
@@ -34,14 +34,45 @@ import {
   FontBasketBottomBox,
   ContentGrayBtn,
   SelectListDelete,
+  CCLBox,
+  CCLIcons,
+  LikeIconBox,
+  LikeProducerBox,
+  LikeBoxText,
 } from './myPageComponents/MyPageComponents';
 import classes from './MyPage.module.css';
 
+import Attribution from './myPageAssets/Attribution.png';
+import NoDerivativeWorks from './myPageAssets/NoDerivativeWorks.png';
+import ShareAlike from './myPageAssets/ShareAlike.png';
+import Noncommercial from './myPageAssets/Noncommercial.png';
+
+// 아이콘
 import { FiSettings } from 'react-icons/fi';
 import { FaCircleUser } from 'react-icons/fa6';
 import { FaPencilAlt } from 'react-icons/fa';
 import { bolderColor } from 'common/colors/CommonColors';
 import { FaBookmark, FaRegCheckSquare, FaRegSquare } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper as SwiperInstance } from 'swiper';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+// import required modules
+import { Autoplay, Navigation } from 'swiper/modules';
+import { Swiper as SwiperCore } from 'swiper/types';
+
+// testImg
+import Test1 from './myPageAssets/Test1.png';
+import Test2 from './myPageAssets/Test2.png';
+import Test3 from './myPageAssets/Test3.png';
+import Test4 from './myPageAssets/Test4.png';
+import Test5 from './myPageAssets/Test5.png';
+import Test6 from './myPageAssets/Test6.png';
 
 const MyPage: React.FC = () => {
   const [pageLocation, setPageLocation] = useState({
@@ -51,7 +82,8 @@ const MyPage: React.FC = () => {
     boughtFonts: false,
     likeProducers: false,
   });
-
+  // 스와이퍼 참조
+  const swiperRef = useRef<SwiperCore>();
   const pageClickHandle = (pageName: string) => {
     if (pageName === 'productsState') {
       setPageLocation({
@@ -483,8 +515,32 @@ const MyPage: React.FC = () => {
               {/* ======== */}
               {/* 구매한 폰트 */}
               {/* ======== */}
+              {/* import Attribution from "./myPageAssets/Attribution.png"
+                  import NoDerivativeWorks from "./myPageAssets/NoDerivativeWorks.png"
+                  import ShareAlike from "./myPageAssets/ShareAlike.png"
+                  import Noncommercial from "./myPageAssets/Noncommercial.png" */}
               <ContentLargeBox>
-                <ContentIngredient>구매</ContentIngredient>
+                <ContentIngredient>
+                  <ContentInnerLeft>
+                    <ContentInnerTextBox>
+                      <ContentHeader>
+                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
+                        <ContentProducerName>| 이태성</ContentProducerName>
+                      </ContentHeader>
+                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                    </ContentInnerTextBox>
+                  </ContentInnerLeft>
+                  <ContentInnerRight>
+                    <CCLBox>
+                      <CCLIcons src={Attribution} />
+                      <CCLIcons src={NoDerivativeWorks} />
+                      <CCLIcons src={ShareAlike} />
+                      <CCLIcons src={Noncommercial} />
+                    </CCLBox>
+                    <ContentRedBtn>다운로드</ContentRedBtn>
+                  </ContentInnerRight>
+                </ContentIngredient>
+                {/* 여기까지 */}
                 <ContentIngredient></ContentIngredient>
                 <ContentIngredient></ContentIngredient>
                 <ContentIngredient></ContentIngredient>
@@ -498,12 +554,73 @@ const MyPage: React.FC = () => {
               {/* 찜한 제작자 */}
               {/* ======== */}
               <ContentLargeBox>
-                <ContentIngredient>찜제</ContentIngredient>
-                <ContentIngredient></ContentIngredient>
-                <ContentIngredient></ContentIngredient>
-                <ContentIngredient></ContentIngredient>
-                <ContentIngredient></ContentIngredient>
-                <ContentIngredient></ContentIngredient>
+                <Swiper
+                  onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
+                  slidesPerView={3}
+                  spaceBetween={15}
+                  loop={true}
+                  autoplay={{
+                    delay: 2500,
+                    disableOnInteraction: false,
+                  }}
+                  modules={[Autoplay, Navigation]}
+                  className={classes.swiper}
+                >
+                  <SwiperSlide className={classes.swiperSlide}>
+                    <img src={Test1} alt="" className={classes.swiperImg} />
+                    <LikeIconBox>
+                      <FaHeart size={40} color={'#d71718'} />
+                    </LikeIconBox>
+                    <LikeProducerBox>
+                      <LikeBoxText>LTS 운영팀장</LikeBoxText>
+                    </LikeProducerBox>
+                  </SwiperSlide>
+                  <SwiperSlide className={classes.swiperSlide}>
+                    <img src={Test2} alt="" className={classes.swiperImg} />
+                    <LikeIconBox>
+                      <FaHeart size={40} color={'#d71718'} />
+                    </LikeIconBox>
+                    <LikeProducerBox>
+                      <LikeBoxText>LJE 기획팀장</LikeBoxText>
+                    </LikeProducerBox>
+                  </SwiperSlide>
+                  <SwiperSlide className={classes.swiperSlide}>
+                    <img src={Test3} alt="" className={classes.swiperImg} />
+                    <LikeIconBox>
+                      <FaHeart size={40} color={'#d71718'} />
+                    </LikeIconBox>
+                    <LikeProducerBox>
+                      <LikeBoxText>KJJ FE팀장</LikeBoxText>
+                    </LikeProducerBox>
+                  </SwiperSlide>
+                  <SwiperSlide className={classes.swiperSlide}>
+                    <img src={Test4} alt="" className={classes.swiperImg} />
+                    <LikeIconBox>
+                      <FaHeart size={40} color={'#d71718'} />
+                    </LikeIconBox>
+                    <LikeProducerBox>
+                      <LikeBoxText>LKM 배포팀장</LikeBoxText>
+                    </LikeProducerBox>
+                  </SwiperSlide>
+                  <SwiperSlide className={classes.swiperSlide}>
+                    <img src={Test5} alt="" className={classes.swiperImg} />
+                    <LikeIconBox>
+                      <FaHeart size={40} color={'#d71718'} />
+                    </LikeIconBox>
+                    <LikeProducerBox>
+                      <LikeBoxText>LMK AI팀장</LikeBoxText>
+                    </LikeProducerBox>
+                  </SwiperSlide>
+                  <SwiperSlide className={classes.swiperSlide}>
+                    <img src={Test6} alt="" className={classes.swiperImg} />
+                    <LikeIconBox>
+                      <FaHeart size={40} color={'#d71718'} />
+                    </LikeIconBox>
+                    <LikeProducerBox>
+                      <LikeBoxText>LJM BE팀장</LikeBoxText>
+                    </LikeProducerBox>
+                  </SwiperSlide>
+                </Swiper>
               </ContentLargeBox>
             </>
           )}

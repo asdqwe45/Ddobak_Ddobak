@@ -287,3 +287,35 @@ export const SelectListDelete = styled(ContentInnerContentText)`
     color: ${mainRedColor};
   }
 `;
+
+// 구매한 폰트
+export const CCLBox = styled(ContentBtnIngredient)`
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+export const CCLIcons = styled.img`
+  margin: 0px 2px;
+  height: 80%;
+`;
+
+//  찜한 제작자
+export const LikeIconBox = styled.div`
+  margin: 10px 0px;
+  display: flex;
+  justify-content: center;
+`;
+
+export const LikeProducerBox = styled.div`
+  width: 100%;
+  aspect-ratio: 4/1;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+`;
+export const LikeBoxText = styled.p`
+  margin: 0px;
+  font-size: 30px;
+  font-weight: bold;
+`;

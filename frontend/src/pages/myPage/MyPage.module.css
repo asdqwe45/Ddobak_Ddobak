@@ -45,6 +45,8 @@
   width: 100%;
   height: 100%;
   color: #d71718;
+  min-width: 40px;
+  min-height: 40px;
 }
 
 .bookmarkIcon:hover {
@@ -63,6 +65,28 @@
   cursor: pointer;
 }
 
-.test {
-  position: static;
+.swiper {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0px 10px;
+}
+
+.swiperSlide {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.swiperImg {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 100%;
+  border: 2px solid #b6b6b6;
+  object-fit: cover;
+  max-width: 300px;
+  max-height: 300px;
 }
