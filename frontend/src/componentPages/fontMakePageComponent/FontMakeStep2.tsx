@@ -46,7 +46,6 @@ const FontMakeStep2: React.FC = () => {
             <label htmlFor="fileInput">파일 업로드 click!</label>
           </div>
           <div className={classes.upLoadList}>
-
             {/* 업로드한 이미지 미리보기 넣기 */}
 
             {fileNames.map((name, index) => (

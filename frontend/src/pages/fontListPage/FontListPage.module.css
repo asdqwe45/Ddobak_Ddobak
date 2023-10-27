@@ -4,12 +4,12 @@
 }
 
 .searchBar {
-    border: 2px solid #B6B6B6;
-    padding: 10px 25px;
-    border-radius: 30px;
-    width: 25vw;
-    height: 22px;
-    display: flex;
+  border: 2px solid #b6b6b6;
+  padding: 10px 25px;
+  border-radius: 30px;
+  width: 25vw;
+  height: 22px;
+  display: flex;
 }
 
 .searchBar input {
@@ -87,26 +87,25 @@
 }
 
 .fontBoxContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.fontBoxContainer > * {
+  flex: 1;
+  margin: 5px;
+  min-width: calc(25% - 10px);
+}
+
+@media (max-width: 800px) {
   .fontBoxContainer > * {
-    flex: 1;
-    margin: 5px;
-    min-width: calc(25% - 10px);
+    min-width: calc(50% - 10px);
   }
-  
-  @media (max-width: 800px) {
-    .fontBoxContainer > * {
-      min-width: calc(50% - 10px);
-    }
+}
+
+@media (max-width: 500px) {
+  .fontBoxContainer > * {
+    min-width: 90%;
   }
-  
-  @media (max-width: 500px) {
-    .fontBoxContainer > * {
-      min-width: 90%;
-    }
-  }
-  
+}

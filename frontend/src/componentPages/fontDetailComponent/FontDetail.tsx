@@ -13,7 +13,7 @@ import { FaRegCopy, FaPen } from 'react-icons/fa';
 
 const FontDetail: React.FC = () => {
   const { state } = useLocation();
-  const font = state as { id: string, title: string, maker: string, content: string };
+  const font = state as { id: string; title: string; maker: string; content: string };
 
   // 웹 폰트 코드 넣기
   const webFontCode = '웹 폰트 : @font-face';
@@ -45,7 +45,7 @@ const FontDetail: React.FC = () => {
       <div className={classes.topContainer}>
         {/* 폰트 찜 - 컴포넌트로 만들기 */}
         <div className={classes.dibContainer}>
-          <div className={classes.dibCount} >10</div>
+          <div className={classes.dibCount}>10</div>
           <FaRegBookmark className={classes.bookIcon} />
           {/* 폰트 찜 수 */}
         </div>
@@ -55,21 +55,38 @@ const FontDetail: React.FC = () => {
 
       <div className={classes.subContainer}>
         <div className={classes.makerContainer}>
-          <p><strong>제작 </strong>{font.maker}</p>
-          <p><strong>조회수 </strong>224K</p>
+          <p>
+            <strong>제작 </strong>
+            {font.maker}
+          </p>
+          <p>
+            <strong>조회수 </strong>224K
+          </p>
           {/* 폰트에 해당하는 키워드로 변경 필요 */}
-          <p><strong>형태 </strong>네모네모 | 가지런한 | 어른같은</p>
+          <p>
+            <strong>형태 </strong>네모네모 | 가지런한 | 어른같은
+          </p>
         </div>
 
         <div className={classes.buyContainer}>
-          <div className={classes.buyBtn} style={{
-            backgroundColor: '#D71718',
-            border: '2px solid #D71718',
-            color: '#FFFFFF',
-          }}>장바구니</div>
-          <div className={classes.buyBtn} style={{
-            border: '2px solid #D71718',
-          }}>바로 구매</div>
+          <div
+            className={classes.buyBtn}
+            style={{
+              backgroundColor: '#D71718',
+              border: '2px solid #D71718',
+              color: '#FFFFFF',
+            }}
+          >
+            장바구니
+          </div>
+          <div
+            className={classes.buyBtn}
+            style={{
+              border: '2px solid #D71718',
+            }}
+          >
+            바로 구매
+          </div>
         </div>
       </div>
 
@@ -85,7 +102,9 @@ const FontDetail: React.FC = () => {
           <div className={classes.titleContainer}>
             <BoxTitle>웹 폰트로 사용하기</BoxTitle>
             <div className={classes.copyIconContainer} onClick={copyToClipboard}>
-              <FaRegCopy size={25} color='#484848' />복사하기</div>
+              <FaRegCopy size={25} color="#484848" />
+              복사하기
+            </div>
           </div>
 
           <div className={classes.introBox} style={{ width: '30vw' }}>
@@ -96,12 +115,13 @@ const FontDetail: React.FC = () => {
 
       <div className={classes.fontContainer}>
         <div className={classes.intro}>
-          <BoxTitle>폰트 미리보기</BoxTitle><hr />
+          <BoxTitle>폰트 미리보기</BoxTitle>
+          <hr />
         </div>
         <div className={classes.testContainer}>
           <div className={classes.typingBar}>
             <input
-              placeholder='예시 문구 적기'
+              placeholder="예시 문구 적기"
               value={inputText}
               onChange={handleInputChange}
             ></input>
@@ -112,25 +132,31 @@ const FontDetail: React.FC = () => {
         </div>
         <div
           style={{
-            marginLeft: '50px', marginBottom: '50px',
+            marginLeft: '50px',
+            marginBottom: '50px',
             fontSize: `${fontSize}px`,
             color: inputText ? 'black' : 'lightGray',
           }}
-        >{inputText || "다람쥐 헌 쳇바퀴에 타고파"}</div>
+        >
+          {inputText || '다람쥐 헌 쳇바퀴에 타고파'}
+        </div>
       </div>
 
       <div className={classes.intro}>
         <BoxTitle>또박또박 라이선스</BoxTitle>
         <div className={classes.introBox}>
-          <strong>저작권</strong> : "{font.title}" 는 개인 및 기업 사용자를 포함한 모든 사용자에게 무료로 제공되며 자유롭게 사용할 수 있고 상업적 이용이 가능합니다. {'\n'}
-          본 서체는 글꼴 자체를 유료로 판매하거나 왜곡·변형할 수 없습니다.
+          <strong>저작권</strong> : "{font.title}" 는 개인 및 기업 사용자를 포함한 모든 사용자에게
+          무료로 제공되며 자유롭게 사용할 수 있고 상업적 이용이 가능합니다. {'\n'}본 서체는 글꼴
+          자체를 유료로 판매하거나 왜곡·변형할 수 없습니다.
         </div>
       </div>
-      <br /><br />
+      <br />
+      <br />
       <div className={classes.intro}>
         <BoxTitle>폰트 활용 후기</BoxTitle>
       </div>
-      <hr /><br />
+      <hr />
+      <br />
       {/* 폰트 활용 후기 - 컴포넌트 만들기 */}
     </>
   );

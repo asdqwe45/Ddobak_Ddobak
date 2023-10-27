@@ -36,7 +36,9 @@ const FaqPage: React.FC = () => {
   return (
     <>
       <div className={classes.saerchContainer}>
-          <PageTitle><span>자주 묻는 질문</span></PageTitle>
+        <PageTitle>
+          <span>자주 묻는 질문</span>
+        </PageTitle>
         <div className={classes.searchBar}>
           <input
             type="text"

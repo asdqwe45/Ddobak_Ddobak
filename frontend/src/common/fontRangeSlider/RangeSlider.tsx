@@ -7,8 +7,7 @@ interface RangeSliderProps {
 }
 
 const RangeSlider: React.FC<RangeSliderProps> = ({ value, onChange }) => {
-
-  const handleSliderChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(Number(event.target.value));
   };
 
