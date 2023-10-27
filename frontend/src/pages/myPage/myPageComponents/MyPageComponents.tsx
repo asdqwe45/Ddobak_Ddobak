@@ -235,11 +235,55 @@ export const ContentRedBtn = styled(ContentBtnIngredient)`
   }
 `;
 
+export const ContentGrayBtn = styled(ContentBtnIngredient)`
+  background-color: ${likeCountColor};
+  height: 80%;
+  &:hover {
+    // 이 부분이 hover 상태일 때 적용될 스타일입니다.
+    cursor: pointer; // 마우스 커서를 포인터로 변경합니다.
+    opacity: 0.7; // 불투명도를 조정하여 버튼이 약간 투명해지도록 합니다.
+  }
+`;
+
 // 아이콘
 export const ContentIconsBox = styled.div`
   box-sizing: border-box;
   height: 100%;
   aspect-ratio: 1;
-  padding: 20px;
+  padding: 30px 20px;
   padding-left: 0px;
 `;
+
+// 장바구니
+export const FontBasketTopBox = styled.div`
+  position: sticky;
+  top: -40px;
+  height: 60px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: white;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+export const FontBasketBottomBox = styled.div`
+  position: sticky;
+  bottom: -40px;
+  height: 60px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: white;
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+`;
+
+export const SelectListDelete = styled(ContentInnerContentText)`
+font-weight: bold;
+&:hover {
+    cursor: pointer;
+    color: ${mainRedColor};
+  }
+`

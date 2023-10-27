@@ -30,6 +30,10 @@ import {
   ContentGrayDisabled,
   ContentRedBtn,
   ContentIconsBox,
+  FontBasketTopBox,
+  FontBasketBottomBox,
+  ContentGrayBtn,
+  SelectListDelete,
 } from './myPageComponents/MyPageComponents';
 import classes from './MyPage.module.css';
 
@@ -37,7 +41,7 @@ import { FiSettings } from 'react-icons/fi';
 import { FaCircleUser } from 'react-icons/fa6';
 import { FaPencilAlt } from 'react-icons/fa';
 import { bolderColor } from 'common/colors/CommonColors';
-import { FaBookmark } from 'react-icons/fa';
+import { FaBookmark, FaRegCheckSquare, FaRegSquare } from 'react-icons/fa';
 
 const MyPage: React.FC = () => {
   const [pageLocation, setPageLocation] = useState({
@@ -426,12 +430,50 @@ const MyPage: React.FC = () => {
               {/* 장바구니 */}
               {/* ======== */}
               <ContentLargeBox>
-                <ContentIngredient>장바</ContentIngredient>
+                <FontBasketTopBox>
+                  <SelectListDelete>선택 항목 삭제</SelectListDelete>
+                </FontBasketTopBox>
+                <ContentIngredient>
+                  <ContentInnerLeft>
+                    <ContentIconsBox>
+                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
+                    </ContentIconsBox>
+                    <ContentInnerTextBox>
+                      <ContentHeader>
+                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
+                        <ContentProducerName>| 이태성</ContentProducerName>
+                        <FiSettings className={classes.settingIcon} />
+                      </ContentHeader>
+                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                    </ContentInnerTextBox>
+                  </ContentInnerLeft>
+                  <ContentInnerRight>
+                    <FaRegCheckSquare className={classes.checkIcon} />
+                  </ContentInnerRight>
+                </ContentIngredient>
+                <ContentIngredient>
+                  <ContentInnerLeft>
+                    <ContentIconsBox>
+                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
+                    </ContentIconsBox>
+                    <ContentInnerTextBox>
+                      <ContentHeader>
+                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
+                        <ContentProducerName>| 이태성</ContentProducerName>
+                        <FiSettings className={classes.settingIcon} />
+                      </ContentHeader>
+                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                    </ContentInnerTextBox>
+                  </ContentInnerLeft>
+                  <ContentInnerRight>
+                    <FaRegSquare className={classes.checkIcon} />
+                  </ContentInnerRight>
+                </ContentIngredient>
                 <ContentIngredient></ContentIngredient>
                 <ContentIngredient></ContentIngredient>
                 <ContentIngredient></ContentIngredient>
                 <ContentIngredient></ContentIngredient>
-                <ContentIngredient></ContentIngredient>
+                <FontBasketBottomBox><ContentGrayBtn>결제하기</ContentGrayBtn></FontBasketBottomBox>
               </ContentLargeBox>
             </>
           ) : pageLocation.boughtFonts ? (
