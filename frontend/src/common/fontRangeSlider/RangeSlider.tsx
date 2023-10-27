@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classes from './RangeSlider.module.css';
 
-const RangeSlider: React.FC = () => {
-  const [value, setValue] = useState<number>(50);
+interface RangeSliderProps {
+  value: number;
+  onChange: (value: number) => void;
+}
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(Number(event.target.value));
+const RangeSlider: React.FC<RangeSliderProps> = ({ value, onChange }) => {
+
+  const handleSliderChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(Number(event.target.value));
   };
 
   return (
@@ -13,11 +17,11 @@ const RangeSlider: React.FC = () => {
       <div className={classes.value}>{value}px</div>
       <input
         type="range"
+        value={value}
+        onChange={handleSliderChange}
+        className={classes.slider}
         min="10"
         max="80"
-        value={value}
-        onChange={handleChange}
-        className={classes.slider}
       />
     </div>
   );

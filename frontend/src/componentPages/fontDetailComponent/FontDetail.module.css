@@ -49,39 +49,41 @@
     justify-content: flex-end;
 }
 
-.cart {
+.buyBtn {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #D71718;
-    border: 2px solid #D71718;
-    color: #fff;
     border-radius: 10px;
     font-size: 19px;
     width: 180px;
     height: 40px;
+    cursor: pointer;
+    margin-right: 10px;
 }
 
-.buy {
+.buyBtn:hover {
+    /* 버튼 호버 시, 그림자 : 은은하고 넓은, 진하고 얇은 */
+    box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.2), 5px 6px 4px rgba(0, 0, 0, 0.2);
+}
+
+.boxContainer {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #D71718;
-    border-radius: 10px;
-    font-size: 19px;
-    width: 180px;
-    height: 40px;
-    margin: 0 10px;
+    /* align-items: center; */
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
 .introBox {
     height: 80px;
     border: 1px solid #484848;
-    padding: 30px;
+    padding: 22px 30px 0 30px;
     font-size: 20px;
     white-space: pre-line;
     line-height: 30px;
     margin-top: 10px;
+    /* 내용이 박스를 초과하면 스크롤 생성 */
+    overflow-y: auto; /* 세로 스크롤 */
+    overflow-x: hidden; /* 가로 스크롤을 숨김 */
 }
 
 .titleContainer {
@@ -91,12 +93,22 @@
     margin-right: 10px;
 }
 
+.copyIconContainer {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.copyIconContainer:hover {
+    text-decoration: 2px solid underline #D71718;
+}
+
 .fontContainer {
     margin: 40px 0;
 }
 
-.subContainer span,
-.fontContainer span {
+.boxContainer span,
+.intro span {
     background-color: #FFF1F0;
     font-size: 20px;
     font-weight: 600;
@@ -106,7 +118,7 @@
 .testContainer {
     display: flex;
     justify-content: space-between;
-    margin: 30px 40px;
+    margin: 30px 20px;
 }
 
 .typingBar {
