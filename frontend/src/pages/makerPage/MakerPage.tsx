@@ -17,7 +17,8 @@ import {
   MakerSmallBoxHeader,
   MakerFontMakerBar,
 } from './makerPageComponents/MakerPageComponents';
-import { FcLike } from 'react-icons/fc';
+import { FaHeart } from 'react-icons/fa';
+// 빈 하트 FaRegHeart
 import { FaCircleUser } from 'react-icons/fa6';
 import { bolderColor } from 'common/colors/CommonColors';
 
@@ -32,7 +33,7 @@ const MakerPage: React.FC = () => {
           <MakerComment>안녕하세요. 김싸피입니다.</MakerComment>
         </MakerSmallBox>
         <MakerSmallBox>
-          <FcLike size={60} />
+          <FaHeart size={60} color={'#d71718'} />
           <MakerLikeCount>10</MakerLikeCount>
         </MakerSmallBox>
       </MakerTopBox>

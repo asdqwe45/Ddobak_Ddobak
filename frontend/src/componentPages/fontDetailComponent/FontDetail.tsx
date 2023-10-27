@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import classes from './FontDetail.module.css'
+import classes from './FontDetail.module.css';
 
 // components
 import RangeSlider from '../../common/fontRangeSlider/RangeSlider';
@@ -11,10 +11,9 @@ import { FaRegBookmark } from 'react-icons/fa'; // 폰트 찜 before
 import { FaRegCopy } from 'react-icons/fa';
 import { FaPen } from 'react-icons/fa';
 
-
 const FontDetail: React.FC = () => {
   const { state } = useLocation();
-  const font = state as { id: string, title: string, maker: string, content: string };
+  const font = state as { id: string; title: string; maker: string; content: string };
 
   return (
     <>
@@ -25,15 +24,22 @@ const FontDetail: React.FC = () => {
         <div className={classes.dibContainer}>
           <FaRegBookmark className={classes.bookIcon} />
           {/* 폰트 찜 수 */}
-          <div className={classes.dibCount} >10</div>
+          <div className={classes.dibCount}>10</div>
         </div>
       </div>
 
       <div className={classes.subContainer}>
         <div className={classes.makerContainer}>
-          <p><strong>제작 </strong>{font.maker}</p>
-          <p><strong>조회수 </strong>224K</p>
-          <p><strong>형태 </strong>네모네모 | 가지런한 | 어른같은</p>
+          <p>
+            <strong>제작 </strong>
+            {font.maker}
+          </p>
+          <p>
+            <strong>조회수 </strong>224K
+          </p>
+          <p>
+            <strong>형태 </strong>네모네모 | 가지런한 | 어른같은
+          </p>
         </div>
 
         <div className={classes.buyContainer}>
@@ -51,10 +57,12 @@ const FontDetail: React.FC = () => {
           </div>
         </div>
         <div>
-
           <div className={classes.titleContainer}>
             <span>웹 폰트로 사용하기</span>
-            <div style={{ display: 'flex', alignItems: 'center' }}><FaRegCopy size={25} color='#484848' />복사하기</div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <FaRegCopy size={25} color="#484848" />
+              복사하기
+            </div>
           </div>
 
           <div className={classes.introBox} style={{ width: '35vw' }}>
@@ -64,13 +72,14 @@ const FontDetail: React.FC = () => {
       </div>
 
       <div className={classes.fontContainer}>
-        <span>폰트 미리보기</span><hr />
+        <span>폰트 미리보기</span>
+        <hr />
         {/* 폰트 체험 */}
         <div className={classes.testContainer}>
           <div className={classes.typingBar}>
             <input
-              placeholder='예시 문구 적기'
-            // 폰트 체험 로직 구현 필요
+              placeholder="예시 문구 적기"
+              // 폰트 체험 로직 구현 필요
             ></input>
             <FaPen />
           </div>
@@ -81,11 +90,8 @@ const FontDetail: React.FC = () => {
 
       {/* 라이선스 */}
 
-
       {/* 폰트 활용 후기 - 컴포넌트 만들기 */}
-
-
     </>
-  )
-}
-export default FontDetail
+  );
+};
+export default FontDetail;
