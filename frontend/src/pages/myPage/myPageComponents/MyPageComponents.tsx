@@ -281,9 +281,9 @@ export const FontBasketBottomBox = styled.div`
 `;
 
 export const SelectListDelete = styled(ContentInnerContentText)`
-font-weight: bold;
-&:hover {
+  font-weight: bold;
+  &:hover {
     cursor: pointer;
     color: ${mainRedColor};
   }
-`
+`;

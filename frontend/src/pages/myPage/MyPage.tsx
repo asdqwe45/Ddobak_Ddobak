@@ -473,7 +473,9 @@ const MyPage: React.FC = () => {
                 <ContentIngredient></ContentIngredient>
                 <ContentIngredient></ContentIngredient>
                 <ContentIngredient></ContentIngredient>
-                <FontBasketBottomBox><ContentGrayBtn>결제하기</ContentGrayBtn></FontBasketBottomBox>
+                <FontBasketBottomBox>
+                  <ContentGrayBtn>결제하기</ContentGrayBtn>
+                </FontBasketBottomBox>
               </ContentLargeBox>
             </>
           ) : pageLocation.boughtFonts ? (
