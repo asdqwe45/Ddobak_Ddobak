@@ -1,5 +1,5 @@
-import React from "react"
-import classes from "./FontBoxComponent.module.css"
+import React from 'react';
+import classes from './FontBoxComponent.module.css';
 import { useNavigate } from 'react-router-dom';
 
 // 폰트 찜 before
@@ -24,11 +24,11 @@ const FontBoxComponent: React.FC<FontBoxProps> = (props) => {
         id: props.id,
         title: props.title,
         maker: props.maker,
-        content: props.content
-      }
+        content: props.content,
+      },
     });
   };
-  
+
   return (
     <>
       <div className={classes.container} onClick={handleBoxClick}>
@@ -42,9 +42,7 @@ const FontBoxComponent: React.FC<FontBoxProps> = (props) => {
         <div className={classes.fontMaker}>{props.maker}</div>
         {/* box 중앙 선 */}
         <div className={classes.borderTop}></div>
-        <div className={classes.content}>
-          {props.content}
-        </div>
+        <div className={classes.content}>{props.content}</div>
       </div>
     </>
   );

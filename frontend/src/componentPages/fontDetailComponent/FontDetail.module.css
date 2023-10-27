@@ -1,12 +1,12 @@
 .topContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 40px;
 }
 
 .title {
-    font-size: 55px;
+  font-size: 55px;
 }
 
 .dibContainer {
@@ -25,28 +25,28 @@
 }
 
 .subContainer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
 .makerContainer {
-    display: flex;
+  display: flex;
 }
 
 .makerContainer p {
-    font-size: 20px;
-    margin: 20px 40px 15px 5px;
+  font-size: 20px;
+  margin: 20px 40px 15px 5px;
 }
 
 .makerContainer strong {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 
 .buyContainer {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .buyBtn {
@@ -87,10 +87,10 @@
 }
 
 .titleContainer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 10px;
 }
 
 .copyIconContainer {
@@ -104,7 +104,7 @@
 }
 
 .fontContainer {
-    margin: 40px 0;
+  margin: 40px 0;
 }
 
 /* 예시 문구, 슬라이더 */
@@ -115,19 +115,19 @@
 }
 
 .typingBar {
-    border: 2px solid #B6B6B6;
-    padding: 10px 25px;
-    border-radius: 30px;
-    width: 30vw;
-    height: 22px;
-    display: flex;
-    align-items: center;
-    color: #484848;
+  border: 2px solid #b6b6b6;
+  padding: 10px 25px;
+  border-radius: 30px;
+  width: 30vw;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  color: #484848;
 }
 
 .typingBar input {
-    border: none;
-    outline: none;
-    flex-grow: 1;
-    font-size: 16px;
+  border: none;
+  outline: none;
+  flex-grow: 1;
+  font-size: 16px;
 }

@@ -8,7 +8,7 @@ import { NavLink } from 'react-router-dom';
 // Auth 컴포넌트 가져오기
 import { AuthHeader, AuthInput } from 'common/authComponents/AuthComponents';
 // Login 컴포넌트 가져오기
-import { Forgot } from './loginPageComponents/LoginPageComponents';
+import { Forgot, ForgotText } from './loginPageComponents/LoginPageComponents';
 
 const LoginPage: React.FC = () => {
   // 비밀번호 보기
@@ -30,7 +30,7 @@ const LoginPage: React.FC = () => {
     <div className={classes.container}>
       <AuthHeader>로그인</AuthHeader>
       <AuthInput placeholder="이메일" ref={emailInputRef}></AuthInput>
-      <div style={{ marginBottom: 40 }}>
+      <div style={{ marginBottom: 20 }}>
         <AuthInput
           placeholder="비밀번호"
           ref={passwordInputRef}
@@ -46,7 +46,7 @@ const LoginPage: React.FC = () => {
         </div>
       </div>
       <Forgot>
-        <p>비밀번호를 잊어버리셨나요?</p>
+        <ForgotText>비밀번호를 잊어버리셨나요?</ForgotText>
       </Forgot>
       <button onClick={clickLoginHandle} className={classes.loginBtn} type="button">
         로그인

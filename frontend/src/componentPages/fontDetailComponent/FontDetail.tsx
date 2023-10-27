@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import classes from './FontDetail.module.css'
+import classes from './FontDetail.module.css';
 
 // components
 import RangeSlider from 'common/fontRangeSlider/RangeSlider';
@@ -133,6 +133,6 @@ const FontDetail: React.FC = () => {
       <hr /><br />
       {/* 폰트 활용 후기 - 컴포넌트 만들기 */}
     </>
-  )
-}
-export default FontDetail
+  );
+};
+export default FontDetail;
