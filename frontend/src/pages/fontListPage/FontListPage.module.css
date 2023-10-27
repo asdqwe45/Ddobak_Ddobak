@@ -14,10 +14,11 @@
 }
 
 .searchBar {
-    border: 1px solid #B6B6B6;
+    border: 2px solid #B6B6B6;
     padding: 10px 25px;
     border-radius: 30px;
-    width: 350px;
+    width: 25vw;
+    height: 22px;
     display: flex;
 }
 
@@ -105,12 +106,12 @@
   .fontBoxContainer > * {
     flex: 1;
     margin: 5px;
-    min-width: calc(20% - 10px);
+    min-width: calc(25% - 10px);
   }
   
   @media (max-width: 800px) {
     .fontBoxContainer > * {
-      min-width: calc(33.3% - 10px);
+      min-width: calc(50% - 10px);
     }
   }
   
