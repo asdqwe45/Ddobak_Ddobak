@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import classes from './FontListPage.module.css';
 import { FaSistrix, FaAngleDown } from 'react-icons/fa';
-import FontBoxComponent from './fontListPageComponents/FontBoxComponent';
+
+// components
+import { PageTitle } from 'common/titleComponents/TitleComponents';
+import FontBoxComponent from "./fontListPageComponents/FontBoxComponent";
 
 const FontListPage: React.FC = () => {
   const [showFilterOptions, setShowFilterOptions] = useState(false);
@@ -97,15 +100,13 @@ const FontListPage: React.FC = () => {
   return (
     <>
       <div className={classes.topContainer}>
-        <div className={classes.pageName}>
-          <span>모든 폰트</span>
-        </div>
+          <PageTitle><span>모든 폰트</span></PageTitle>
         <div className={classes.searchBar}>
           <input
             type="text"
             placeholder="폰트명, 제작자 검색"
-            // value={searchTerm}
-            // onChange={e => setSearchTerm(e.target.value)}
+          // value={searchTerm}
+          // onChange={e => setSearchTerm(e.target.value)}
           />
           <FaSistrix size={24} color="black" />
         </div>
