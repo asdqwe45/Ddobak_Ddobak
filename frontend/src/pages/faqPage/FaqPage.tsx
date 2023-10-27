@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import classes from './FaqPage.module.css';
 import { FaSistrix } from 'react-icons/fa';
 
+// components
+import { PageTitle } from 'common/titleComponents/TitleComponents';
+
 // FAQ 데이터
 const faqs = [
   {
@@ -33,9 +36,7 @@ const FaqPage: React.FC = () => {
   return (
     <>
       <div className={classes.saerchContainer}>
-        <div className={classes.pageName}>
-          <span>자주 묻는 질문</span>
-        </div>
+          <PageTitle><span>자주 묻는 질문</span></PageTitle>
         <div className={classes.searchBar}>
           <input
             type="text"
