@@ -46,6 +46,9 @@ const FontMakeStep2: React.FC = () => {
             <label htmlFor="fileInput">파일 업로드 click!</label>
           </div>
           <div className={classes.upLoadList}>
+
+            {/* 업로드한 이미지 미리보기 넣기 */}
+
             {fileNames.map((name, index) => (
               <div key={index} className={classes.upLoadFile}>
                 {name}
@@ -56,10 +59,6 @@ const FontMakeStep2: React.FC = () => {
                 />
               </div>
             ))}
-          </div>
-          <div className={classes.info}>
-            ※ 또박또박 폰트 제작에는 약간의 시간이 소요되며, {'\n'}
-            완료 시 메일을 발송해드립니다.
           </div>
         </div>
       </div>

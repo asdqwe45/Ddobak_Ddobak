@@ -10,18 +10,18 @@
 }
 
 .dibContainer {
-    margin-left: 60px;
+    margin-right: 30px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    font-size: 28px;
+    font-size: 20px;
     font-weight: 600;
 }
 
 .bookIcon {
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
     color: #D71718;
-    margin-right: 10px;
 }
 
 .subContainer {
@@ -105,13 +105,6 @@
 
 .fontContainer {
     margin: 40px 0;
-}
-
-.boxContainer span,
-.intro span {
-    background-color: #FFF1F0;
-    font-size: 20px;
-    font-weight: 600;
 }
 
 /* 예시 문구, 슬라이더 */

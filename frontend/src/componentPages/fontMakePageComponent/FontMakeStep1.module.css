@@ -7,12 +7,13 @@
 .titleBox {
   background-color: #d71718;
   border-radius: 10px;
-  width: 120px;
-  height: 45px;
+  width: 150px;
+  height: 50px;
   text-align: center;
   color: white;
-  font-size: 20px;
-  margin: auto;
+  font-size: 26px;
+  margin-bottom: 12px;
+  font-weight: 600;
   /* 중앙 정렬 */
   display: flex;
   align-items: center;
@@ -27,28 +28,28 @@
 .supplyBox {
   border: 1px solid #b6b6b6;
   border-radius: 15px;
-  padding: 30px 35px;
+  padding: 35px 45px;
   width: 400px;
   height: 150px;
   margin: 15px 10px;
 }
 
 .supplyTitle {
-  font-size: 21px;
+  font-size: 24px;
   font-weight: 600;
   text-decoration: underline 5px #d71718;
 }
 
 .supplyContent {
-  font-size: 19px;
-  line-height: 32px;
+  font-size: 23px;
+  line-height: 34px;
   /* 행간 */
 }
 
 .warningBox {
   border: 1px solid #b6b6b6;
   border-radius: 15px;
-  width: 875px;
+  width: 910px;
   padding: 30px 45px;
   margin-top: 5px;
   display: flex;
@@ -56,14 +57,13 @@
 }
 
 .warningTitle {
-  font-size: 21px;
+  font-size: 25px;
   font-weight: 600;
   color: #d71718;
   margin-right: 80px;
 }
 
 .warningContent {
-  font-size: 19px;
-  /* 행간 */
-  line-height: 32px;
+  font-size: 23px;
+  line-height: 34px;
 }

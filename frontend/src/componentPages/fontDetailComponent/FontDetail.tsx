@@ -3,7 +3,8 @@ import { useLocation } from 'react-router-dom';
 import classes from './FontDetail.module.css'
 
 // components
-import RangeSlider from '../../common/fontRangeSlider/RangeSlider';
+import RangeSlider from 'common/fontRangeSlider/RangeSlider';
+import { BoxTitle } from 'common/titleComponents/TitleComponents';
 
 // icons
 import { FaRegBookmark } from 'react-icons/fa'; // 폰트 찜 before
@@ -14,7 +15,8 @@ const FontDetail: React.FC = () => {
   const { state } = useLocation();
   const font = state as { id: string, title: string, maker: string, content: string };
 
-  const webFontCode = '@font-face';
+  // 웹 폰트 코드 넣기
+  const webFontCode = '웹 폰트 : @font-face';
 
   const copyToClipboard = async () => {
     try {
@@ -41,14 +43,14 @@ const FontDetail: React.FC = () => {
   return (
     <>
       <div className={classes.topContainer}>
-        {/* 폰트 이름 */}
-        <div className={classes.title}>{font.title}</div>
         {/* 폰트 찜 - 컴포넌트로 만들기 */}
         <div className={classes.dibContainer}>
+          <div className={classes.dibCount} >10</div>
           <FaRegBookmark className={classes.bookIcon} />
           {/* 폰트 찜 수 */}
-          <div className={classes.dibCount} >10</div>
         </div>
+        {/* 폰트 이름 */}
+        <div className={classes.title}>{font.title}</div>
       </div>
 
       <div className={classes.subContainer}>
@@ -73,7 +75,7 @@ const FontDetail: React.FC = () => {
 
       <div className={classes.boxContainer}>
         <div className={classes.intro}>
-          <span>폰트 소개</span>
+          <BoxTitle>폰트 소개</BoxTitle>
           <div className={classes.introBox} style={{ width: '45vw' }}>
             안녕하세요. {font.maker} 님이 만든 {font.title} 입니다. {'\n'}
             많이 사용해주세요. :)
@@ -81,7 +83,7 @@ const FontDetail: React.FC = () => {
         </div>
         <div>
           <div className={classes.titleContainer}>
-            <span>웹 폰트로 사용하기</span>
+            <BoxTitle>웹 폰트로 사용하기</BoxTitle>
             <div className={classes.copyIconContainer} onClick={copyToClipboard}>
               <FaRegCopy size={25} color='#484848' />복사하기</div>
           </div>
@@ -94,7 +96,7 @@ const FontDetail: React.FC = () => {
 
       <div className={classes.fontContainer}>
         <div className={classes.intro}>
-          <span>폰트 미리보기</span><hr />
+          <BoxTitle>폰트 미리보기</BoxTitle><hr />
         </div>
         <div className={classes.testContainer}>
           <div className={classes.typingBar}>
@@ -118,21 +120,18 @@ const FontDetail: React.FC = () => {
       </div>
 
       <div className={classes.intro}>
-        <span>또박또박 라이선스</span>
+        <BoxTitle>또박또박 라이선스</BoxTitle>
         <div className={classes.introBox}>
-          저작권 : {font.title}는 개인 및 기업 사용자를 포함한 모든 사용자에게 무료로 제공되며 자유롭게 사용할 수 있고 상업적 이용이 가능합니다. {'\n'}
+          <strong>저작권</strong> : "{font.title}" 는 개인 및 기업 사용자를 포함한 모든 사용자에게 무료로 제공되며 자유롭게 사용할 수 있고 상업적 이용이 가능합니다. {'\n'}
           본 서체는 글꼴 자체를 유료로 판매하거나 왜곡·변형할 수 없습니다.
         </div>
       </div>
       <br /><br />
       <div className={classes.intro}>
-        <span>폰트 활용 후기</span>
+        <BoxTitle>폰트 활용 후기</BoxTitle>
       </div>
       <hr /><br />
-
       {/* 폰트 활용 후기 - 컴포넌트 만들기 */}
-
-
     </>
   )
 }
