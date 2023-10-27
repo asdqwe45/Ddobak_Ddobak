@@ -68,6 +68,8 @@ export const PointHeader = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  padding: 0px 40px;
+  box-sizing: border-box;
 `;
 export const PointHeaderText = styled.p`
   margin: 0px;
@@ -132,7 +134,7 @@ export const SelectBtn = styled.button`
   border: 2px solid ${mainRedColor};
   background-color: white;
   font-size: 24px;
-  box-shadow: 1px 1px 1px 1px ${mainRedColor};
+  box-shadow: 5px 5px 0px ${mainRedColor};
   &:hover {
     opacity: 0.7;
     cursor: pointer;
@@ -140,11 +142,20 @@ export const SelectBtn = styled.button`
     color: white;
     font-weight: bold;
   }
-  &:active {
-    background-color: ${mainRedColor};
-    color: white;
-    font-weight: bold;
-  }
+`;
+
+export const SelectDisabled = styled.button`
+  width: 100%;
+  box-sizing: border-box;
+  margin: 5px 0px;
+  aspect-ratio: 4/1;
+  border-radius: 15px;
+  border: 2px solid ${mainRedColor};
+  background-color: ${mainRedColor};
+  font-size: 24px;
+  color: white;
+  box-shadow: 1px 1px 0px #b6b6b6;
+  font-weight: bold;
 `;
 
 // 콘텐트
@@ -160,10 +171,75 @@ export const ContentIngredient = styled.div`
   width: 100%;
   aspect-ratio: 6/1;
   box-sizing: border-box;
-  padding: 10px 20px;
+  padding: 20px 40px;
   border-radius: 15px;
   border: 2px solid ${bolderColor};
   margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
 `;
 
-export const ContentInnerDiv = styled.div``;
+export const ContentInnerLeft = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+export const ContentInnerTextBox = styled.div``;
+export const ContentHeader = styled.div`
+  display: flex;
+  margin: 10px 0px;
+  align-items: center;
+`;
+export const ContentInnerHeaderText = styled.h1`
+  margin: 0px;
+  font-size: 32px;
+  padding-right: 20px;
+`;
+
+export const ContentProducerName = styled.p`
+  margin: 0px;
+  font-size: 32px;
+`;
+
+export const ContentInnerContentText = styled.p`
+  font-size: 32px;
+  margin: 0px;
+`;
+
+export const ContentInnerRight = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+`;
+
+const ContentBtnIngredient = styled.button`
+  height: 45%;
+  aspect-ratio: 15/4;
+  border-radius: 10px;
+  font-size: 20px;
+  border: 0px;
+  color: white;
+  margin-bottom: 0px;
+  font-weight: bold;
+`;
+export const ContentGrayDisabled = styled(ContentBtnIngredient)`
+  background-color: ${likeCountColor};
+`;
+
+export const ContentRedBtn = styled(ContentBtnIngredient)`
+  background-color: ${mainRedColor};
+  &:hover {
+    // 이 부분이 hover 상태일 때 적용될 스타일입니다.
+    cursor: pointer; // 마우스 커서를 포인터로 변경합니다.
+    opacity: 0.7; // 불투명도를 조정하여 버튼이 약간 투명해지도록 합니다.
+  }
+`;
+
+// 아이콘
+export const ContentIconsBox = styled.div`
+  box-sizing: border-box;
+  height: 100%;
+  aspect-ratio: 1;
+  padding: 20px;
+  padding-left: 0px;
+`;

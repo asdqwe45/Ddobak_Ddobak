@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   ProfileBox,
   PointBox,
@@ -16,16 +17,81 @@ import {
   MyPageContent,
   SelectBox,
   SelectBtn,
+  SelectDisabled,
   ContentLargeBox,
   ContentIngredient,
+  ContentHeader,
+  ContentInnerLeft,
+  ContentInnerTextBox,
+  ContentProducerName,
+  ContentInnerContentText,
+  ContentInnerHeaderText,
+  ContentInnerRight,
+  ContentGrayDisabled,
+  ContentRedBtn,
+  ContentIconsBox,
 } from './myPageComponents/MyPageComponents';
 import classes from './MyPage.module.css';
 
+import { FiSettings } from 'react-icons/fi';
 import { FaCircleUser } from 'react-icons/fa6';
 import { FaPencilAlt } from 'react-icons/fa';
 import { bolderColor } from 'common/colors/CommonColors';
+import { FaBookmark } from 'react-icons/fa';
 
 const MyPage: React.FC = () => {
+  const [pageLocation, setPageLocation] = useState({
+    productsState: true,
+    likeList: false,
+    fontBasket: false,
+    boughtFonts: false,
+    likeProducers: false,
+  });
+
+  const pageClickHandle = (pageName: string) => {
+    if (pageName === 'productsState') {
+      setPageLocation({
+        productsState: true,
+        likeList: false,
+        fontBasket: false,
+        boughtFonts: false,
+        likeProducers: false,
+      });
+    } else if (pageName === 'likeList') {
+      setPageLocation({
+        productsState: false,
+        likeList: true,
+        fontBasket: false,
+        boughtFonts: false,
+        likeProducers: false,
+      });
+    } else if (pageName === 'fontBasket') {
+      setPageLocation({
+        productsState: false,
+        likeList: false,
+        fontBasket: true,
+        boughtFonts: false,
+        likeProducers: false,
+      });
+    } else if (pageName === 'boughtFonts') {
+      setPageLocation({
+        productsState: false,
+        likeList: false,
+        fontBasket: false,
+        boughtFonts: true,
+        likeProducers: false,
+      });
+    } else {
+      setPageLocation({
+        productsState: false,
+        likeList: false,
+        fontBasket: false,
+        boughtFonts: false,
+        likeProducers: true,
+      });
+    }
+  };
+
   const pencilClick = () => {
     console.log('name change');
   };
@@ -50,7 +116,12 @@ const MyPage: React.FC = () => {
             <ProfileContent>
               <ProfilNameBox>
                 <ProfileName>김싸피</ProfileName>
-                <FaPencilAlt size={30} style={{ cursor: 'pointer' }} onClick={pencilClick} />
+                <FaPencilAlt
+                  size={30}
+                  style={{ cursor: 'pointer' }}
+                  onClick={pencilClick}
+                  className={classes.pencilBtn}
+                />
               </ProfilNameBox>
               <ChangePassword onClick={changePwClick}>비밀번호 변경</ChangePassword>
             </ProfileContent>
@@ -74,20 +145,324 @@ const MyPage: React.FC = () => {
       <div className={classes.content}>
         <MyPageContent>
           <SelectBox>
-            <SelectBtn>제작 상태</SelectBtn>
-            <SelectBtn>찜 목록</SelectBtn>
-            <SelectBtn>장바구니</SelectBtn>
-            <SelectBtn>구매한 폰트</SelectBtn>
-            <SelectBtn>찜한 제작자</SelectBtn>
+            {pageLocation.productsState ? (
+              <SelectDisabled>제작 상태</SelectDisabled>
+            ) : (
+              <SelectBtn
+                onClick={() => {
+                  pageClickHandle('productsState');
+                }}
+              >
+                제작 상태
+              </SelectBtn>
+            )}
+
+            {pageLocation.likeList ? (
+              <SelectDisabled>찜 목록</SelectDisabled>
+            ) : (
+              <SelectBtn
+                onClick={() => {
+                  pageClickHandle('likeList');
+                }}
+              >
+                찜 목록
+              </SelectBtn>
+            )}
+            {pageLocation.fontBasket ? (
+              <SelectDisabled>장바구니</SelectDisabled>
+            ) : (
+              <SelectBtn
+                onClick={() => {
+                  pageClickHandle('fontBasket');
+                }}
+              >
+                장바구니
+              </SelectBtn>
+            )}
+            {pageLocation.boughtFonts ? (
+              <SelectDisabled>구매한 폰트</SelectDisabled>
+            ) : (
+              <SelectBtn
+                onClick={() => {
+                  pageClickHandle('boughtFonts');
+                }}
+              >
+                구매한 폰트
+              </SelectBtn>
+            )}
+            {pageLocation.likeProducers ? (
+              <SelectDisabled>찜한 제작자</SelectDisabled>
+            ) : (
+              <SelectBtn
+                onClick={() => {
+                  pageClickHandle('likeProducers');
+                }}
+              >
+                찜한 제작자
+              </SelectBtn>
+            )}
           </SelectBox>
-          <ContentLargeBox>
-            <ContentIngredient></ContentIngredient>
-            <ContentIngredient></ContentIngredient>
-            <ContentIngredient></ContentIngredient>
-            <ContentIngredient></ContentIngredient>
-            <ContentIngredient></ContentIngredient>
-            <ContentIngredient></ContentIngredient>
-          </ContentLargeBox>
+          {pageLocation.productsState ? (
+            <>
+              {/* ======== */}
+              {/* 제작 상태 */}
+              {/* ======== */}
+              <ContentLargeBox>
+                {/* 이게 한 콘텐트 */}
+                <ContentIngredient>
+                  <ContentInnerLeft>
+                    <ContentInnerTextBox>
+                      <ContentHeader>
+                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
+                        <ContentProducerName>| 이태성</ContentProducerName>
+                        <FiSettings className={classes.settingIcon} />
+                      </ContentHeader>
+                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                    </ContentInnerTextBox>
+                  </ContentInnerLeft>
+                  <ContentInnerRight>
+                    <ContentGrayDisabled>제작완료</ContentGrayDisabled>
+                    <ContentRedBtn>결제확인</ContentRedBtn>
+                  </ContentInnerRight>
+                </ContentIngredient>
+                {/* 이게 한 콘텐트 */}
+                <ContentIngredient>
+                  <ContentInnerLeft>
+                    <ContentInnerTextBox>
+                      <ContentHeader>
+                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
+                        <ContentProducerName>| 이태성</ContentProducerName>
+                        <FiSettings className={classes.settingIcon} />
+                      </ContentHeader>
+                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                    </ContentInnerTextBox>
+                  </ContentInnerLeft>
+                  <ContentInnerRight>
+                    <ContentGrayDisabled>결제완료</ContentGrayDisabled>
+                    <ContentRedBtn>다운로드</ContentRedBtn>
+                  </ContentInnerRight>
+                </ContentIngredient>
+                <ContentIngredient>
+                  <ContentInnerLeft>
+                    <ContentInnerTextBox>
+                      <ContentHeader>
+                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
+                        <ContentProducerName>| 이태성</ContentProducerName>
+                        <FiSettings className={classes.settingIcon} />
+                      </ContentHeader>
+                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                    </ContentInnerTextBox>
+                  </ContentInnerLeft>
+                  <ContentInnerRight>
+                    <ContentGrayDisabled>진행중</ContentGrayDisabled>
+                  </ContentInnerRight>
+                </ContentIngredient>
+                <ContentIngredient>
+                  <ContentInnerLeft>
+                    <ContentInnerTextBox>
+                      <ContentHeader>
+                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
+                        <ContentProducerName>| 이태성</ContentProducerName>
+                        <FiSettings className={classes.settingIcon} />
+                      </ContentHeader>
+                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                    </ContentInnerTextBox>
+                  </ContentInnerLeft>
+                  <ContentInnerRight>
+                    <ContentGrayDisabled>진행중</ContentGrayDisabled>
+                  </ContentInnerRight>
+                </ContentIngredient>
+                <ContentIngredient>
+                  <ContentInnerLeft>
+                    <ContentInnerTextBox>
+                      <ContentHeader>
+                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
+                        <ContentProducerName>| 이태성</ContentProducerName>
+                        <FiSettings className={classes.settingIcon} />
+                      </ContentHeader>
+                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                    </ContentInnerTextBox>
+                  </ContentInnerLeft>
+                  <ContentInnerRight>
+                    <ContentGrayDisabled>진행중</ContentGrayDisabled>
+                  </ContentInnerRight>
+                </ContentIngredient>
+                <ContentIngredient>
+                  <ContentInnerLeft>
+                    <ContentInnerTextBox>
+                      <ContentHeader>
+                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
+                        <ContentProducerName>| 이태성</ContentProducerName>
+                        <FiSettings className={classes.settingIcon} />
+                      </ContentHeader>
+                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                    </ContentInnerTextBox>
+                  </ContentInnerLeft>
+                  <ContentInnerRight>
+                    <ContentGrayDisabled>진행중</ContentGrayDisabled>
+                  </ContentInnerRight>
+                </ContentIngredient>
+              </ContentLargeBox>
+            </>
+          ) : pageLocation.likeList ? (
+            <>
+              {/* ======== */}
+              {/* 찜 목록 */}
+              {/* ======== */}
+              <ContentLargeBox>
+                <ContentIngredient>
+                  <ContentInnerLeft>
+                    <ContentIconsBox>
+                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
+                    </ContentIconsBox>
+                    <ContentInnerTextBox>
+                      <ContentHeader>
+                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
+                        <ContentProducerName>| 이태성</ContentProducerName>
+                        <FiSettings className={classes.settingIcon} />
+                      </ContentHeader>
+                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                    </ContentInnerTextBox>
+                  </ContentInnerLeft>
+                  <ContentInnerRight>
+                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                  </ContentInnerRight>
+                </ContentIngredient>
+                <ContentIngredient>
+                  <ContentInnerLeft>
+                    <ContentIconsBox>
+                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
+                    </ContentIconsBox>
+                    <ContentInnerTextBox>
+                      <ContentHeader>
+                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
+                        <ContentProducerName>| 이태성</ContentProducerName>
+                        <FiSettings className={classes.settingIcon} />
+                      </ContentHeader>
+                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                    </ContentInnerTextBox>
+                  </ContentInnerLeft>
+                  <ContentInnerRight>
+                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                  </ContentInnerRight>
+                </ContentIngredient>
+                <ContentIngredient>
+                  <ContentInnerLeft>
+                    <ContentIconsBox>
+                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
+                    </ContentIconsBox>
+                    <ContentInnerTextBox>
+                      <ContentHeader>
+                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
+                        <ContentProducerName>| 이태성</ContentProducerName>
+                        <FiSettings className={classes.settingIcon} />
+                      </ContentHeader>
+                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                    </ContentInnerTextBox>
+                  </ContentInnerLeft>
+                  <ContentInnerRight>
+                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                  </ContentInnerRight>
+                </ContentIngredient>
+                <ContentIngredient>
+                  <ContentInnerLeft>
+                    <ContentIconsBox>
+                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
+                    </ContentIconsBox>
+                    <ContentInnerTextBox>
+                      <ContentHeader>
+                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
+                        <ContentProducerName>| 이태성</ContentProducerName>
+                        <FiSettings className={classes.settingIcon} />
+                      </ContentHeader>
+                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                    </ContentInnerTextBox>
+                  </ContentInnerLeft>
+                  <ContentInnerRight>
+                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                  </ContentInnerRight>
+                </ContentIngredient>
+                <ContentIngredient>
+                  <ContentInnerLeft>
+                    <ContentIconsBox>
+                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
+                    </ContentIconsBox>
+                    <ContentInnerTextBox>
+                      <ContentHeader>
+                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
+                        <ContentProducerName>| 이태성</ContentProducerName>
+                        <FiSettings className={classes.settingIcon} />
+                      </ContentHeader>
+                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                    </ContentInnerTextBox>
+                  </ContentInnerLeft>
+                  <ContentInnerRight>
+                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                  </ContentInnerRight>
+                </ContentIngredient>
+                <ContentIngredient>
+                  <ContentInnerLeft>
+                    <ContentIconsBox>
+                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
+                    </ContentIconsBox>
+                    <ContentInnerTextBox>
+                      <ContentHeader>
+                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
+                        <ContentProducerName>| 이태성</ContentProducerName>
+                        <FiSettings className={classes.settingIcon} />
+                      </ContentHeader>
+                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                    </ContentInnerTextBox>
+                  </ContentInnerLeft>
+                  <ContentInnerRight>
+                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                  </ContentInnerRight>
+                </ContentIngredient>
+              </ContentLargeBox>
+            </>
+          ) : pageLocation.fontBasket ? (
+            <>
+              {/* ======== */}
+              {/* 장바구니 */}
+              {/* ======== */}
+              <ContentLargeBox>
+                <ContentIngredient>장바</ContentIngredient>
+                <ContentIngredient></ContentIngredient>
+                <ContentIngredient></ContentIngredient>
+                <ContentIngredient></ContentIngredient>
+                <ContentIngredient></ContentIngredient>
+                <ContentIngredient></ContentIngredient>
+              </ContentLargeBox>
+            </>
+          ) : pageLocation.boughtFonts ? (
+            <>
+              {/* ======== */}
+              {/* 구매한 폰트 */}
+              {/* ======== */}
+              <ContentLargeBox>
+                <ContentIngredient>구매</ContentIngredient>
+                <ContentIngredient></ContentIngredient>
+                <ContentIngredient></ContentIngredient>
+                <ContentIngredient></ContentIngredient>
+                <ContentIngredient></ContentIngredient>
+                <ContentIngredient></ContentIngredient>
+              </ContentLargeBox>
+            </>
+          ) : (
+            <>
+              {/* ======== */}
+              {/* 찜한 제작자 */}
+              {/* ======== */}
+              <ContentLargeBox>
+                <ContentIngredient>찜제</ContentIngredient>
+                <ContentIngredient></ContentIngredient>
+                <ContentIngredient></ContentIngredient>
+                <ContentIngredient></ContentIngredient>
+                <ContentIngredient></ContentIngredient>
+                <ContentIngredient></ContentIngredient>
+              </ContentLargeBox>
+            </>
+          )}
         </MyPageContent>
       </div>
     </div>
