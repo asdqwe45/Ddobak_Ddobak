@@ -63,6 +63,48 @@
   animation: shine 10s infinite linear;
 }
 
+@keyframes typeWriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 300px;
+    padding-right: 5px;
+  }
+}
+@keyframes blinkTextCursor {
+  0%,
+  50% {
+    border-right-color: #d71718; /* 커서가 보이는 상태를 유지 */
+  }
+  51%,
+  100% {
+    border-right-color: transparent; /* 커서를 빠르게 숨김 */
+  }
+}
+.typeWriterContainer {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: Top; /* 이 속성은 레이아웃에 따라 조정이 필요할 수 있습니다. */
+  height: 75.2px;
+}
+
+.animationHeaderText {
+  display: inline-block; /* 이 부분이 중요하며, inline 요소에는 width 속성이 적용되지 않습니다. */
+  margin: 0px;
+  font-size: 60px;
+  font-weight: bold;
+  color: #d71718;
+  border-right: 3px solid #d71718;
+  overflow: hidden;
+  position: relative;
+  letter-spacing: 7px;
+  white-space: nowrap;
+  animation:
+    typeWriter 1.2s steps(70) 1s 1 normal both,
+    blinkTextCursor 1s infinite;
+}
+
 .customBtn:hover {
   opacity: 0.7;
   cursor: pointer;

@@ -21,6 +21,9 @@ import FontBoxComponent from 'pages/fontListPage/fontListPageComponents/FontBoxC
 import { FaCircleChevronLeft, FaCircleChevronRight } from 'react-icons/fa6';
 import { mainRedColor } from 'common/colors/CommonColors';
 
+// 로고 테스트
+import DdobakLogo from '../../../common/commonAssets/ddobak_logo.png';
+
 const MainPageFontList: React.FC = () => {
   const swiperRef = useRef<SwiperCore>();
 
@@ -29,7 +32,14 @@ const MainPageFontList: React.FC = () => {
       <div className={classes.headerBox}>
         <h1 className={classes.swiperHeader}>
           "여러분의 손글씨도 폰트가 될 수 있습니다."
-          <br /> 폰트 제작 서비스, <span className={classes.swiperRedHeader}>또박또박</span>
+          <br /> 폰트 제작 서비스,{' '}
+          <span className={classes.typeWriterContainer}>
+            {/* <span className={classes.animationHeaderText}>또박또박</span> */}
+            {/* test */}
+            <span className={classes.animationHeaderText}>
+              <img src={DdobakLogo} style={{ height: 75.2 }} alt="또박또박" />
+            </span>
+          </span>
         </h1>
       </div>
       <div className={classes.swiperLargeBox}>
