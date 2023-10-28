@@ -4,7 +4,6 @@ import {
   MakerBottomBox,
   MakerName,
   MakerSmallBox,
-  MakerBar,
   MakerComment,
   MakerLikeCount,
   MakerBottomHeaderBox,
@@ -12,10 +11,8 @@ import {
   MakerFontLargeBox,
   MakerFontSmallBox,
   MakerFontNameText,
-  MakerFontMakerText,
   MakerFontCommentText,
-  MakerSmallBoxHeader,
-  MakerFontMakerBar,
+  MakerCommemtBox,
 } from './makerPageComponents/MakerPageComponents';
 import { FaHeart } from 'react-icons/fa';
 // 빈 하트 FaRegHeart
@@ -27,13 +24,14 @@ const MakerPage: React.FC = () => {
     <div className={classes.container}>
       <MakerTopBox>
         <MakerSmallBox>
-          <FaCircleUser size={90} color={bolderColor} />
-          <MakerName>김싸피</MakerName>
-          <MakerBar>|</MakerBar>
+          <FaCircleUser size={80} color={bolderColor} />
+          <MakerCommemtBox>
+            <MakerName>김싸피</MakerName>
+          </MakerCommemtBox>
           <MakerComment>안녕하세요. 김싸피입니다.</MakerComment>
         </MakerSmallBox>
         <MakerSmallBox>
-          <FaHeart size={60} color={'#d71718'} />
+          <FaHeart size={40} color={'#d71718'} />
           <MakerLikeCount>10</MakerLikeCount>
         </MakerSmallBox>
       </MakerTopBox>
@@ -44,28 +42,23 @@ const MakerPage: React.FC = () => {
         </MakerBottomHeaderBox>
         <MakerFontLargeBox>
           <MakerFontSmallBox>
-            <MakerSmallBoxHeader>
+            <MakerCommemtBox>
               <MakerFontNameText>또박또박_테스트체</MakerFontNameText>
-              <MakerFontMakerBar>|</MakerFontMakerBar>
-              <MakerFontMakerText>이태성</MakerFontMakerText>
-            </MakerSmallBoxHeader>
+            </MakerCommemtBox>
+
             <MakerFontCommentText>다람쥐 헌 쳇바퀴 타고파</MakerFontCommentText>
           </MakerFontSmallBox>
           {/* small box */}
           <MakerFontSmallBox>
-            <MakerSmallBoxHeader>
+            <MakerCommemtBox>
               <MakerFontNameText>또박또박_테스트체</MakerFontNameText>
-              <MakerFontMakerBar>|</MakerFontMakerBar>
-              <MakerFontMakerText>이태성</MakerFontMakerText>
-            </MakerSmallBoxHeader>
+            </MakerCommemtBox>
             <MakerFontCommentText>다람쥐 헌 쳇바퀴 타고파</MakerFontCommentText>
           </MakerFontSmallBox>
           <MakerFontSmallBox>
-            <MakerSmallBoxHeader>
+            <MakerCommemtBox>
               <MakerFontNameText>또박또박_테스트체</MakerFontNameText>
-              <MakerFontMakerBar>|</MakerFontMakerBar>
-              <MakerFontMakerText>이태성</MakerFontMakerText>
-            </MakerSmallBoxHeader>
+            </MakerCommemtBox>
             <MakerFontCommentText>다람쥐 헌 쳇바퀴 타고파</MakerFontCommentText>
           </MakerFontSmallBox>
         </MakerFontLargeBox>

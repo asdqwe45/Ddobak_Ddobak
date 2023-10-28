@@ -14,16 +14,20 @@ export const MakerTopBox = styled.div`
 export const MakerName = styled.p`
   font-size: 30px;
   font-weight: bold;
-  padding: 0px 40px 0px 40px;
+  padding: 0px 40px;
 `;
 
-export const MakerBar = styled.p`
-  font-size: 30px;
+export const MakerCommemtBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 2px solid ${bolderColor};
 `;
 
 export const MakerComment = styled.p`
+  margin: 0px;
   font-size: 30px;
-  padding: 0px 40px 0px 40px;
+  padding: 0px 20px;
 `;
 
 export const MakerSmallBox = styled.div`
@@ -72,32 +76,16 @@ export const MakerFontSmallBox = styled.div`
   box-shadow: 1px 1px 2px 2px ${bolderColor};
   padding: 25px 40px 25px 40px; // 상 우 하 좌
   display: flex; /* flex 컨테이너로 설정 */
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
-export const MakerSmallBoxHeader = styled.div`
-  display: flex;
   align-items: center;
 `;
 
 export const MakerFontNameText = styled.p`
-  margin: 0px;
   font-size: 28px;
   font-weight: bold;
   margin-right: 20px;
 `;
-export const MakerFontMakerText = styled.p`
-  margin: 0px;
-  font-size: 28px;
-`;
 
-export const MakerFontMakerBar = styled.p`
-  margin: 0px;
-  font-size: 28px;
-  margin-right: 10px;
-`;
-export const MakerFontCommentText = styled.p`
-  margin: 0px;
-  font-size: 28px;
+export const MakerFontCommentText = styled(MakerComment)`
+  font-size: 40px;
+  font-weight: 0;
 `;
