@@ -137,7 +137,6 @@ export const SelectBtn = styled.button`
   font-size: 20px;
   box-shadow: 5px 5px 0px ${mainRedColor};
   &:hover {
-    min-width: 180px;
     opacity: 0.7;
     cursor: pointer;
     background-color: ${mainRedColor};
@@ -148,6 +147,7 @@ export const SelectBtn = styled.button`
 
 export const SelectDisabled = styled.button`
   width: 100%;
+  min-width: 180px;
   box-sizing: border-box;
   margin: 5px 0px;
   aspect-ratio: 4/1;
@@ -185,11 +185,14 @@ export const ContentIngredient = styled.div`
 export const ContentInnerLeft = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
-export const ContentInnerTextBox = styled.div``;
+export const ContentInnerTextBox = styled.div`
+  min-width: 350px;
+`;
 export const ContentHeader = styled.div`
   display: flex;
-  margin: 10px 0px;
+  margin-bottom: 10px;
   align-items: center;
 `;
 export const ContentInnerHeaderText = styled.h1`
@@ -213,6 +216,7 @@ export const ContentInnerRight = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  padding: 10px 0px;
 `;
 
 const ContentBtnIngredient = styled.button`
@@ -251,7 +255,7 @@ export const ContentGrayBtn = styled(ContentBtnIngredient)`
 // 아이콘
 export const ContentIconsBox = styled.div`
   box-sizing: border-box;
-  height: 100%;
+  height: 80%;
   aspect-ratio: 1;
   padding: 30px 20px;
   padding-left: 0px;
