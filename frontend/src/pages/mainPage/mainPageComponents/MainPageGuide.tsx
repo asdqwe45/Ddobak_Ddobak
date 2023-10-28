@@ -1,8 +1,8 @@
 import classes from './MainPageGuide.module.css';
-import nextButton from '../mainPageAssets/rightButton.svg';
 import uploadPC from '../mainPageAssets/uploadPC.png';
 import payment from '../mainPageAssets/payment.png';
-
+import { FaCircleChevronRight } from 'react-icons/fa6';
+import { mainRedColor } from 'common/colors/CommonColors';
 const MainPageGuide: React.FC = () => {
   return (
     <div className={classes.container}>
@@ -33,7 +33,7 @@ const MainPageGuide: React.FC = () => {
           </div>
         </div>
         <div className={classes.nextBox}>
-          <img src={nextButton} alt="" />
+          <FaCircleChevronRight size={50} color={mainRedColor} />
         </div>
         <div className={classes.contentBox}>
           <div className={classes.ingredientBox}>
@@ -53,7 +53,7 @@ const MainPageGuide: React.FC = () => {
           </div>
         </div>
         <div className={classes.nextBox}>
-          <img src={nextButton} alt="" />
+          <FaCircleChevronRight size={50} color={mainRedColor} />
         </div>
         <div className={classes.contentBox}>
           <div className={classes.ingredientBox}>

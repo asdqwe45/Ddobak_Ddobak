@@ -8,18 +8,18 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 // button img
-import leftButton from '../mainPageAssets/leftButton.svg';
-import rightButton from '../mainPageAssets/rightButton.svg';
 
 import classes from './MainPageFontList.module.css';
 
 // import required modules
 import { Autoplay, Navigation } from 'swiper/modules';
-
 import { Swiper as SwiperCore } from 'swiper/types';
 
 // 컴포넌트
 import FontBoxComponent from 'pages/fontListPage/fontListPageComponents/FontBoxComponent';
+
+import { FaCircleChevronLeft, FaCircleChevronRight } from 'react-icons/fa6';
+import { mainRedColor } from 'common/colors/CommonColors';
 
 const MainPageFontList: React.FC = () => {
   const swiperRef = useRef<SwiperCore>();
@@ -33,14 +33,14 @@ const MainPageFontList: React.FC = () => {
         </h1>
       </div>
       <div className={classes.swiperLargeBox}>
-        <div
+        <FaCircleChevronLeft
+          size={50}
+          color={mainRedColor}
           onClick={() => {
             swiperRef.current?.slidePrev(); // swiper의 slidePrev 실행
           }}
-          className={classes.customPrevBtn}
-        >
-          <img src={leftButton} alt="" />
-        </div>
+          className={classes.customBtn}
+        />
         <Swiper
           onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
           slidesPerView={3}
@@ -55,14 +55,14 @@ const MainPageFontList: React.FC = () => {
         >
           {FontBoxSwiper()}
         </Swiper>
-        <div
+        <FaCircleChevronRight
+          size={50}
+          color={mainRedColor}
           onClick={() => {
             swiperRef.current?.slideNext(); // swiper의 slideNext 실행
           }}
-          className={classes.customNextBtn}
-        >
-          <img src={rightButton} alt="" />
-        </div>
+          className={classes.customBtn}
+        />
       </div>
     </div>
   );
