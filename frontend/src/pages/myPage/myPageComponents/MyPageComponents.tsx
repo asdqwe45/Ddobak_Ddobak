@@ -35,14 +35,14 @@ export const ProfilNameBox = styled.div`
 `;
 
 export const ProfileName = styled.h1`
-  margin: 5px;
-  font-size: 40px;
+  margin: 10px;
+  font-size: 32px;
   font-weight: bold;
 `;
 
 export const ChangePassword = styled.p`
   margin: 0px;
-  font-size: 30px;
+  font-size: 27px;
   &:hover {
     opacity: 0.6;
     font-weight: bold;
@@ -73,7 +73,7 @@ export const PointHeader = styled.div`
 `;
 export const PointHeaderText = styled.p`
   margin: 0px;
-  font-size: 30px;
+  font-size: 27px;
 `;
 
 export const PointBtnBox = styled.div`
@@ -87,7 +87,7 @@ const PointBtnIngredient = styled.button`
   width: 150px;
   margin: 10px;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 18px;
   border: 0px;
   color: white;
   margin-bottom: 0px;
@@ -127,15 +127,17 @@ export const SelectBox = styled.div`
 
 export const SelectBtn = styled.button`
   width: 100%;
+  min-width: 180px;
   box-sizing: border-box;
   margin: 5px 0px;
   aspect-ratio: 4/1;
   border-radius: 15px;
   border: 2px solid ${mainRedColor};
   background-color: white;
-  font-size: 24px;
+  font-size: 20px;
   box-shadow: 5px 5px 0px ${mainRedColor};
   &:hover {
+    min-width: 180px;
     opacity: 0.7;
     cursor: pointer;
     background-color: ${mainRedColor};
@@ -152,7 +154,7 @@ export const SelectDisabled = styled.button`
   border-radius: 15px;
   border: 2px solid ${mainRedColor};
   background-color: ${mainRedColor};
-  font-size: 24px;
+  font-size: 20px;
   color: white;
   box-shadow: 1px 1px 0px #b6b6b6;
   font-weight: bold;
@@ -169,9 +171,10 @@ export const ContentLargeBox = styled.div`
 
 export const ContentIngredient = styled.div`
   width: 100%;
+  min-width: 680px;
   aspect-ratio: 6/1;
   box-sizing: border-box;
-  padding: 20px 40px;
+  padding: 10px 40px;
   border-radius: 15px;
   border: 2px solid ${bolderColor};
   margin-bottom: 20px;
@@ -191,17 +194,17 @@ export const ContentHeader = styled.div`
 `;
 export const ContentInnerHeaderText = styled.h1`
   margin: 0px;
-  font-size: 32px;
+  font-size: 24px;
   padding-right: 20px;
 `;
 
 export const ContentProducerName = styled.p`
   margin: 0px;
-  font-size: 32px;
+  font-size: 24px;
 `;
 
 export const ContentInnerContentText = styled.p`
-  font-size: 32px;
+  font-size: 24px;
   margin: 0px;
 `;
 
@@ -216,7 +219,7 @@ const ContentBtnIngredient = styled.button`
   height: 45%;
   aspect-ratio: 15/4;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 16px;
   border: 0px;
   color: white;
   margin-bottom: 0px;
@@ -316,6 +319,6 @@ export const LikeProducerBox = styled.div`
 `;
 export const LikeBoxText = styled.p`
   margin: 0px;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: bold;
 `;
