@@ -14,11 +14,34 @@ const FontOptionPage: React.FC = () => {
       {/* 폰트 이름 - 한글, 영어 */}
       <div className={classes.fontNameContainer}>
         <BoxTitle>폰트 이름 설정</BoxTitle>
+        <div className={classes.name}>
+          <div className={classes.nameInput} style={{ flexGrow: '1' }}>
+            <p>한글명</p>
+            <input type="text" placeholder="예시) 또박또박_글씨체" />
+            <button>중복확인</button>
+          </div>
+          <div className={classes.nameInput} style={{ flexGrow: '2' }}>
+            <p>영문명</p>
+            <input type="text" placeholder="예시) ddobak_test" />
+            <button>중복확인</button>
+          </div>
+        </div>
       </div>
       <br /><hr /><br />
       {/* 저작권 관계 명시 */}
       <div className={classes.relationContainer}>
         <BoxTitle>저작권 관계 명시</BoxTitle>
+        <div>
+          <p>제작 주문자와 저작권자의 관계</p>
+          {/* 라디오 버튼 import */}
+        </div>
+        {/* 동일인 선택시 자동으로 입력되도록 구현 */}
+        <div>
+          <p>저작권자 이름</p>
+          <input type="text" />
+        </div>
+
+
       </div>
       <br /><hr /><br />
       {/* 허용 여부 라디오버튼 */}
