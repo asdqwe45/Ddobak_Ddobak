@@ -258,7 +258,7 @@ const MyPage: React.FC = () => {
                   </ContentInnerLeft>
                   <ContentInnerRight>
                     <ContentGrayDisabled>제작완료</ContentGrayDisabled>
-                    <ContentRedBtn>결제확인</ContentRedBtn>
+                    <ContentRedBtn>결과확인</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
                 {/* 이게 한 콘텐트 */}
