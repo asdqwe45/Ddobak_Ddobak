@@ -41,6 +41,14 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    // google SMTP
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.0.5'
+
+    // Email
+    implementation 'javax.mail:javax.mail-api:1.6.2'
+    implementation 'com.sun.mail:javax.mail:1.6.2'
+
 }
 
 dependencyManagement {
