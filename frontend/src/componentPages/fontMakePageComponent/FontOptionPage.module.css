@@ -1,23 +1,23 @@
+.rowContainer {
+    display: flex;
+    align-items: center;
+}
+
+/* 폰트 이름 설정 */
 .name {
     display: flex;
     margin-top: 20px;
-    margin-left: 25px;
 }
 
 .nameInput {
     display: flex;
     align-items: center;
 }
-
-.nameInput p {
-    font-size: 22px;
-    font-weight: 600;
-}
-
+.rowContainer input,
 .nameInput input {
     margin-left: 20px;
-    height: 50px;
-    width: 23vw;
+    /* height: 50px; */
+    /* width: 20vw; */
     font-size: 20px;
     border-radius: 10px;
     border: 1px solid #ccc;
@@ -34,4 +34,11 @@
     margin-left: 10px;
     display: flex;
     align-items: center;
+    cursor: pointer;
+}
+
+/* 저작권 관계 명시 */
+.rowContainer p {
+    font-size: 20px;
+    margin-left: 10px;
 }

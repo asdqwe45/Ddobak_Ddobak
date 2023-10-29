@@ -15,3 +15,9 @@ export const BoxTitle = styled.span`
   font-size: 24px;
   font-weight: 600;
 `;
+
+export const InputTitle = styled.p`
+  font-size: 22px;
+  font-weight: 600;
+  margin-left: 25px;
+`;
