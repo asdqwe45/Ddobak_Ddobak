@@ -117,6 +117,7 @@ export const MyPageContent = styled.div`
 `;
 // 선택 상자
 export const SelectBox = styled.div`
+  min-height: 370px;
   width: 28%;
   height: 100%;
   box-sizing: border-box;

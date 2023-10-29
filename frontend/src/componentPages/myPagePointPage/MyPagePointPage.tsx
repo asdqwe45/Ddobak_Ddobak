@@ -1,0 +1,223 @@
+import { useState } from 'react';
+import classes from './MyPagePointPage.module.css';
+import {
+  MyPagePointHeader,
+  MyPagePointHeaderText,
+  MyPagePointContentIngredient,
+  MyPagePointBox,
+  MyPagePointContentBox,
+  MyPagePointContentPointBox,
+  MyPagePointMaker,
+  MyPagePointDateText,
+  MyPagePointContentText,
+} from './myPagePointPageComponents/MyPagePointPageComponents';
+
+import { mainRedColor, likeCountColor } from 'common/colors/CommonColors';
+
+// btn components
+import {
+  PointExchangeBtn,
+  PointTransactionBtn,
+  MyPageContent,
+  SelectBox,
+  SelectBtn,
+  SelectDisabled,
+  ContentLargeBox,
+} from 'pages/myPage/myPageComponents/MyPageComponents';
+
+const MyPagePointPage: React.FC = () => {
+  const [selectContent, setSelectContent] = useState({
+    all: true,
+    buy: false,
+    sell: false,
+    charge: false,
+    exchange: false,
+    make: false,
+  });
+  const selectHandler = (content: string) => {
+    if (content === 'all') {
+      setSelectContent({
+        all: true,
+        buy: false,
+        sell: false,
+        charge: false,
+        exchange: false,
+        make: false,
+      });
+    } else if (content === 'buy') {
+      setSelectContent({
+        all: false,
+        buy: true,
+        sell: false,
+        charge: false,
+        exchange: false,
+        make: false,
+      });
+    } else if (content === 'sell') {
+      setSelectContent({
+        all: false,
+        buy: false,
+        sell: true,
+        charge: false,
+        exchange: false,
+        make: false,
+      });
+    } else if (content === 'charge') {
+      setSelectContent({
+        all: false,
+        buy: false,
+        sell: false,
+        charge: true,
+        exchange: false,
+        make: false,
+      });
+    } else if (content === 'exchange') {
+      setSelectContent({
+        all: false,
+        buy: false,
+        sell: false,
+        charge: false,
+        exchange: true,
+        make: false,
+      });
+    } else {
+      setSelectContent({
+        all: false,
+        buy: false,
+        sell: false,
+        charge: false,
+        exchange: false,
+        make: true,
+      });
+    }
+  };
+  return (
+    <div className={classes.container}>
+      <MyPagePointHeader>
+        <MyPagePointBox>
+          <MyPagePointHeaderText style={{ paddingRight: 40 }}>보유한 포인트</MyPagePointHeaderText>
+          <MyPagePointHeaderText>10,000P</MyPagePointHeaderText>
+        </MyPagePointBox>
+        <MyPagePointBox style={{ justifyContent: 'flex-end' }}>
+          <PointExchangeBtn>충전하기</PointExchangeBtn>
+          <PointTransactionBtn>인출하기</PointTransactionBtn>
+        </MyPagePointBox>
+      </MyPagePointHeader>
+      <MyPageContent style={{ maxHeight: 480 }}>
+        <SelectBox>
+          {selectContent.all ? (
+            <SelectDisabled>전체</SelectDisabled>
+          ) : (
+            <SelectBtn
+              onClick={() => {
+                selectHandler('all');
+              }}
+            >
+              전체
+            </SelectBtn>
+          )}
+          {selectContent.buy ? (
+            <SelectDisabled>구매</SelectDisabled>
+          ) : (
+            <SelectBtn
+              onClick={() => {
+                selectHandler('buy');
+              }}
+            >
+              구매
+            </SelectBtn>
+          )}
+          {selectContent.sell ? (
+            <SelectDisabled>판매</SelectDisabled>
+          ) : (
+            <SelectBtn
+              onClick={() => {
+                selectHandler('sell');
+              }}
+            >
+              판매
+            </SelectBtn>
+          )}
+          {selectContent.charge ? (
+            <SelectDisabled>충전</SelectDisabled>
+          ) : (
+            <SelectBtn
+              onClick={() => {
+                selectHandler('charge');
+              }}
+            >
+              충전
+            </SelectBtn>
+          )}
+          {selectContent.exchange ? (
+            <SelectDisabled>인출</SelectDisabled>
+          ) : (
+            <SelectBtn
+              onClick={() => {
+                selectHandler('exchange');
+              }}
+            >
+              인출
+            </SelectBtn>
+          )}
+          {selectContent.make ? (
+            <SelectDisabled>제작</SelectDisabled>
+          ) : (
+            <SelectBtn
+              onClick={() => {
+                selectHandler('make');
+              }}
+            >
+              제작
+            </SelectBtn>
+          )}
+        </SelectBox>
+        <ContentLargeBox
+          style={{ paddingTop: 10, paddingBottom: 10, overflow: 'auto', maxHeight: 370 }}
+        >
+          {selectContent.all ? (
+            <>
+              <MyPagePointContentIngredient>
+                <MyPagePointContentBox>
+                  <MyPagePointDateText>2023.09.10</MyPagePointDateText>
+                  <MyPagePointContentText>포인트 충전</MyPagePointContentText>
+                  <MyPagePointMaker></MyPagePointMaker>
+                </MyPagePointContentBox>
+                <MyPagePointContentPointBox>
+                  <MyPagePointContentText>+ 5,000</MyPagePointContentText>
+                  <MyPagePointDateText>잔여 10,000P</MyPagePointDateText>
+                </MyPagePointContentPointBox>
+              </MyPagePointContentIngredient>
+              <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
+              <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
+              <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
+              <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
+              <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
+            </>
+          ) : selectContent.buy ? (
+            <>
+              <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
+            </>
+          ) : selectContent.sell ? (
+            <>
+              <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
+            </>
+          ) : selectContent.charge ? (
+            <>
+              <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
+            </>
+          ) : selectContent.exchange ? (
+            <>
+              <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
+            </>
+          ) : (
+            <>
+              <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
+            </>
+          )}
+        </ContentLargeBox>
+      </MyPageContent>
+    </div>
+  );
+};
+export default MyPagePointPage;

@@ -1,0 +1,14 @@
+.container {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px 100px;
+}
+@media (min-height: 710px) {
+  .container {
+    height: 770px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
