@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:ddobakmember
+    url: jdbc:h2:mem:member
     username: sa
     password:
 
