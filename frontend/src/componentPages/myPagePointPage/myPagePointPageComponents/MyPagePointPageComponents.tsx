@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { bolderColor } from '../../../common/colors/CommonColors';
+import { bolderColor, likeCountColor } from '../../../common/colors/CommonColors';
 import {
   SelectBox,
   SelectBtn,
@@ -80,4 +80,9 @@ export const MyPagePointDateText = styled.p`
   font-size: 16px;
 `;
 
-export const MyPagePointMaker = styled.p``;
+export const MyPagePointMaker = styled.p`
+  margin: 0px 10px;
+  font-weight: 0px;
+  font-size: 24px;
+  color: ${likeCountColor};
+`;

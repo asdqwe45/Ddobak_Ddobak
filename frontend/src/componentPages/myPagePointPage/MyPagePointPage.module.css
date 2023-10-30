@@ -3,7 +3,7 @@
   box-sizing: border-box;
   padding: 20px 100px;
 }
-@media (min-height: 710px) {
+@media (min-height: 716px) {
   .container {
     height: 770px;
     display: flex;

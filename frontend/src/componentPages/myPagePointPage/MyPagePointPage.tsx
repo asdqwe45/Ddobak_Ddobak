@@ -181,15 +181,79 @@ const MyPagePointPage: React.FC = () => {
                 <MyPagePointContentBox>
                   <MyPagePointDateText>2023.09.10</MyPagePointDateText>
                   <MyPagePointContentText>포인트 충전</MyPagePointContentText>
-                  <MyPagePointMaker></MyPagePointMaker>
                 </MyPagePointContentBox>
                 <MyPagePointContentPointBox>
                   <MyPagePointContentText>+ 5,000</MyPagePointContentText>
-                  <MyPagePointDateText>잔여 10,000P</MyPagePointDateText>
+                  <MyPagePointDateText style={{ color: likeCountColor }}>
+                    잔여 10,000P
+                  </MyPagePointDateText>
                 </MyPagePointContentPointBox>
               </MyPagePointContentIngredient>
-              <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
-              <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
+              <MyPagePointContentIngredient>
+                <MyPagePointContentBox>
+                  <MyPagePointDateText>2023.09.10</MyPagePointDateText>
+                  <MyPagePointContentText>폰트 판매</MyPagePointContentText>
+                  <MyPagePointContentText>또박또박_테스트체</MyPagePointContentText>
+                </MyPagePointContentBox>
+                <MyPagePointContentPointBox>
+                  <MyPagePointContentText>+ 5,000</MyPagePointContentText>
+                  <MyPagePointDateText style={{ color: likeCountColor }}>
+                    잔여 5,000P
+                  </MyPagePointDateText>
+                </MyPagePointContentPointBox>
+              </MyPagePointContentIngredient>
+              <MyPagePointContentIngredient>
+                <MyPagePointContentBox>
+                  <MyPagePointDateText>2023.09.09</MyPagePointDateText>
+                  <MyPagePointContentText style={{ color: mainRedColor }}>
+                    포인트 인출
+                  </MyPagePointContentText>
+                </MyPagePointContentBox>
+                <MyPagePointContentPointBox>
+                  <MyPagePointContentText style={{ color: mainRedColor }}>
+                    - 5,000
+                  </MyPagePointContentText>
+                  <MyPagePointDateText style={{ color: likeCountColor }}>
+                    잔여 0P
+                  </MyPagePointDateText>
+                </MyPagePointContentPointBox>
+              </MyPagePointContentIngredient>
+              <MyPagePointContentIngredient>
+                <MyPagePointContentBox>
+                  <MyPagePointDateText>2023.09.09</MyPagePointDateText>
+                  <MyPagePointContentText style={{ color: mainRedColor }}>
+                    폰트 구매
+                  </MyPagePointContentText>
+                  <MyPagePointContentText>또박또박_테스트체</MyPagePointContentText>
+                  <MyPagePointMaker>|</MyPagePointMaker>
+                  <MyPagePointMaker>제작자</MyPagePointMaker>
+                </MyPagePointContentBox>
+                <MyPagePointContentPointBox>
+                  <MyPagePointContentText style={{ color: mainRedColor }}>
+                    - 5,000
+                  </MyPagePointContentText>
+                  <MyPagePointDateText style={{ color: likeCountColor }}>
+                    잔여 5,000P
+                  </MyPagePointDateText>
+                </MyPagePointContentPointBox>
+              </MyPagePointContentIngredient>
+              <MyPagePointContentIngredient>
+                <MyPagePointContentBox>
+                  <MyPagePointDateText>2023.09.09</MyPagePointDateText>
+                  <MyPagePointContentText style={{ color: mainRedColor }}>
+                    폰트 제작
+                  </MyPagePointContentText>
+                  <MyPagePointContentText>또박또박_테스트체</MyPagePointContentText>
+                </MyPagePointContentBox>
+                <MyPagePointContentPointBox>
+                  <MyPagePointContentText style={{ color: mainRedColor }}>
+                    - 50,000
+                  </MyPagePointContentText>
+                  <MyPagePointDateText style={{ color: likeCountColor }}>
+                    잔여 10,000P
+                  </MyPagePointDateText>
+                </MyPagePointContentPointBox>
+              </MyPagePointContentIngredient>
               <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
               <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
               <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
