@@ -128,7 +128,6 @@ const FontOptionPage: React.FC = () => {
         <TermsAgreement onAgree={handleAgreement} /> 
       </div>
       <br /><hr /><br />
-      {/* 완료 or 저장하기 버튼 */}
       <div className={classes.btnContainer}>
           <button 
           className={classes.nextBtn}>
