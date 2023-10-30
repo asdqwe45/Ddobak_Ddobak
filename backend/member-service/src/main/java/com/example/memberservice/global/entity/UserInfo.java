@@ -20,5 +20,9 @@ public abstract class UserInfo extends BaseEntity implements UserDetails {
     private String email;
 
     @Column(unique = true)
-    private String password;
+    private String loginPassword;
+
+    public void encodePassword(String encodedPassword) {
+        this.loginPassword = encodedPassword;
+    }
 }
