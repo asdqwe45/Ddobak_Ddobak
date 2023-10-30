@@ -1,6 +1,7 @@
 .rowContainer {
     display: flex;
     align-items: center;
+    margin-top: 25px;
 }
 
 /* 폰트 이름 설정 */
@@ -38,7 +39,7 @@
 }
 
 /* 저작권 관계 명시 */
-.rowContainer p {
-    font-size: 20px;
-    margin-left: 10px;
+.priceContainer {
+    display: flex;
+
 }
