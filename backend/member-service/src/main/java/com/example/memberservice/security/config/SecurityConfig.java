@@ -1,22 +1,56 @@
 package com.example.memberservice.security.config;
 
 
+import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .csrf().disable() // CSRF 보호를 비활성화 (API 서비스의 경우 이 설정이 필요할 수 있습니다)
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+            .formLogin().disable() // FromLogin 사용 X
+            .httpBasic().disable() // httpBasic 사용 X
+            .csrf().disable() // csrf 보안 사용 X
+            .cors()
+            .and()
+            .headers().frameOptions().disable() // X-Frame-Options Click jacking 공격 막기 사용 X
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(
+                SessionCreationPolicy.STATELESS) // 세션을 사용하지 않기 때문에 사용 정책 stateless
+            .and()
+
+            // URL 별 권한 관리 옵션
             .authorizeRequests()
-            .anyRequest().permitAll(); // 모든 요청에 대해 인증 없이 접근을 허용합니다.
+            .antMatchers("/h2-console/**","/docs/**").permitAll()
+            .antMatchers("/**").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .build();
+    }
+
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(
+            Arrays.asList("http://localhost:7001")); // 허용할 도메인 설정
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // 허용할 HTTP 메서드 설정
+        configuration.setAllowedHeaders(Arrays.asList("*")); // 허용할 헤더 설정
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
