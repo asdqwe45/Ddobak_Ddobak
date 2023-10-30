@@ -1,10 +1,10 @@
-package com.ddobak;
+package com.example.memberservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DdobakApplicationTests {
+class MemberServiceApplicationTests {
 
     @Test
     void contextLoads() {
