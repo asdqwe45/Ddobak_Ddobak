@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const { exec, execSync, spawn } = require("child_process");
 
-var ImageTracer = require("./public/javascript/imagetracer_v1.2.1");
+var ImageTracer = require("./javascript/imagetracer_v1.2.1");
 
 var fs = require("fs");
 var gracefulFs = require("graceful-fs");
