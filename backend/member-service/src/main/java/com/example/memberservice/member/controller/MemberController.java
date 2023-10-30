@@ -2,16 +2,19 @@ package com.example.memberservice.member.controller;
 
 import com.example.memberservice.member.dto.request.EmailVerificationRequest;
 import com.example.memberservice.member.dto.request.EmailVerifyRequest;
+import com.example.memberservice.member.dto.request.SignUpRequest;
 import com.example.memberservice.member.service.EmailService;
 import com.example.memberservice.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.internal.build.AllowPrintStacktrace;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
@@ -22,6 +25,7 @@ public class MemberController {
     private final MemberService memberService;
     private final EmailService emailService;
 
+    // 이메일 인증 요청
     @PostMapping("/email/verify-request")
     public ResponseEntity<Void> sendEmail(@RequestBody EmailVerifyRequest emailVerifyRequest) {
        log.info("Send Email to {}", emailVerifyRequest.email());
@@ -31,7 +35,8 @@ public class MemberController {
        return ResponseEntity.noContent().build();
    }
 
-   @GetMapping("/email/verify")
+   // 이메일 인증 확인
+    @GetMapping("/email/verify")
     public ResponseEntity<Void> verifyEmail(@RequestBody EmailVerificationRequest emailVerificationRequest) {
         log.info("verify email {} with authCode {}", emailVerificationRequest.email(), emailVerificationRequest.authCode());
 
@@ -40,4 +45,14 @@ public class MemberController {
 
         return ResponseEntity.noContent().build();
    }
+
+   // 회원 가입
+    @PostMapping("/signup")
+    public ResponseEntity<Void> singUpMember(@RequestBody SignUpRequest signUpRequest, MultipartFile profileImg) {
+        log.info("{} request signUp", signUpRequest.email());
+
+        memberService.signUpMember(signUpRequest, profileImg);
+
+        return ResponseEntity.noContent().build();
+    }
 }
