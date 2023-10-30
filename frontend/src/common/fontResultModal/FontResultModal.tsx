@@ -1,284 +1,169 @@
 import classes from '../../pages/mainPage/mainPageComponents/MainPageLargeManuscript.module.css';
-import modalClasses from "./FontResultModal.module.css"
+import modalClasses from './FontResultModal.module.css';
+import ReactModal from 'react-modal';
+
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { resultModalActions } from 'store/resultModalSlice';
+
+import { mainRedColor } from 'common/colors/CommonColors';
+import { AiOutlineClose } from 'react-icons/ai';
+
+interface ResultModalState {
+  resultModal: {
+    resultIsVisible: boolean;
+  };
+}
 
 const FontResultModal: React.FC = () => {
-  return (
-    <div className={modalClasses.modalContainer}>
-      {/* 원고지 헤더 시작 */}
-      <div className={classes.headerBox}>
-        <div className={classes.headerTextBox}>
-          <p className={classes.headerNoText}>No.</p>
-          <div className={classes.headerDiv}>
-            <p className={classes.headerBigText}>1</p>
-          </div>
-        </div>
-      </div>
-      {/* 원고지 헤더 끝 */}
-      {/* 원고지 시작 */}
-      <div className={classes.largeBox}>
-        {/* 빈칸 */}
-        <div className={classes.blankLineBox}>{renderTopBlank()}</div>
-        {/* 빈칸 끝 */}
-        <div className={classes.lineBox}>
-          {/* 1 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          {/* 당 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>당</p>
-            </div>
-          </div>
-          {/* 신 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>신</p>
-            </div>
-          </div>
-          {/* 의 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>의</p>
-            </div>
-          </div>
-          {/* 빈칸 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          {/* 손 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>손</p>
-            </div>
-          </div>
-          {/* 글 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>글</p>
-            </div>
-          </div>
-          {/* 씨 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>씨</p>
-            </div>
-          </div>
-          {/* 를 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>를</p>
-            </div>
-          </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-        </div>
+  // redux
+  const dispatch = useDispatch();
+  const clickResultHandler = () => {
+    dispatch(resultModalActions.toggle());
+  };
+  const showResultModal = useSelector(
+    (state: ResultModalState) => state.resultModal.resultIsVisible,
+  );
 
-        <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-        {renderLineBoxes(1)}
-        {/* 빈칸 */}
-        <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-        {/* 빈칸 끝 */}
-        {/* 라인 시작 */}
-        <div className={classes.lineBox}>
-          {/* 1 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
+  // 모달을 닫을 때 onRequestClose 함수 호출
+  const closeModal = () => {
+    clickResultHandler();
+  };
+  return (
+    <ReactModal
+      isOpen={showResultModal}
+      onRequestClose={closeModal}
+      shouldCloseOnOverlayClick={true}
+    >
+      <div className={modalClasses.overLay}>
+        <div className={modalClasses.modalContainer}>
+          <div className={modalClasses.modalBox} style={{ justifyContent: 'flex-end' }}>
+            <AiOutlineClose
+              size={40}
+              onClick={clickResultHandler}
+              className={modalClasses.closeIcon}
+            />
           </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          {/* 당 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>당</p>
+          {/* 원고지 헤더 시작 */}
+          <div className={classes.headerBox}>
+            <div className={classes.headerTextBox}>
+              <p className={classes.headerNoText}>No.</p>
+              <div className={classes.headerDiv}>
+                <p className={classes.headerBigText}>1</p>
+              </div>
             </div>
           </div>
-          {/* 신 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>신</p>
+          {/* 원고지 헤더 끝 */}
+          {/* 원고지 시작 */}
+          <div className={classes.largeBox}>
+            {/* 빈칸 */}
+            <div className={classes.blankLineBox}>{renderTopBlank()}</div>
+            {/* 빈칸 끝 */}
+            <div className={classes.lineBox}>
+              {/* 1 */}
+              <TextSmallBox innerText="또" />
+              <TextSmallBox innerText="박" />
+              <TextSmallBox innerText="또" />
+              <TextSmallBox innerText="박" />
+              <TextSmallBox innerText="이" />
+              <TextSmallBox innerText="태" />
+              <TextSmallBox innerText="성" />
+              <TextSmallBox innerText="체" />
+              <TextSmallBox />
+              <TextSmallBox />
+              <TextSmallBox />
+              <TextSmallBox />
+              <TextSmallBox />
+              <TextSmallBox />
+              <TextSmallBox />
+              <TextSmallBox />
+            </div>
+
+            <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
+            {renderLineBoxes(1)}
+            {/* 빈칸 */}
+            <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
+            {/* 빈칸 끝 */}
+            {/* 라인 시작 */}
+            <div className={classes.lineBox}>
+              {/* 1 */}
+              <TextSmallBox />
+              <TextSmallBox innerText="가" />
+              <TextSmallBox innerText="나" />
+              <TextSmallBox innerText="다" />
+              <TextSmallBox innerText="라" />
+              <TextSmallBox innerText="마" />
+              <TextSmallBox innerText="바" />
+              <TextSmallBox innerText="사" />
+              <TextSmallBox innerText="아" />
+              <TextSmallBox innerText="자" />
+              <TextSmallBox innerText="차" />
+              <TextSmallBox innerText="카" />
+              <TextSmallBox innerText="타" />
+              <TextSmallBox innerText="파" />
+              <TextSmallBox innerText="하" />
+              <TextSmallBox />
+            </div>
+            {/* 라인 끝 */}
+            {/* 빈칸 */}
+            <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
+            {/* 빈칸 끝 */}
+            {/* 세번 째 줄 */}
+            {/* 라인 시작 */}
+            <div className={classes.lineBox}>
+              {/* 1 */}
+              <TextSmallBox />
+              <TextSmallBox innerText="다" />
+              <TextSmallBox innerText="람" />
+              <TextSmallBox innerText="쥐" />
+              <TextSmallBox />
+              <TextSmallBox innerText="헌" />
+              <TextSmallBox />
+              <TextSmallBox innerText="쳇" />
+              <TextSmallBox innerText="바" />
+              <TextSmallBox innerText="퀴" />
+              <TextSmallBox innerText="에" />
+              <TextSmallBox />
+              <TextSmallBox innerText="타" />
+              <TextSmallBox innerText="고" />
+              <TextSmallBox innerText="파" />
+              <TextSmallBox />
+            </div>
+            {/* 라인 끝 */}
+            {/* 빈칸 */}
+            <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
+            {/* 빈칸 끝 */}
+            {renderLineBoxes(2)}
+            {/* 빈칸 */}
+            <div className={classes.blankLineBox}>{renderBottomBlank()}</div>
+            {/* 빈칸 끝 */}
+          </div>
+          {/* 원고지 끝 */}
+          {/* 원고지 푸터 시작 */}
+          <div className={classes.footerBox}>
+            <div className={classes.footerTextBox}>
+              <p className={classes.footerText}>16 X 6</p>
             </div>
           </div>
-          {/* 의 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>의</p>
-            </div>
+          {/* 원고지 푸터 끝 */}
+          <div className={modalClasses.modalBox} style={{ justifyContent: 'center' }}>
+            <button
+              className={modalClasses.modalBtn}
+              style={{ backgroundColor: mainRedColor, color: 'white' }}
+              onClick={clickResultHandler}
+            >
+              제작취소
+            </button>
+            <button
+              className={modalClasses.modalBtn}
+              style={{ backgroundColor: 'white', fontWeight: 'bold' }}
+            >
+              결제하기
+            </button>
           </div>
-          {/* 빈칸 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          {/* 손 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>손</p>
-            </div>
-          </div>
-          {/* 글 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>글</p>
-            </div>
-          </div>
-          {/* 씨 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>씨</p>
-            </div>
-          </div>
-          {/* 를 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>를</p>
-            </div>
-          </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-        </div>
-        {/* 라인 끝 */}
-        {/* 빈칸 */}
-        <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-        {/* 빈칸 끝 */}
-        {/* 세번 째 줄 */}
-        {/* 라인 시작 */}
-        <div className={classes.lineBox}>
-          {/* 1 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          {/* 폰 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>폰</p>
-            </div>
-          </div>
-          {/* 트 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>트</p>
-            </div>
-          </div>
-          {/* 로 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>로</p>
-            </div>
-          </div>
-          {/* 빈칸 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          {/* 만 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>만</p>
-            </div>
-          </div>
-          {/* 들 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>들</p>
-            </div>
-          </div>
-          {/* 어 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>어</p>
-            </div>
-          </div>
-          {/* 빈칸 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          {/* 드 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>드</p>
-            </div>
-          </div>
-          {/* 립 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>립</p>
-            </div>
-          </div>
-          {/* 니 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>니</p>
-            </div>
-          </div>
-          {/* 다 */}
-          <div className={classes.smallBox}>
-            <div className={classes.content}>
-              <p className={classes.contentText}>다</p>
-            </div>
-          </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-          <div className={classes.smallBox}>
-            <div className={classes.content}></div>
-          </div>
-        </div>
-        {/* 라인 끝 */}
-        {/* 빈칸 */}
-        <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-        {/* 빈칸 끝 */}
-        {renderLineBoxes(2)}
-        {/* 빈칸 */}
-        <div className={classes.blankLineBox}>{renderBottomBlank()}</div>
-        {/* 빈칸 끝 */}
-      </div>
-      {/* 원고지 끝 */}
-      {/* 원고지 푸터 시작 */}
-      <div className={classes.footerBox}>
-        <div className={classes.footerTextBox}>
-          <p className={classes.footerText}>16 X 6</p>
         </div>
       </div>
-      {/* 원고지 푸터 끝 */}
-    </div>
+    </ReactModal>
   );
 };
 export default FontResultModal;
@@ -366,4 +251,18 @@ const renderBottomBlank = () => {
     );
   }
   return boxes;
+};
+
+interface TextSmallBoxProps {
+  innerText?: string;
+}
+
+const TextSmallBox: React.FC<TextSmallBoxProps> = ({ innerText }) => {
+  return (
+    <div className={classes.smallBox}>
+      <div className={classes.content}>
+        <p className={modalClasses.modalContentText}>{innerText}</p>
+      </div>
+    </div>
+  );
 };
