@@ -19,6 +19,7 @@ import MakerPage from 'pages/makerPage/MakerPage';
 // components
 import FontDetailPage from './componentPages/fontDetailComponent/FontDetail';
 import FontOptionPage from 'componentPages/fontMakePageComponent/FontOptionPage';
+import MyPagePointPage from 'componentPages/myPagePointPage/MyPagePointPage';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
       { path: '/fontMake/:fontId', element: <FontOptionPage /> },
       { path: '/faqPage', element: <FaqPage /> },
       { path: '/maker', element: <MakerPage /> },
+      { path: '/point', element: <MyPagePointPage /> },
     ],
   },
 ]);
