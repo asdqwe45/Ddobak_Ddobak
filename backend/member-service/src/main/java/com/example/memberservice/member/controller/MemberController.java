@@ -2,9 +2,12 @@ package com.example.memberservice.member.controller;
 
 import com.example.memberservice.member.dto.request.EmailVerificationRequest;
 import com.example.memberservice.member.dto.request.EmailVerifyRequest;
+import com.example.memberservice.member.dto.request.MemberLoginRequest;
 import com.example.memberservice.member.dto.request.SignUpRequest;
+import com.example.memberservice.member.dto.response.TokenResponse;
 import com.example.memberservice.member.service.EmailService;
 import com.example.memberservice.member.service.MemberService;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.internal.build.AllowPrintStacktrace;
@@ -55,4 +58,15 @@ public class MemberController {
 
         return ResponseEntity.noContent().build();
     }
+
+    // 로그인
+    @PostMapping("/login")
+    public ResponseEntity<TokenResponse> memberLogin(@RequestBody @Valid MemberLoginRequest memberLoginRequest) {
+        log.info("{} requst Login", memberLoginRequest.email());
+
+        TokenResponse tokenResponse = memberService.loginMember(memberLoginRequest);
+
+        return ResponseEntity.ok().body(tokenResponse);
+    }
+
 }

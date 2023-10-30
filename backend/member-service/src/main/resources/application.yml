@@ -25,6 +25,10 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 
+jwt:
+  token:
+    secret: ${JWT_SECRET_KEY}
+
 cloud:
   aws:
     s3:
