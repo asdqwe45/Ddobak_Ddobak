@@ -4,7 +4,7 @@ import NavLogo from '../common/commonAssets/ddobak_logo.png';
 
 const NavBar: React.FC = () => {
   return (
-    <nav className={classes.header}>
+    <div className={classes.header}>
       <div className={classes.list}>
         <div className={classes.leftBox}>
           <div className={classes.logoBox}>
@@ -64,7 +64,7 @@ const NavBar: React.FC = () => {
             </div> */}
         </div>
       </div>
-    </nav>
+    </div>
   );
 };
 export default NavBar;

@@ -38,8 +38,8 @@ const FontResultModal: React.FC = () => {
       isOpen={showResultModal}
       onRequestClose={closeModal}
       shouldCloseOnOverlayClick={true}
+      className={modalClasses.overLay}
     >
-      <div className={modalClasses.overLay}>
         <div className={modalClasses.modalContainer}>
           <div className={modalClasses.modalBox} style={{ justifyContent: 'flex-end' }}>
             <AiOutlineClose
@@ -166,7 +166,6 @@ const FontResultModal: React.FC = () => {
             </button>
           </div>
         </div>
-      </div>
     </ReactModal>
   );
 };
