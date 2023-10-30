@@ -74,6 +74,10 @@ import Test4 from './myPageAssets/Test4.png';
 import Test5 from './myPageAssets/Test5.png';
 import Test6 from './myPageAssets/Test6.png';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { resultModalActions } from 'store/resultModalSlice';
+
 const MyPage: React.FC = () => {
   const [pageLocation, setPageLocation] = useState({
     productsState: true,
@@ -139,6 +143,12 @@ const MyPage: React.FC = () => {
   };
   const changePwClick = () => {
     console.log('change Pw');
+  };
+
+  // redux
+  const dispatch = useDispatch();
+  const clickResultHandler = () => {
+    dispatch(resultModalActions.toggle());
   };
 
   return (
@@ -258,7 +268,7 @@ const MyPage: React.FC = () => {
                   </ContentInnerLeft>
                   <ContentInnerRight>
                     <ContentGrayDisabled>제작완료</ContentGrayDisabled>
-                    <ContentRedBtn>결과확인</ContentRedBtn>
+                    <ContentRedBtn onClick={clickResultHandler}>결과확인</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
                 {/* 이게 한 콘텐트 */}
@@ -626,6 +636,7 @@ const MyPage: React.FC = () => {
           )}
         </MyPageContent>
       </div>
+      {/* result modal 실행 */}
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import { createSlice, type PayloadAction, configureStore } from '@reduxjs/toolkit';
 
-const initialState = { value: 0, showCounter: true };
+import resultModalSlice from './resultModalSlice';
+
+const initialState = { value: 0, showCounter: true, showModal: false };
 
 interface IncreaseAction {
   amount: number;
@@ -26,7 +28,7 @@ const counterSlice = createSlice({
 });
 
 const store = configureStore({
-  reducer: { counter: counterSlice.reducer },
+  reducer: { counter: counterSlice.reducer, resultModal: resultModalSlice.reducer },
 });
 
 export const counterActions = counterSlice.actions;
