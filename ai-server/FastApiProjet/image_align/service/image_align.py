@@ -4,11 +4,9 @@ from PIL import Image
 import io
 
 
-def auto_detect_edges(image_path):
+def auto_detect_edges(image):
     # 이미지 읽기
-    image = cv2.imread(image_path)
-    if image is None:
-        raise FileNotFoundError(f"Image not found at {image_path}")
+    image = cv2.imread(image)
 
     # 그레이스케일로 변환
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -37,9 +35,9 @@ def auto_detect_edges(image_path):
         raise ValueError("Could not find a table with four corners.")
 
 
-def correct_perspective_auto(image_path):
+def correct_perspective_auto(image):
     # 4개의 모서리 좌표 자동 감지
-    corners = auto_detect_edges(image_path)
+    corners = auto_detect_edges(image)
 
     # 표의 네 모서리를 정렬: 상단 왼쪽, 상단 오른쪽, 하단 오른쪽, 하단 왼쪽
     s = corners.sum(axis=1)
@@ -66,9 +64,9 @@ def correct_perspective_auto(image_path):
     matrix = cv2.getPerspectiveTransform(rect, dst)
 
     # 이미지 로드
-    image = cv2.imread(image_path)
+    image = cv2.imread(image)
     if image is None:
-        raise FileNotFoundError(f"Image not found at {image_path}")
+        raise FileNotFoundError("no image")
 
     # 원근 변환 적용
     corrected_image = cv2.warpPerspective(image, matrix, (maxWidth, maxHeight))
@@ -79,18 +77,18 @@ def correct_perspective_auto(image_path):
     # print(f"Corrected image is saved at {output_path}")
 
 
-def find_and_crop_table(image_path, output_path):
+def find_and_crop_table(image):
     # 이미지 파일 읽기
-    image = correct_perspective_auto(image_path)
+    image = correct_perspective_auto(image)
 
     # # 그레이스케일로 변환
-    # gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     # # 가우시안 블러를 사용한 이미지 블러링 (노이즈 제거)
-    # blurred = cv2.GaussianBlur(gray, (9, 9), 0)
+    blurred = cv2.GaussianBlur(gray, (9, 9), 0)
 
     # 캐니 엣지 디텍션을 이용하여 엣지 찾기
-    edged = cv2.Canny(image, 50, 150)
+    edged = cv2.Canny(blurred, 50, 150)
 
     # 윤곽선 찾기
     contours, _ = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -104,23 +102,24 @@ def find_and_crop_table(image_path, output_path):
         x, y, w, h = rects[0]
 
         # 원본 이미지에서 표 부분만 자르기
-        cropped_table = image[y + 2:y + h - 2, x + 2:x + w - 2]
+        cropped_table = blurred[y + 2:y + h - 2, x + 2:x + w - 2]
 
-        # 결과 이미지 저장
-        cv2.imwrite(output_path, cropped_table)
-        print(f"Cropped image is saved at {output_path}")
+        # 결과 이미지 리턴
+        _,buffer=cv2.imencode('.png',cropped_table)
+        cropped_byte_image=io.BytesIO(buffer.tobytes())
+
+        return cropped_byte_image
+
     else:
         print("No table found in the image.")
 
 
 def process_image(file_bytes: bytes):
-    image_stream = io.BytesIO(file_bytes)
-    image_stream.seek(0)
-    file_bytes = np.asarray(bytearray(image_stream.read()), dtype=np.uint8)
-    image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+    nparr = np.frombuffer(file_bytes, np.uint8)
+    image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
     # 여기에 이미지 처리 로직을 넣는다.
     # 예를 들면, find_and_crop_table 함수를 호출한다.
-    cropped_image = find_and_crop_table(image)  # find_and_crop_table 함수 정의 필요
+    cropped_byte_image = find_and_crop_table(image)  # find_and_crop_table 함수 정의 필요
 
-    return cropped_image
+    return cropped_byte_image
