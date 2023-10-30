@@ -129,6 +129,12 @@ const FontOptionPage: React.FC = () => {
       </div>
       <br /><hr /><br />
       {/* 완료 or 저장하기 버튼 */}
+      <div className={classes.btnContainer}>
+          <button 
+          className={classes.nextBtn}>
+            저장
+          </button>
+      </div>
     </>
   );
 };

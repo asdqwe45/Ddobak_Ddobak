@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   /* 라디오 버튼 간 간격 */
-  margin-right: 30px;
+  margin-right: 45px;
 }
 
 /* 기존 라디오 버튼 */
@@ -27,8 +27,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 19px;
-  height: 19px;
+  width: 17px;
+  height: 17px;
   border: 2px solid #ccc;
   border-radius: 50%;
   background-color: #fff;
@@ -43,8 +43,8 @@
 
 /* 선택 후 버튼 가운데 */
 .radioLabel:after {
-  width: 13px;
-  height: 13px;
+  width: 10px;
+  height: 10px;
   position: absolute;
   top: 5px;
   left: 5px;
