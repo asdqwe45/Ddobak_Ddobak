@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import classes from '../../pages/mainPage/mainPageComponents/MainPageLargeManuscript.module.css';
 import modalClasses from './FontResultModal.module.css';
 import ReactModal from 'react-modal';
@@ -29,6 +30,9 @@ const FontResultModal: React.FC = () => {
   const closeModal = () => {
     clickResultHandler();
   };
+  useEffect(() => {
+    ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
+  }, []);
   return (
     <ReactModal
       isOpen={showResultModal}
