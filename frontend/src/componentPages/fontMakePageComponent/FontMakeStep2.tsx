@@ -5,21 +5,28 @@ import MinuGuide from './fontMakePageAssets/guideline_ex.png';
 import { FaRegTimesCircle } from 'react-icons/fa';
 
 const FontMakeStep2: React.FC = () => {
-  const [fileNames, setFileNames] = useState<string[]>([]);
+  const [files, setFiles] = useState<{ src: string; name: string }[]>([]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files) {
-      const newFileNames: string[] = [];
-      for (let i = 0; i < files.length; i++) {
-        newFileNames.push(files[i].name);
-      }
-      setFileNames((prev) => [...prev, ...newFileNames]);
+    const fileList = event.target.files;
+    if (fileList) {
+      const newFiles: { src: string; name: string }[] = [];
+
+      Array.from(fileList).forEach((file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          newFiles.push({ src: reader.result as string, name: file.name });
+          if (newFiles.length === fileList.length) {
+            setFiles((prev) => [...prev, ...newFiles]);
+          }
+        };
+      });
     }
   };
 
   const removeFile = (index: number) => {
-    setFileNames((prev) => prev.filter((_, i) => i !== index));
+    setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -46,19 +53,27 @@ const FontMakeStep2: React.FC = () => {
             <label htmlFor="fileInput">파일 업로드 click!</label>
           </div>
           <div className={classes.upLoadList}>
-
-            {/* 업로드한 이미지 미리보기 넣기 */}
-
-            {fileNames.map((name, index) => (
+            {files.map((file, index) => (
               <div key={index} className={classes.upLoadFile}>
-                {name}
-                {/* 아이콘 클릭 시 파일명 삭제 */}
-                <FaRegTimesCircle
-                  className={classes.deleteIcon}
-                  onClick={() => removeFile(index)}
-                />
-              </div>
+                    <div className={classes.upLoadFileName}>
+                      <FaRegTimesCircle
+                        className={classes.deleteIcon}
+                        onClick={() => removeFile(index)}
+                      />
+                      {file.name}
+                    </div>
+                    <img src={file.src} alt={file.name} /> {/* 이미지 미리보기 */}
+                    {file.src &&
+                      <div className={classes.btnContainer}>
+                        <button
+                          className={classes.nextBtn}>
+                          이미지 반듯하게
+                        </button>
+                      </div>
+                    }
+                  </div>
             ))}
+
           </div>
         </div>
       </div>

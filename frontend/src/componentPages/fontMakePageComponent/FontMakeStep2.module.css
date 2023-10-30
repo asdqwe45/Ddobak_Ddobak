@@ -34,17 +34,16 @@
 }
 
 .upLoadContainer {
-  padding: 0 50px;
-  margin-bottom: 55px;
+  padding: 0 40px;
 }
 
 .upLoadBar {
   border: 1px solid #b6b6b6;
-  margin: 20px 0;
-  padding: 18px 30px;
+  margin-bottom: 15px;
+  padding: 15px 30px;
   border-radius: 30px;
-  width: 350px;
-  font-size: 18px;
+  width: 550px;
+  font-size: 20px;
   cursor: pointer;
 }
 
@@ -54,22 +53,35 @@ label {
 
 .upLoadList {
   border: 1px solid #b6b6b6;
-  margin: 20px 0;
   padding: 25px 30px;
   border-radius: 30px;
-  width: 350px;
-  height: 220px;
+  width: 550px;
+  height: 300px;
   font-size: 18px;
+  display: flex;
+  /* 내용이 박스를 초과하면 스크롤 생성 */
+  overflow-y: hidden;
+  overflow-x: auto;
 }
 
 .upLoadFile {
   display: flex;
+  flex-direction: column;
+}
+
+.upLoadFileName {
+  display: flex;
   align-items: center;
-  line-height: 30px;
+  font-size: 20px;
+}
+
+.upLoadFile img {
+  height: 200px;
+  margin: 10px 0;
 }
 
 .deleteIcon {
-  margin-left: 10px;
+  margin-right: 10px;
   color: #484848;
   cursor: pointer;
 }
@@ -78,4 +90,26 @@ label {
   white-space: pre-line;
   font-size: 24px;
   padding: 0 20px;
+}
+
+.btnContainer {
+  margin: auto;
+}
+
+.nextBtn {
+  background-color: #d71718;
+  border-radius: 10px;
+  width: 190px;
+  height: 45px;
+  text-align: center;
+  color: white;
+  font-size: 19px;
+  border: none;
+}
+
+.nextBtn:hover {
+  background-color: #ffffff;
+  color: #d71718;
+  border: 2px solid #d71718;
+  cursor: pointer;
 }
