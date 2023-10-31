@@ -2,11 +2,15 @@ package com.example.memberservice.member.service;
 
 import com.example.memberservice.global.exception.ErrorCode;
 import com.example.memberservice.global.service.S3Service;
+import com.example.memberservice.member.dto.request.MemberLoginRequest;
 import com.example.memberservice.member.dto.request.SignUpRequest;
+import com.example.memberservice.member.dto.response.TokenResponse;
 import com.example.memberservice.member.entity.Member;
+import com.example.memberservice.member.entity.SignUpType;
 import com.example.memberservice.member.exception.EmailException;
 import com.example.memberservice.member.exception.MemberException;
 import com.example.memberservice.member.repository.MemberRepository;
+import com.example.memberservice.security.util.JwtProvider;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Optional;
@@ -14,6 +18,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,8 +36,12 @@ public class MemberService {
     private final EmailService emailService;
     private final S3Service s3Service;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
 
     private final RedisTemplate<String, String> redisTemplate;
+
+    @Value("${jwt.token.secret}")
+    private String secretKey;
 
     public void sendCodeToEmail(String email) {
         checkDuplicatedEmail(email);
@@ -77,6 +86,27 @@ public class MemberService {
         }
 
         memberRepository.save(member);
+    }
+
+    public TokenResponse loginMember(MemberLoginRequest memberLoginRequest) {
+        // 회원 검색
+        Member member = findByEmailGeneral(memberLoginRequest.email(), SignUpType.GENERAL);
+
+        // 비밀번호 확인
+        if(!passwordEncoder.matches(memberLoginRequest.loginPassword(), member.getLoginPassword())) {
+            throw new MemberException(ErrorCode.INVALID_PASSWORD);
+        }
+
+        // 토큰 생성
+        String accessToken = jwtProvider.createAccessToken(member.getId(), member.getEmail(), secretKey);
+        String refreshToken = jwtProvider.createRefreshToken(member.getEmail(), secretKey);
+
+        return new TokenResponse(member.getId(), accessToken, refreshToken);
+    }
+
+    private Member findByEmailGeneral(String email, SignUpType signUpType) {
+        return memberRepository.findByEmailAndSignUpType(email,signUpType)
+                               .orElseThrow(() -> new MemberException(ErrorCode.USER_NOT_FOUND));
     }
 
     private String createCode() {

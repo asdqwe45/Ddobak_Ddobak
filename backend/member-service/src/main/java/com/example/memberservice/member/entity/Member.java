@@ -5,6 +5,8 @@ import com.example.memberservice.member.dto.request.SignUpRequest;
 import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +24,7 @@ public class Member extends UserInfo {
     @Column(nullable = false)
     private String nickname;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private SignUpType signUpType;
 
@@ -43,7 +46,6 @@ public class Member extends UserInfo {
             .introduceText("안녕하세요! "+signUpRequest.nickname()+"입니다.")
             .productionStatus(false)
             .build();
-
     }
 
     public void registerProfileImg(String profileImgAddress) {
