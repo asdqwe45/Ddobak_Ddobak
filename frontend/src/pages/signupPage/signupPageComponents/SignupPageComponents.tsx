@@ -6,12 +6,12 @@ export const NotValid = styled.p`
   font-size: 14px;
 `;
 export const TimerText = styled.h1`
-    margin: 0px 20px;
-    font-size: 14px;
-`
+  margin: 0px 20px;
+  font-size: 14px;
+`;
 export const EmailCheckBox = styled.div`
-    display: flex;
-    justify-content: space-between;
-    box-sizing: border-box;
-    width: 100%;
-`
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 100%;
+`;

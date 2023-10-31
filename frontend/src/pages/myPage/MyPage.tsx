@@ -77,6 +77,7 @@ import Test6 from './myPageAssets/Test6.png';
 // redux
 import { useDispatch } from 'react-redux';
 import { resultModalActions } from 'store/resultModalSlice';
+import { changePwModalActions } from 'store/changePwModalSlice';
 
 // navigation
 import { NavLink } from 'react-router-dom';
@@ -144,14 +145,14 @@ const MyPage: React.FC = () => {
   const exchangeClick = () => {
     console.log('exchange');
   };
-  const changePwClick = () => {
-    console.log('change Pw');
-  };
 
   // redux
   const dispatch = useDispatch();
   const clickResultHandler = () => {
     dispatch(resultModalActions.toggle());
+  };
+  const clickChangePwHandler = () => {
+    dispatch(changePwModalActions.toggle());
   };
 
   return (
@@ -172,7 +173,7 @@ const MyPage: React.FC = () => {
                   className={classes.pencilBtn}
                 />
               </ProfilNameBox>
-              <ChangePassword onClick={changePwClick}>비밀번호 변경</ChangePassword>
+              <ChangePassword onClick={clickChangePwHandler}>비밀번호 변경</ChangePassword>
             </ProfileContent>
           </IngredientContent>
         </ProfileBox>
