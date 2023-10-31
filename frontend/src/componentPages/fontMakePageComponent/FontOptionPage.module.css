@@ -1,0 +1,72 @@
+.rowContainer {
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+}
+
+/* 폰트 이름 설정 */
+.name {
+    display: flex;
+    margin-top: 20px;
+}
+
+.nameInput {
+    display: flex;
+    align-items: center;
+}
+
+.rowContainer input,
+.nameInput input {
+    margin-left: 20px;
+    /* height: 50px; */
+    /* width: 20vw; */
+    font-size: 20px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding-left: 15px;
+}
+
+.nameInput button {
+    border-radius: 10px;
+    background-color: #484848;
+    color: #fff;
+    height: 50px;
+    font-size: 18px;
+    padding: 15px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* 저작권 관계 명시 */
+.priceContainer {
+    display: flex;
+
+}
+
+/* 하단 버튼 */
+.btnContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+}
+
+.nextBtn {
+    background-color: #484848;
+    border-radius: 10px;
+    width: 140px;
+    height: 50px;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    border: none;
+}
+
+.nextBtn:hover {
+    background-color: #ffffff;
+    color: #484848;
+    border: 2px solid #484848;
+    cursor: pointer;
+}

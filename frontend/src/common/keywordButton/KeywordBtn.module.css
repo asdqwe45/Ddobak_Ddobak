@@ -1,15 +1,22 @@
 .btnContainer {
   display: flex;
+  justify-content: center;
 }
 
 .keyword {
   border: 2px solid #d71718;
   border-radius: 30px;
-  font-size: 19px;
-  width: 160px;
-  height: 45px;
+  font-size: 21px;
+  width: 200px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 20px;
+  margin-top: 18px;
+  margin-right: 25px;
+}
+
+.keyword:hover {
+  color: #fff;
+  background-color: #d71718;
 }

@@ -1,0 +1,13 @@
+.loadingContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.loadingInfo {
+    font-size: 23px;
+    text-align: center;
+    font-weight: 600;
+    line-height: 13px;
+}
