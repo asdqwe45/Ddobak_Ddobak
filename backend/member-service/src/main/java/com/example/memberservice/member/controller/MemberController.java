@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,7 +52,7 @@ public class MemberController {
 
    // 회원 가입
     @PostMapping("/signup")
-    public ResponseEntity<Void> singUpMember(@RequestBody SignUpRequest signUpRequest, MultipartFile profileImg) {
+    public ResponseEntity<Void> singUpMember(@RequestPart SignUpRequest signUpRequest, @RequestPart(required = false) MultipartFile profileImg) {
         log.info("{} request signUp", signUpRequest.email());
 
         memberService.signUpMember(signUpRequest, profileImg);
@@ -62,7 +63,7 @@ public class MemberController {
     // 로그인
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> memberLogin(@RequestBody @Valid MemberLoginRequest memberLoginRequest) {
-        log.info("{} requst Login", memberLoginRequest.email());
+        log.info("{} request Login", memberLoginRequest.email());
 
         TokenResponse tokenResponse = memberService.loginMember(memberLoginRequest);
 
