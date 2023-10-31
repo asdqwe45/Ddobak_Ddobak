@@ -79,12 +79,6 @@ def find_and_crop_table(image_path, output_path):
     # 이미지 파일 읽기
     image = correct_perspective_auto(image_path)
 
-    # # 그레이스케일로 변환
-    # gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    # # 가우시안 블러를 사용한 이미지 블러링 (노이즈 제거)
-    # blurred = cv2.GaussianBlur(gray, (9, 9), 0)
-
     # 캐니 엣지 디텍션을 이용하여 엣지 찾기
     edged = cv2.Canny(image, 50, 150)
 

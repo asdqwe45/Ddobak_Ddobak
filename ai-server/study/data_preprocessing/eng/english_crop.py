@@ -9,7 +9,7 @@ from cv2 import bilateralFilter
 import numpy as np
 
 def crop_image_uniform(src_dir, dst_dir):
-    f = open("template.txt", "r")
+    f = open("eng_template.txt", "r")
     if not os.path.exists(dst_dir):
         os.makedirs(dst_dir)
 
@@ -19,8 +19,8 @@ def crop_image_uniform(src_dir, dst_dir):
     cell_width = width/float(cols)
     cell_height = height/float(rows)
     header_offset = height/float(rows) * header_ratio
-    width_margin = cell_width * 0.10
-    height_margin = cell_height * 0.10
+    width_margin = cell_width * 0.05
+    height_margin = cell_height * 0.05
 
     for j in range(0,rows):
         for i in range(0,cols):
@@ -50,7 +50,7 @@ def crop_image_uniform(src_dir, dst_dir):
             if not code:
                 break
             else:
-                name = dst_dir + "/" + chr(int(code.strip(),16)) + ".png"
+                name = dst_dir + "/" + code.strip() + ".png"
                 cropped_image = img.crop((left, upper, right, lower))
                 cropped_image = cropped_image.resize((128,128), Image.LANCZOS)
                 # Increase constrast
@@ -69,7 +69,7 @@ parser.add_argument('--dst_dir', dest='dst_dir', required=True, help='directory 
 args = parser.parse_args()
 
 if __name__ == "__main__":
-    rows = 3
+    rows = 8
     cols = 12
     header_ratio = 16.5/(16.5+42)
     crop_image_uniform(args.src_dir, args.dst_dir)
