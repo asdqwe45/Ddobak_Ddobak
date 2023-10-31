@@ -13,6 +13,11 @@ import styled from '@emotion/styled';
 
 import { NotValid, TimerText, EmailCheckBox } from './signupPageComponents/SignupPageComponents';
 
+//  ===================
+//  ===    axios    ===
+//  ===================
+import { userEmailVerifyAPI, userEmailVerifyRequest, userSignup } from 'https/utils/AuthFunction';
+
 const Circle = styled.div`
   width: 36px;
   height: 36px;
@@ -120,21 +125,27 @@ const SignupPage: React.FC = () => {
     setIsActive(true);
     setTimer(300); // 5분 = 300초
   };
-  const clickCheckBtn = () => {
+  const clickCheckBtn = async () => {
     // 타이머 실행
     // 인증번호 재발송 버튼 활성화
     // 인증번호 유효한지 확인
-    startTimer();
+    const email = emailInputRef.current?.value;
+    console.log(email);
+    if (email) {
+      await userEmailVerifyRequest(email)
+        .then((r) => console.log(r))
+        .catch((e) => console.error(e));
+    }
+    await startTimer();
   };
 
-const changeEmail = () => {
-  setIsActive(false)
-  setTimer(null)
-}
+  const changeEmail = () => {
+    setIsActive(false);
+    setTimer(null);
+  };
 
-// 인증번호 확인
-const [isValidCheckNumber, setIsValidCheckNumber] = useState<boolean>(false);
-
+  // 인증번호 확인
+  const [isValidCheckNumber, setIsValidCheckNumber] = useState<boolean>(false);
 
   return (
     <div className={classes.container}>
@@ -169,7 +180,7 @@ const [isValidCheckNumber, setIsValidCheckNumber] = useState<boolean>(false);
           disabled={!isValidEmail}
           onClick={clickCheckBtn}
         >
-          {timer !== null ? "재인증" : "인증"}
+          {timer !== null ? '재인증' : '인증'}
         </button>
         {isValidEmail ? <></> : <NotValid>이메일이 유효하지 않습니다.</NotValid>}
         {/* 타이머 출력 */}
@@ -179,7 +190,13 @@ const [isValidCheckNumber, setIsValidCheckNumber] = useState<boolean>(false);
               남은 시간: {Math.floor(timer / 60)}분 {timer % 60}초
             </TimerText>
           )}
-          {timer !== null && isValidEmail ? <TimerText onClick={changeEmail} style={{cursor: "pointer"}}>이메일 변경</TimerText> : <></>}
+          {timer !== null && isValidEmail ? (
+            <TimerText onClick={changeEmail} style={{ cursor: 'pointer' }}>
+              이메일 변경
+            </TimerText>
+          ) : (
+            <></>
+          )}
         </EmailCheckBox>
       </div>
       <div>
