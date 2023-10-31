@@ -51,7 +51,7 @@ import Noncommercial from './myPageAssets/Noncommercial.png';
 import { FiSettings } from 'react-icons/fi';
 import { FaCircleUser } from 'react-icons/fa6';
 import { FaPencilAlt } from 'react-icons/fa';
-import { bolderColor } from 'common/colors/CommonColors';
+import { borderColor } from 'common/colors/CommonColors';
 import { FaBookmark, FaRegCheckSquare, FaRegSquare } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
 
@@ -77,6 +77,9 @@ import Test6 from './myPageAssets/Test6.png';
 // redux
 import { useDispatch } from 'react-redux';
 import { resultModalActions } from 'store/resultModalSlice';
+
+// navigation
+import { NavLink } from 'react-router-dom';
 
 const MyPage: React.FC = () => {
   const [pageLocation, setPageLocation] = useState({
@@ -157,7 +160,7 @@ const MyPage: React.FC = () => {
         <ProfileBox>
           <IngredientContent>
             <ProfilImgBox>
-              <FaCircleUser color={bolderColor} className={classes.ImgStyle} />
+              <FaCircleUser color={borderColor} className={classes.ImgStyle} />
             </ProfilImgBox>
             <ProfileContent>
               <ProfilNameBox>
@@ -181,7 +184,9 @@ const MyPage: React.FC = () => {
                 <PointHeaderText>10,000P</PointHeaderText>
               </PointHeader>
               <PointBtnBox>
-                <PointTransactionBtn onClick={transactionClick}>거래내역</PointTransactionBtn>
+                <NavLink to={'/point'}>
+                  <PointTransactionBtn onClick={transactionClick}>거래내역</PointTransactionBtn>
+                </NavLink>
                 <PointExchangeBtn onClick={exchangeClick}>인출하기</PointExchangeBtn>
               </PointBtnBox>
             </PointIngredient>

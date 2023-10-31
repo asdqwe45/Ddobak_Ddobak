@@ -37,7 +37,7 @@
 
 /* 선택 후 버튼 배경 */
 .radioInput:checked + .radioLabel:before {
-  border-color: #D71718;
+  border-color: #d71718;
   background-color: #fff;
 }
 
@@ -49,7 +49,7 @@
   top: 5px;
   left: 5px;
   border-radius: 50%;
-  background-color: #D71718;
+  background-color: #d71718;
   content: '';
   opacity: 0; /* 미선택 시 안보이게 */
   transition: opacity 0.3s;
