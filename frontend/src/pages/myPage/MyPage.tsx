@@ -78,6 +78,9 @@ import Test6 from './myPageAssets/Test6.png';
 import { useDispatch } from 'react-redux';
 import { resultModalActions } from 'store/resultModalSlice';
 
+// navigation
+import { NavLink } from 'react-router-dom';
+
 const MyPage: React.FC = () => {
   const [pageLocation, setPageLocation] = useState({
     productsState: true,
@@ -181,7 +184,9 @@ const MyPage: React.FC = () => {
                 <PointHeaderText>10,000P</PointHeaderText>
               </PointHeader>
               <PointBtnBox>
-                <PointTransactionBtn onClick={transactionClick}>거래내역</PointTransactionBtn>
+                <NavLink to={'/point'}>
+                  <PointTransactionBtn onClick={transactionClick}>거래내역</PointTransactionBtn>
+                </NavLink>
                 <PointExchangeBtn onClick={exchangeClick}>인출하기</PointExchangeBtn>
               </PointBtnBox>
             </PointIngredient>

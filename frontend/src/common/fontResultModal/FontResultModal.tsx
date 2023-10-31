@@ -102,9 +102,6 @@ const FontResultModal: React.FC = () => {
 
           <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
           {renderLineBoxes(1)}
-          {/* 빈칸 */}
-          <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-          {/* 빈칸 끝 */}
           {/* 라인 시작 */}
           <div className={classes.lineBox}>
             {/* 1 */}

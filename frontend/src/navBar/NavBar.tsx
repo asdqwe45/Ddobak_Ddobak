@@ -54,6 +54,14 @@ const NavBar: React.FC = () => {
               회원가입
             </NavLink>
           </div>
+          <div className={classes.loginBox}>
+            <NavLink
+              to="/myPage"
+              className={({ isActive }) => (isActive ? classes.active : undefined)}
+            >
+              마이페이지
+            </NavLink>
+          </div>
           {/* <div className={classes.smallBox}>
               <NavLink
                 to="/myPage"
