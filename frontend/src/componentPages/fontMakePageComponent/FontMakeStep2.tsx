@@ -55,25 +55,21 @@ const FontMakeStep2: React.FC = () => {
           <div className={classes.upLoadList}>
             {files.map((file, index) => (
               <div key={index} className={classes.upLoadFile}>
-                    <div className={classes.upLoadFileName}>
-                      <FaRegTimesCircle
-                        className={classes.deleteIcon}
-                        onClick={() => removeFile(index)}
-                      />
-                      {file.name}
-                    </div>
-                    <img src={file.src} alt={file.name} /> {/* 이미지 미리보기 */}
-                    {file.src &&
-                      <div className={classes.btnContainer}>
-                        <button
-                          className={classes.nextBtn}>
-                          이미지 반듯하게
-                        </button>
-                      </div>
-                    }
+                <div className={classes.upLoadFileName}>
+                  <FaRegTimesCircle
+                    className={classes.deleteIcon}
+                    onClick={() => removeFile(index)}
+                  />
+                  {file.name}
+                </div>
+                <img src={file.src} alt={file.name} /> {/* 이미지 미리보기 */}
+                {file.src && (
+                  <div className={classes.btnContainer}>
+                    <button className={classes.nextBtn}>이미지 반듯하게</button>
                   </div>
+                )}
+              </div>
             ))}
-
           </div>
         </div>
       </div>

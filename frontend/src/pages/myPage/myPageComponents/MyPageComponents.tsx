@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { mainRedColor, likeCountColor, bolderColor } from 'common/colors/CommonColors';
+import { mainRedColor, likeCountColor, borderColor } from 'common/colors/CommonColors';
 
 // const newInput = styled(가져올 변수이름)``
 export const IngredientBox = styled.div`
@@ -9,7 +9,7 @@ export const IngredientBox = styled.div`
 export const IngredientContent = styled.div`
   width: 100%;
   height: 100%;
-  border: 2px solid ${bolderColor};
+  border: 2px solid ${borderColor};
   border-radius: 10px;
   display: flex;
 `;
@@ -112,7 +112,7 @@ export const MyPageContent = styled.div`
   box-sizing: border-box;
   padding: 40px;
   border-radius: 10px;
-  border: 2px solid ${bolderColor};
+  border: 2px solid ${borderColor};
   display: flex;
 `;
 // 선택 상자
@@ -123,7 +123,7 @@ export const SelectBox = styled.div`
   box-sizing: border-box;
   padding: 20px 0px;
   padding-right: 40px;
-  border-right: 2px solid ${bolderColor};
+  border-right: 2px solid ${borderColor};
 `;
 
 export const SelectBtn = styled.button`
@@ -177,7 +177,7 @@ export const ContentIngredient = styled.div`
   box-sizing: border-box;
   padding: 10px 40px;
   border-radius: 15px;
-  border: 2px solid ${bolderColor};
+  border: 2px solid ${borderColor};
   margin-bottom: 20px;
   display: flex;
   justify-content: space-between;

@@ -5,6 +5,7 @@
   position: sticky;
   top: 0;
   background-color: white;
+  z-index: 9999;
 }
 
 .navImage {
@@ -40,7 +41,7 @@
 }
 .list a.active {
   color: #d71718;
-  height: 68px;
+  height: 67px;
   border-bottom: 4px solid #d71718;
 }
 

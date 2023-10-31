@@ -45,6 +45,7 @@
   display: flex;
   height: 40px;
   width: 100%;
+  margin-bottom: 3px;
 }
 .manuscriptLine {
   border: 2px solid #d71718;
