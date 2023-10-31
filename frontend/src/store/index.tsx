@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction, configureStore } from '@reduxjs/toolkit';
 
 import resultModalSlice from './resultModalSlice';
+import pointModalSlice from './pointPayModalSlice';
 
 const initialState = { value: 0, showCounter: true, showModal: false };
 
@@ -28,7 +29,11 @@ const counterSlice = createSlice({
 });
 
 const store = configureStore({
-  reducer: { counter: counterSlice.reducer, resultModal: resultModalSlice.reducer },
+  reducer: {
+    counter: counterSlice.reducer,
+    resultModal: resultModalSlice.reducer,
+    pointModal: pointModalSlice.reducer,
+  },
 });
 
 export const counterActions = counterSlice.actions;

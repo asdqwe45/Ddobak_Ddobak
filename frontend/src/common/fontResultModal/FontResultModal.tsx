@@ -6,9 +6,12 @@ import ReactModal from 'react-modal';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { resultModalActions } from 'store/resultModalSlice';
+import { pointPayModalActions } from 'store/pointPayModalSlice';
 
 import { mainRedColor } from 'common/colors/CommonColors';
 import { AiOutlineClose } from 'react-icons/ai';
+
+
 
 interface ResultModalState {
   resultModal: {
@@ -26,10 +29,20 @@ const FontResultModal: React.FC = () => {
     (state: ResultModalState) => state.resultModal.resultIsVisible,
   );
 
+
+
   // 모달을 닫을 때 onRequestClose 함수 호출
   const closeModal = () => {
     clickResultHandler();
   };
+
+  // 결제 모달 열기
+  const clickPayHandler = () => {
+    dispatch(pointPayModalActions.toggle())
+  }
+
+
+
   useEffect(() => {
     ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
   }, []);
@@ -39,6 +52,16 @@ const FontResultModal: React.FC = () => {
       onRequestClose={closeModal}
       shouldCloseOnOverlayClick={true}
       className={modalClasses.overLay}
+      style={{
+        content: {
+          zIndex: 10001, // NavBar보다 2 높게 설정
+          // ... other styles
+        },
+        overlay: {
+          zIndex: 10000, // NavBar보다 1 높게 설정
+          // ... other styles
+        }
+      }}
     >
         <div className={modalClasses.modalContainer}>
           <div className={modalClasses.modalBox} style={{ justifyContent: 'flex-end' }}>
@@ -161,6 +184,7 @@ const FontResultModal: React.FC = () => {
             <button
               className={modalClasses.modalBtn}
               style={{ backgroundColor: 'white', fontWeight: 'bold' }}
+              onClick={clickPayHandler}
             >
               결제하기
             </button>

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { bolderColor, likeCountColor } from '../../../common/colors/CommonColors';
+import { borderColor, likeCountColor } from '../../../common/colors/CommonColors';
 import {
   SelectBox,
   SelectBtn,
@@ -14,7 +14,7 @@ export const MyPagePointHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
-  border: 2px solid ${bolderColor};
+  border: 2px solid ${borderColor};
   border-radius: 15px;
   margin-bottom: 20px;
 `;
@@ -38,7 +38,7 @@ export const MyPagePointContentIngredient = styled.div`
   width: 100%;
   box-sizing: border-box;
   padding: 10px 20px;
-  border: 2px solid ${bolderColor};
+  border: 2px solid ${borderColor};
   border-radius: 15px;
   margin: 10px 0px;
   display: flex;

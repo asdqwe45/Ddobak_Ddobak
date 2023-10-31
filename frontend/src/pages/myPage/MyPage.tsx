@@ -51,7 +51,7 @@ import Noncommercial from './myPageAssets/Noncommercial.png';
 import { FiSettings } from 'react-icons/fi';
 import { FaCircleUser } from 'react-icons/fa6';
 import { FaPencilAlt } from 'react-icons/fa';
-import { bolderColor } from 'common/colors/CommonColors';
+import { borderColor } from 'common/colors/CommonColors';
 import { FaBookmark, FaRegCheckSquare, FaRegSquare } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
 
@@ -157,7 +157,7 @@ const MyPage: React.FC = () => {
         <ProfileBox>
           <IngredientContent>
             <ProfilImgBox>
-              <FaCircleUser color={bolderColor} className={classes.ImgStyle} />
+              <FaCircleUser color={borderColor} className={classes.ImgStyle} />
             </ProfilImgBox>
             <ProfileContent>
               <ProfilNameBox>
