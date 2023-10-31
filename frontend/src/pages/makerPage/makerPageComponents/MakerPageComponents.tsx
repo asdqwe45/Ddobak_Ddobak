@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
-import { bolderColor, likeCountColor } from '../../../common/colors/CommonColors';
+import { borderColor, likeCountColor } from '../../../common/colors/CommonColors';
 
 export const MakerTopBox = styled.div`
   height: 110px;
-  border: 1px solid ${bolderColor};
+  border: 1px solid ${borderColor};
   border-radius: 15px;
   padding: 30px 60px 30px 60px; // 상 우 하 좌
   display: flex;
@@ -21,7 +21,7 @@ export const MakerCommemtBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-right: 2px solid ${bolderColor};
+  border-right: 2px solid ${borderColor};
 `;
 
 export const MakerComment = styled.p`
@@ -45,13 +45,13 @@ export const MakerLikeCount = styled.p`
 export const MakerBottomBox = styled.div`
   margin-top: 20px;
   height: 410px;
-  border: 1px solid ${bolderColor};
+  border: 1px solid ${borderColor};
   border-radius: 15px;
   padding: 30px 60px 30px 60px; // 상 우 하 좌
 `;
 
 export const MakerBottomHeaderBox = styled.div`
-  border-bottom: 1px solid ${bolderColor};
+  border-bottom: 1px solid ${borderColor};
   height: 60px;
   align-items: center;
   margin-bottom: 40px;
@@ -70,10 +70,10 @@ export const MakerFontLargeBox = styled.div`
 
 export const MakerFontSmallBox = styled.div`
   height: 84px;
-  border: 1px solid ${bolderColor};
+  border: 1px solid ${borderColor};
   border-radius: 15px;
   margin-bottom: 20px;
-  box-shadow: 1px 1px 2px 2px ${bolderColor};
+  box-shadow: 1px 1px 2px 2px ${borderColor};
   padding: 25px 40px 25px 40px; // 상 우 하 좌
   display: flex; /* flex 컨테이너로 설정 */
   align-items: center;

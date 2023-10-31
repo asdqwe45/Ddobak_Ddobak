@@ -17,14 +17,14 @@ import {
 import { FaHeart } from 'react-icons/fa';
 // 빈 하트 FaRegHeart
 import { FaCircleUser } from 'react-icons/fa6';
-import { bolderColor } from 'common/colors/CommonColors';
+import { borderColor } from 'common/colors/CommonColors';
 
 const MakerPage: React.FC = () => {
   return (
     <div className={classes.container}>
       <MakerTopBox>
         <MakerSmallBox>
-          <FaCircleUser size={80} color={bolderColor} />
+          <FaCircleUser size={80} color={borderColor} />
           <MakerCommemtBox>
             <MakerName>김싸피</MakerName>
           </MakerCommemtBox>

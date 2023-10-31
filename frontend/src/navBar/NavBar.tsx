@@ -4,7 +4,7 @@ import NavLogo from '../common/commonAssets/ddobak_logo.png';
 
 const NavBar: React.FC = () => {
   return (
-    <nav className={classes.header}>
+    <div className={classes.header}>
       <div className={classes.list}>
         <div className={classes.leftBox}>
           <div className={classes.logoBox}>
@@ -54,6 +54,14 @@ const NavBar: React.FC = () => {
               회원가입
             </NavLink>
           </div>
+          <div className={classes.loginBox}>
+            <NavLink
+              to="/myPage"
+              className={({ isActive }) => (isActive ? classes.active : undefined)}
+            >
+              마이페이지
+            </NavLink>
+          </div>
           {/* <div className={classes.smallBox}>
               <NavLink
                 to="/myPage"
@@ -64,7 +72,7 @@ const NavBar: React.FC = () => {
             </div> */}
         </div>
       </div>
-    </nav>
+    </div>
   );
 };
 export default NavBar;
