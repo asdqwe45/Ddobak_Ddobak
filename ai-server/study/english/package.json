@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "express": "^4.18.2",
-    "graceful-fs": "^4.2.11",
-    "potrace": "^2.1.8",
-    "svg2ttf": "^6.0.3",
-    "svgicons2svgfont": "^12.0.0"
-  }
-}
