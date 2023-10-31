@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const { exec, execSync, spawn } = require("child_process");
 
-var ImageTracer = require("./public/javascript/imagetracer_v1.2.1");
+var ImageTracer = require("../public/javascript/imagetracer_v1.2.1");
 
 var fs = require("fs");
 var gracefulFs = require("graceful-fs");
@@ -18,7 +18,7 @@ var fontStream = new svgicons2svgfont({
 
 var PNG = require("pngjs").PNG;
 
-var dir_name = "result/dm/test";
+var dir_name = "/test";
 // var dir_name = +new Date()
 
 var img_dir = `./${dir_name}`;
@@ -63,9 +63,9 @@ var app = function generate() {
   var fileName = [];
 
   for (var i = 0; i < files.length; i++) {
-    sources[i] =
-      files[i][0].charCodeAt(0).toString().toUpperCase();
-    fileName[i] = files[i][0];
+    sources[i] = files[i]
+      .split(".png")[0]
+    fileName[i] = files[i].split(".png")[0];
   }
 
   // png to svg
@@ -100,27 +100,21 @@ var app = function generate() {
   fontStream
     .pipe(fs.createWriteStream(`./svg_fonts/font_ss.svg`))
     .on("finish", function () {
-      var ttf = svg2ttf(
-        fs.readFileSync(`./svg_fonts/font_ss.svg`, "utf8"),
-        {}
-      );
-      fs.writeFileSync(
-        `./ttf_fonts/${'test1'}.ttf`,
-        new Buffer(ttf.buffer)
-      );
+      var ttf = svg2ttf(fs.readFileSync(`./svg_fonts/font_ss.svg`, "utf8"), {});
+      fs.writeFileSync(`./ttf_fonts/${"test"}.ttf`, new Buffer(ttf.buffer));
     })
     .on("error", function (err) {
       console.log(err);
     });
 
   for (var i = 0; i < sources.length; i++) {
-    let glyph1 = fs.createReadStream(
-      `./svgs/` + fileName[i] + ".svg"
-    );
+    let glyph1 = fs.createReadStream(`./svgs/` + fileName[i] + ".svg");
     glyph1.metadata = {
-      unicode: [String.fromCharCode(sources[i].toString(10))],
+      unicode: [String.fromCharCode(parseInt(sources[i], 16))],
       name: "uni" + sources[i],
     };
+
+    console.log(glyph1.metadata.unicode, glyph1.metadata.name);
 
     fontStream.write(glyph1);
   }
