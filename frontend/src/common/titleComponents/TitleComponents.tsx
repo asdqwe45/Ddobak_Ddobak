@@ -6,12 +6,12 @@ export const PageTitle = styled.div`
   flex-grow: 1;
 
   span {
-    background-color: #FFF1F0;
+    background-color: #fff1f0;
   }
 `;
 
 export const BoxTitle = styled.span`
-  background-color: #FFF1F0;
+  background-color: #fff1f0;
   font-size: 24px;
   font-weight: 600;
 `;

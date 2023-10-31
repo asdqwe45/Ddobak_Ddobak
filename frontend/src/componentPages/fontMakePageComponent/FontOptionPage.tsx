@@ -25,9 +25,12 @@ const FontOptionPage: React.FC = () => {
   return (
     <>
       <div style={{ marginTop: '60px' }}>
-        <PageTitle><span>폰트 정보 입력</span></PageTitle>
+        <PageTitle>
+          <span>폰트 정보 입력</span>
+        </PageTitle>
       </div>
-      <br /><br />
+      <br />
+      <br />
       {/* 폰트 이름 - 한글, 영어 */}
       <div className={classes.fontNameContainer}>
         <BoxTitle>폰트 이름 설정</BoxTitle>

@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import classes from './NavBar.module.css';
-import NavLogo from './navBarAssets/ddobak_logo.png';
+import NavLogo from '../common/commonAssets/ddobak_logo.png';
 
 const NavBar: React.FC = () => {
   return (
