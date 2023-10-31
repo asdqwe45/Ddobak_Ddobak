@@ -12,6 +12,8 @@ import {
   MyPagePointContentText,
 } from './myPagePointPageComponents/MyPagePointPageComponents';
 
+import PaymentComponent from './myPagePointPageComponents/PaymentComponent';
+
 import { mainRedColor, likeCountColor } from 'common/colors/CommonColors';
 
 // btn components
@@ -91,14 +93,39 @@ const MyPagePointPage: React.FC = () => {
       });
     }
   };
+
+  // 포인트 상태 관리
+  const [points, setPoints] = useState(10000);
+
+  // 포트원 결제 창 결제 결과 로직
+  const handlePaymentSuccess = (response: any) => {
+    console.log('Payment Success:', response);
+    // 결제 성공 시 필요한 로직을 실행
+    setPoints(prev => prev + response.paid_amount); // 결제 금액만큼 포인트 증가
+  };
+
+  const handlePaymentFailure = (error: any) => {
+    console.log('Payment Failure:', error);
+    // 결제 실패 시 필요한 로직을 실행
+  };
+
+  const handlePaymentCancel = (cancelData: any) => {
+    console.log('Payment Cancelled:', cancelData);
+    // 결제 취소 시 필요한 로직을 실행
+  };
+
   return (
     <div className={classes.container}>
       <MyPagePointHeader>
         <MyPagePointBox>
           <MyPagePointHeaderText style={{ paddingRight: 40 }}>보유한 포인트</MyPagePointHeaderText>
-          <MyPagePointHeaderText>10,000P</MyPagePointHeaderText>
+          <MyPagePointHeaderText>{points.toLocaleString()}P</MyPagePointHeaderText>
         </MyPagePointBox>
         <MyPagePointBox style={{ justifyContent: 'flex-end' }}>
+
+          {/* 포트원 결제 창 */}
+          <PaymentComponent amount={1000} onPaymentSuccess={handlePaymentSuccess} onPaymentFailure={handlePaymentFailure} onPaymentCancel={handlePaymentCancel} />
+
           <PointExchangeBtn>충전하기</PointExchangeBtn>
           <PointTransactionBtn>인출하기</PointTransactionBtn>
         </MyPagePointBox>
