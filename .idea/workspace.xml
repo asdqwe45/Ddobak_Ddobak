@@ -5,7 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42588689-721d-4ce2-8f75-5d7862f4ce0f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/handwritten.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/FastApiProjet/image_align/controller/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/FastApiProjet/image_align/controller/controller.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,10 +20,10 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2XSiC6oR1SJiveNRo1JwiGPnIWQ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -32,7 +34,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feat/66-LMK",
+    "git-widget-placeholder": "feat/132-LMK",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -51,6 +53,7 @@
       <option name="presentableId" value="Default" />
       <updated>1693186827683</updated>
       <workItem from="1698628755781" duration="739000" />
+      <workItem from="1698716680603" duration="64000" />
     </task>
     <servers />
   </component>
