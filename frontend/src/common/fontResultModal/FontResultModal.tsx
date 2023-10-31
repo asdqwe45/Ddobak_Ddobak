@@ -11,8 +11,6 @@ import { pointPayModalActions } from 'store/pointPayModalSlice';
 import { mainRedColor } from 'common/colors/CommonColors';
 import { AiOutlineClose } from 'react-icons/ai';
 
-
-
 interface ResultModalState {
   resultModal: {
     resultIsVisible: boolean;
@@ -29,8 +27,6 @@ const FontResultModal: React.FC = () => {
     (state: ResultModalState) => state.resultModal.resultIsVisible,
   );
 
-
-
   // 모달을 닫을 때 onRequestClose 함수 호출
   const closeModal = () => {
     clickResultHandler();
@@ -38,10 +34,8 @@ const FontResultModal: React.FC = () => {
 
   // 결제 모달 열기
   const clickPayHandler = () => {
-    dispatch(pointPayModalActions.toggle())
-  }
-
-
+    dispatch(pointPayModalActions.toggle());
+  };
 
   useEffect(() => {
     ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
@@ -60,136 +54,136 @@ const FontResultModal: React.FC = () => {
         overlay: {
           zIndex: 10000, // NavBar보다 1 높게 설정
           // ... other styles
-        }
+        },
       }}
     >
-        <div className={modalClasses.modalContainer}>
-          <div className={modalClasses.modalBox} style={{ justifyContent: 'flex-end' }}>
-            <AiOutlineClose
-              size={40}
-              onClick={clickResultHandler}
-              className={modalClasses.closeIcon}
-            />
-          </div>
-          {/* 원고지 헤더 시작 */}
-          <div className={classes.headerBox}>
-            <div className={classes.headerTextBox}>
-              <p className={classes.headerNoText}>No.</p>
-              <div className={classes.headerDiv}>
-                <p className={classes.headerBigText}>1</p>
-              </div>
+      <div className={modalClasses.modalContainer}>
+        <div className={modalClasses.modalBox} style={{ justifyContent: 'flex-end' }}>
+          <AiOutlineClose
+            size={40}
+            onClick={clickResultHandler}
+            className={modalClasses.closeIcon}
+          />
+        </div>
+        {/* 원고지 헤더 시작 */}
+        <div className={classes.headerBox}>
+          <div className={classes.headerTextBox}>
+            <p className={classes.headerNoText}>No.</p>
+            <div className={classes.headerDiv}>
+              <p className={classes.headerBigText}>1</p>
             </div>
-          </div>
-          {/* 원고지 헤더 끝 */}
-          {/* 원고지 시작 */}
-          <div className={classes.largeBox}>
-            {/* 빈칸 */}
-            <div className={classes.blankLineBox}>{renderTopBlank()}</div>
-            {/* 빈칸 끝 */}
-            <div className={classes.lineBox}>
-              {/* 1 */}
-              <TextSmallBox innerText="또" />
-              <TextSmallBox innerText="박" />
-              <TextSmallBox innerText="또" />
-              <TextSmallBox innerText="박" />
-              <TextSmallBox innerText="이" />
-              <TextSmallBox innerText="태" />
-              <TextSmallBox innerText="성" />
-              <TextSmallBox innerText="체" />
-              <TextSmallBox />
-              <TextSmallBox />
-              <TextSmallBox />
-              <TextSmallBox />
-              <TextSmallBox />
-              <TextSmallBox />
-              <TextSmallBox />
-              <TextSmallBox />
-            </div>
-
-            <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-            {renderLineBoxes(1)}
-            {/* 빈칸 */}
-            <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-            {/* 빈칸 끝 */}
-            {/* 라인 시작 */}
-            <div className={classes.lineBox}>
-              {/* 1 */}
-              <TextSmallBox />
-              <TextSmallBox innerText="가" />
-              <TextSmallBox innerText="나" />
-              <TextSmallBox innerText="다" />
-              <TextSmallBox innerText="라" />
-              <TextSmallBox innerText="마" />
-              <TextSmallBox innerText="바" />
-              <TextSmallBox innerText="사" />
-              <TextSmallBox innerText="아" />
-              <TextSmallBox innerText="자" />
-              <TextSmallBox innerText="차" />
-              <TextSmallBox innerText="카" />
-              <TextSmallBox innerText="타" />
-              <TextSmallBox innerText="파" />
-              <TextSmallBox innerText="하" />
-              <TextSmallBox />
-            </div>
-            {/* 라인 끝 */}
-            {/* 빈칸 */}
-            <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-            {/* 빈칸 끝 */}
-            {/* 세번 째 줄 */}
-            {/* 라인 시작 */}
-            <div className={classes.lineBox}>
-              {/* 1 */}
-              <TextSmallBox />
-              <TextSmallBox innerText="다" />
-              <TextSmallBox innerText="람" />
-              <TextSmallBox innerText="쥐" />
-              <TextSmallBox />
-              <TextSmallBox innerText="헌" />
-              <TextSmallBox />
-              <TextSmallBox innerText="쳇" />
-              <TextSmallBox innerText="바" />
-              <TextSmallBox innerText="퀴" />
-              <TextSmallBox innerText="에" />
-              <TextSmallBox />
-              <TextSmallBox innerText="타" />
-              <TextSmallBox innerText="고" />
-              <TextSmallBox innerText="파" />
-              <TextSmallBox />
-            </div>
-            {/* 라인 끝 */}
-            {/* 빈칸 */}
-            <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-            {/* 빈칸 끝 */}
-            {renderLineBoxes(2)}
-            {/* 빈칸 */}
-            <div className={classes.blankLineBox}>{renderBottomBlank()}</div>
-            {/* 빈칸 끝 */}
-          </div>
-          {/* 원고지 끝 */}
-          {/* 원고지 푸터 시작 */}
-          <div className={classes.footerBox}>
-            <div className={classes.footerTextBox}>
-              <p className={classes.footerText}>16 X 6</p>
-            </div>
-          </div>
-          {/* 원고지 푸터 끝 */}
-          <div className={modalClasses.modalBox} style={{ justifyContent: 'center' }}>
-            <button
-              className={modalClasses.modalBtn}
-              style={{ backgroundColor: mainRedColor, color: 'white' }}
-              onClick={clickResultHandler}
-            >
-              제작취소
-            </button>
-            <button
-              className={modalClasses.modalBtn}
-              style={{ backgroundColor: 'white', fontWeight: 'bold' }}
-              onClick={clickPayHandler}
-            >
-              결제하기
-            </button>
           </div>
         </div>
+        {/* 원고지 헤더 끝 */}
+        {/* 원고지 시작 */}
+        <div className={classes.largeBox}>
+          {/* 빈칸 */}
+          <div className={classes.blankLineBox}>{renderTopBlank()}</div>
+          {/* 빈칸 끝 */}
+          <div className={classes.lineBox}>
+            {/* 1 */}
+            <TextSmallBox innerText="또" />
+            <TextSmallBox innerText="박" />
+            <TextSmallBox innerText="또" />
+            <TextSmallBox innerText="박" />
+            <TextSmallBox innerText="이" />
+            <TextSmallBox innerText="태" />
+            <TextSmallBox innerText="성" />
+            <TextSmallBox innerText="체" />
+            <TextSmallBox />
+            <TextSmallBox />
+            <TextSmallBox />
+            <TextSmallBox />
+            <TextSmallBox />
+            <TextSmallBox />
+            <TextSmallBox />
+            <TextSmallBox />
+          </div>
+
+          <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
+          {renderLineBoxes(1)}
+          {/* 빈칸 */}
+          <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
+          {/* 빈칸 끝 */}
+          {/* 라인 시작 */}
+          <div className={classes.lineBox}>
+            {/* 1 */}
+            <TextSmallBox />
+            <TextSmallBox innerText="가" />
+            <TextSmallBox innerText="나" />
+            <TextSmallBox innerText="다" />
+            <TextSmallBox innerText="라" />
+            <TextSmallBox innerText="마" />
+            <TextSmallBox innerText="바" />
+            <TextSmallBox innerText="사" />
+            <TextSmallBox innerText="아" />
+            <TextSmallBox innerText="자" />
+            <TextSmallBox innerText="차" />
+            <TextSmallBox innerText="카" />
+            <TextSmallBox innerText="타" />
+            <TextSmallBox innerText="파" />
+            <TextSmallBox innerText="하" />
+            <TextSmallBox />
+          </div>
+          {/* 라인 끝 */}
+          {/* 빈칸 */}
+          <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
+          {/* 빈칸 끝 */}
+          {/* 세번 째 줄 */}
+          {/* 라인 시작 */}
+          <div className={classes.lineBox}>
+            {/* 1 */}
+            <TextSmallBox />
+            <TextSmallBox innerText="다" />
+            <TextSmallBox innerText="람" />
+            <TextSmallBox innerText="쥐" />
+            <TextSmallBox />
+            <TextSmallBox innerText="헌" />
+            <TextSmallBox />
+            <TextSmallBox innerText="쳇" />
+            <TextSmallBox innerText="바" />
+            <TextSmallBox innerText="퀴" />
+            <TextSmallBox innerText="에" />
+            <TextSmallBox />
+            <TextSmallBox innerText="타" />
+            <TextSmallBox innerText="고" />
+            <TextSmallBox innerText="파" />
+            <TextSmallBox />
+          </div>
+          {/* 라인 끝 */}
+          {/* 빈칸 */}
+          <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
+          {/* 빈칸 끝 */}
+          {renderLineBoxes(2)}
+          {/* 빈칸 */}
+          <div className={classes.blankLineBox}>{renderBottomBlank()}</div>
+          {/* 빈칸 끝 */}
+        </div>
+        {/* 원고지 끝 */}
+        {/* 원고지 푸터 시작 */}
+        <div className={classes.footerBox}>
+          <div className={classes.footerTextBox}>
+            <p className={classes.footerText}>16 X 6</p>
+          </div>
+        </div>
+        {/* 원고지 푸터 끝 */}
+        <div className={modalClasses.modalBox} style={{ justifyContent: 'center' }}>
+          <button
+            className={modalClasses.modalBtn}
+            style={{ backgroundColor: mainRedColor, color: 'white' }}
+            onClick={clickResultHandler}
+          >
+            제작취소
+          </button>
+          <button
+            className={modalClasses.modalBtn}
+            style={{ backgroundColor: 'white', fontWeight: 'bold' }}
+            onClick={clickPayHandler}
+          >
+            결제하기
+          </button>
+        </div>
+      </div>
     </ReactModal>
   );
 };

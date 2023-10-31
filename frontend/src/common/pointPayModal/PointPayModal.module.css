@@ -40,8 +40,8 @@
 .middleBox {
   width: 100%;
   height: 220px;
-  border-top: 3px solid #B6B6B6;
-  border-bottom: 3px solid #B6B6B6;
+  border-top: 3px solid #b6b6b6;
+  border-bottom: 3px solid #b6b6b6;
   box-sizing: border-box;
   padding: 0px 40px;
   display: flex;
@@ -61,7 +61,6 @@
   margin: 0px;
   font-size: 24px;
   font-weight: bold;
-
 }
 
 .bottomBox {

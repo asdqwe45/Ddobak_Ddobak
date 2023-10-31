@@ -48,7 +48,7 @@ const PointPayModal: React.FC = () => {
     >
       <div className={classes.modalContainer}>
         <div className={classes.topBox}>
-          <AiOutlineClose size={30} className={classes.closeIcon} onClick={closeModal}/>
+          <AiOutlineClose size={30} className={classes.closeIcon} onClick={closeModal} />
         </div>
         <div className={classes.middleBox}>
           <div
@@ -82,7 +82,11 @@ const PointPayModal: React.FC = () => {
           <button className={classes.modalBtn} style={{ backgroundColor: likeCountColor }}>
             충전하기
           </button>
-          <button className={classes.modalBtn} style={{ backgroundColor: mainRedColor }} onClick={closeModal}>
+          <button
+            className={classes.modalBtn}
+            style={{ backgroundColor: mainRedColor }}
+            onClick={closeModal}
+          >
             결제하기
           </button>
         </div>
