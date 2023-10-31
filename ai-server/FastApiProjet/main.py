@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from image_align.controller.controller import router as image_align_router
+
 app = FastAPI()
 
 app.include_router(image_align_router, prefix="/api/v1/image_align")
