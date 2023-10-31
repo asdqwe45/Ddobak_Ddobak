@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .image_align.controller.controller import router as image_router
+from image_align.controller.controller import router as image_router
 
 app = FastAPI()
 

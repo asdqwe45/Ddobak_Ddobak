@@ -23,6 +23,7 @@ lpips="*"
 notebook="*"
 tensorboardx="*"
 pillow="<=9.5.0"
+python-multipart = "*"
 
 [dev-packages]
 ipykernel = "*"
