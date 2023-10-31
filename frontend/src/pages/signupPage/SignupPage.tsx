@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, useRef } from 'react';
+import { ChangeEvent, useState, useRef, useEffect } from 'react';
 import classes from './SignupPage.module.css';
 // Auth 컴포넌트 가져오기
 import { AuthHeader, AuthInput } from 'common/authComponents/AuthComponents';
@@ -10,6 +10,8 @@ import { FaCircleUser } from 'react-icons/fa6';
 import { ImCamera } from 'react-icons/im';
 // styled
 import styled from '@emotion/styled';
+
+import { NotValid, TimerText, EmailCheckBox } from './signupPageComponents/SignupPageComponents';
 
 const Circle = styled.div`
   width: 36px;
@@ -78,6 +80,62 @@ const SignupPage: React.FC = () => {
       setHaveProfile(false);
     }
   };
+
+  // 이메일 확인
+  // 이메일 형식을 확인하는 함수
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
+
+  const validateEmail = (email: string) => {
+    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return regex.test(email);
+  };
+
+  // 이메일 input의 onChange 이벤트 핸들러
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const email = e.target.value;
+    setIsValidEmail(validateEmail(email));
+  };
+
+  // 인증 버튼 클릭
+  const [timer, setTimer] = useState<number | null>(null); // 타이머의 현재 초
+  const [isActive, setIsActive] = useState<boolean>(false); // 타이머가 활성화되어 있는지 여부
+
+  useEffect(() => {
+    if (isActive && timer !== null && timer > 0) {
+      const interval = setInterval(() => {
+        setTimer((prevTimer) => (prevTimer !== null ? prevTimer - 1 : null));
+      }, 1000);
+
+      // Cleanup function
+      return () => {
+        clearInterval(interval);
+      };
+    } else if (timer !== null && timer === 0) {
+      setIsActive(false); // 타이머가 끝나면 비활성화
+      setTimer(null);
+    }
+  }, [isActive, timer]);
+
+  const startTimer = () => {
+    setIsActive(true);
+    setTimer(300); // 5분 = 300초
+  };
+  const clickCheckBtn = () => {
+    // 타이머 실행
+    // 인증번호 재발송 버튼 활성화
+    // 인증번호 유효한지 확인
+    startTimer();
+  };
+
+const changeEmail = () => {
+  setIsActive(false)
+  setTimer(null)
+}
+
+// 인증번호 확인
+const [isValidCheckNumber, setIsValidCheckNumber] = useState<boolean>(false);
+
+
   return (
     <div className={classes.container}>
       <AuthHeader>회원가입</AuthHeader>
@@ -100,8 +158,29 @@ const SignupPage: React.FC = () => {
         </Circle>
       </div>
       <div>
-        <NewAuthInput ref={emailInputRef} placeholder="이메일 입력"></NewAuthInput>
-        <button className={classes.emailCheckBtn}>인증</button>
+        <NewAuthInput
+          ref={emailInputRef}
+          placeholder="이메일 입력"
+          onChange={handleEmailChange}
+          disabled={isActive}
+        ></NewAuthInput>
+        <button
+          className={isValidEmail ? classes.emailCheckBtn : classes.notValidEmail}
+          disabled={!isValidEmail}
+          onClick={clickCheckBtn}
+        >
+          {timer !== null ? "재인증" : "인증"}
+        </button>
+        {isValidEmail ? <></> : <NotValid>이메일이 유효하지 않습니다.</NotValid>}
+        {/* 타이머 출력 */}
+        <EmailCheckBox>
+          {timer !== null && (
+            <TimerText>
+              남은 시간: {Math.floor(timer / 60)}분 {timer % 60}초
+            </TimerText>
+          )}
+          {timer !== null && isValidEmail ? <TimerText onClick={changeEmail} style={{cursor: "pointer"}}>이메일 변경</TimerText> : <></>}
+        </EmailCheckBox>
       </div>
       <div>
         <NewAuthInput ref={checkEmailRef} placeholder="인증번호"></NewAuthInput>
