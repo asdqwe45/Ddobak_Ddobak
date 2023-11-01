@@ -1,0 +1,19 @@
+server:
+  port: 7000
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8763/eureka
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: member-service
+          uri: lb://MEMBER-SERVICE
+          predicates:
+            - Path=/api/v1/member/**
