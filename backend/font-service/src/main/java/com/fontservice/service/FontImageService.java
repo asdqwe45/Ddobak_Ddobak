@@ -1,5 +1,7 @@
 package com.fontservice.service;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.springframework.aop.scope.ScopedProxyUtils;
@@ -13,6 +15,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -21,6 +25,8 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class FontImageService {
 
     @Autowired
@@ -32,7 +38,6 @@ public class FontImageService {
 
     public File convertToPng(MultipartFile file) throws IOException{
         String fileExtension = StringUtils.getFilenameExtension(file.getOriginalFilename());
-        System.out.println(fileExtension);
         File tempInputFile = File.createTempFile("source","."+fileExtension);
 
         file.transferTo(tempInputFile);
@@ -42,10 +47,8 @@ public class FontImageService {
         if ("png".equalsIgnoreCase(fileExtension)){
             return tempInputFile;
         } else if ("JPG".equalsIgnoreCase(fileExtension)) {
-            System.out.println("JPG22");
             tempOutputFile = convertJpgToPng(tempInputFile);
         }else if("pdf".equalsIgnoreCase(fileExtension)){
-            System.out.println("??");
             convertPdfToPng(tempInputFile,tempOutputFile);
         }
 
@@ -62,39 +65,26 @@ public class FontImageService {
         return outputFile;
     }
 
-    public String getS3Url(File imageFile) {// 8889  8786
-        String fastApiUrl = "http://163.239.223.171:8786/api/v1/image_align";
-        System.out.println("??");
+    public String getS3SortUrl(File imageFile) {// 8889  8786 http://163.239.223.171:8786/api/v1/image_align
+        String fastApiUrl = "http://localhost:8000/sortUpload";
         HttpHeaders headers = new HttpHeaders();
-        System.out.println("??");
 
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        System.out.println("??");
 
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        System.out.println("??");
 
         FileSystemResource resource = new FileSystemResource(imageFile);
-        System.out.println("??");
 
         MultiValueMap<String,Object> body = new LinkedMultiValueMap<>();
-        System.out.println("??");
 
         body.add("file",resource);
-        System.out.println("??");
 
         HttpEntity<MultiValueMap<String,Object>> requestEntity = new HttpEntity<>(body,headers);
-        System.out.println("??");
-        System.out.println(requestEntity.getBody());
-        System.out.println(requestEntity.getHeaders());
+
         ResponseEntity<byte[]> response = restTemplate.exchange(fastApiUrl, HttpMethod.POST, requestEntity,byte[].class);
-        System.out.println("??");
 
         String contentType = response.getHeaders().getContentType().toString();
-        System.out.println("??");
-
         String s3Url = new String();
-        System.out.println("??");
 
         if ("application/x-font-ttf".equals(contentType)) {
             s3Url = s3Service.uploadFontFile(response.getBody(),"application/x-font-ttf");
@@ -103,14 +93,44 @@ public class FontImageService {
             s3Url = s3Service.uploadSortFile(response.getBody(),"image/png");
 
         }
-        System.out.println("??");
+
+        return s3Url;
+    }
+    public String getS3MakeUrl(List<File> imageFiles) {
+        String fastApiUrl = "http://localhost:8000/makeUpload";
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+
+        int fileIndex = 1;
+        for (File imageFile : imageFiles) {
+            FileSystemResource resource = new FileSystemResource(imageFile);
+            body.add("file" + fileIndex, resource);
+            fileIndex++;
+        }
+
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+        ResponseEntity<byte[]> response = restTemplate.exchange(fastApiUrl, HttpMethod.POST, requestEntity, byte[].class);
+
+        String contentType = response.getHeaders().getContentType().toString();
+
+        String s3Url = new String();
+        if ("application/x-font-ttf".equals(contentType)) {
+            s3Url = s3Service.uploadFontFile(response.getBody(), "application/x-font-ttf");
+        } else if ("image/png".equals(contentType)) {
+            s3Url = s3Service.uploadSortFile(response.getBody(), "image/png");
+        }
 
         return s3Url;
     }
 
+
     private void convertPdfToPng(File inputFile, File outputFile) throws IOException {
         String fileExtension = getExtention(inputFile.getName());
-        System.out.println(getExtention(inputFile.getName()));
         BufferedImage image;
 
 

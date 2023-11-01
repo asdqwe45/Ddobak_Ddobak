@@ -47,6 +47,8 @@
 package com.fontservice.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -54,6 +56,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class S3Service {
     @Autowired
     private AmazonS3 amazonS3;
@@ -76,7 +80,7 @@ public class S3Service {
         return "https://" + bucket + ".s3.amazonaws.com/" + fileName;
     }
     public String uploadFontFile(byte[] fileData, String mimeType) {
-        String fileName = "font-path/" + System.currentTimeMillis() + ".png";  // 파일 이름을 원하는 대로 지정
+        String fileName = "font-path/" + System.currentTimeMillis() + ".ttf";  // 파일 이름을 원하는 대로 지정
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(mimeType);
