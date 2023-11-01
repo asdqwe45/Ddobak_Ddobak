@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import classes from '../../pages/mainPage/mainPageComponents/MainPageLargeManuscript.module.css';
+import classes from '../../../pages/mainPage/mainPageComponents/MainPageLargeManuscript.module.css';
 import modalClasses from './FontResultModal.module.css';
 import ReactModal from 'react-modal';
 
