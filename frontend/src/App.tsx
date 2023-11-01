@@ -17,7 +17,7 @@ import FaqPage from './pages/faqPage/FaqPage';
 import MakerPage from 'pages/makerPage/MakerPage';
 
 // components
-import FontDetailPage from './componentPages/fontDetailComponent/FontDetail';
+import FontDetailPage from './componentPages/fontDetailPage/FontDetail';
 import FontOptionPage from 'componentPages/fontMakePageComponent/FontOptionPage';
 import MyPagePointPage from 'componentPages/myPagePointPage/MyPagePointPage';
 
