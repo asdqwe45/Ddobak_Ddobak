@@ -77,6 +77,8 @@ import Test6 from './myPageAssets/Test6.png';
 // redux
 import { useDispatch } from 'react-redux';
 import { resultModalActions } from 'store/resultModalSlice';
+import { changePwModalActions } from 'store/changePwModalSlice';
+import { reviewModalActions } from 'store/reviewModalSlice';
 
 // navigation
 import { NavLink } from 'react-router-dom';
@@ -144,14 +146,17 @@ const MyPage: React.FC = () => {
   const exchangeClick = () => {
     console.log('exchange');
   };
-  const changePwClick = () => {
-    console.log('change Pw');
-  };
 
   // redux
   const dispatch = useDispatch();
   const clickResultHandler = () => {
     dispatch(resultModalActions.toggle());
+  };
+  const clickChangePwHandler = () => {
+    dispatch(changePwModalActions.toggle());
+  };
+  const clickReviewHandler = () => {
+    dispatch(reviewModalActions.toggle());
   };
 
   return (
@@ -172,7 +177,7 @@ const MyPage: React.FC = () => {
                   className={classes.pencilBtn}
                 />
               </ProfilNameBox>
-              <ChangePassword onClick={changePwClick}>비밀번호 변경</ChangePassword>
+              <ChangePassword onClick={clickChangePwHandler}>비밀번호 변경</ChangePassword>
             </ProfileContent>
           </IngredientContent>
         </ProfileBox>
@@ -370,7 +375,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -388,7 +392,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -406,7 +409,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -424,7 +426,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -442,7 +443,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -460,7 +460,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -489,7 +488,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -507,7 +505,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -541,17 +538,18 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
+                        <CCLBox>
+                          <CCLIcons src={Attribution} />
+                          <CCLIcons src={NoDerivativeWorks} />
+                          <CCLIcons src={ShareAlike} />
+                          <CCLIcons src={Noncommercial} />
+                        </CCLBox>
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
                   </ContentInnerLeft>
                   <ContentInnerRight>
-                    <CCLBox>
-                      <CCLIcons src={Attribution} />
-                      <CCLIcons src={NoDerivativeWorks} />
-                      <CCLIcons src={ShareAlike} />
-                      <CCLIcons src={Noncommercial} />
-                    </CCLBox>
+                    <ContentGrayBtn onClick={clickReviewHandler}>후기등록</ContentGrayBtn>
                     <ContentRedBtn>다운로드</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
