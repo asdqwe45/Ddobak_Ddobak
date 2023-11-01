@@ -5,6 +5,7 @@ import pointModalSlice from './pointPayModalSlice';
 import changePwModalSlice from './changePwModalSlice';
 import reviewModalSlice from './reviewModalSlice';
 import chargePointModalSlice from './chargePointModalSlice';
+import exchangeModalSlice from './exchangeModalSlice';
 
 const initialState = { value: 0, showCounter: true, showModal: false };
 
@@ -38,6 +39,7 @@ const store = configureStore({
     changePwModal: changePwModalSlice.reducer,
     reviewModal: reviewModalSlice.reducer,
     chargePoint: chargePointModalSlice.reducer,
+    exchangeModal: exchangeModalSlice.reducer,
   },
 });
 
