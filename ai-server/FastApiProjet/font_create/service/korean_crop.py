@@ -8,9 +8,11 @@ rows = 3
 cols = 12
 header_ratio = 16.5 / (16.5 + 42)
 import os
+
 if not os.path.exists('./cropped_output_kor/'):
   os.makedirs('./cropped_output/')
   print("test")
+
 
 def crop_image_uniform(template_image):
   korean_list = ["가", "깩", "낚", "댻", "떤", "렍", "멶", "볟", "뽈", "솱", "쐚", "욃",
@@ -18,7 +20,7 @@ def crop_image_uniform(template_image):
                  "럨", "멑", "벺", "뼣"]
 
   # img = Image.open(template_image).convert('L')
-  img=template_image
+  img = template_image
   print("hello")
   width, height = img.size
   cell_width = width / float(cols)
@@ -50,9 +52,9 @@ def crop_image_uniform(template_image):
       right = center_x + size
       upper = center_y - size
       lower = center_y + size
-      print(j*cols+i)
       if j * cols + i == 28:
         break
+      # code = hex(ord(korean_list[j * cols + i]))[2:]
       code = korean_list[j * cols + i]
       name = "./cropped_output_kor/" + code + ".png"
       cropped_image = img.crop((left, upper, right, lower))
