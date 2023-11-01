@@ -1,16 +1,13 @@
 package com.ddobak.font.repository;
 
-import com.fontservice.domain.Font;
-
-
-import com.fontservice.domain.QFont;
+import com.ddobak.font.entity.Font;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.Projections;
+
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +20,6 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class FontQueryRepository {
-
 
     @PersistenceContext
     private EntityManager em;
@@ -67,39 +63,39 @@ public class FontQueryRepository {
         );
         em.persist(font);
     }
-    public void findFonts(List<String> keywords, Boolean isFree){
-        JPAQuery<Font> query = new JPAQuery<>(em);
-
-        QFont font = QFont.font;
-
-        query.select(font)
-             .from(font)
-             .where(buildPredicate(keywords,isFree));
-
-//        return query.fetch();
-
-    }
-
-    public Predicate buildPredicate(List<String> keywords, Boolean isFree) {
-        QFont font = QFont.font;
-
-        BooleanBuilder builder = new BooleanBuilder();
-
-        if (keywords != null && !keywords.isEmpty()) {
-            BooleanBuilder keywordBuilder = new BooleanBuilder();
-            for (String keyword : keywords) {
-                keywordBuilder.or(font.ko_font_name.contains(keyword)
-                                                   .or(font.en_font_name.contains(keyword)));
-            }
-            builder.and(keywordBuilder);
-        }
-
-        if (isFree != null) {
-            builder.and(font.freeStatus.eq(isFree));
-        }
-
-        return builder;
-    }
+//    public void findFonts(List<String> keywords, Boolean isFree){
+//        JPAQuery<Font> query = new JPAQuery<>(em);
+//
+//        QFont font = QFont.font;
+//
+//        query.select(font)
+//             .from(font)
+//             .where(buildPredicate(keywords,isFree));
+//
+////        return query.fetch();
+//
+//    }
+//
+//    public Predicate buildPredicate(List<String> keywords, Boolean isFree) {
+//        QFont font = QFont.font;
+//
+//        BooleanBuilder builder = new BooleanBuilder();
+//
+//        if (keywords != null && !keywords.isEmpty()) {
+//            BooleanBuilder keywordBuilder = new BooleanBuilder();
+//            for (String keyword : keywords) {
+//                keywordBuilder.or(font.ko_font_name.contains(keyword)
+//                                                   .or(font.en_font_name.contains(keyword)));
+//            }
+//            builder.and(keywordBuilder);
+//        }
+//
+//        if (isFree != null) {
+//            builder.and(font.freeStatus.eq(isFree));
+//        }
+//
+//        return builder;
+//    }
 
 
 }

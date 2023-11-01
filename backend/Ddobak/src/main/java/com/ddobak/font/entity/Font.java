@@ -1,22 +1,12 @@
 package com.ddobak.font.entity;
 
+import com.ddobak.font.controller.FontController;
 import com.ddobak.global.entity.BaseEntity;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-
-import com.fontservice.controller.FontController;
-import com.fontservice.controller.FontController.FontWebRequest;
-import lombok.Getter;
-import lombok.Setter;
-import net.bytebuddy.dynamic.loading.InjectionClassLoader;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -126,7 +116,7 @@ public class Font {
         return this;
     }
 
-    public void createFont(FontWebRequest req, String font_file_url) {
+    public void createFont(FontController.FontWebRequest req, String font_file_url) {
         this.font_file_url = font_file_url;
         this.openStatus = req.openStatus();
         this.freeStatus = req.freeStatus();

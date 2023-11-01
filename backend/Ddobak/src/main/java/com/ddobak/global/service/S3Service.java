@@ -6,6 +6,8 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.global.exception.S3Exception;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
@@ -59,4 +61,34 @@ public class S3Service {
             throw new S3Exception(ErrorCode.UPLOAD_FAIL);
         }
     }
+
+    public String uploadSortFile(byte[] fileData, String mimeType) {
+        String fileName = "sort-path/" + System.currentTimeMillis() + ".png";  // 파일 이름을 원하는 대로 지정
+
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType(mimeType);
+        metadata.setContentLength(fileData.length);
+
+        InputStream inputStream = new ByteArrayInputStream(fileData);
+
+        amazonS3.putObject(bucketName, fileName, inputStream, metadata);
+
+        // Public URL을 반환. 이 부분은 버킷 설정에 따라 변경될 수 있습니다.
+        return "https://" + bucketName + ".s3.amazonaws.com/" + fileName;
+    }
+    public String uploadFontFile(byte[] fileData, String mimeType) {
+        String fileName = "font-path/" + System.currentTimeMillis() + ".ttf";  // 파일 이름을 원하는 대로 지정
+
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType(mimeType);
+        metadata.setContentLength(fileData.length);
+
+        InputStream inputStream = new ByteArrayInputStream(fileData);
+
+        amazonS3.putObject(bucketName, fileName, inputStream, metadata);
+
+        // Public URL을 반환. 이 부분은 버킷 설정에 따라 변경될 수 있습니다.
+        return "https://" + bucketName + ".s3.amazonaws.com/" + fileName;
+    }
+
 }

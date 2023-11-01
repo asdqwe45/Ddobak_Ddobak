@@ -1,6 +1,6 @@
 package com.ddobak.font.repository;
 
-import com.fontservice.domain.Font;
+import com.ddobak.font.entity.Font;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

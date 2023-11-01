@@ -1,9 +1,10 @@
 package com.ddobak.font.service;
 
-import com.fontservice.controller.FontController;
-import com.fontservice.domain.Font;
-import com.fontservice.repository.FontQueryRepository;
-import com.fontservice.repository.FontRepository;
+import com.ddobak.font.controller.FontController;
+import com.ddobak.font.entity.Font;
+import com.ddobak.font.repository.FontQueryRepository;
+import com.ddobak.font.repository.FontRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,6 @@ import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.fontservice.controller.FontController.*;
-import static com.fontservice.repository.FontQueryRepository.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +32,7 @@ public class FontService {
 
     }
 
-    public void makeFont(String url,FontWebRequest req){
+    public void makeFont(String url, FontController.FontWebRequest req){
         Font font = new Font();
 
         font.setFont_file_url(url);
