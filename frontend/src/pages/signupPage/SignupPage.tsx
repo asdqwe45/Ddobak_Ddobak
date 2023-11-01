@@ -17,7 +17,7 @@ import { NotValid, TimerText, EmailCheckBox } from './signupPageComponents/Signu
 //  ===    axios    ===
 //  ===================
 // userEmailVerifyAPI,  userSignup
-import { userEmailVerifyRequest } from 'https/utils/AuthFunction';
+import { userEmailVerifyAPI, userEmailVerifyRequest, userSignup } from 'https/utils/AuthFunction';
 
 const Circle = styled.div`
   width: 36px;
@@ -146,8 +146,49 @@ const SignupPage: React.FC = () => {
   };
 
   // 인증번호 확인
-  // const [isValidCheckNumber, setIsValidCheckNumber] = useState<boolean>(false);
-
+  const [isValidCheckNumber, setIsValidCheckNumber] = useState<boolean>(false);
+  const checkNumberHandler = async () => {
+    const email = emailInputRef.current?.value;
+    const authCode = checkEmailRef.current?.value;
+    if (email && authCode) {
+      const data = {
+        email: email,
+        authCode: authCode,
+      };
+      userEmailVerifyAPI(data)
+        .then((r) => {
+          console.log(r);
+          setTimer(null);
+          setIsActive(false);
+          setIsValidCheckNumber(true);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+  };
+  // isValidCheckNumber 가 true일 경우 이메일 확인 비활성화
+  const signupHandler = () => {
+    console.log(isValidCheckNumber);
+    const email = emailInputRef.current?.value;
+    const nickname = nickNameRef.current?.value;
+    const loginPassword = passwordInputRef.current?.value;
+    if (email && nickname && loginPassword) {
+      const data = {
+        email: email,
+        nickname: nickname,
+        loginPassword: loginPassword,
+      };
+      console.log(data);
+      userSignup(data)
+        .then((r) => {
+          console.log(r);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  };
   return (
     <div className={classes.container}>
       <AuthHeader>회원가입</AuthHeader>
@@ -201,7 +242,9 @@ const SignupPage: React.FC = () => {
       </div>
       <div>
         <NewAuthInput ref={checkEmailRef} placeholder="인증번호"></NewAuthInput>
-        <button className={classes.emailCheckBtn}>확인</button>
+        <button className={classes.emailCheckBtn} onClick={checkNumberHandler}>
+          확인
+        </button>
       </div>
       <NewAuthInput ref={nickNameRef} placeholder="닉네임"></NewAuthInput>
       <div>
@@ -238,7 +281,9 @@ const SignupPage: React.FC = () => {
           {checkPWShow ? <FaEye size={24} color="black" /> : <FaEyeSlash size={24} color="black" />}
         </div>
       </div>
-      <button className={classes.signupBtn}>회원가입</button>
+      <button className={classes.signupBtn} onClick={signupHandler}>
+        회원가입
+      </button>
       <NavLink className={classes.navigator} to={'/login'}>
         로그인 하러 가기
       </NavLink>
