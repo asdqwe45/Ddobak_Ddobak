@@ -2,18 +2,42 @@ server:
   port: 7000
 
 eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
     fetch-registry: true
     register-with-eureka: true
     service-url:
       defaultZone: http://localhost:8763/eureka
+
 spring:
   application:
     name: gateway-service
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedHeaders:
+              - x-requested-with
+              - authorization
+              - content-type
+              - credential
+              - X-AUTH-TOKEN
+              - X-CSRF-TOKEN
+            allowedMethods:
+              - POST
+              - GET
+              - PUT
+              - OPTIONS
+              - DELETE
       routes:
         - id: member-service
           uri: lb://MEMBER-SERVICE
           predicates:
             - Path=/api/v1/member/**
+
+logging:
+  level:
+    org.springframework.web: DEBUG
