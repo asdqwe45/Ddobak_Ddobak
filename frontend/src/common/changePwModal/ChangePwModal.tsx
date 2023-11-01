@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ReactModal from 'react-modal';
 import classes from './ChangePwModal.module.css';
 import { useSelector } from 'react-redux';

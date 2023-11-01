@@ -3,6 +3,7 @@ import { createSlice, type PayloadAction, configureStore } from '@reduxjs/toolki
 import resultModalSlice from './resultModalSlice';
 import pointModalSlice from './pointPayModalSlice';
 import changePwModalSlice from './changePwModalSlice';
+import reviewModalSlice from './reviewModalSlice';
 
 const initialState = { value: 0, showCounter: true, showModal: false };
 
@@ -31,10 +32,10 @@ const counterSlice = createSlice({
 
 const store = configureStore({
   reducer: {
-    counter: counterSlice.reducer,
     resultModal: resultModalSlice.reducer,
     pointModal: pointModalSlice.reducer,
     changePwModal: changePwModalSlice.reducer,
+    reviewModal: reviewModalSlice.reducer,
   },
 });
 

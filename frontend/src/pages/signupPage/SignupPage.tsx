@@ -16,7 +16,8 @@ import { NotValid, TimerText, EmailCheckBox } from './signupPageComponents/Signu
 //  ===================
 //  ===    axios    ===
 //  ===================
-import { userEmailVerifyAPI, userEmailVerifyRequest, userSignup } from 'https/utils/AuthFunction';
+// userEmailVerifyAPI,  userSignup
+import { userEmailVerifyRequest } from 'https/utils/AuthFunction';
 
 const Circle = styled.div`
   width: 36px;
@@ -145,7 +146,7 @@ const SignupPage: React.FC = () => {
   };
 
   // 인증번호 확인
-  const [isValidCheckNumber, setIsValidCheckNumber] = useState<boolean>(false);
+  // const [isValidCheckNumber, setIsValidCheckNumber] = useState<boolean>(false);
 
   return (
     <div className={classes.container}>
@@ -163,7 +164,6 @@ const SignupPage: React.FC = () => {
             onChange={handleImgChange}
             accept="image/*"
             ref={fileInputRef}
-            className="hiddenInput"
           />
           <ImCamera color="white" size={23} />
         </Circle>

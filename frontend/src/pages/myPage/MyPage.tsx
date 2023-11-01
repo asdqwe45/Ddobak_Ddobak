@@ -78,6 +78,7 @@ import Test6 from './myPageAssets/Test6.png';
 import { useDispatch } from 'react-redux';
 import { resultModalActions } from 'store/resultModalSlice';
 import { changePwModalActions } from 'store/changePwModalSlice';
+import { reviewModalActions } from 'store/reviewModalSlice';
 
 // navigation
 import { NavLink } from 'react-router-dom';
@@ -153,6 +154,9 @@ const MyPage: React.FC = () => {
   };
   const clickChangePwHandler = () => {
     dispatch(changePwModalActions.toggle());
+  };
+  const clickReviewHandler = () => {
+    dispatch(reviewModalActions.toggle());
   };
 
   return (
@@ -534,18 +538,18 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                      <CCLBox>
-                      <CCLIcons src={Attribution} />
-                      <CCLIcons src={NoDerivativeWorks} />
-                      <CCLIcons src={ShareAlike} />
-                      <CCLIcons src={Noncommercial} />
-                    </CCLBox>
+                        <CCLBox>
+                          <CCLIcons src={Attribution} />
+                          <CCLIcons src={NoDerivativeWorks} />
+                          <CCLIcons src={ShareAlike} />
+                          <CCLIcons src={Noncommercial} />
+                        </CCLBox>
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
                   </ContentInnerLeft>
                   <ContentInnerRight>
-                    <ContentGrayBtn>후기등록</ContentGrayBtn>
+                    <ContentGrayBtn onClick={clickReviewHandler}>후기등록</ContentGrayBtn>
                     <ContentRedBtn>다운로드</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
