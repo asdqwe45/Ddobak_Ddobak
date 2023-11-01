@@ -101,7 +101,7 @@ const MyPagePointPage: React.FC = () => {
   const handlePaymentSuccess = (response: any) => {
     console.log('Payment Success:', response);
     // 결제 성공 시 필요한 로직을 실행
-    setPoints(prev => prev + response.paid_amount); // 결제 금액만큼 포인트 증가
+    setPoints((prev) => prev + response.paid_amount); // 결제 금액만큼 포인트 증가
   };
 
   const handlePaymentFailure = (error: any) => {
@@ -122,9 +122,13 @@ const MyPagePointPage: React.FC = () => {
           <MyPagePointHeaderText>{points.toLocaleString()}P</MyPagePointHeaderText>
         </MyPagePointBox>
         <MyPagePointBox style={{ justifyContent: 'flex-end' }}>
-
           {/* 포트원 결제 창 */}
-          <PaymentComponent amount={1000} onPaymentSuccess={handlePaymentSuccess} onPaymentFailure={handlePaymentFailure} onPaymentCancel={handlePaymentCancel} />
+          <PaymentComponent
+            amount={1000}
+            onPaymentSuccess={handlePaymentSuccess}
+            onPaymentFailure={handlePaymentFailure}
+            onPaymentCancel={handlePaymentCancel}
+          />
 
           <PointExchangeBtn>충전하기</PointExchangeBtn>
           <PointTransactionBtn>인출하기</PointTransactionBtn>

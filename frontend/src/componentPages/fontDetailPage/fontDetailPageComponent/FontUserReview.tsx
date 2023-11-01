@@ -27,7 +27,7 @@ const FontBoxSwiper = () => {
     boxes.push(
       <SwiperSlide key={i + 'f'} className={classes.swiperSlid}>
         <div className={classes.imgContainer}>
-          <img src={MinuGuide} alt="MinuGuide"/>
+          <img src={MinuGuide} alt="MinuGuide" />
         </div>
         <div className={classes.reviewText}>한줄 리뷰</div>
       </SwiperSlide>,
