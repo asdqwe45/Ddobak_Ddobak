@@ -79,6 +79,7 @@ import { useDispatch } from 'react-redux';
 import { resultModalActions } from 'store/resultModalSlice';
 import { changePwModalActions } from 'store/changePwModalSlice';
 import { reviewModalActions } from 'store/reviewModalSlice';
+import { exchangeModalActions } from 'store/exchangeModalSlice';
 
 // navigation
 import { NavLink } from 'react-router-dom';
@@ -143,9 +144,6 @@ const MyPage: React.FC = () => {
   const transactionClick = () => {
     console.log('transaction');
   };
-  const exchangeClick = () => {
-    console.log('exchange');
-  };
 
   // redux
   const dispatch = useDispatch();
@@ -157,6 +155,9 @@ const MyPage: React.FC = () => {
   };
   const clickReviewHandler = () => {
     dispatch(reviewModalActions.toggle());
+  };
+  const exchangeHandler = () => {
+    dispatch(exchangeModalActions.toggle());
   };
 
   return (
@@ -192,7 +193,7 @@ const MyPage: React.FC = () => {
                 <NavLink to={'/point'}>
                   <PointTransactionBtn onClick={transactionClick}>거래내역</PointTransactionBtn>
                 </NavLink>
-                <PointExchangeBtn onClick={exchangeClick}>인출하기</PointExchangeBtn>
+                <PointExchangeBtn onClick={exchangeHandler}>인출하기</PointExchangeBtn>
               </PointBtnBox>
             </PointIngredient>
           </IngredientContent>
