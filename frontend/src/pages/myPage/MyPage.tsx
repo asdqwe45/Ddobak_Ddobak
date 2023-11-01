@@ -157,8 +157,8 @@ const MyPage: React.FC = () => {
     dispatch(reviewModalActions.toggle());
   };
   const exchangeHandler = () => {
-    dispatch(exchangeModalActions.toggle())
-  }
+    dispatch(exchangeModalActions.toggle());
+  };
 
   return (
     <div className={classes.container}>

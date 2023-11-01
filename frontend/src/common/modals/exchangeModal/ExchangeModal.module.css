@@ -1,181 +1,181 @@
 .overLay {
-    background-color: rgba(0, 0, 0, 0.4);
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    padding: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
 .modalContainer {
-    background-color: white;
-    width: 800px;
-    height: 530px;
-    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    border: 0px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
+  background-color: white;
+  width: 800px;
+  height: 530px;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  border: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .closeIcon {
-    cursor: pointer;
+  cursor: pointer;
 
-    &:hover {
-        color: #d71718;
-    }
+  &:hover {
+    color: #d71718;
+  }
 }
 
 .topBox {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    height: 30px;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  height: 30px;
 }
 
 .middleBox {
-    width: 100%;
-    height: 410px;
-    border-top: 3px solid #b6b6b6;
-    border-bottom: 3px solid #b6b6b6;
-    box-sizing: border-box;
-    padding: 0px 40px;
+  width: 100%;
+  height: 410px;
+  border-top: 3px solid #b6b6b6;
+  border-bottom: 3px solid #b6b6b6;
+  box-sizing: border-box;
+  padding: 0px 40px;
 }
 
 .innerBox {
-    width: 100%;
-    height: 50px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0px 20px;
+  width: 100%;
+  height: 50px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px;
 }
 
 .innerText {
-    margin: 0px;
-    font-size: 20px;
-    font-weight: bold;
+  margin: 0px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .innerNormalText {
-    margin: 0px;
-    font-size: 20px;
+  margin: 0px;
+  font-size: 20px;
 }
 
 .bottomBox {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 40px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 40px;
 }
 
 .modalBtn {
-    height: 100%;
-    border: 0px;
-    border-radius: 10px;
-    aspect-ratio: 4;
-    font-size: 20px;
-    color: white;
-    font-weight: bold;
-    margin: 0px 10px;
+  height: 100%;
+  border: 0px;
+  border-radius: 10px;
+  aspect-ratio: 4;
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  margin: 0px 10px;
 
-    &:hover {
-        cursor: pointer;
-        opacity: 0.7;
-    }
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
 }
 
 .inputText {
-    height: 50px;
-    width: 100%;
-    border-radius: 10px;
-    border: 2px solid #b6b6b6;
-    padding: 0px 10px;
-    box-sizing: border-box;
-    font-size: 16px;
+  height: 50px;
+  width: 100%;
+  border-radius: 10px;
+  border: 2px solid #b6b6b6;
+  padding: 0px 10px;
+  box-sizing: border-box;
+  font-size: 16px;
 }
 
 .innerMiddleBox {
-    display: flex;
-    width: 100%;
-    margin: 10px 0px;
-    align-items: center;
-    box-sizing: border-box;
-    padding: 0px 20px;
+  display: flex;
+  width: 100%;
+  margin: 10px 0px;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0px 20px;
 }
 
 .valueBtn {
-    width: 140px;
-    height: 40px;
-    border-radius: 20px;
-    border: 2px solid #b6b6b6;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    margin: 0px 5px;
-    font-size: 20px;
-    font-weight: bold;
+  width: 140px;
+  height: 40px;
+  border-radius: 20px;
+  border: 2px solid #b6b6b6;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  margin: 0px 5px;
+  font-size: 20px;
+  font-weight: bold;
 
-    &:hover {
-        background-color: #b6b6b6;
-        cursor: pointer;
-    }
+  &:hover {
+    background-color: #b6b6b6;
+    cursor: pointer;
+  }
 }
 
 .chargeBox {
-    height: 50px;
-    width: 300px;
-    border-radius: 10px;
-    border: 2px solid #b6b6b6;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  height: 50px;
+  width: 300px;
+  border-radius: 10px;
+  border: 2px solid #b6b6b6;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .chargeText {
-    font-size: 28px;
-    font-weight: bold;
-    margin: 0px;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0px;
 }
 
 .removeImgBox {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0px 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 10px;
 
-    &:hover {
-        opacity: 0.7;
-        cursor: pointer;
-    }
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
 }
 
 .inputBank {
-    margin: 0px 10px;
-    width: 15%;
-    height: 50px;
-    font-size: 20px;
-    padding: 0px 20px;
-    border: 2px solid #b6b6b6;
-    border-radius: 10px;
+  margin: 0px 10px;
+  width: 15%;
+  height: 50px;
+  font-size: 20px;
+  padding: 0px 20px;
+  border: 2px solid #b6b6b6;
+  border-radius: 10px;
 }
 
 .inputAccount {
-    border: 2px solid #b6b6b6;
-    border-radius: 10px;
-    width: 50%;
-    height: 50px;
-    font-size: 20px;
-    padding: 0px 20px;
+  border: 2px solid #b6b6b6;
+  border-radius: 10px;
+  width: 50%;
+  height: 50px;
+  font-size: 20px;
+  padding: 0px 20px;
 }
