@@ -17,6 +17,8 @@ import { Swiper as SwiperCore } from 'swiper/types';
 // icons
 import { FaCircleChevronLeft, FaCircleChevronRight } from 'react-icons/fa6';
 
+// 테스트 이미지
+import MinuGuide from '../fontDetailPageAssets/review_ex.png';
 
 const NUMBER_OF_SWIPERSLID = 200;
 const FontBoxSwiper = () => {
@@ -24,7 +26,10 @@ const FontBoxSwiper = () => {
   for (let i = 0; i < NUMBER_OF_SWIPERSLID; i++) {
     boxes.push(
       <SwiperSlide key={i + 'f'} className={classes.swiperSlid}>
-        <h3>이미지와 리뷰</h3>
+        <div className={classes.imgContainer}>
+          <img src={MinuGuide} alt="MinuGuide"/>
+        </div>
+        <div className={classes.reviewText}>한줄 리뷰</div>
       </SwiperSlide>,
     );
   }
@@ -37,10 +42,9 @@ const FontUserReview: React.FC = () => {
   return (
     <>
       <div className={classes.container}>
-        <h1>폰트 활용 후기</h1>
         <div className={classes.swiperLargeBox}>
           <FaCircleChevronLeft
-            size={50}
+            size={40}
             color="gray"
             onClick={() => {
               swiperRef.current?.slidePrev(); // swiper의 slidePrev 실행
@@ -50,7 +54,7 @@ const FontUserReview: React.FC = () => {
           <Swiper
             onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
             slidesPerView={3}
-            spaceBetween={21}
+            spaceBetween={0}
             loop={true}
             // autoplay={{
             //   delay: 2500,
@@ -62,7 +66,7 @@ const FontUserReview: React.FC = () => {
             {FontBoxSwiper()}
           </Swiper>
           <FaCircleChevronRight
-            size={50}
+            size={40}
             color="gray"
             onClick={() => {
               swiperRef.current?.slideNext(); // swiper의 slideNext 실행
