@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import classes from './FontMakeStep2.module.css';
-import MinuGuide from './fontMakePageAssets/guideline_ex.png';
 
+// image
+import MinuGuide from './fontDetailPageAssets/guideline_ex.png';
+
+// icon
 import { FaRegTimesCircle } from 'react-icons/fa';
 
 const FontMakeStep2: React.FC = () => {

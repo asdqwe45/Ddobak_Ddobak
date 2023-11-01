@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { reviewModalActions } from 'store/reviewModalSlice';
+import ReviewModal from 'common/modals/reviewModal/ReviewModal';
 import classes from './FontDetail.module.css';
 
 // components
@@ -39,6 +42,13 @@ const FontDetail: React.FC = () => {
 
   const handleFontSizeChange = (size: number) => {
     setFontSize(size);
+  };
+
+  // 후기 등록 모달
+  const dispatch = useDispatch();
+
+  const openReviewModal = () => {
+    dispatch(reviewModalActions.toggle());
   };
 
   return (
@@ -155,17 +165,17 @@ const FontDetail: React.FC = () => {
       <br />
       <div className={classes.titleContainer}>
         <BoxTitle>폰트 활용 후기</BoxTitle>
-        <div
-            className={classes.buyBtn}
+        <div className={classes.buyBtn}
             style={{
               backgroundColor: '#484848',
               border: '2px solid #484848',
               color: '#FFFFFF',
             }}
-          >
+            onClick={openReviewModal} >
            후기 등록
           </div>
       </div>
+      <ReviewModal />
       <hr />
       <br />
       <FontUserReview />
