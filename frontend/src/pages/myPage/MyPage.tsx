@@ -371,7 +371,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -389,7 +388,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -407,7 +405,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -425,7 +422,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -443,7 +439,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -461,7 +456,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -490,7 +484,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -508,7 +501,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -542,17 +534,18 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <CCLBox>
+                      <CCLBox>
                       <CCLIcons src={Attribution} />
                       <CCLIcons src={NoDerivativeWorks} />
                       <CCLIcons src={ShareAlike} />
                       <CCLIcons src={Noncommercial} />
                     </CCLBox>
+                      </ContentHeader>
+                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                    </ContentInnerTextBox>
+                  </ContentInnerLeft>
+                  <ContentInnerRight>
+                    <ContentGrayBtn>후기등록</ContentGrayBtn>
                     <ContentRedBtn>다운로드</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
