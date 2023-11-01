@@ -37,7 +37,7 @@ const store = configureStore({
     pointModal: pointModalSlice.reducer,
     changePwModal: changePwModalSlice.reducer,
     reviewModal: reviewModalSlice.reducer,
-    chargeModal: chargePointModalSlice.reducer,
+    chargePoint: chargePointModalSlice.reducer,
   },
 });
 

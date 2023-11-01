@@ -5,6 +5,7 @@ import classes from './PointPayModal.module.css';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { pointPayModalActions } from 'store/pointPayModalSlice';
+import { chargePointModalActions } from 'store/chargePointModalSlice';
 
 import { AiOutlineClose } from 'react-icons/ai';
 import { borderColor, mainRedColor, likeCountColor } from 'common/colors/CommonColors';
@@ -27,6 +28,9 @@ const PointPayModal: React.FC = () => {
 
   const closeModal = () => {
     clickPayHandler();
+  };
+  const clickChargeHandler = () => {
+    dispatch(chargePointModalActions.toggle());
   };
 
   return (
@@ -79,7 +83,11 @@ const PointPayModal: React.FC = () => {
           </div>
         </div>
         <div className={classes.bottomBox}>
-          <button className={classes.modalBtn} style={{ backgroundColor: likeCountColor }}>
+          <button
+            className={classes.modalBtn}
+            style={{ backgroundColor: likeCountColor }}
+            onClick={clickChargeHandler}
+          >
             충전하기
           </button>
           <button
