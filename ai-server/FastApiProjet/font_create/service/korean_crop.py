@@ -24,8 +24,8 @@ def crop_image_uniform(template_image):
   cell_width = width / float(cols)
   cell_height = height / float(rows)
   header_offset = height / float(rows) * header_ratio
-  width_margin = cell_width * 0.05
-  height_margin = cell_height * 0.05
+  width_margin = cell_width * 0.02
+  height_margin = cell_height * 0.02
 
   for j in range(0, rows):
     for i in range(0, cols):
