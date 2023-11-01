@@ -3,9 +3,29 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  margin-top: 170px;
+}
+
+.loadingBar {
+  width: 40%;
+  background-color: #e0e0e0;
+  position: relative;
+  height: 30px;
+  display: flex;
+}
+
+.progressBar {
+  height: 100%;
+  background-color: #D71718;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.1s ease-in-out;
 }
 
 .loadingInfo {
+  margin-top: 30px;
   font-size: 23px;
   text-align: center;
   font-weight: 600;
