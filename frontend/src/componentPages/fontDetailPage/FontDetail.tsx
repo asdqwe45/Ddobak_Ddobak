@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { reviewModalActions } from 'store/reviewModalSlice';
+import ReviewModal from 'common/modals/reviewModal/ReviewModal';
 import classes from './FontDetail.module.css';
 
 // components
-import RangeSlider from 'common/fontRangeSlider/RangeSlider';
 import { BoxTitle } from 'common/titleComponents/TitleComponents';
+import RangeSlider from 'common/fontRangeSlider/RangeSlider';
+import FontUserReview from './fontDetailPageComponent/FontUserReview';
 
 // icons
 import { FaRegBookmark } from 'react-icons/fa'; // 폰트 찜 before
@@ -38,6 +42,13 @@ const FontDetail: React.FC = () => {
 
   const handleFontSizeChange = (size: number) => {
     setFontSize(size);
+  };
+
+  // 후기 등록 모달
+  const dispatch = useDispatch();
+
+  const openReviewModal = () => {
+    dispatch(reviewModalActions.toggle());
   };
 
   return (
@@ -152,12 +163,22 @@ const FontDetail: React.FC = () => {
       </div>
       <br />
       <br />
-      <div className={classes.intro}>
+      <div className={classes.titleContainer}>
         <BoxTitle>폰트 활용 후기</BoxTitle>
+        <div className={classes.buyBtn}
+            style={{
+              backgroundColor: '#484848',
+              border: '2px solid #484848',
+              color: '#FFFFFF',
+            }}
+            onClick={openReviewModal} >
+           후기 등록
+          </div>
       </div>
+      <ReviewModal />
       <hr />
       <br />
-      {/* 폰트 활용 후기 - 컴포넌트 만들기 */}
+      <FontUserReview />
     </>
   );
 };
