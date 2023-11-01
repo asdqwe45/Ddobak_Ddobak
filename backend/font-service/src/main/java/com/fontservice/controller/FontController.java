@@ -27,55 +27,74 @@ import java.util.Collections;
 public class FontController {
 
     public record FontWebRequest(
-            Long producer_id
+            String font_sort_url,
+            Boolean openStatus,
+            Boolean freeStatus,
+            Integer price,
+            Boolean commerceStatus,
+            String introduceText
 
     ){}
 
 
     @Autowired
     private final FontImageService fontImageService;
-
     @Autowired
     private final FontService fontService;
 
-    @GetMapping("/test")
-    public String test(){
+
+    @PostMapping("/test")
+    public String test(@RequestPart(value = "data") FontWebRequest req){
         return "test";
     }
 
 
     @PostMapping("/sort")
-    public ResponseEntity<String> sort(@RequestParam("file") MultipartFile file, @RequestParam Long producer_id){
-
+    public ResponseEntity<String> sort(@RequestParam("file") MultipartFile[] files, @RequestParam Long producer_id){
+        System.out.println("0");
         try {
-            File tempOutputFile = fontImageService.convertToPng(file);
-            if (tempOutputFile.length() == 0) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("파일 형식이 올바르지 않습니다.");
-            }
+            String s3Url = new String();
 
-            // AI에 넘겨주고 받기
-            String s3Url = fontImageService.getS3Url(tempOutputFile);
+            for (MultipartFile file : files) {
+                File tempOutputFile = fontImageService.convertToPng(file);
+                if (tempOutputFile.length() == 0) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("파일 형식이 올바르지 않습니다.");
+                }
+
+                // AI에 넘겨주고 받기
+                s3Url = s3Url + fontImageService.getS3Url(tempOutputFile);
+                s3Url = s3Url + "$";
+            }
             if(s3Url == null){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("AI response의 파일 타입이 올바르지 않습니다.");
             }
-            fontService.addFont(producer_id,s3Url);
 
-            return ResponseEntity.ok(s3Url);
+            fontService.addFont(producer_id, s3Url);
+            return ResponseEntity.ok(String.join(", ", s3Url));  // 모든 S3 URL을 반환합니다.
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed ㅠㅠ");
         }
     }
 
+
     @PostMapping("/make")
-    public ResponseEntity<String> makeFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> makeFile(@RequestPart("file") MultipartFile file, @RequestPart(value = "data") FontWebRequest req) {
         try {
+            System.out.println("1");
             File tempFile = File.createTempFile("source",".png");
+            System.out.println("2");
+
             file.transferTo(tempFile);
+            System.out.println("3");
+
             String s3Url = fontImageService.getS3Url(tempFile);
+            System.out.println("4");
+
             if(s3Url.length()==0){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("AI response의 파일 타입이 올바르지 않습니다.");
             }
+            //fontService.makeFont(s3Url,req);
 
             return ResponseEntity.ok(s3Url);
         } catch (IOException e) {

@@ -28,6 +28,8 @@ public class FontImageService {
     @Autowired
     private S3Service s3Service;
 
+
+
     public File convertToPng(MultipartFile file) throws IOException{
         String fileExtension = StringUtils.getFilenameExtension(file.getOriginalFilename());
         System.out.println(fileExtension);
@@ -60,28 +62,48 @@ public class FontImageService {
         return outputFile;
     }
 
-    public String getS3Url(File imageFile) {
-        String fastApiUrl = "http://localhost:8000/upload";
-
+    public String getS3Url(File imageFile) {// 8889  8786
+        String fastApiUrl = "http://163.239.223.171:8786/api/v1/image_align";
+        System.out.println("??");
         HttpHeaders headers = new HttpHeaders();
+        System.out.println("??");
+
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        System.out.println("??");
+
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        System.out.println("??");
 
         FileSystemResource resource = new FileSystemResource(imageFile);
+        System.out.println("??");
+
         MultiValueMap<String,Object> body = new LinkedMultiValueMap<>();
+        System.out.println("??");
+
         body.add("file",resource);
+        System.out.println("??");
 
         HttpEntity<MultiValueMap<String,Object>> requestEntity = new HttpEntity<>(body,headers);
+        System.out.println("??");
+        System.out.println(requestEntity.getBody());
+        System.out.println(requestEntity.getHeaders());
         ResponseEntity<byte[]> response = restTemplate.exchange(fastApiUrl, HttpMethod.POST, requestEntity,byte[].class);
+        System.out.println("??");
+
         String contentType = response.getHeaders().getContentType().toString();
+        System.out.println("??");
+
         String s3Url = new String();
+        System.out.println("??");
+
         if ("application/x-font-ttf".equals(contentType)) {
             s3Url = s3Service.uploadFontFile(response.getBody(),"application/x-font-ttf");
 
         } else if ("image/png".equals(contentType)) {
-            s3Url = s3Service.uploadSortFile(response.getBody(),"application/x-font-ttf");
+            s3Url = s3Service.uploadSortFile(response.getBody(),"image/png");
 
         }
+        System.out.println("??");
 
         return s3Url;
     }
@@ -95,7 +117,7 @@ public class FontImageService {
         try (PDDocument document = PDDocument.load(inputFile)) {
 
             PDFRenderer pdfRenderer = new PDFRenderer(document);
-            image = pdfRenderer.renderImageWithDPI(0, 300);
+            image = pdfRenderer.renderImageWithDPI(0,200);
         }
 
         ImageIO.write(image, "PNG", outputFile);
