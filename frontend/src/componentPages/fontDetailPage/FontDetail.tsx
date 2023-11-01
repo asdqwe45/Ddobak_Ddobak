@@ -3,8 +3,9 @@ import { useLocation } from 'react-router-dom';
 import classes from './FontDetail.module.css';
 
 // components
-import RangeSlider from 'common/fontRangeSlider/RangeSlider';
 import { BoxTitle } from 'common/titleComponents/TitleComponents';
+import RangeSlider from 'common/fontRangeSlider/RangeSlider';
+import FontUserReview from './fontDetailPageComponent/FontUserReview';
 
 // icons
 import { FaRegBookmark } from 'react-icons/fa'; // 폰트 찜 before
@@ -152,12 +153,13 @@ const FontDetail: React.FC = () => {
       </div>
       <br />
       <br />
-      <div className={classes.intro}>
+      <div className={classes.titleContainer}>
         <BoxTitle>폰트 활용 후기</BoxTitle>
+        <button>후기 등록</button>
       </div>
       <hr />
       <br />
-      {/* 폰트 활용 후기 - 컴포넌트 만들기 */}
+      <FontUserReview />
     </>
   );
 };
