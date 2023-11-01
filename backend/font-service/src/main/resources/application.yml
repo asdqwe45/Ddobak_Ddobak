@@ -1,0 +1,9 @@
+server:
+  port: 7002
+
+spring:
+  profiles.include:
+    - db
+    - s3
+    - eureka
+    - log
