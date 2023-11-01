@@ -1,5 +1,4 @@
-import React from // , { useState }
-'react';
+import React from 'react'; // , { useState }
 import classes from './FontOptionPage.module.css';
 
 // components

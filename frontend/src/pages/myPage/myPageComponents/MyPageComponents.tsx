@@ -245,7 +245,6 @@ export const ContentRedBtn = styled(ContentBtnIngredient)`
 
 export const ContentGrayBtn = styled(ContentBtnIngredient)`
   background-color: ${likeCountColor};
-  height: 80%;
   &:hover {
     // 이 부분이 hover 상태일 때 적용될 스타일입니다.
     cursor: pointer; // 마우스 커서를 포인터로 변경합니다.
@@ -302,10 +301,12 @@ export const CCLBox = styled(ContentBtnIngredient)`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0px 5px;
 `;
 export const CCLIcons = styled.img`
   margin: 0px 2px;
-  height: 80%;
+  width: 30px;
+  height: 30px;
 `;
 
 //  찜한 제작자

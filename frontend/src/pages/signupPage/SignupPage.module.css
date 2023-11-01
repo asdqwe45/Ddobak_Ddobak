@@ -73,3 +73,16 @@
 .emailCheckBtn:hover {
   background-color: #f66c5c;
 }
+
+.notValidEmail {
+  background-color: #484848;
+  position: absolute;
+  transform: translate(-105px, 14.5px);
+  border-radius: 6.5px;
+  border: 0px;
+  height: 40px;
+  width: 100px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
