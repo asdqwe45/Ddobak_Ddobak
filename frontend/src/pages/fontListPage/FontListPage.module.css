@@ -1,3 +1,7 @@
+.container {
+  margin-bottom: 50px;;
+}
+
 .topContainer {
   display: flex;
   margin: 60px 30px 40px 30px;
@@ -94,13 +98,13 @@
 
 .fontBoxContainer > * {
   flex: 1;
-  margin: 5px;
-  min-width: calc(25% - 10px);
+  /* margin: 5px; */
+  min-width: calc(22%);
 }
 
 @media (max-width: 800px) {
   .fontBoxContainer > * {
-    min-width: calc(50% - 10px);
+    min-width: calc(50%);
   }
 }
 
