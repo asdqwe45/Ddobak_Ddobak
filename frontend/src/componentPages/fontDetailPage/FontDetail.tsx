@@ -180,15 +180,17 @@ const FontDetail: React.FC = () => {
       <br />
       <div className={classes.titleContainer}>
         <BoxTitle>폰트 활용 후기</BoxTitle>
-        <div className={classes.buyBtn}
-            style={{
-              backgroundColor: '#484848',
-              border: '2px solid #484848',
-              color: '#FFFFFF',
-            }}
-            onClick={openReviewModal} >
-           후기 등록
-          </div>
+        <div
+          className={classes.buyBtn}
+          style={{
+            backgroundColor: '#484848',
+            border: '2px solid #484848',
+            color: '#FFFFFF',
+          }}
+          onClick={openReviewModal}
+        >
+          후기 등록
+        </div>
       </div>
       <ReviewModal />
       <hr />
