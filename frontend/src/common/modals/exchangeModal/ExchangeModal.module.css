@@ -161,16 +161,6 @@
   }
 }
 
-.inputBank {
-  margin: 0px 10px;
-  width: 15%;
-  height: 50px;
-  font-size: 20px;
-  padding: 0px 20px;
-  border: 2px solid #b6b6b6;
-  border-radius: 10px;
-}
-
 .inputAccount {
   border: 2px solid #b6b6b6;
   border-radius: 10px;
@@ -178,4 +168,16 @@
   height: 50px;
   font-size: 20px;
   padding: 0px 20px;
+}
+
+.controlClass {
+  margin: 0px 10px;
+  width: 200px;
+  height: 50px;
+  font-size: 20px;
+  padding: 0px 20px;
+  border: 2px solid #b6b6b6;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
 }
