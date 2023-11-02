@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import classes from './FontMakeStep2.module.css';
 
 // image
@@ -10,8 +10,8 @@ import { FaRegTimesCircle } from 'react-icons/fa';
 const FontMakeStep2: React.FC = () => {
   const [files, setFiles] = useState<{ src: string; name: string }[]>([]);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = event.target.files;
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement> | DataTransfer) => {
+    const fileList = event instanceof DataTransfer ? event.files : event.target.files;
     if (fileList) {
       const newFiles: { src: string; name: string }[] = [];
 
@@ -28,6 +28,17 @@ const FontMakeStep2: React.FC = () => {
     }
   };
 
+  // 파일 darg & drop
+  const onDrop = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    handleFileChange(event.dataTransfer);
+  }, []);
+
+  const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  }, []);
+
+  // 파일 삭제
   const removeFile = (index: number) => {
     setFiles((prev) => prev.filter((_, i) => i !== index));
   };
@@ -78,7 +89,11 @@ const FontMakeStep2: React.FC = () => {
             />
             <label htmlFor="fileInput">파일 업로드 click!</label>
           </div>
-          <div className={classes.upLoadList}>
+          <div 
+            className={classes.upLoadList}
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+          >
             {files.map((file, index) => (
               <div key={index} className={classes.upLoadFile}>
                 <div className={classes.upLoadFileName}>
