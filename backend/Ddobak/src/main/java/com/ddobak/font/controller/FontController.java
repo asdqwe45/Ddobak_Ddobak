@@ -9,14 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @RestController
+@RequestMapping("/api/v1/font")
 @RequiredArgsConstructor
-@RequestMapping("/api/font")
 @Slf4j
 public class FontController {
 
@@ -30,9 +35,8 @@ public class FontController {
 
     ){}
 
-    @Autowired
+
     private final FontImageService fontImageService;
-    @Autowired
     private final FontService fontService;
 
 
@@ -70,6 +74,38 @@ public class FontController {
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed ㅠㅠ");
+        }
+    }
+    @CrossOrigin(origins = "http://localhost:3000") // React 앱의 URL을 허용합니다.
+    @PostMapping("/watch")
+    public ResponseEntity<byte[]> watchImage(@RequestPart("file") MultipartFile[] files){
+        try {
+            System.out.println("1111");
+            File tempFile1 = File.createTempFile("kor_file",".png");
+            File tempFile2 = File.createTempFile("eng_file",".png");
+
+            files[0].transferTo(tempFile1);
+
+            files[1].transferTo(tempFile2);
+
+            List<File> tempFile = new ArrayList<>();
+
+            tempFile.add(tempFile1);
+
+            tempFile.add(tempFile2);
+            System.out.println("1111");
+
+            ResponseEntity<byte[]> zip = fontImageService.downloadZip(tempFile);
+            System.out.println("1111");
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("attachment", "files.zip");
+
+           return new ResponseEntity<>(zip.getBody(), headers, HttpStatus.OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

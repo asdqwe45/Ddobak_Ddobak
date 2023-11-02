@@ -9,6 +9,7 @@ import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -67,7 +68,7 @@ public class FontImageService {
     }
 
     public String getS3SortUrl(File imageFile) {// 8889  8786 http://163.239.223.171:8786/api/v1/image_align
-        String fastApiUrl = "http://163.239.223.171:8786/api/v1/image_align";
+        String fastApiUrl = "http://localhost:8000/sortUpload";
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -87,48 +88,49 @@ public class FontImageService {
         String contentType = response.getHeaders().getContentType().toString();
         String s3Url = new String();
 
-        if ("application/x-font-ttf".equals(contentType)) {
-            s3Url = s3Service.uploadFontFile(response.getBody(),"application/x-font-ttf");
-
-        } else if ("image/png".equals(contentType)) {
-            s3Url = s3Service.uploadSortFile(response.getBody(),"image/png");
-
-        }
+        s3Url = s3Service.uploadSortFile(response.getBody(),"image/png");
 
         return s3Url;
     }
 
-    public String getS3WatchUrl(File imageFile) {// 8889  8786 http://163.239.223.171:8786/api/v1/image_align
-        String fastApiUrl = "http://163.239.223.171:8786/api/v1/image_align";
+    public ResponseEntity<byte[]> downloadZip(List<File> imageFiles){
+
+        ByteArrayHttpMessageConverter byteArrayHttpMessageConverter = new ByteArrayHttpMessageConverter();
+        List<MediaType> supportedMediaTypes = new ArrayList<>(byteArrayHttpMessageConverter.getSupportedMediaTypes());
+        supportedMediaTypes.add(MediaType.parseMediaType("application/x-zip-compressed"));
+        byteArrayHttpMessageConverter.setSupportedMediaTypes(supportedMediaTypes);
+
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().add(byteArrayHttpMessageConverter);
+        String fastApiUrl = "http://localhost:8000/downloadZip";
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-        FileSystemResource resource = new FileSystemResource(imageFile);
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
-        MultiValueMap<String,Object> body = new LinkedMultiValueMap<>();
-
-        body.add("file",resource);
-
-        HttpEntity<MultiValueMap<String,Object>> requestEntity = new HttpEntity<>(body,headers);
-
-        ResponseEntity<byte[]> response = restTemplate.exchange(fastApiUrl, HttpMethod.POST, requestEntity,byte[].class);
-
-        String contentType = response.getHeaders().getContentType().toString();
-        String s3Url = new String();
-
-        if ("application/x-font-ttf".equals(contentType)) {
-            s3Url = s3Service.uploadFontFile(response.getBody(),"application/x-font-ttf");
-
-        } else if ("image/png".equals(contentType)) {
-            s3Url = s3Service.uploadSortFile(response.getBody(),"image/png");
-
+        int fileIndex = 1;
+        for (File imageFile : imageFiles) {
+            FileSystemResource resource = new FileSystemResource(imageFile);
+            body.add("file" + fileIndex, resource);
+            fileIndex++;
         }
 
-        return s3Url;
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+        System.out.println("???");
+
+        ResponseEntity<byte[]> zip = restTemplate.exchange(
+                fastApiUrl,
+                HttpMethod.POST,
+                requestEntity,
+                byte[].class
+        );
+        System.out.println("???");
+
+        return new ResponseEntity<>(zip.getBody(), headers, HttpStatus.OK);
     }
+
     public ResponseEntity<String> getS3MakeUrl(List<File> imageFiles) {
         String fastApiUrl = "http://localhost:8000/makeUpload";
         HttpHeaders headers = new HttpHeaders();
