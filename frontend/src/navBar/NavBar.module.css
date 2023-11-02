@@ -90,9 +90,11 @@
   height: 100%;
 }
 
-.hamburgerBar {
+.hamburgerBarBox {
   /* position: fixed; */
   display: none;
+}
+.hamburgerBar {
   &:hover {
     cursor: pointer;
     opacity: 0.5;
@@ -109,7 +111,7 @@
   .rightBox {
     display: none;
   }
-  .hamburgerBar {
+  .hamburgerBarBox {
     display: unset;
   }
 }
