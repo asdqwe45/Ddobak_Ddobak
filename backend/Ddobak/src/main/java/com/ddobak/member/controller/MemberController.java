@@ -6,10 +6,12 @@ import com.ddobak.member.dto.request.MemberLoginRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
 import com.ddobak.member.dto.response.TokenResponse;
 import com.ddobak.member.service.MemberService;
+import com.ddobak.security.util.LoginInfo;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +31,7 @@ public class MemberController {
     // 이메일 인증 요청
     @PostMapping("/email/verify-request")
     public ResponseEntity<Void> sendEmail(@RequestBody EmailVerifyRequest emailVerifyRequest) {
-        log.info("Send Email to {}", emailVerifyRequest.email());
+        log.debug("Send Email to {}", emailVerifyRequest.email());
 
         memberService.sendCodeToEmail(emailVerifyRequest.email());
 
@@ -39,7 +41,7 @@ public class MemberController {
     // 이메일 인증 확인
     @GetMapping("/email/verify")
     public ResponseEntity<Void> verifyEmail(@RequestBody EmailVerificationRequest emailVerificationRequest) {
-        log.info("verify email {} with authCode {}", emailVerificationRequest.email(), emailVerificationRequest.authCode());
+        log.debug("verify email {} with authCode {}", emailVerificationRequest.email(), emailVerificationRequest.authCode());
 
         memberService.verifyEmail(emailVerificationRequest.email(),
             emailVerificationRequest.authCode());
@@ -50,7 +52,7 @@ public class MemberController {
     // 회원 가입
     @PostMapping("/signup")
     public ResponseEntity<Void> singUpMember(@RequestPart SignUpRequest signUpRequest, @RequestPart(required = false) MultipartFile profileImg) {
-        log.info("{} request signUp", signUpRequest.email());
+        log.debug("{} request signUp", signUpRequest.email());
 
         memberService.signUpMember(signUpRequest, profileImg);
 
@@ -60,10 +62,19 @@ public class MemberController {
     // 로그인
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> memberLogin(@RequestBody @Valid MemberLoginRequest memberLoginRequest) {
-        log.info("{} request Login", memberLoginRequest.email());
+        log.debug("{} request Login", memberLoginRequest.email());
 
         TokenResponse tokenResponse = memberService.loginMember(memberLoginRequest);
 
         return ResponseEntity.ok().body(tokenResponse);
+    }
+
+    // 로그아웃
+    @GetMapping("/logout")
+    public ResponseEntity<Void> memberLogout(@AuthenticationPrincipal LoginInfo loginInfo) {
+        log.debug("{} wants logout", loginInfo.email());
+
+        memberService.logoutMember(loginInfo);
+        return ResponseEntity.noContent().build();
     }
 }
