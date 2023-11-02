@@ -99,8 +99,9 @@ const NavBar: React.FC = () => {
               <div className={classes.loginBox}>
                 <p
                   className={classes.navFont}
-                  onClick={() => {
+                  onClick={async () => {
                     localStorage.clear();
+                    window.location.reload();
                   }}
                 >
                   로그아웃
