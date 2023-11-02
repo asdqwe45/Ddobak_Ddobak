@@ -27,7 +27,7 @@ const MainPageGuide: React.FC = () => {
                 손글씨를 작성합니다.
               </p>
               <div className={classes.btnBox}>
-                <button className={classes.downloadBtn}>가이드라인 다운로드</button>
+                <button className={classes.downloadBtn} onClick={handleDownload}>가이드라인 다운로드</button>
               </div>
             </div>
           </div>
@@ -79,3 +79,26 @@ const MainPageGuide: React.FC = () => {
   );
 };
 export default MainPageGuide;
+
+// 가이드라인 다운로드
+const handleDownload = async () => {
+  try {
+    const response = await fetch('https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/english_number_template.pdf');
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = url;
+      // 다운로드 시, 파일 이름
+      a.download = 'ddobak_english_number_template.pdf';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } else {
+      throw new Error('Network response was not ok');
+    }
+  } catch (error) {
+    console.error('다운로드 중 에러가 발생했습니다', error);
+  }
+};

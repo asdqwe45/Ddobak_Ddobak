@@ -99,39 +99,40 @@ const FontListPage: React.FC = () => {
 
   return (
     <>
-      <div className={classes.topContainer}>
-        <PageTitle>
-          <span>모든 폰트</span>
-        </PageTitle>
-        <div className={classes.searchBar}>
-          <input
-            type="text"
-            placeholder="폰트명, 제작자 검색"
+      <div className={classes.container}>
+        <div className={classes.topContainer}>
+          <PageTitle>
+            <span>모든 폰트</span>
+          </PageTitle>
+          <div className={classes.searchBar}>
+            <input
+              type="text"
+              placeholder="폰트명, 제작자 검색"
             // value={searchTerm}
             // onChange={e => setSearchTerm(e.target.value)}
-          />
-          <FaSistrix size={24} color="black" />
-        </div>
-        <div className={classes.filterBarWrapper}>
-          <div
-            className={`${classes.filterBar} ${showFilterOptions ? classes.filterBarActive : ''}`}
-            onClick={() => setShowFilterOptions(!showFilterOptions)}
-          >
-            폰트 필터링
-            <FaAngleDown
-              size={22}
-              color="gray"
-              style={{ marginLeft: '4px' }}
-              className={`${classes.filterIcon} ${
-                showFilterOptions ? classes.filterIconActive : ''
-              }`}
             />
+            <FaSistrix size={24} color="black" />
           </div>
-          {showFilterOptions && renderFilterOptions()}
+          <div className={classes.filterBarWrapper}>
+            <div
+              className={`${classes.filterBar} ${showFilterOptions ? classes.filterBarActive : ''}`}
+              onClick={() => setShowFilterOptions(!showFilterOptions)}
+            >
+              폰트 필터링
+              <FaAngleDown
+                size={22}
+                color="gray"
+                style={{ marginLeft: '4px' }}
+                className={`${classes.filterIcon} ${showFilterOptions ? classes.filterIconActive : ''
+                  }`}
+              />
+            </div>
+            {showFilterOptions && renderFilterOptions()}
+          </div>
         </div>
+        <div className={classes.fontBoxContainer}>{renderFontBoxes()}</div>
       </div>
 
-      <div className={classes.fontBoxContainer}>{renderFontBoxes()}</div>
     </>
   );
 };
