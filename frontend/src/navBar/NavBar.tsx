@@ -128,8 +128,13 @@ const NavBar: React.FC = () => {
             </>
           )}
         </div>
-        <div className={classes.hamburgerBar}>
-          <GiHamburgerMenu size={40} color={mainRedColor} onClick={hamburgerToggle} />
+        <div className={classes.hamburgerBarBox}>
+          <GiHamburgerMenu
+            size={40}
+            color={mainRedColor}
+            onClick={hamburgerToggle}
+            className={classes.hamburgerBar}
+          />
           {isClicked ? <>{testMenu(haveToken, navigate, setIsClicked)}</> : <></>}
         </div>
       </div>
