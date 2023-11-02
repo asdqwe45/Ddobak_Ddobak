@@ -57,3 +57,24 @@ export function userSignup(data: SignupData): Promise<any> {
       throw e;
     });
 }
+
+/*
+// Save to local storage
+window.localStorage.setItem(key, JSON.stringify(newValue))
+const item = window.localStorage.getItem(key)
+return item ? (parseJSON(item) as T) : initialValue
+*/
+
+// const localStorage = window.localStorage
+
+interface LoginType {
+  email: string;
+  password: string;
+}
+
+export function userTestLogin(data: LoginType) {
+  console.log(data);
+  const testToken = 'DFGHJDFGHJKGHJKFGHJKLFGHJKFGHJKLFGHJK';
+  const jsonTestToken = JSON.stringify(testToken);
+  localStorage.setItem('testToken', jsonTestToken);
+}

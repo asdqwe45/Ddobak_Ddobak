@@ -15,6 +15,10 @@
 .navFont {
   font-size: 21px;
   font-weight: 500;
+  &:hover {
+    cursor: pointer;
+    color: #d71718;
+  }
 }
 
 .list {
