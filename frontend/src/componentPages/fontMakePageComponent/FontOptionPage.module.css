@@ -1,3 +1,7 @@
+.container {
+  margin: 40px 60px
+}
+
 .rowContainer {
   display: flex;
   align-items: center;
@@ -47,14 +51,13 @@
 /* 하단 버튼 */
 .btnContainer {
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 30px;
+  justify-content: center;
 }
 
 .nextBtn {
   background-color: #484848;
   border-radius: 10px;
-  width: 140px;
+  width: 400px;
   height: 50px;
   text-align: center;
   color: white;
