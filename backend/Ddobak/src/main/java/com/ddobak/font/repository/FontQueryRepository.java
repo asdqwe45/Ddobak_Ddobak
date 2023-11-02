@@ -46,23 +46,23 @@ public class FontQueryRepository {
         }
     }
 
-    @Transactional
-    public void createFont(Long producerId, String fontSortUrl, String fontFileUrl) {
-        Font font = new Font(
-            producerId,
-            fontSortUrl,
-            fontFileUrl,
-            "default",
-            "default",
-            true,
-            false,
-            0,
-            false,
-            "default",
-            LocalDate.now()
-        );
-        em.persist(font);
-    }
+//    @Transactional
+//    public void createFont(Long producerId, String fontSortUrl, String fontFileUrl) {
+//        Font font = new Font(
+//            producerId,
+//            fontSortUrl,
+//            fontFileUrl,
+//            "default",
+//            "default",
+//            true,
+//            false,
+//            0,
+//            false,
+//            "default",
+//            LocalDate.now()
+//        );
+//        em.persist(font);
+//    }
 //    public void findFonts(List<String> keywords, Boolean isFree){
 //        JPAQuery<Font> query = new JPAQuery<>(em);
 //

@@ -23,14 +23,14 @@ public class FontService {
 
     private final FontRepository fontRepository;
     private final FontQueryRepository fontQueryRepository;
-    public void addFont(
-        Long producer_id,
-        String font_sort_url,
-        String font_file_url
-    ){
-        fontQueryRepository.createFont(producer_id,font_sort_url,font_file_url);
-
-    }
+//    public void addFont(
+//        Long producer_id,
+//        String font_sort_url,
+//        String font_file_url
+//    ){
+//        fontQueryRepository.createFont(producer_id,font_sort_url,font_file_url);
+//
+//    }
 
     public void makeFont(String url, FontController.FontWebRequest req){
         Font font = new Font();

@@ -32,7 +32,8 @@ public class SecurityConfig {
             // URL 별 권환 확인
             .authorizeRequests()
             .antMatchers("/api/v1/member/email/**","/docs/**", "/api/v1/member/join/**").permitAll()
-            .anyRequest().authenticated()
+                .antMatchers("/**").permitAll()
+                .anyRequest().authenticated()
             .and()
             .build();
     }
