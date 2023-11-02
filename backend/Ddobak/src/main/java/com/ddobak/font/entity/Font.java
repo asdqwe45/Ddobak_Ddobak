@@ -5,8 +5,13 @@ import com.ddobak.global.entity.BaseEntity;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
+import com.ddobak.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,16 +19,12 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-public class Font {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="font_id")
-    private Long font_id;
+public class Font extends BaseEntity{
 
-    //    @ManyToOne(fetch = FetchType.LAZY)
+//    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name="producer")
-//    @OnDelete(OnDeleteAction.CASCADE)
-    @Column(nullable = false)
-    private Long producer_id;
+//    @Column(nullable = false)
+//    private Member member;
 
     @Column(nullable = false)
     private String font_sort_url;
@@ -43,19 +44,19 @@ public class Font {
     @Column(columnDefinition = "BOOLEAN default false")
     private Boolean freeStatus;
 
-    public Font(Long producer_id, String font_sort_url, String font_file_url, String ko_font_name, String en_font_name, Boolean openStatus, Boolean freeStatus, Integer price, Boolean commerceStatus, String introduceText, LocalDate create_date) {
-        this.producer_id = producer_id;
-        this.font_sort_url = font_sort_url;
-        this.font_file_url = font_file_url;
-        this.ko_font_name = ko_font_name;
-        this.en_font_name = en_font_name;
-        this.openStatus = openStatus;
-        this.freeStatus = freeStatus;
-        this.price = price;
-        this.commerceStatus = commerceStatus;
-        this.introduceText = introduceText;
-        this.create_date = create_date;
-    }
+//    public Font(Long producer_id, String font_sort_url, String font_file_url, String ko_font_name, String en_font_name, Boolean openStatus, Boolean freeStatus, Integer price, Boolean commerceStatus, String introduceText, LocalDate create_date) {
+//        this.member = producer_id;
+//        this.font_sort_url = font_sort_url;
+//        this.font_file_url = font_file_url;
+//        this.ko_font_name = ko_font_name;
+//        this.en_font_name = en_font_name;
+//        this.openStatus = openStatus;
+//        this.freeStatus = freeStatus;
+//        this.price = price;
+//        this.commerceStatus = commerceStatus;
+//        this.introduceText = introduceText;
+//        this.create_date = create_date;
+//    }
 
     @Column(columnDefinition = "int default 0")
     private Integer price;

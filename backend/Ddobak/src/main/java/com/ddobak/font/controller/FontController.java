@@ -37,7 +37,7 @@ public class FontController {
     private final FontService fontService;
 
 
-    @PostMapping("/test")
+    @GetMapping("/test")
     public String test(){
         return "test";
     }
@@ -104,7 +104,7 @@ public class FontController {
             if(s3Url.length()==0){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("AI response의 파일 타입이 올바르지 않습니다.");
             }
-            fontService.addFont(producer_id,font_sort_url, s3Url);
+//            fontService.addFont(producer_id,font_sort_url, s3Url);
 
             return ResponseEntity.ok(s3Url);
         } catch (IOException e) {
