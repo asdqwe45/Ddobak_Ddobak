@@ -46,3 +46,7 @@ cloud:
 jwt:
   token:
     secret: ${JWT_SECRET_KEY}
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
