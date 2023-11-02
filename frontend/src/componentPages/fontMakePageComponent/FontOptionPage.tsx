@@ -134,8 +134,6 @@ const FontOptionPage: React.FC = () => {
         </div>
         <br />
         <hr />
-        <br />
-
         {/* 폰트 키워드 */}
         <div className={classes.keywordContainer}>
           <div className={classes.rowContainer}>

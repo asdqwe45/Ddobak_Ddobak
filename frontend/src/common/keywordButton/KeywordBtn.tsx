@@ -29,8 +29,10 @@ const KeywordBtn: React.FC = () => {
 
   return (
     <>
+    <div className={classes.container}>
       {renderKeywords(options.slice(0, ROW_SIZE))}
       {renderKeywords(options.slice(ROW_SIZE))}
+      </div>
     </>
   );
 };

@@ -33,10 +33,10 @@ export const mainRedColor = "#D71718" */
 }
 
 .contentBox {
-  width: 30%;
-  height: 75%;
+  width: 29%;
+  height: 70%;
   background-color: #ececec;
-  padding: 20px;
+  padding: 30px 30px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -85,7 +85,7 @@ export const mainRedColor = "#D71718" */
 }
 
 .aspectImg {
-  position: absolute;
+  /* position: absolute; */
   top: 0;
   left: 0;
   width: 100%;
@@ -116,6 +116,9 @@ export const mainRedColor = "#D71718" */
   background-color: #d71718;
   color: white;
   cursor: pointer;
+}
+.guideImg {
+  width: 60%;
 }
 .contentImg {
   width: 100%;
