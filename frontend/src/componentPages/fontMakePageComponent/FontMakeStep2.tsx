@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import classes from './FontMakeStep2.module.css';
 
 // image
-import MinuGuide from './fontDetailPageAssets/guideline_ex.png';
+import MiniGuide from './fontDetailPageAssets/guideline_ex.png';
 
 // icon
 import { FaRegTimesCircle } from 'react-icons/fa';
@@ -32,6 +32,29 @@ const FontMakeStep2: React.FC = () => {
     setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
+  // 가이드라인 다운로드
+  const handleDownload = async () => {
+    try {
+      const response = await fetch('https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/english_number_template.pdf');
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        // 다운로드 시, 파일 이름
+        a.download = 'ddobak_english_number_template.pdf';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      } else {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      console.error('다운로드 중 에러가 발생했습니다', error);
+    }
+  };
+
   return (
     <>
       <div className={classes.loadContainer}>
@@ -40,9 +63,9 @@ const FontMakeStep2: React.FC = () => {
             또박또박 손글씨 가이드라인을 다운받아 {'\n'}
             손글씨를 작성하고, 업로드 해주세요.
           </div>
-          <img src={MinuGuide} alt="MinuGuide" className={classes.minuGuidImg} />
+          <img src={MiniGuide} alt="MiniGuide" className={classes.miniGuidImg} />
           {/* 다운로드 기능 구현 필요 */}
-          <button className={classes.downBtn}>다운로드</button>
+          <button className={classes.downBtn} onClick={handleDownload}>다운로드</button>
         </div>
 
         <div className={classes.upLoadContainer}>

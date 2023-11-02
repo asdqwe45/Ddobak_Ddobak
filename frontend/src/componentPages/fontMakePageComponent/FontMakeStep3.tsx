@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import classes from './FontMakeStep3.module.css';
 
+import RedPencil from './fontDetailPageAssets/red_pencil.png';
+
 const FontMakeStep3: React.FC = () => {
   const [progress, setProgress] = useState(0);
 
@@ -20,14 +22,17 @@ const FontMakeStep3: React.FC = () => {
 
   return (
     <>
-      <div className={classes.loadingContainer}>
-        <div className={classes.loadingBar}>
-          <div
-            className={classes.progressBar}
-            style={{ width: `${progress}%` }}
-          >
-            {progress}%
+      <div>
+        <div className={classes.loadingContainer}>
+          <div className={classes.loadingBar}>
+            <div
+              className={classes.progressBar}
+              style={{ width: `${progress}%` }}
+            >
+              {progress}%
+            </div>
           </div>
+          <img src={RedPencil} alt="RedPencil" className={classes.redPencilImg} />
         </div>
         <div className={classes.loadingInfo}>
           <p>AI가 열심히 폰트를 제작하고 있어요!</p>
