@@ -11,8 +11,8 @@ import os
 
 
 def crop_image_uniform(template_image):
-    if not os.path.exists('./cropped_output_kor/'):
-        os.makedirs('./cropped_output_kor')
+    if not os.path.exists('./cropped_output_kor/test'):
+        os.makedirs('./cropped_output_kor/test')
         print("test")
     korean_list = ["가", "깩", "낚", "댻", "떤", "렍", "멶", "볟", "뽈", "솱", "쐚", "욃",
                    "죬", "쭕", "춾", "퀧", "튐", "퓹", "흢", "긧", "낐", "낭", "댖", "땿",
@@ -55,7 +55,7 @@ def crop_image_uniform(template_image):
                 break
             # code = hex(ord(korean_list[j * cols + i]))[2:]
             code = korean_list[j * cols + i]
-            name = "./cropped_output_kor/" + code + ".png"
+            name = "./cropped_output_kor/test/" + code + ".png"
             cropped_image = img.crop((left, upper, right, lower))
             cropped_image = cropped_image.resize((128, 128), Image.LANCZOS)
             # Increase constrast

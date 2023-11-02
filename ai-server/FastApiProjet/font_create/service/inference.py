@@ -14,8 +14,8 @@ import random
 import torch
 from torchvision import transforms
 
-from base.dataset import sample
-from base.utils import save_tensor_to_image, load_reference, load_primals, load_decomposition
+from .base.dataset import sample
+from .base.utils import save_tensor_to_image, load_reference, load_primals, load_decomposition
 
 
 TRANSFORM = transforms.Compose([

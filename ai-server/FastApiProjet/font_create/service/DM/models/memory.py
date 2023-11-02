@@ -6,7 +6,7 @@ MIT license
 import torch
 import torch.nn as nn
 
-from base.modules import split_dim, ConvBlock
+from ...base.modules import split_dim, ConvBlock
 
 
 def reduce_features(feats, reduction='mean'):

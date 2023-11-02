@@ -6,7 +6,7 @@ MIT license
 from functools import partial
 import torch
 import torch.nn as nn
-from base.modules import ConvBlock, ResBlock, HourGlass
+from ...base.modules import ConvBlock, ResBlock, HourGlass
 
 
 class Integrator(nn.Module):

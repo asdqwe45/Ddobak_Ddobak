@@ -18,12 +18,12 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data.distributed import DistributedSampler
 from torchvision import transforms
 
-from base.utils import Logger, TBDiskWriter, load_decomposition, setup_train_config
-from base.modules import weights_init
+from .base.utils import Logger, TBDiskWriter, load_decomposition, setup_train_config
+from .base.modules import weights_init
 
-from DM.models import Generator, Discriminator, AuxClassifier
-from DM.dataset import DMTrainDataset, DMTestDataset
-from DM.trainer import DMTrainer
+from .DM.models import Generator, Discriminator, AuxClassifier
+from .DM.dataset import DMTrainDataset, DMTestDataset
+from .DM.trainer import DMTrainer
 
 
 TRANSFORM = transforms.Compose([

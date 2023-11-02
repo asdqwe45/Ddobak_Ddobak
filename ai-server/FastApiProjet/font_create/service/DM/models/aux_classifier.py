@@ -5,7 +5,7 @@ MIT license
 """
 from functools import partial
 import torch.nn as nn
-from base.modules import ResBlock, Flatten
+from ...base.modules import ResBlock, Flatten
 
 
 class AuxClassifier(nn.Module):

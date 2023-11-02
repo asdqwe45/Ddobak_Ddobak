@@ -6,7 +6,7 @@ MIT license
 from functools import partial
 import torch
 import torch.nn as nn
-from base.modules import ResBlock, ConvBlock, w_norm_dispatch, activ_dispatch
+from ...base.modules import ResBlock, ConvBlock, w_norm_dispatch, activ_dispatch
 
 
 class MultitaskDiscriminator(nn.Module):
