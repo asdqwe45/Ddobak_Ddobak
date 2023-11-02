@@ -12,7 +12,7 @@
 
 .miniGuidImg {
   width: 15vw;
-  margin: 20px 80px;
+  margin: 45px 80px 35px 80px;
 }
 
 .downBtn {
@@ -38,7 +38,7 @@
 }
 
 .upLoadBar {
-  border: 1px solid #b6b6b6;
+  border: 2px solid #b6b6b6;
   margin-bottom: 15px;
   padding: 15px 30px;
   border-radius: 30px;
@@ -52,7 +52,8 @@ label {
 }
 
 .upLoadList {
-  border: 1px solid #b6b6b6;
+  /* border: 3px dashed #b6b6b6; */
+  border: 2px solid #b6b6b6;
   padding: 25px 30px;
   border-radius: 30px;
   width: 550px;

@@ -100,7 +100,7 @@ const FontMakeStep2: React.FC = () => {
                 <img src={UploadFile} alt="UploadFile" />
                 <div className={classes.emptyMessage}>
                   <p>파일을 끌어다 놓아주세요.</p>
-                  <p>( Drag & Drop Files )</p>
+                  <p>(Drag & drop files here)</p>
                 </div>
               </div>
             ) : (
