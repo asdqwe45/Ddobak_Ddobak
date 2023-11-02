@@ -1,6 +1,7 @@
 package com.ddobak.member.controller;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -15,6 +16,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestP
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.ddobak.member.dto.request.EmailVerificationRequest;
@@ -22,12 +24,16 @@ import com.ddobak.member.dto.request.EmailVerifyRequest;
 import com.ddobak.member.dto.request.MemberLoginRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
 import com.ddobak.member.dto.response.LoginResponse;
+import com.ddobak.security.util.LoginInfo;
 import com.ddobak.util.ControllerTest;
 import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 public class MemberControllerTest extends ControllerTest {
 
@@ -116,7 +122,7 @@ public class MemberControllerTest extends ControllerTest {
     void memberLoginTest() throws Exception {
         MemberLoginRequest memberLoginRequest = new MemberLoginRequest("ddobak@naver.com","1234");
 
-        LoginResponse loginResponse = new LoginResponse(1L, "accessToken","refreshToken");
+        LoginResponse loginResponse = new LoginResponse(1L, "accessToken","refreshToken","profileImgUrl");
         when(memberService.loginMember(any())).thenReturn(loginResponse);
 
         mockMvc
@@ -137,9 +143,31 @@ public class MemberControllerTest extends ControllerTest {
                     responseFields(
                         fieldWithPath("id").description("회원 PK 값"),
                         fieldWithPath("accessToken").description("JWT access Token"),
-                        fieldWithPath("refreshToken").description("JWT Refresh Token")
+                        fieldWithPath("refreshToken").description("JWT Refresh Token"),
+                        fieldWithPath("profileImgUrl").description("프로필 이미지 URL")
                     )
                 )
+            );
+    }
+
+    @Test
+    @DisplayName("로그아웃")
+    void memberLogoutTest() throws Exception {
+        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com");
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(new TestingAuthenticationToken(loginInfo, null));
+        SecurityContextHolder.setContext(securityContext);
+
+        doNothing().when(memberService).logoutMember(loginInfo);
+
+        mockMvc.perform(
+            get(baseUrl + "/logout")
+                .with(authentication(new TestingAuthenticationToken(loginInfo, null)))
+        ).andExpect(status().isNoContent())
+            .andDo(
+                document("/member/logout",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint()))
             );
     }
 }
