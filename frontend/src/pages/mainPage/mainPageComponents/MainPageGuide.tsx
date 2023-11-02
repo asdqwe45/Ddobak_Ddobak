@@ -1,4 +1,5 @@
 import classes from './MainPageGuide.module.css';
+import guideLine from '../mainPageAssets/guideline_ex.png';
 import uploadPC from '../mainPageAssets/uploadPC.png';
 import payment from '../mainPageAssets/payment.png';
 import { FaCircleChevronRight } from 'react-icons/fa6';
@@ -16,9 +17,12 @@ const MainPageGuide: React.FC = () => {
           <div className={classes.ingredientBox}>
             <div className={classes.contentImgBox}>
               <div className={classes.aspectImg}>
-                <img src={uploadPC} alt="" className={classes.contentImg} />
+                <img src={guideLine} alt="" className={classes.guideImg} />
               </div>
             </div>
+              <div className={classes.btnBox}>
+                <button className={classes.downloadBtn} onClick={handleDownload}>가이드라인 다운로드</button>
+              </div>
             <div className={classes.contentTextBox}>
               <p className={classes.contentHeader}>1. 작성하기</p>
               <p className={classes.contentText}>
@@ -26,9 +30,6 @@ const MainPageGuide: React.FC = () => {
                 <br />
                 손글씨를 작성합니다.
               </p>
-              <div className={classes.btnBox}>
-                <button className={classes.downloadBtn}>가이드라인 다운로드</button>
-              </div>
             </div>
           </div>
         </div>
@@ -63,13 +64,11 @@ const MainPageGuide: React.FC = () => {
               </div>
             </div>
             <div className={classes.contentTextBox}>
-              <p className={classes.contentHeader}>3. 결제 및 설정</p>
+              <p className={classes.contentHeader}>3. 설정 및 결제</p>
               <p className={classes.contentText}>
-                제작된 폰트 확인 후
+                폰트 정보를 입력하고
                 <br />
-                결제하고 세부사항을
-                <br />
-                설정합니다.
+                결제합니다.
               </p>
             </div>
           </div>
@@ -79,3 +78,26 @@ const MainPageGuide: React.FC = () => {
   );
 };
 export default MainPageGuide;
+
+// 가이드라인 다운로드
+const handleDownload = async () => {
+  try {
+    const response = await fetch('https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/english_number_template.pdf');
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = url;
+      // 다운로드 시, 파일 이름
+      a.download = 'ddobak_english_number_template.pdf';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } else {
+      throw new Error('Network response was not ok');
+    }
+  } catch (error) {
+    console.error('다운로드 중 에러가 발생했습니다', error);
+  }
+};

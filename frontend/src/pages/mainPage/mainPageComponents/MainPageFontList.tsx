@@ -8,7 +8,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 // button img
-
 import classes from './MainPageFontList.module.css';
 
 // import required modules
@@ -63,7 +62,8 @@ const MainPageFontList: React.FC = () => {
           modules={[Autoplay, Navigation]}
           className={classes.swiper}
         >
-          {FontBoxSwiper()}
+         {/* {FontBoxSwiper()} */}
+         {renderFontBoxes()}
         </Swiper>
         <FaCircleChevronRight
           size={50}
@@ -79,16 +79,80 @@ const MainPageFontList: React.FC = () => {
 };
 export default MainPageFontList;
 
-const NUMBER_OF_SWIPERSLID = 200;
-const FontBoxSwiper = () => {
-  let boxes = [];
-  for (let i = 0; i < NUMBER_OF_SWIPERSLID; i++) {
-    boxes.push(
-      <SwiperSlide key={i + 'f'} className={classes.swiperSlid}>
-        <FontBoxComponent />
-      </SwiperSlide>,
-    );
-  }
+// const NUMBER_OF_SWIPERSLID = 200;
+// const FontBoxSwiper = () => {
+//   let boxes = [];
+//   for (let i = 0; i < NUMBER_OF_SWIPERSLID; i++) {
+//     boxes.push(
+//       <SwiperSlide key={i + 'f'} className={classes.swiperSlid}>
+//         <FontBoxComponent />
+//       </SwiperSlide>,
+//     );
+//   }
 
-  return boxes;
+//   return boxes;
+// };
+
+  const renderFontBoxes = () => {
+    const fonts = [
+      {
+        id: '1',
+        title: '또박또박_테스트체_1',
+        maker: '김싸피_1',
+        content: '다람쥐 헌 쳇바퀴에 타고파_1',
+      },
+      {
+        id: '2',
+        title: '또박또박_테스트체_2',
+        maker: '이싸피_2',
+        content: '다람쥐 헌 쳇바퀴에 타고파_2',
+      },
+      {
+        id: '3',
+        title: '또박또박_테스트체_3',
+        maker: '박싸피_3',
+        content: '다람쥐 헌 쳇바퀴에 타고파_3',
+      },
+      {
+        id: '4',
+        title: '또박또박_테스트체_4',
+        maker: '최싸피_4',
+        content: '다람쥐 헌 쳇바퀴에 타고파_4',
+      },
+      {
+        id: '5',
+        title: '또박또박_테스트체_5',
+        maker: '정싸피_5',
+        content: '다람쥐 헌 쳇바퀴에 타고파_5',
+      },
+      {
+        id: '6',
+        title: '또박또박_테스트체_6',
+        maker: '양싸피_6',
+        content: '다람쥐 헌 쳇바퀴에 타고파_6',
+      },
+      {
+        id: '7',
+        title: '또박또박_테스트체_7',
+        maker: '위싸피_7',
+        content: '다람쥐 헌 쳇바퀴에 타고파_7',
+      },
+      {
+        id: '8',
+        title: '또박또박_테스트체_8',
+        maker: '안싸피_8',
+        content: '다람쥐 헌 쳇바퀴에 타고파_8',
+      },
+    ];
+
+  return fonts.map((font) => (
+    <SwiperSlide key={font.id} className={classes.swiperSlid}>
+      <FontBoxComponent
+        id={font.id}
+        title={font.title}
+        maker={font.maker}
+        content={font.content}
+      />
+    </SwiperSlide>
+  ));
 };

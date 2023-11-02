@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classes from './FontBoxComponent.module.css';
 import { useNavigate } from 'react-router-dom';
 
-// 폰트 찜 before
-import { FaRegBookmark } from 'react-icons/fa';
-// 폰트 찜 after
-// import { FaBookmark } from 'react-icons/fa';
+// icons
+import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
 
 interface FontBoxProps {
   id?: string;
@@ -17,7 +15,7 @@ interface FontBoxProps {
 const FontBoxComponent: React.FC<FontBoxProps> = (props) => {
   const navigate = useNavigate();
 
-  const handleBoxClick = () => {
+  const handleTitleClick = () => {
     navigate(`/font/${props.id}`, {
       // state 객체 전달
       state: {
@@ -29,20 +27,45 @@ const FontBoxComponent: React.FC<FontBoxProps> = (props) => {
     });
   };
 
+  const handleMakerClick = () => {
+    navigate(`/maker`, {
+      // state 객체 전달
+      state: {
+        id: props.id,
+        title: props.title,
+        maker: props.maker,
+        content: props.content,
+      },
+    });
+  };
+  // 책갈피 찜하기
+  const [isClicked, setIsClicked] = useState(false);
+  
+  const handleIconClick = () => {
+    setIsClicked(!isClicked);
+  };
+
   return (
     <>
-      <div className={classes.container} onClick={handleBoxClick}>
+      <div className={classes.container}>
         <div className={classes.header}>
-          <div className={classes.title}>{props.title}</div>
-          {/* 폰트 찜 before */}
-          <FaRegBookmark className={classes.bookIcon} />
-          {/* 폰트 찜 after */}
-          {/* <FaBookmark className={classes.bookIcon} /> */}
+          <div className={classes.title} onClick={handleTitleClick}>{props.title}</div>
+          {isClicked  ? (
+          <FaBookmark
+            className={classes.bookIcon}
+            onClick={handleIconClick}
+          />
+        ) : (
+          <FaRegBookmark
+            className={classes.bookIcon}
+            onClick={handleIconClick}
+          />
+        )}
         </div>
-        <div className={classes.fontMaker}>{props.maker}</div>
+        <div className={classes.fontMaker} onClick={handleMakerClick}>{props.maker}</div>
         {/* box 중앙 선 */}
         <div className={classes.borderTop}></div>
-        <div className={classes.content}>{props.content}</div>
+        <div className={classes.content} onClick={handleTitleClick}>{props.content}</div>
       </div>
     </>
   );
