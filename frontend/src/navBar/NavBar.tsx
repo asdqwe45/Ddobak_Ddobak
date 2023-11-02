@@ -62,14 +62,6 @@ const NavBar: React.FC = () => {
               마이페이지
             </NavLink>
           </div>
-          {/* <div className={classes.smallBox}>
-              <NavLink
-                to="/myPage"
-                className={({ isActive }) => (isActive ? classes.active : undefined)}
-              >
-                MyPage
-              </NavLink>
-            </div> */}
         </div>
       </div>
     </div>

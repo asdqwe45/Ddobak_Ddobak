@@ -1,5 +1,7 @@
 import React, { useCallback } from 'react';
 // import axios from 'axios';
+import { mainRedColor } from 'common/colors/CommonColors';
+import classes from '../../../common/modals/chargePointModal/ChargePointModal.module.css';
 
 interface PaymentProps {
   amount: number;
@@ -50,7 +52,15 @@ const PaymentComponent: React.FC<PaymentProps> = ({
     );
   }, [amount, onPaymentSuccess, onPaymentFailure]);
 
-  return <button onClick={onClickPayment}>결제창</button>;
+  return (
+    <button
+      className={classes.modalBtn}
+      onClick={onClickPayment}
+      style={{ backgroundColor: mainRedColor }}
+    >
+      결제창
+    </button>
+  );
 };
 
 export default PaymentComponent;
