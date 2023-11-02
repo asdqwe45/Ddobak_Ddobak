@@ -20,9 +20,11 @@ const MainPageGuide: React.FC = () => {
                 <img src={guideLine} alt="" className={classes.guideImg} />
               </div>
             </div>
-              <div className={classes.btnBox}>
-                <button className={classes.downloadBtn} onClick={handleDownload}>가이드라인 다운로드</button>
-              </div>
+            <div className={classes.btnBox}>
+              <button className={classes.downloadBtn} onClick={handleDownload}>
+                가이드라인 다운로드
+              </button>
+            </div>
             <div className={classes.contentTextBox}>
               <p className={classes.contentHeader}>1. 작성하기</p>
               <p className={classes.contentText}>
@@ -82,7 +84,9 @@ export default MainPageGuide;
 // 가이드라인 다운로드
 const handleDownload = async () => {
   try {
-    const response = await fetch('https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/english_number_template.pdf');
+    const response = await fetch(
+      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/english_number_template.pdf',
+    );
     if (response.ok) {
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);

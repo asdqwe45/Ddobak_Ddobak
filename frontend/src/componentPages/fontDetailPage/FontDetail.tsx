@@ -19,7 +19,7 @@ const FontDetail: React.FC = () => {
 
   // 책갈피 찜하기
   const [isClicked, setIsClicked] = useState(false);
- 
+
   const handleIconClick = () => {
     setIsClicked(!isClicked);
   };
@@ -63,17 +63,11 @@ const FontDetail: React.FC = () => {
         <div className={classes.dibContainer}>
           {/* 폰트 찜 수 */}
           <div className={classes.dibCount}>10</div>
-          {isClicked  ? (
-          <FaBookmark
-            className={classes.bookIcon}
-            onClick={handleIconClick}
-          />
-        ) : (
-          <FaRegBookmark
-            className={classes.bookIcon}
-            onClick={handleIconClick}
-          />
-        )}
+          {isClicked ? (
+            <FaBookmark className={classes.bookIcon} onClick={handleIconClick} />
+          ) : (
+            <FaRegBookmark className={classes.bookIcon} onClick={handleIconClick} />
+          )}
         </div>
         {/* 폰트 이름 */}
         <div className={classes.title}>{font.title}</div>

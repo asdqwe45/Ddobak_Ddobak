@@ -40,7 +40,7 @@ const FontBoxComponent: React.FC<FontBoxProps> = (props) => {
   };
   // 책갈피 찜하기
   const [isClicked, setIsClicked] = useState(false);
-  
+
   const handleIconClick = () => {
     setIsClicked(!isClicked);
   };
@@ -49,23 +49,23 @@ const FontBoxComponent: React.FC<FontBoxProps> = (props) => {
     <>
       <div className={classes.container}>
         <div className={classes.header}>
-          <div className={classes.title} onClick={handleTitleClick}>{props.title}</div>
-          {isClicked  ? (
-          <FaBookmark
-            className={classes.bookIcon}
-            onClick={handleIconClick}
-          />
-        ) : (
-          <FaRegBookmark
-            className={classes.bookIcon}
-            onClick={handleIconClick}
-          />
-        )}
+          <div className={classes.title} onClick={handleTitleClick}>
+            {props.title}
+          </div>
+          {isClicked ? (
+            <FaBookmark className={classes.bookIcon} onClick={handleIconClick} />
+          ) : (
+            <FaRegBookmark className={classes.bookIcon} onClick={handleIconClick} />
+          )}
         </div>
-        <div className={classes.fontMaker} onClick={handleMakerClick}>{props.maker}</div>
+        <div className={classes.fontMaker} onClick={handleMakerClick}>
+          {props.maker}
+        </div>
         {/* box 중앙 선 */}
         <div className={classes.borderTop}></div>
-        <div className={classes.content} onClick={handleTitleClick}>{props.content}</div>
+        <div className={classes.content} onClick={handleTitleClick}>
+          {props.content}
+        </div>
       </div>
     </>
   );

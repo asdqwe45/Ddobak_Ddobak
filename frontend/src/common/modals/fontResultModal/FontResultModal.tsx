@@ -11,6 +11,8 @@ import { pointPayModalActions } from 'store/pointPayModalSlice';
 import { mainRedColor } from 'common/colors/CommonColors';
 import { AiOutlineClose } from 'react-icons/ai';
 
+import GaImg from './fontResultModalAssets/가.png';
+
 interface ResultModalState {
   resultModal: {
     resultIsVisible: boolean;
@@ -106,7 +108,12 @@ const FontResultModal: React.FC = () => {
           <div className={classes.lineBox}>
             {/* 1 */}
             <TextSmallBox />
-            <TextSmallBox innerText="가" />
+            {/* 이런식으로 수정해야함 */}
+            <div className={classes.smallBox}>
+              <div className={classes.content}>
+                <img src={GaImg} alt="가" className={modalClasses.fontImg} />
+              </div>
+            </div>
             <TextSmallBox innerText="나" />
             <TextSmallBox innerText="다" />
             <TextSmallBox innerText="라" />

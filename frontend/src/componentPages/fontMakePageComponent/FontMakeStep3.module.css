@@ -16,12 +16,13 @@
 .redPencilImg {
   width: 6vw;
   margin-bottom: 30px;
-  transform: rotate(35deg);  
+  transform: rotate(35deg);
   animation: shake 0.5s infinite;
 }
 
 @keyframes shake {
-  0%, 100% {
+  0%,
+  100% {
     transform: rotate(45deg) translateX(0);
   }
   25% {
@@ -34,7 +35,7 @@
 
 .progressBar {
   height: 100%;
-  background-color: #D71718;
+  background-color: #d71718;
   color: white;
   display: flex;
   align-items: center;
