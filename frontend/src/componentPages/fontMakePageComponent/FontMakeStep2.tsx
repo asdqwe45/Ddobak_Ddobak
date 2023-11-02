@@ -3,6 +3,7 @@ import classes from './FontMakeStep2.module.css';
 
 // image
 import MiniGuide from './fontDetailPageAssets/guideline_ex.png';
+import UploadFile from './fontDetailPageAssets/upload_file.jpg';
 
 // icon
 import { FaRegTimesCircle } from 'react-icons/fa';
@@ -71,12 +72,11 @@ const FontMakeStep2: React.FC = () => {
       <div className={classes.loadContainer}>
         <div className={classes.downLoadContainer}>
           <div className={classes.info}>
-            또박또박 손글씨 가이드라인을 다운받아 {'\n'}
-            손글씨를 작성하고, 업로드 해주세요.
+            {/* 또박또박 손글씨 가이드라인을 다운로드 {'\n'} */}
+            손글씨를 작성하고, 이미지를 올려주세요.
           </div>
           <img src={MiniGuide} alt="MiniGuide" className={classes.miniGuidImg} />
-          {/* 다운로드 기능 구현 필요 */}
-          <button className={classes.downBtn} onClick={handleDownload}>다운로드</button>
+          <button className={classes.downBtn} onClick={handleDownload}>가이드라인 다운로드</button>
         </div>
 
         <div className={classes.upLoadContainer}>
@@ -89,28 +89,39 @@ const FontMakeStep2: React.FC = () => {
             />
             <label htmlFor="fileInput">파일 업로드 click!</label>
           </div>
-          <div 
+          <div
             className={classes.upLoadList}
             onDrop={onDrop}
             onDragOver={onDragOver}
           >
-            {files.map((file, index) => (
-              <div key={index} className={classes.upLoadFile}>
-                <div className={classes.upLoadFileName}>
-                  <FaRegTimesCircle
-                    className={classes.deleteIcon}
-                    onClick={() => removeFile(index)}
-                  />
-                  {file.name}
+            {/* 파일 없을 때 문구 넣기 */}
+            {files.length === 0 ? (
+              <div className={classes.emptyContainer}>
+                <img src={UploadFile} alt="UploadFile" />
+                <div className={classes.emptyMessage}>
+                  <p>파일을 끌어다 놓아주세요.</p>
+                  <p>( Drag & Drop Files )</p>
                 </div>
-                <img src={file.src} alt={file.name} /> {/* 이미지 미리보기 */}
-                {file.src && (
-                  <div className={classes.btnContainer}>
-                    <button className={classes.nextBtn}>이미지 반듯하게</button>
-                  </div>
-                )}
               </div>
-            ))}
+            ) : (
+              files.map((file, index) => (
+                <div key={index} className={classes.upLoadFile}>
+                  <div className={classes.upLoadFileName}>
+                    <FaRegTimesCircle
+                      className={classes.deleteIcon}
+                      onClick={() => removeFile(index)}
+                    />
+                    {file.name}
+                  </div>
+                  <img src={file.src} alt={file.name} /> {/* 이미지 미리보기 */}
+                  {file.src && (
+                    <div className={classes.btnContainer}>
+                      <button className={classes.nextBtn}>이미지 반듯하게</button>
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
