@@ -1,5 +1,7 @@
 package com.ddobak.security.util;
 
+import com.ddobak.global.exception.ErrorCode;
+import com.ddobak.security.exception.SecurityException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,6 +21,26 @@ public class JwtProvider {
 
     private final Long accessTokenExpireTime = 3600000L; // 1시간
     private final Long refreshTokenExpireTime = 1209600000L; // 2주일
+
+    public String getEmail(String token, String secretKey) {
+        return Jwts.parserBuilder()
+            .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
+            .build()
+            .parseClaimsJws(token)
+            .getBody()
+            .get("email", String.class);
+
+    }
+
+    public boolean isExpired(String token, String secretKey) {
+        return Jwts.parserBuilder()
+            .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
+            .build()
+            .parseClaimsJws(token)
+            .getBody()
+            .getExpiration()
+            .before(new Date());
+    }
 
     public String createAccessToken(Long id, String email, String secretKey) {
         Claims claims = Jwts.claims();
@@ -63,5 +85,43 @@ public class JwtProvider {
         redisTemplate.opsForValue().set(email, refreshToken, refreshTokenExpireTime, TimeUnit.MILLISECONDS);
 
         return refreshToken;
+    }
+
+    public String createNewAccessToken(String refreshToken, String secretKey) {
+        // RefreshToken 검증 후 새로운 AccessToken 생성
+        try{
+            Claims claims = Jwts.parserBuilder()
+                                .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
+                                .build()
+                                .parseClaimsJws(refreshToken)
+                                .getBody();
+
+            String email = claims.get("email", String.class);
+            Long id = claims.get("id",Long.class);
+
+            // 저장된 RefreshToken 과 비교
+            String redisRefreshToken = redisTemplate.opsForValue().get(email);
+            if(redisRefreshToken == null || !redisRefreshToken.equals(refreshToken)) {
+                throw new SecurityException(ErrorCode.INVALID_REFRESH_TOKEN);
+            }
+            Date now = new Date();
+            Date accessTokenExpire = new Date(now.getTime() + accessTokenExpireTime);
+
+            Claims newClaims = Jwts.claims();
+            newClaims.put("id", id);
+            newClaims.put("email", email);
+
+            String accessToken = Jwts.builder()
+                .setClaims(newClaims)
+                .setExpiration(accessTokenExpire)
+                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)),SignatureAlgorithm.HS256)
+                .compact();
+
+            return accessToken;
+
+
+        } catch (Exception e) {
+            throw new SecurityException(ErrorCode.INVALID_REFRESH_TOKEN);
+        }
     }
 }
