@@ -1,0 +1,49 @@
+=== 회원가입 시 이메일 인증 요청
+
+==== HTTP Request
+include::{snippets}/member/email-verify-request/http-request.adoc[]
+include::{snippets}/member/email-verify-request/request-body.adoc[]
+==== HTTP Response
+include::{snippets}/member/email-verify-request/http-response.adoc[]
+include::{snippets}/member/email-verify-request/response-body.adoc[]
+
+
+=== 회원가입 시 이메일 인증확인
+
+==== HTTP Request
+include::{snippets}/member/email-verify/http-request.adoc[]
+include::{snippets}/member/email-verify/request-body.adoc[]
+==== HTTP Response
+include::{snippets}/member/email-verify/http-response.adoc[]
+include::{snippets}/member/email-verify/response-body.adoc[]
+
+
+=== 일반 회원가입
+
+==== HTTP Request
+include::{snippets}/member/signup/http-request.adoc[]
+include::{snippets}/member/signup/request-body.adoc[]
+==== HTTP Response
+include::{snippets}/member/signup/http-response.adoc[]
+include::{snippets}/member/signup/response-body.adoc[]
+
+
+=== 일반 로그인
+
+==== HTTP Request
+include::{snippets}/member/login/http-request.adoc[]
+include::{snippets}/member/login/request-body.adoc[]
+
+==== HTTP Response
+include::{snippets}/member/login/http-response.adoc[]
+include::{snippets}/member/login/response-body.adoc[]
+
+
+=== 로그아웃
+==== HTTP Request
+include::{snippets}/member/logout/http-request.adoc[]
+include::{snippets}/member/logout/request-body.adoc[]
+
+==== HTTP Response
+include::{snippets}/member/logout/http-response.adoc[]
+include::{snippets}/member/logout/response-body.adoc[]
