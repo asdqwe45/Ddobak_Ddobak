@@ -4,13 +4,14 @@ import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.global.service.S3Service;
 import com.ddobak.member.dto.request.MemberLoginRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
-import com.ddobak.member.dto.response.TokenResponse;
+import com.ddobak.member.dto.response.LoginResponse;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.entity.SignUpType;
 import com.ddobak.member.exception.EmailException;
 import com.ddobak.member.exception.MemberException;
 import com.ddobak.member.repository.MemberRepository;
 import com.ddobak.security.util.JwtProvider;
+import com.ddobak.security.util.LoginInfo;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Optional;
@@ -70,6 +71,7 @@ public class MemberService {
 
     }
 
+    @Transactional
     public void signUpMember(SignUpRequest signUpRequest, MultipartFile profileImg) {
         // 이메일 중복 검사
         this.checkDuplicatedEmail(signUpRequest.email());
@@ -90,7 +92,8 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public TokenResponse loginMember(MemberLoginRequest memberLoginRequest) {
+    @Transactional
+    public LoginResponse loginMember(MemberLoginRequest memberLoginRequest) {
         // 회원 검색
         Member member = findByEmailGeneral(memberLoginRequest.email(), SignUpType.GENERAL);
 
@@ -102,8 +105,16 @@ public class MemberService {
         // 토큰 생성
         String accessToken = jwtProvider.createAccessToken(member.getId(), member.getEmail(), secretKey);
         String refreshToken = jwtProvider.createRefreshToken(member.getEmail(), secretKey);
+        String profileImgUrl = member.getProfileImg();
 
-        return new TokenResponse(member.getId(), accessToken, refreshToken);
+        return new LoginResponse(member.getId(), accessToken, refreshToken, profileImgUrl);
+    }
+
+    @Transactional
+    public void logoutMember(LoginInfo loginInfo) {
+        if(redisTemplate.hasKey(loginInfo.email())) {
+            redisTemplate.delete(loginInfo.email());
+        }
     }
 
     private Member findByEmailGeneral(String email, SignUpType signUpType) {
@@ -129,7 +140,7 @@ public class MemberService {
         Optional<Member> member = memberRepository.findByEmail(email);
 
         if(member.isPresent()) {
-            log.info("Already exists email {}", email);
+            log.debug("Already exists email {}", email);
             throw new MemberException(ErrorCode.EMAIL_DUPLICATED);
         }
     }

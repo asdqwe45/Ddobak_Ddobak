@@ -19,7 +19,10 @@ public enum ErrorCode {
     INVALID_PASSWORD("MEM03",HttpStatus.BAD_REQUEST, "비밀번호가 틀립니다"),
 
     // S3 Exception
-    UPLOAD_FAIL("AWS01",HttpStatus.BAD_REQUEST,"알수 없는 이유로 업로드 실패");
+    UPLOAD_FAIL("AWS01",HttpStatus.BAD_REQUEST,"알수 없는 이유로 업로드 실패"),
+
+    // Security Exception
+    INVALID_REFRESH_TOKEN("TOK01",HttpStatus.BAD_REQUEST,"유효하지 않은 토큰");
 
     private final String code;
     private final HttpStatus httpStatus;

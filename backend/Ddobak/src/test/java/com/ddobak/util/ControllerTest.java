@@ -5,7 +5,9 @@ import com.ddobak.member.controller.MemberController;
 import com.ddobak.member.repository.MemberRepository;
 import com.ddobak.member.service.EmailService;
 import com.ddobak.member.service.MemberService;
+import com.ddobak.security.service.CustomUserDetailService;
 import com.ddobak.security.util.JwtProvider;
+import com.ddobak.security.util.LoginInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -22,6 +24,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -50,6 +55,7 @@ public class ControllerTest {
     // Service
     @MockBean protected MemberService memberService;
     @MockBean protected EmailService emailService;
+    @MockBean protected CustomUserDetailService customUserDetailService;
 
     // Repository
     @MockBean protected MemberRepository memberRepository;
@@ -74,5 +80,12 @@ public class ControllerTest {
                        SignatureAlgorithm.HS256)
                    .compact();
 
+    }
+
+    protected void setAuthentication() {
+        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com");
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(new TestingAuthenticationToken(loginInfo, null));
+        SecurityContextHolder.setContext(securityContext);
     }
 }

@@ -37,3 +37,13 @@ include::{snippets}/member/login/request-body.adoc[]
 ==== HTTP Response
 include::{snippets}/member/login/http-response.adoc[]
 include::{snippets}/member/login/response-body.adoc[]
+
+
+=== 로그아웃
+==== HTTP Request
+include::{snippets}/member/logout/http-request.adoc[]
+include::{snippets}/member/logout/request-body.adoc[]
+
+==== HTTP Response
+include::{snippets}/member/logout/http-response.adoc[]
+include::{snippets}/member/logout/response-body.adoc[]
