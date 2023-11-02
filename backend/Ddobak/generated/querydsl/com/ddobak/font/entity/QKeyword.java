@@ -50,7 +50,7 @@ public class QKeyword extends EntityPathBase<Keyword> {
 
     public QKeyword(Class<? extends Keyword> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.Font = inits.isInitialized("Font") ? new QFont(forProperty("Font")) : null;
+        this.Font = inits.isInitialized("Font") ? new QFont(forProperty("Font"), inits.get("Font")) : null;
     }
 
 }

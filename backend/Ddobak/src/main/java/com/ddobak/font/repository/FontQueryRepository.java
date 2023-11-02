@@ -1,5 +1,7 @@
 package com.ddobak.font.repository;
 
+import com.ddobak.font.controller.FontController;
+import com.ddobak.font.dto.request.CreateFontRequest;
 import com.ddobak.font.entity.Font;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
@@ -21,16 +23,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FontQueryRepository {
 
-    @PersistenceContext
-    private EntityManager em;
-
-    @Autowired
-    private final JPAQueryFactory jpaQueryFactory;
-
-    @Autowired
-    public FontQueryRepository(EntityManager em){
-        this.jpaQueryFactory = new JPAQueryFactory(em);
-    }
+//    @PersistenceContext
+//    private EntityManager em;
+//
+//    @Autowired
+//    private final JPAQueryFactory jpaQueryFactory;
+//
+//    @Autowired
+//    public FontQueryRepository(EntityManager em){
+//        this.jpaQueryFactory = new JPAQueryFactory(em);
+//    }
 
     public record FontListWebResponse(
         String font_file_url,
@@ -46,23 +48,7 @@ public class FontQueryRepository {
         }
     }
 
-//    @Transactional
-//    public void createFont(Long producerId, String fontSortUrl, String fontFileUrl) {
-//        Font font = new Font(
-//            producerId,
-//            fontSortUrl,
-//            fontFileUrl,
-//            "default",
-//            "default",
-//            true,
-//            false,
-//            0,
-//            false,
-//            "default",
-//            LocalDate.now()
-//        );
-//        em.persist(font);
-//    }
+
 //    public void findFonts(List<String> keywords, Boolean isFree){
 //        JPAQuery<Font> query = new JPAQuery<>(em);
 //
