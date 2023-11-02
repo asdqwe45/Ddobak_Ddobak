@@ -4,7 +4,7 @@ import com.ddobak.member.dto.request.EmailVerificationRequest;
 import com.ddobak.member.dto.request.EmailVerifyRequest;
 import com.ddobak.member.dto.request.MemberLoginRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
-import com.ddobak.member.dto.response.TokenResponse;
+import com.ddobak.member.dto.response.LoginResponse;
 import com.ddobak.member.service.MemberService;
 import com.ddobak.security.util.LoginInfo;
 import javax.validation.Valid;
@@ -61,12 +61,12 @@ public class MemberController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<TokenResponse> memberLogin(@RequestBody @Valid MemberLoginRequest memberLoginRequest) {
+    public ResponseEntity<LoginResponse> memberLogin(@RequestBody @Valid MemberLoginRequest memberLoginRequest) {
         log.debug("{} request Login", memberLoginRequest.email());
 
-        TokenResponse tokenResponse = memberService.loginMember(memberLoginRequest);
+        LoginResponse loginResponse = memberService.loginMember(memberLoginRequest);
 
-        return ResponseEntity.ok().body(tokenResponse);
+        return ResponseEntity.ok().body(loginResponse);
     }
 
     // 로그아웃

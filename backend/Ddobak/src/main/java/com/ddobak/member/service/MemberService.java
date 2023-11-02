@@ -4,7 +4,7 @@ import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.global.service.S3Service;
 import com.ddobak.member.dto.request.MemberLoginRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
-import com.ddobak.member.dto.response.TokenResponse;
+import com.ddobak.member.dto.response.LoginResponse;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.entity.SignUpType;
 import com.ddobak.member.exception.EmailException;
@@ -93,7 +93,7 @@ public class MemberService {
     }
 
     @Transactional
-    public TokenResponse loginMember(MemberLoginRequest memberLoginRequest) {
+    public LoginResponse loginMember(MemberLoginRequest memberLoginRequest) {
         // 회원 검색
         Member member = findByEmailGeneral(memberLoginRequest.email(), SignUpType.GENERAL);
 
@@ -105,8 +105,9 @@ public class MemberService {
         // 토큰 생성
         String accessToken = jwtProvider.createAccessToken(member.getId(), member.getEmail(), secretKey);
         String refreshToken = jwtProvider.createRefreshToken(member.getEmail(), secretKey);
+        String profileImgUrl = member.getProfileImg();
 
-        return new TokenResponse(member.getId(), accessToken, refreshToken);
+        return new LoginResponse(member.getId(), accessToken, refreshToken, profileImgUrl);
     }
 
     @Transactional

@@ -21,7 +21,7 @@ import com.ddobak.member.dto.request.EmailVerificationRequest;
 import com.ddobak.member.dto.request.EmailVerifyRequest;
 import com.ddobak.member.dto.request.MemberLoginRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
-import com.ddobak.member.dto.response.TokenResponse;
+import com.ddobak.member.dto.response.LoginResponse;
 import com.ddobak.util.ControllerTest;
 import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.DisplayName;
@@ -116,8 +116,8 @@ public class MemberControllerTest extends ControllerTest {
     void memberLoginTest() throws Exception {
         MemberLoginRequest memberLoginRequest = new MemberLoginRequest("ddobak@naver.com","1234");
 
-        TokenResponse tokenResponse = new TokenResponse(1L, "accessToken","refreshToken");
-        when(memberService.loginMember(any())).thenReturn(tokenResponse);
+        LoginResponse loginResponse = new LoginResponse(1L, "accessToken","refreshToken");
+        when(memberService.loginMember(any())).thenReturn(loginResponse);
 
         mockMvc
             .perform(
