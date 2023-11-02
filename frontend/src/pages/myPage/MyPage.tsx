@@ -30,11 +30,12 @@ import {
   ContentInnerHeaderText,
   ContentInnerRight,
   ContentGrayDisabled,
+  ContentGrayTransaction,
+  ContentGrayBtn,
   ContentRedBtn,
   ContentIconsBox,
   FontBasketTopBox,
   FontBasketBottomBox,
-  ContentGrayBtn,
   SelectListDelete,
   CCLBox,
   CCLIcons,
@@ -549,7 +550,7 @@ const MyPage: React.FC = () => {
                 <ContentIngredient></ContentIngredient>
                 <ContentIngredient></ContentIngredient>
                 <FontBasketBottomBox>
-                  <ContentGrayBtn>결제하기</ContentGrayBtn>
+                  <ContentGrayTransaction>결제하기</ContentGrayTransaction>
                 </FontBasketBottomBox>
               </ContentLargeBox>
             </>

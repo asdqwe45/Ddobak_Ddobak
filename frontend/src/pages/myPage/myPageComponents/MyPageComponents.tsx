@@ -281,6 +281,23 @@ export const ContentGrayBtn = styled(ContentBtnIngredient)`
   }
 `;
 
+export const ContentGrayTransaction = styled(ContentBtnIngredient)`
+  height: 40px;
+  aspect-ratio: 15/4;
+  border-radius: 10px;
+  font-size: 16px;
+  border: 0px;
+  color: white;
+  margin-bottom: 0px;
+  font-weight: bold;
+  background-color: ${likeCountColor};
+  &:hover {
+    // 이 부분이 hover 상태일 때 적용될 스타일입니다.
+    cursor: pointer; // 마우스 커서를 포인터로 변경합니다.
+    opacity: 0.7; // 불투명도를 조정하여 버튼이 약간 투명해지도록 합니다.
+  }
+`;
+
 // 아이콘
 export const ContentIconsBox = styled.div`
   box-sizing: border-box;

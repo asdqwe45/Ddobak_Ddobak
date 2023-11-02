@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, NavigateFunction } from 'react-router-dom';
 import classes from './NavBar.module.css';
 import NavLogo from '../common/commonAssets/ddobak_logo.png';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { mainRedColor } from 'common/colors/CommonColors';
+import { useNavigate } from 'react-router-dom';
+
 /*
 // Save to local storage
 window.localStorage.setItem(key, JSON.stringify(newValue))
@@ -27,6 +31,12 @@ localStorage.length;
 
 const NavBar: React.FC = () => {
   // 로그인이 되면 새로고침되게 할 것
+  const navigate = useNavigate();
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const hamburgerToggle = () => {
+    setIsClicked(!isClicked);
+  };
+
   const [haveToken, setHaveToken] = useState<boolean>(false);
   const [myToken, setMyToken] = useState<string>('');
   useEffect(() => {
@@ -118,8 +128,113 @@ const NavBar: React.FC = () => {
             </>
           )}
         </div>
+        <div>
+          <GiHamburgerMenu
+            size={40}
+            className={classes.hamburgerBar}
+            color={mainRedColor}
+            onClick={hamburgerToggle}
+          />
+          {isClicked ? <>{testMenu(haveToken, navigate, setIsClicked)}</> : <></>}
+        </div>
       </div>
     </div>
   );
 };
 export default NavBar;
+const testMenu = (
+  haveToken: boolean,
+  navigate: NavigateFunction,
+  setIsClicked: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
+  return (
+    <div className={classes.menuDiv}>
+      <div className={classes.menuList}>
+        <div
+          className={classes.menuDetail}
+          onClick={async () => {
+            setIsClicked(false);
+            navigate('/fontMake');
+          }}
+        >
+          <p className={classes.menuFont}>제작하기</p>
+        </div>
+      </div>
+      <div className={classes.menuList}>
+        <div
+          className={classes.menuDetail}
+          onClick={async () => {
+            setIsClicked(false);
+            navigate('/fontList');
+          }}
+        >
+          <p className={classes.menuFont}>폰트보기</p>
+        </div>
+      </div>
+      <div className={classes.menuList}>
+        <div
+          className={classes.menuDetail}
+          onClick={async () => {
+            setIsClicked(false);
+            navigate('/faqPage');
+          }}
+        >
+          <p className={classes.menuFont}>궁금해요</p>
+        </div>
+      </div>
+      {haveToken ? (
+        <>
+          <div className={classes.menuList}>
+            <div
+              className={classes.menuDetail}
+              onClick={async () => {
+                setIsClicked(false);
+                navigate('/myPage');
+              }}
+            >
+              <p className={classes.menuFont}>마이페이지</p>
+            </div>
+          </div>
+          <div className={classes.menuList}>
+            <div
+              className={classes.menuDetail}
+              onClick={async () => {
+                setIsClicked(false);
+                localStorage.clear();
+                window.location.reload();
+              }}
+            >
+              <p className={classes.menuFont}>로그아웃</p>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className={classes.menuList}>
+            <div
+              className={classes.menuDetail}
+              onClick={async () => {
+                setIsClicked(false);
+                navigate('/login');
+                window.location.reload();
+              }}
+            >
+              <p className={classes.menuFont}>로그인</p>
+            </div>
+          </div>
+          <div className={classes.menuList}>
+            <div
+              className={classes.menuDetail}
+              onClick={async () => {
+                setIsClicked(false);
+                navigate('/signup');
+              }}
+            >
+              <p className={classes.menuFont}>회원가입</p>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};

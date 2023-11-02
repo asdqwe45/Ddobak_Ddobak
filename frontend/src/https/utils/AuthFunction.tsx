@@ -72,9 +72,20 @@ interface LoginType {
   password: string;
 }
 
-export function userTestLogin(data: LoginType) {
+export async function userTestLogin(data: LoginType) {
   console.log(data);
   const testToken = 'DFGHJDFGHJKGHJKFGHJKLFGHJKFGHJKLFGHJK';
   const jsonTestToken = JSON.stringify(testToken);
   localStorage.setItem('testToken', jsonTestToken);
+  window.location.reload();
+}
+
+// 토큰이 있는지 확인해주는 함수
+export async function checkToken() {
+  const testToken = localStorage.getItem('testToken');
+  if (testToken) {
+    const newTestToken = JSON.parse(testToken);
+    return newTestToken;
+  }
+  return false;
 }
