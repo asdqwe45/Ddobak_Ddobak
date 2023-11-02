@@ -26,6 +26,11 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @GetMapping("/test")
+    public String test(){
+        return "test";
+    }
+
     // 이메일 인증 요청
     @PostMapping("/email/verify-request")
     public ResponseEntity<Void> sendEmail(@RequestBody EmailVerifyRequest emailVerifyRequest) {
