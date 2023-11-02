@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -16,6 +17,8 @@ import com.querydsl.core.types.Path;
 public class QFont extends EntityPathBase<Font> {
 
     private static final long serialVersionUID = 1775584031L;
+
+    private static final PathInits INITS = PathInits.DIRECT2;
 
     public static final QFont font = new QFont("font");
 
@@ -28,7 +31,7 @@ public class QFont extends EntityPathBase<Font> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final StringPath en_font_name = createString("en_font_name");
+    public final StringPath eng_font_name = createString("eng_font_name");
 
     public final StringPath font_file_url = createString("font_file_url");
 
@@ -41,7 +44,9 @@ public class QFont extends EntityPathBase<Font> {
 
     public final StringPath introduceText = createString("introduceText");
 
-    public final StringPath ko_font_name = createString("ko_font_name");
+    public final StringPath kor_font_name = createString("kor_font_name");
+
+    public final com.ddobak.member.entity.QMember member;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
@@ -51,15 +56,24 @@ public class QFont extends EntityPathBase<Font> {
     public final NumberPath<Integer> price = createNumber("price", Integer.class);
 
     public QFont(String variable) {
-        super(Font.class, forVariable(variable));
+        this(Font.class, forVariable(variable), INITS);
     }
 
     public QFont(Path<? extends Font> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QFont(PathMetadata metadata) {
-        super(Font.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QFont(PathMetadata metadata, PathInits inits) {
+        this(Font.class, metadata, inits);
+    }
+
+    public QFont(Class<? extends Font> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.member = inits.isInitialized("member") ? new com.ddobak.member.entity.QMember(forProperty("member")) : null;
     }
 
 }
