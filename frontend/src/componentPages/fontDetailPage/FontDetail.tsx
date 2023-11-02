@@ -11,13 +11,18 @@ import RangeSlider from 'common/fontRangeSlider/RangeSlider';
 import FontUserReview from './fontDetailPageComponent/FontUserReview';
 
 // icons
-import { FaRegBookmark } from 'react-icons/fa'; // 폰트 찜 before
-// import { FaBookmark } from 'react-icons/fa'; // 폰트 찜 after
-import { FaRegCopy, FaPen } from 'react-icons/fa';
+import { FaRegBookmark, FaBookmark, FaRegCopy, FaPen } from 'react-icons/fa';
 
 const FontDetail: React.FC = () => {
   const { state } = useLocation();
   const font = state as { id: string; title: string; maker: string; content: string };
+
+  // 책갈피 찜하기
+  const [isClicked, setIsClicked] = useState(false);
+ 
+  const handleIconClick = () => {
+    setIsClicked(!isClicked);
+  };
 
   // 웹 폰트 코드 넣기
   const webFontCode = '웹 폰트 : @font-face';
@@ -54,11 +59,21 @@ const FontDetail: React.FC = () => {
   return (
     <>
       <div className={classes.topContainer}>
-        {/* 폰트 찜 - 컴포넌트로 만들기 */}
+        {/* 폰트 찜 책갈피 */}
         <div className={classes.dibContainer}>
-          <div className={classes.dibCount}>10</div>
-          <FaRegBookmark className={classes.bookIcon} />
           {/* 폰트 찜 수 */}
+          <div className={classes.dibCount}>10</div>
+          {isClicked  ? (
+          <FaBookmark
+            className={classes.bookIcon}
+            onClick={handleIconClick}
+          />
+        ) : (
+          <FaRegBookmark
+            className={classes.bookIcon}
+            onClick={handleIconClick}
+          />
+        )}
         </div>
         {/* 폰트 이름 */}
         <div className={classes.title}>{font.title}</div>

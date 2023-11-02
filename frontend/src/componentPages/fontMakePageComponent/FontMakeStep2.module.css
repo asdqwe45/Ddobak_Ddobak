@@ -10,8 +10,8 @@
   align-items: center;
 }
 
-.minuGuidImg {
-  width: 18vw;
+.miniGuidImg {
+  width: 15vw;
   margin: 20px 80px;
 }
 
@@ -20,7 +20,7 @@
   border: 2px solid #d71718;
   color: #d71718;
   border-radius: 10px;
-  width: 120px;
+  width: 240px;
   height: 45px;
   text-align: center;
   font-size: 20px;
@@ -43,7 +43,7 @@
   padding: 15px 30px;
   border-radius: 30px;
   width: 550px;
-  font-size: 20px;
+  font-size: 22px;
   cursor: pointer;
 }
 
@@ -62,6 +62,23 @@ label {
   /* 내용이 박스를 초과하면 스크롤 생성 */
   overflow-y: hidden;
   overflow-x: auto;
+}
+
+.emptyContainer {
+  /* display: flex; */
+  align-items: center;
+  text-align: center;
+  margin: auto;
+}
+
+.emptyContainer img {
+  width: 10vw;
+}
+
+.emptyMessage {
+  font-size: 23px;
+  line-height: 13px;
+  /* font-weight: 600; */
 }
 
 .upLoadFile {
