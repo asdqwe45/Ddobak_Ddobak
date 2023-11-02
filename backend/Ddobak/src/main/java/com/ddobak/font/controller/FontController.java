@@ -1,5 +1,6 @@
 package com.ddobak.font.controller;
 
+import com.ddobak.font.dto.request.CreateFontRequest;
 import com.ddobak.font.service.FontImageService;
 import com.ddobak.font.service.FontService;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,6 @@ public class FontController {
         String introduceText
 
     ){}
-
-
 
     @Autowired
     private final FontImageService fontImageService;
@@ -76,37 +75,28 @@ public class FontController {
 
 
     @PostMapping("/make")
-    public ResponseEntity<String> makeFile(@RequestPart("file") MultipartFile[] files, @RequestParam("producer_id") Long producer_id, @RequestParam("font_sort_url") String font_sort_url) {
+    public ResponseEntity<String> makeFile(@RequestPart("file") MultipartFile[] files, @RequestPart(value = "data")CreateFontRequest req) {
         try {
-            System.out.println("1");
-            File tempFile1 = File.createTempFile("source",".png");
-            File tempFile2 = File.createTempFile("source",".png");
-
-            System.out.println("2");
+            File tempFile1 = File.createTempFile("kor_file",".png");
+            File tempFile2 = File.createTempFile("eng_file",".png");
 
             files[0].transferTo(tempFile1);
-            System.out.println("3");
 
             files[1].transferTo(tempFile2);
 
             List<File> tempFile = new ArrayList<>();
-            System.out.println("3");
 
             tempFile.add(tempFile1);
-            System.out.println("3");
 
             tempFile.add(tempFile2);
-            System.out.println("3");
 
-            String s3Url = fontImageService.getS3MakeUrl(tempFile);
-            System.out.println("4");
+            ResponseEntity<String> s3Url = fontImageService.getS3MakeUrl(tempFile);
 
-            if(s3Url.length()==0){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("AI response의 파일 타입이 올바르지 않습니다.");
-            }
-//            fontService.addFont(producer_id,font_sort_url, s3Url);
+            String fontUrl = s3Url.getBody();
 
-            return ResponseEntity.ok(s3Url);
+            fontService.addFont(req,fontUrl);
+
+            return ResponseEntity.ok(fontUrl);
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
