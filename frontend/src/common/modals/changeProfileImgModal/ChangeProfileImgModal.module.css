@@ -12,8 +12,8 @@
 
 .modalContainer {
   background-color: white;
-  width: 800px;
-  height: 530px;
+  width: 600px;
+  height: 400px;
   box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   border: 0px;
@@ -42,7 +42,7 @@
 
 .middleBox {
   width: 100%;
-  height: 410px;
+  height: 270px;
   border-top: 3px solid #b6b6b6;
   border-bottom: 3px solid #b6b6b6;
   box-sizing: border-box;
@@ -51,7 +51,7 @@
 
 .innerBox {
   width: 100%;
-  height: 50px;
+  height: 70px;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
@@ -60,14 +60,9 @@
 }
 
 .innerText {
-  margin: 0px;
+  margin: 10px;
   font-size: 20px;
   font-weight: bold;
-}
-
-.innerNormalText {
-  margin: 0px;
-  font-size: 20px;
 }
 
 .bottomBox {
@@ -103,81 +98,53 @@
   font-size: 16px;
 }
 
+.notValid {
+  color: #d71718;
+  margin: 0px;
+  font-size: 12px;
+  font-weight: bolder;
+}
+
 .innerMiddleBox {
   display: flex;
   width: 100%;
   margin: 10px 0px;
+  justify-content: space-between;
   align-items: center;
-  box-sizing: border-box;
-  padding: 0px 20px;
 }
 
-.valueBtn {
-  width: 140px;
+.uploadBtn {
   height: 40px;
-  border-radius: 20px;
-  border: 2px solid #b6b6b6;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  margin: 0px 5px;
-  font-size: 20px;
-  font-weight: bold;
-
-  &:hover {
-    background-color: #b6b6b6;
-    cursor: pointer;
-  }
-}
-
-.chargeBox {
-  height: 50px;
-  width: 300px;
+  width: 160px;
+  border: 0px;
   border-radius: 10px;
-  border: 2px solid #b6b6b6;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.chargeText {
-  font-size: 28px;
+  font-size: 20px;
+  color: white;
   font-weight: bold;
-  margin: 0px;
-}
-
-.removeImgBox {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0px 10px;
-
+  background-color: #484848;
   &:hover {
+    cursor: pointer;
     opacity: 0.7;
-    cursor: pointer;
   }
 }
-
-.inputAccount {
-  border: 2px solid #b6b6b6;
+.innerImgBox {
   border-radius: 10px;
-  width: 50%;
-  height: 50px;
-  font-size: 20px;
-  padding: 0px 20px;
+  border: 2px solid #b6b6b6;
+  height: 180px;
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  padding: 10px;
+  align-items: flex-end;
 }
-
-.controlClass {
-  margin: 0px 10px;
-  width: 200px;
-  height: 50px;
-  font-size: 20px;
-  padding: 0px 20px;
-  border: 2px solid #b6b6b6;
+.innerImgSize {
   border-radius: 10px;
+  height: 100%;
+  aspect-ratio: 1;
+  border: 1px solid #b6b6b6;
+}
+.imgNameBox {
+  height: 40px;
   display: flex;
   align-items: center;
 }

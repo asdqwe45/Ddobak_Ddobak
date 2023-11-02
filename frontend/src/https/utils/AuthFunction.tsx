@@ -57,3 +57,35 @@ export function userSignup(data: SignupData): Promise<any> {
       throw e;
     });
 }
+
+/*
+// Save to local storage
+window.localStorage.setItem(key, JSON.stringify(newValue))
+const item = window.localStorage.getItem(key)
+return item ? (parseJSON(item) as T) : initialValue
+*/
+
+// const localStorage = window.localStorage
+
+interface LoginType {
+  email: string;
+  password: string;
+}
+
+export async function userTestLogin(data: LoginType) {
+  console.log(data);
+  const testToken = 'DFGHJDFGHJKGHJKFGHJKLFGHJKFGHJKLFGHJK';
+  const jsonTestToken = JSON.stringify(testToken);
+  localStorage.setItem('testToken', jsonTestToken);
+  window.location.reload();
+}
+
+// 토큰이 있는지 확인해주는 함수
+export async function checkToken() {
+  const testToken = localStorage.getItem('testToken');
+  if (testToken) {
+    const newTestToken = JSON.parse(testToken);
+    return newTestToken;
+  }
+  return false;
+}

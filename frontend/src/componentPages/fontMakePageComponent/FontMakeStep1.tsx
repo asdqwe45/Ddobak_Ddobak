@@ -12,8 +12,8 @@ const FontMakeStep1: React.FC = () => {
             <div className={classes.supplyTitle}>종이에 또박또박</div>
             <br />
             <div className={classes.supplyContent}>
-              {/* - <strong>인쇄</strong>한 가이드라인 <br />*/}
-              - 0.7mm 이상의 <strong>검정색</strong> 잉크펜
+              {/* - <strong>인쇄</strong>한 가이드라인 <br />*/}- 0.7mm 이상의{' '}
+              <strong>검정색</strong> 잉크펜
               <br />- 받치고 쓸 <strong>책받침</strong> 또는 여분의 종이
             </div>
           </div>

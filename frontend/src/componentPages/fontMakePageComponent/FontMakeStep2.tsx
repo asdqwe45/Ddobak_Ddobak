@@ -47,7 +47,9 @@ const FontMakeStep2: React.FC = () => {
   // 가이드라인 다운로드
   const handleDownload = async () => {
     try {
-      const response = await fetch('https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/english_number_template.pdf');
+      const response = await fetch(
+        'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/english_number_template.pdf',
+      );
       if (response.ok) {
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
@@ -76,7 +78,9 @@ const FontMakeStep2: React.FC = () => {
             손글씨를 작성하고, 이미지를 올려주세요.
           </div>
           <img src={MiniGuide} alt="MiniGuide" className={classes.miniGuidImg} />
-          <button className={classes.downBtn} onClick={handleDownload}>가이드라인 다운로드</button>
+          <button className={classes.downBtn} onClick={handleDownload}>
+            가이드라인 다운로드
+          </button>
         </div>
 
         <div className={classes.upLoadContainer}>
@@ -89,11 +93,7 @@ const FontMakeStep2: React.FC = () => {
             />
             <label htmlFor="fileInput">파일 업로드 click!</label>
           </div>
-          <div
-            className={classes.upLoadList}
-            onDrop={onDrop}
-            onDragOver={onDragOver}
-          >
+          <div className={classes.upLoadList} onDrop={onDrop} onDragOver={onDragOver}>
             {/* 파일 없을 때 문구 넣기 */}
             {files.length === 0 ? (
               <div className={classes.emptyContainer}>

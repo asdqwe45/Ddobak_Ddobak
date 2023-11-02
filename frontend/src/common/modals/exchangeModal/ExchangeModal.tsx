@@ -3,6 +3,9 @@ import ReactModal from 'react-modal';
 
 import classes from './ExchangeModal.module.css';
 
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
+
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { exchangeModalActions } from 'store/exchangeModalSlice';
@@ -15,87 +18,87 @@ interface ExchangeModalState {
   };
 }
 
-// const BANK_LIST = [
-//   '한국은행',
-//   '산업은행',
-//   '기업은행',
-//   '국민은행',
-//   '외환은행',
-//   '수협은행',
-//   '수출입은행',
-//   '농협은행',
-//   '농협회원조합',
-//   '우리은행',
-//   'SC제일은행',
-//   '서울은행',
-//   '한국씨티은행',
-//   '대구은행',
-//   '부산은행',
-//   '광주은행',
-//   '제주은행',
-//   '전북은행',
-//   '경남은행',
-//   '새마을금고연합회',
-//   '신협중앙회',
-//   '상호저축은행',
-//   '기타 외국계은행',
-//   '모건스탠리은행',
-//   'HSBC은행',
-//   '도이치은행',
-//   '알비에스피엘씨은행',
-//   '제이피모간체이스은행',
-//   '미즈호코퍼레이트은행',
-//   '미쓰비시도쿄UFJ은행',
-//   'BOA',
-//   '비엔피파리바은행',
-//   '중국공상은행',
-//   '중국은행',
-//   '산림조합',
-//   '대화은행',
-//   '우체국',
-//   '신용보증기금',
-//   '기술신용보증기금',
-//   '하나은행',
-//   '신한은행',
-//   '케이뱅크',
-//   '카카오뱅크',
-//   '토스뱅크',
-//   '한국주택금융공사',
-//   '서울보증보험',
-//   '경찰청',
-//   '금융결제원',
-//   '동양종합금융증권',
-//   '현대증권',
-//   '미래에셋증권',
-//   '대우증권',
-//   '삼성증권',
-//   '한국투자증권',
-//   'NH투자증권',
-//   '교보증권',
-//   '하이투자증권',
-//   '에이치엠씨투자증권',
-//   '키움증권',
-//   '이트레이드증권',
-//   'SK증권',
-//   '대신증권',
-//   '솔로몬투자증권',
-//   '한화증권',
-//   '하나대투증권',
-//   '신한금융투자',
-//   '동부증권',
-//   '유진투자증권',
-//   '메리츠증권',
-//   '엔에이치투자증권',
-//   '부국증권',
-//   '신영증권',
-//   '엘아이지투자증권',
-// ];
+const BANK_LIST = [
+  '한국은행',
+  '산업은행',
+  '기업은행',
+  '국민은행',
+  '외환은행',
+  '수협은행',
+  '수출입은행',
+  '농협은행',
+  '농협회원조합',
+  '우리은행',
+  'SC제일은행',
+  '서울은행',
+  '한국씨티은행',
+  '대구은행',
+  '부산은행',
+  '광주은행',
+  '제주은행',
+  '전북은행',
+  '경남은행',
+  '새마을금고연합회',
+  '신협중앙회',
+  '상호저축은행',
+  '기타 외국계은행',
+  '모건스탠리은행',
+  'HSBC은행',
+  '도이치은행',
+  '알비에스피엘씨은행',
+  '제이피모간체이스은행',
+  '미즈호코퍼레이트은행',
+  '미쓰비시도쿄UFJ은행',
+  'BOA',
+  '비엔피파리바은행',
+  '중국공상은행',
+  '중국은행',
+  '산림조합',
+  '대화은행',
+  '우체국',
+  '신용보증기금',
+  '기술신용보증기금',
+  '하나은행',
+  '신한은행',
+  '케이뱅크',
+  '카카오뱅크',
+  '토스뱅크',
+  '한국주택금융공사',
+  '서울보증보험',
+  '경찰청',
+  '금융결제원',
+  '동양종합금융증권',
+  '현대증권',
+  '미래에셋증권',
+  '대우증권',
+  '삼성증권',
+  '한국투자증권',
+  'NH투자증권',
+  '교보증권',
+  '하이투자증권',
+  '에이치엠씨투자증권',
+  '키움증권',
+  '이트레이드증권',
+  'SK증권',
+  '대신증권',
+  '솔로몬투자증권',
+  '한화증권',
+  '하나대투증권',
+  '신한금융투자',
+  '동부증권',
+  '유진투자증권',
+  '메리츠증권',
+  '엔에이치투자증권',
+  '부국증권',
+  '신영증권',
+  '엘아이지투자증권',
+];
 
 const ExchangeModal: React.FC = () => {
   useEffect(() => {
     ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
 
-    setCurrentPoint(45000);
+    setTotalPoint(CURRENT_POINT);
   }, []);
   const dispatch = useDispatch();
   const clickChargeHandler = () => {
@@ -108,10 +111,17 @@ const ExchangeModal: React.FC = () => {
     clickChargeHandler();
   };
 
-  const [currentPoint, setCurrentPoint] = useState<number>(0);
+  const CURRENT_POINT = 45000;
+
+  // 선택은행
+  // 계좌번호
+  const [selectedBank, setSelectedBank] = useState<string>('');
+
+  // const [currentPoint, setCurrentPoint] = useState<number>(CURRENT_POINT);
   const [exchangePoint, setExchangePoint] = useState<number>(0);
   const [totalPoint, setTotalPoint] = useState<number>(0);
   const howMuchCharge = (value: number) => {
+    // console.log(currentPoint, value);
     if (totalPoint < value) {
       alert('인출할 금액을 초과하였습니다.');
       return;
@@ -121,7 +131,7 @@ const ExchangeModal: React.FC = () => {
   };
   const removeCharge = () => {
     setExchangePoint(0);
-    setTotalPoint(currentPoint);
+    setTotalPoint(CURRENT_POINT);
   };
   return (
     <ReactModal
@@ -153,7 +163,7 @@ const ExchangeModal: React.FC = () => {
             }}
           >
             <p className={classes.innerText}>현재 포인트</p>
-            <p className={classes.innerText}>{currentPoint} P</p>
+            <p className={classes.innerText}>{CURRENT_POINT} P</p>
           </div>
           <div
             className={classes.innerMiddleBox}
@@ -230,7 +240,17 @@ const ExchangeModal: React.FC = () => {
             className={classes.innerMiddleBox}
             style={{ height: 60, justifyContent: 'flex-end' }}
           >
-            <input type="text" placeholder="은행명" className={classes.inputBank} />
+            {/* <input type="text" placeholder="은행명" className={classes.inputBank} /> */}
+
+            <Dropdown
+              options={BANK_LIST}
+              onChange={(e) => {
+                setSelectedBank(e.value);
+              }}
+              value={selectedBank}
+              placeholder="은행명"
+              controlClassName={classes.controlClass}
+            />
             <input type="text" placeholder="계좌번호" className={classes.inputAccount} />
           </div>
           <div

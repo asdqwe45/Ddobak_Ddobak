@@ -1,5 +1,6 @@
 .header {
   width: 100%;
+  min-width: 440px;
   height: 68px;
   border-bottom: 2.2px solid #d9d9d9;
   position: sticky;
@@ -15,6 +16,10 @@
 .navFont {
   font-size: 21px;
   font-weight: 500;
+  &:hover {
+    cursor: pointer;
+    color: #d71718;
+  }
 }
 
 .list {
@@ -48,7 +53,7 @@
 .rightBox {
   display: flex;
   flex-direction: row;
-  width: 36%;
+  width: 510px;
   height: 100%;
   justify-content: flex-end;
 }
@@ -56,7 +61,7 @@
 .leftBox {
   display: flex;
   flex-direction: row;
-  width: 36%;
+  width: 510px;
   justify-content: space-between;
   height: 100%;
 }
@@ -66,7 +71,8 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-  width: 130%;
+  width: 115px;
+  /* width: 130%; */
 }
 
 .loginBox a {
@@ -82,4 +88,67 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+
+.hamburgerBar {
+  /* position: fixed; */
+  display: none;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+}
+
+@media (max-width: 830px) {
+  .leftBox {
+    width: 200px;
+  }
+  .smallBox {
+    display: none;
+  }
+  .rightBox {
+    display: none;
+  }
+  .hamburgerBar {
+    display: unset;
+  }
+}
+
+.menuDiv {
+  position: fixed;
+  top: 60px;
+  right: 60px;
+  background-color: white;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+}
+
+.menuList {
+  height: 60px;
+  width: 200px;
+  box-sizing: border-box;
+  padding: 5px 10px;
+}
+
+.menuDetail {
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  border: 0px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    color: white;
+    background-color: #d71718;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}
+
+.menuFont {
+  font-size: 20px;
+  margin: 0px;
 }

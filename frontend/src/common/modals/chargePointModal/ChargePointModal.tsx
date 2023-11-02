@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import ReactModal from 'react-modal';
-
+import PaymentComponent from 'componentPages/myPagePointPage/myPagePointPageComponents/PaymentComponent';
 import classes from './ChargePointModal.module.css';
 
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { chargePointModalActions } from 'store/chargePointModalSlice';
 import { AiOutlineClose, AiFillCloseCircle } from 'react-icons/ai';
-import { mainRedColor, borderColor } from 'common/colors/CommonColors';
+import { borderColor } from 'common/colors/CommonColors';
 
 interface ChargeModalState {
   chargePoint: {
@@ -41,6 +41,27 @@ const ChargePointModal: React.FC = () => {
     setChargePoint(0);
     setTotalPoint(currentPoint);
   };
+  // 포인트 상태 관리
+  const [points, setPoints] = useState(10000);
+
+  // 포트원 결제 창 결제 결과 로직
+  const handlePaymentSuccess = (response: any) => {
+    console.log('Payment Success:', response);
+    // 결제 성공 시 필요한 로직을 실행
+    console.log(points);
+    setPoints((prev) => prev + response.paid_amount); // 결제 금액만큼 포인트 증가
+  };
+
+  const handlePaymentFailure = (error: any) => {
+    console.log('Payment Failure:', error);
+    // 결제 실패 시 필요한 로직을 실행
+  };
+
+  const handlePaymentCancel = (cancelData: any) => {
+    console.log('Payment Cancelled:', cancelData);
+    // 결제 취소 시 필요한 로직을 실행
+  };
+
   return (
     <ReactModal
       isOpen={showCharge}
@@ -130,13 +151,13 @@ const ChargePointModal: React.FC = () => {
           </div>
         </div>
         <div className={classes.bottomBox}>
-          <button
-            className={classes.modalBtn}
-            style={{ backgroundColor: mainRedColor }}
-            onClick={closeModal}
-          >
-            충전하기
-          </button>
+          {/* 포트원 결제 창 */}
+          <PaymentComponent
+            amount={chargePoint}
+            onPaymentSuccess={handlePaymentSuccess}
+            onPaymentFailure={handlePaymentFailure}
+            onPaymentCancel={handlePaymentCancel}
+          />
         </div>
       </div>
     </ReactModal>

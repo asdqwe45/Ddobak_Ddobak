@@ -12,10 +12,9 @@ import {
   MyPagePointContentText,
 } from './myPagePointPageComponents/MyPagePointPageComponents';
 
-import PaymentComponent from './myPagePointPageComponents/PaymentComponent';
-
+import { chargePointModalActions } from 'store/chargePointModalSlice';
 import { mainRedColor, likeCountColor } from 'common/colors/CommonColors';
-
+import { useDispatch } from 'react-redux';
 // btn components
 import {
   PointExchangeBtn,
@@ -26,6 +25,7 @@ import {
   SelectDisabled,
   ContentLargeBox,
 } from 'pages/myPage/myPageComponents/MyPageComponents';
+import { exchangeModalActions } from 'store/exchangeModalSlice';
 
 const MyPagePointPage: React.FC = () => {
   const [selectContent, setSelectContent] = useState({
@@ -94,44 +94,23 @@ const MyPagePointPage: React.FC = () => {
     }
   };
 
-  // 포인트 상태 관리
-  const [points, setPoints] = useState(10000);
-
-  // 포트원 결제 창 결제 결과 로직
-  const handlePaymentSuccess = (response: any) => {
-    console.log('Payment Success:', response);
-    // 결제 성공 시 필요한 로직을 실행
-    setPoints((prev) => prev + response.paid_amount); // 결제 금액만큼 포인트 증가
+  const dispatch = useDispatch();
+  const clickChargeHandler = () => {
+    dispatch(chargePointModalActions.toggle());
   };
-
-  const handlePaymentFailure = (error: any) => {
-    console.log('Payment Failure:', error);
-    // 결제 실패 시 필요한 로직을 실행
+  const clickExchangeHandler = () => {
+    dispatch(exchangeModalActions.toggle());
   };
-
-  const handlePaymentCancel = (cancelData: any) => {
-    console.log('Payment Cancelled:', cancelData);
-    // 결제 취소 시 필요한 로직을 실행
-  };
-
   return (
     <div className={classes.container}>
       <MyPagePointHeader>
         <MyPagePointBox>
           <MyPagePointHeaderText style={{ paddingRight: 40 }}>보유한 포인트</MyPagePointHeaderText>
-          <MyPagePointHeaderText>{points.toLocaleString()}P</MyPagePointHeaderText>
+          <MyPagePointHeaderText>10,000 P</MyPagePointHeaderText>
         </MyPagePointBox>
         <MyPagePointBox style={{ justifyContent: 'flex-end' }}>
-          {/* 포트원 결제 창 */}
-          <PaymentComponent
-            amount={1000}
-            onPaymentSuccess={handlePaymentSuccess}
-            onPaymentFailure={handlePaymentFailure}
-            onPaymentCancel={handlePaymentCancel}
-          />
-
-          <PointExchangeBtn>충전하기</PointExchangeBtn>
-          <PointTransactionBtn>인출하기</PointTransactionBtn>
+          <PointExchangeBtn onClick={clickChargeHandler}>충전하기</PointExchangeBtn>
+          <PointTransactionBtn onClick={clickExchangeHandler}>인출하기</PointTransactionBtn>
         </MyPagePointBox>
       </MyPagePointHeader>
       <MyPageContent style={{ maxHeight: 480 }}>

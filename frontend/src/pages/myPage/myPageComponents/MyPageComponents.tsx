@@ -22,6 +22,10 @@ export const ProfilImgBox = styled.div`
   aspect-ratio: 1;
   padding: 20px;
   box-sizing: border-box; /* 이 줄을 추가합니다. */
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
 `;
 
 export const ProfileContent = styled.div`
@@ -32,6 +36,31 @@ export const ProfileContent = styled.div`
 export const ProfilNameBox = styled.div`
   display: flex;
   align-items: center;
+`;
+
+export const ChangeProfileName = styled.input`
+  box-sizing: border-box;
+  height: 40px;
+  font-size: 20px;
+  width: 160px;
+  padding: 0px 10px;
+  border-radius: 10px;
+  border: 2px solid ${borderColor};
+  margin: 10px 5px;
+`;
+export const NicknameChangeBtn = styled.button`
+  border-radius: 10px;
+  border: 0px;
+  width: 60px;
+  height: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 5px;
+  color: white;
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
 `;
 
 export const ProfileName = styled.h1`
@@ -244,6 +273,23 @@ export const ContentRedBtn = styled(ContentBtnIngredient)`
 `;
 
 export const ContentGrayBtn = styled(ContentBtnIngredient)`
+  background-color: ${likeCountColor};
+  &:hover {
+    // 이 부분이 hover 상태일 때 적용될 스타일입니다.
+    cursor: pointer; // 마우스 커서를 포인터로 변경합니다.
+    opacity: 0.7; // 불투명도를 조정하여 버튼이 약간 투명해지도록 합니다.
+  }
+`;
+
+export const ContentGrayTransaction = styled(ContentBtnIngredient)`
+  height: 40px;
+  aspect-ratio: 15/4;
+  border-radius: 10px;
+  font-size: 16px;
+  border: 0px;
+  color: white;
+  margin-bottom: 0px;
+  font-weight: bold;
   background-color: ${likeCountColor};
   &:hover {
     // 이 부분이 hover 상태일 때 적용될 스타일입니다.
