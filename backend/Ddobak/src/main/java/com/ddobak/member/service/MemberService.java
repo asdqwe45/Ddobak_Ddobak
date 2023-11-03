@@ -140,7 +140,7 @@ public class MemberService {
         Optional<Member> member = memberRepository.findByEmail(email);
 
         if(member.isPresent()) {
-            log.debug("Already exists email {}", email);
+            log.info("Already exists email {}", email);
             throw new MemberException(ErrorCode.EMAIL_DUPLICATED);
         }
     }

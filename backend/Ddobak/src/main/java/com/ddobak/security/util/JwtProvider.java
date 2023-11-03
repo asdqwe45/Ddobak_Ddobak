@@ -51,7 +51,6 @@ public class JwtProvider {
         Date now = new Date();
         Date accessTokenExpire = new Date(now.getTime() + accessTokenExpireTime);
 
-
         String accessToken = Jwts.builder()
                                  .setClaims(claims)
                                  .setIssuedAt(now)
@@ -97,7 +96,6 @@ public class JwtProvider {
                                 .getBody();
 
             String email = claims.get("email", String.class);
-            Long id = claims.get("id",Long.class);
 
             // 저장된 RefreshToken 과 비교
             String redisRefreshToken = redisTemplate.opsForValue().get(email);
@@ -108,7 +106,7 @@ public class JwtProvider {
             Date accessTokenExpire = new Date(now.getTime() + accessTokenExpireTime);
 
             Claims newClaims = Jwts.claims();
-            newClaims.put("id", id);
+//            newClaims.put("id", id);
             newClaims.put("email", email);
 
             String accessToken = Jwts.builder()
