@@ -1,15 +1,15 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import classes from './FontMakeStep2.module.css';
 
 // image
-import MiniGuide from './fontDetailPageAssets/guideline_ex.png';
-import UploadFile from './fontDetailPageAssets/upload_file.jpg';
+import UploadFile from './fontDetailPageAssets/upload_file.png';
 
 // icon
 import { FaRegTimesCircle } from 'react-icons/fa';
 
 const FontMakeStep2: React.FC = () => {
   const [files, setFiles] = useState<{ src: string; name: string }[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement> | DataTransfer) => {
     const fileList = event instanceof DataTransfer ? event.files : event.target.files;
@@ -44,56 +44,32 @@ const FontMakeStep2: React.FC = () => {
     setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // 가이드라인 다운로드
-  const handleDownload = async () => {
-    try {
-      const response = await fetch(
-        'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/english_number_template.pdf',
-      );
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        // 다운로드 시, 파일 이름
-        a.download = 'ddobak_english_number_template.pdf';
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-      } else {
-        throw new Error('Network response was not ok');
-      }
-    } catch (error) {
-      console.error('다운로드 중 에러가 발생했습니다', error);
-    }
+  const openFileSelector = () => {
+    fileInputRef.current?.click();
   };
 
   return (
     <>
-      <div className={classes.loadContainer}>
-        <div className={classes.downLoadContainer}>
-          <div className={classes.info}>
-            {/* 또박또박 손글씨 가이드라인을 다운로드 {'\n'} */}
-            손글씨를 작성하고, 이미지를 올려주세요.
-          </div>
-          <img src={MiniGuide} alt="MiniGuide" className={classes.miniGuidImg} />
-          <button className={classes.downBtn} onClick={handleDownload}>
-            가이드라인 다운로드
-          </button>
-        </div>
-
-        <div className={classes.upLoadContainer}>
-          <div className={classes.upLoadBar}>
+      <div className={classes.container}>
+          <div className={classes.rowContainer}>
+            <div className={classes.info}>
+              <p>업로드 후 반듯하게 정렬해주세요.</p>
+            </div>
+            <button className={classes.uploadBtn} onClick={openFileSelector}>이미지 업로드</button>
+            {/* 숨겨진 파일 입력 필드 */}
             <input
               type="file"
-              onChange={handleFileChange}
+              ref={fileInputRef}
               style={{ display: 'none' }}
-              id="fileInput"
+              onChange={handleFileChange}
             />
-            <label htmlFor="fileInput">파일 업로드 click!</label>
           </div>
-          <div className={classes.upLoadList} onDrop={onDrop} onDragOver={onDragOver}>
+
+          <div
+            className={classes.upLoadList}
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+          >
             {/* 파일 없을 때 문구 넣기 */}
             {files.length === 0 ? (
               <div className={classes.emptyContainer}>
@@ -123,7 +99,6 @@ const FontMakeStep2: React.FC = () => {
               ))
             )}
           </div>
-        </div>
       </div>
     </>
   );
