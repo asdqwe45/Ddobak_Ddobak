@@ -14,10 +14,10 @@ const MainPageLargeManuscript: React.FC = () => {
   };
 
   useEffect(() => {
-    const timeout = 4000 / 17;
+    const timeout = 4000 / 18;
 
     // 각 문자마다 개별 타이머를 생성합니다.
-    for (let i = 0; i < 17; i++) {
+    for (let i = 0; i < 18; i++) {
       window.setTimeout(() => {
         revealCharacter(i);
       }, i * timeout);
@@ -237,6 +237,14 @@ const MainPageLargeManuscript: React.FC = () => {
             <div className={classes.content}>
               <p className={classes.contentText} style={{ opacity: visibility[16] ? 1 : 0 }}>
                 다
+              </p>
+            </div>
+          </div>
+          {/* . */}
+          <div className={classes.smallBox}>
+            <div className={classes.content}>
+              <p className={classes.contentText} style={{ opacity: visibility[17] ? 1 : 0 }}>
+                .
               </p>
             </div>
           </div>
