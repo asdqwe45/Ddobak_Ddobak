@@ -25,7 +25,10 @@ const FontDetail: React.FC = () => {
   };
 
   // 웹 폰트 코드 넣기
-  const webFontCode = '웹 폰트 : @font-face';
+  const webFontCode = `@font-face {
+      font-family: "ddobak-test";
+      src: url("http://163.239.223.171:8786/font_file/ddobak_test.ttf") format("truetype");
+  }`;
 
   const copyToClipboard = async () => {
     try {
@@ -113,7 +116,7 @@ const FontDetail: React.FC = () => {
       <div className={classes.boxContainer}>
         <div className={classes.intro}>
           <BoxTitle>폰트 소개</BoxTitle>
-          <div className={classes.introBox} style={{ width: '45vw' }}>
+          <div className={classes.introBox} style={{ width: '35vw' }}>
             안녕하세요. {font.maker} 님이 만든 {font.title} 입니다. {'\n'}
             많이 사용해주세요. :)
           </div>
@@ -127,7 +130,7 @@ const FontDetail: React.FC = () => {
             </div>
           </div>
 
-          <div className={classes.introBox} style={{ width: '30vw' }}>
+          <div className={classes.introBox} style={{ width: '40vw' }}>
             {webFontCode}
           </div>
         </div>
