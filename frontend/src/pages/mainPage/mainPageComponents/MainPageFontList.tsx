@@ -31,12 +31,12 @@ const MainPageFontList: React.FC = () => {
       <div className={classes.headerBox}>
         <h1 className={classes.swiperHeader}>
           "여러분의 손글씨도 폰트가 될 수 있습니다."
-          <br /> 폰트 제작 서비스,{' '}
+          <br /> <span>폰트 제작 서비스,{' '}</span>
           <span className={classes.typeWriterContainer}>
             {/* <span className={classes.animationHeaderText}>또박또박</span> */}
             {/* test */}
             <span className={classes.animationHeaderText}>
-              <img src={DdobakLogo} style={{ height: 75.2 }} alt="또박또박" />
+              <img src={DdobakLogo} style={{ height: 60 }} alt="또박또박" />
             </span>
           </span>
         </h1>
