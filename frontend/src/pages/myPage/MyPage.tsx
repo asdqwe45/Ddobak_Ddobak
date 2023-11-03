@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   ProfileBox,
   PointBox,
@@ -82,12 +82,31 @@ import { changePwModalActions } from 'store/changePwModalSlice';
 import { reviewModalActions } from 'store/reviewModalSlice';
 import { exchangeModalActions } from 'store/exchangeModalSlice';
 import { changeProfileImgModalActions } from 'store/changeProfileImgModalSlice';
+import { pointPayModalActions } from 'store/pointPayModalSlice';
+import { goToBasketModalActions } from 'store/goToBasketModalSlice';
 
 // navigation
-import { NavLink } from 'react-router-dom';
-import { pointPayModalActions } from 'store/pointPayModalSlice';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const MyPage: React.FC = () => {
+  const location = useLocation();
+  const myValue = location.state?.pageValue;
+  useEffect(() => {
+    async function fetch() {
+      if (myValue) {
+        if (myValue === 'fontBasket') {
+          setPageLocation({
+            productsState: false,
+            likeList: false,
+            fontBasket: true,
+            boughtFonts: false,
+            likeProducers: false,
+          });
+        }
+      }
+    }
+    fetch();
+  }, [myValue]);
   const [isClickedChange, setIsClickedChange] = useState<boolean>(false);
   const [nickname, setNickname] = useState<string>('김싸피');
   const nicknameInputRef = useRef<HTMLInputElement>(null);
@@ -175,6 +194,10 @@ const MyPage: React.FC = () => {
   };
   const clickProfileImgHandler = () => {
     dispatch(changeProfileImgModalActions.toggle());
+  };
+  const clickBasketHandler = () => {
+    console.log('click');
+    dispatch(goToBasketModalActions.toggle());
   };
 
   return (
@@ -412,7 +435,7 @@ const MyPage: React.FC = () => {
                     </ContentInnerTextBox>
                   </ContentInnerLeft>
                   <ContentInnerRight>
-                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
                 <ContentIngredient>
@@ -429,7 +452,7 @@ const MyPage: React.FC = () => {
                     </ContentInnerTextBox>
                   </ContentInnerLeft>
                   <ContentInnerRight>
-                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
                 <ContentIngredient>
@@ -446,7 +469,7 @@ const MyPage: React.FC = () => {
                     </ContentInnerTextBox>
                   </ContentInnerLeft>
                   <ContentInnerRight>
-                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
                 <ContentIngredient>
@@ -463,7 +486,7 @@ const MyPage: React.FC = () => {
                     </ContentInnerTextBox>
                   </ContentInnerLeft>
                   <ContentInnerRight>
-                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
                 <ContentIngredient>
@@ -480,7 +503,7 @@ const MyPage: React.FC = () => {
                     </ContentInnerTextBox>
                   </ContentInnerLeft>
                   <ContentInnerRight>
-                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
                 <ContentIngredient>
@@ -497,7 +520,7 @@ const MyPage: React.FC = () => {
                     </ContentInnerTextBox>
                   </ContentInnerLeft>
                   <ContentInnerRight>
-                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
               </ContentLargeBox>
