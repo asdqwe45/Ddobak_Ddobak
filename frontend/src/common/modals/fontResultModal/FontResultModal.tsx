@@ -33,18 +33,17 @@ const FontResultModal: React.FC = () => {
   };
 
   const clickCloseIcon = () => {
-    return alert("제작취소 또는 정보입력을 선택해주세요.")
-  }
+    return alert('제작취소 또는 정보입력을 선택해주세요.');
+  };
 
   useEffect(() => {
     ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
   }, []);
 
-
   // 제작 취소
   const cancleHandler = async () => {
-    window.location.reload()
-  }
+    window.location.reload();
+  };
 
   return (
     <ReactModal
@@ -65,11 +64,7 @@ const FontResultModal: React.FC = () => {
     >
       <div className={modalClasses.modalContainer}>
         <div className={modalClasses.modalBox} style={{ justifyContent: 'flex-end' }}>
-          <AiOutlineClose
-            size={40}
-            onClick={clickCloseIcon}
-            className={modalClasses.closeIcon}
-          />
+          <AiOutlineClose size={40} onClick={clickCloseIcon} className={modalClasses.closeIcon} />
         </div>
         {/* 원고지 헤더 시작 */}
         <div className={classes.headerBox}>

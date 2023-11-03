@@ -1,6 +1,5 @@
 import { axiosWithoutAuth } from 'https/http';
 
-
 // Email Api
 // 이메일 인증번호 발송
 export function userEmailVerifyRequest(email: string): Promise<any> {
