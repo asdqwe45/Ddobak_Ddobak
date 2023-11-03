@@ -1,0 +1,39 @@
+.container {
+  border: 1px solid #b6b6b6;
+  width: 28vw;
+  height: 40vh;
+  box-sizing: border-box;
+  margin: 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 15px 0 15px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.bookIcon {
+  margin-top: 5px;
+  width: 28px;
+  height: 28px;
+  color: #d71718;
+}
+
+.fontMaker {
+  font-size: 23px;
+  padding: 5px 0 15px 15px;
+}
+
+.borderTop {
+  border-top: 1px solid #b6b6b6;
+}
+
+.content {
+  font-size: 27px;
+  padding: 15px;
+}

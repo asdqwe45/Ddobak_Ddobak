@@ -1,0 +1,95 @@
+.container {
+  width: 100%;
+  height: 100%;
+  padding: 40px 100px;
+  box-sizing: border-box;
+}
+
+.pencilBtn:hover {
+  color: #d71718;
+}
+
+.header {
+  width: 100%;
+  height: 140px;
+  padding-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.content {
+  width: 100%;
+  height: 530px;
+  box-sizing: border-box;
+  padding: 0px 20px;
+}
+
+.ImgStyle {
+  width: 100%;
+  height: 100%;
+}
+
+.settingIcon {
+  width: 30px;
+  height: 30px;
+  margin: 0px 20px;
+}
+
+.settingIcon:hover {
+  color: #d71718;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.bookmarkIcon {
+  width: 100%;
+  height: 100%;
+  color: #d71718;
+  min-width: 20px;
+  min-height: 20px;
+  max-width: 40px;
+  max-height: 40px;
+}
+
+.bookmarkIcon:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.checkIcon {
+  height: 32px;
+  width: 32px;
+  color: #d71718;
+}
+
+.checkIcon:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0px 10px;
+  cursor: pointer;
+}
+
+.swiperSlide {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.swiperImg {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 100%;
+  border: 2px solid #b6b6b6;
+  object-fit: cover;
+  max-width: 300px;
+  max-height: 300px;
+}
