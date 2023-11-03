@@ -14,7 +14,7 @@ const FontMakePage: React.FC = () => {
     if (step < 4) {
       setStep((prevStep) => prevStep + 1);
       if (step === 2) {
-        showPreviewHandler()
+        showPreviewHandler();
       }
     }
   };
@@ -22,8 +22,8 @@ const FontMakePage: React.FC = () => {
   // 미리보기 모달 가져오기
   const dispatch = useDispatch();
   const showPreviewHandler = () => {
-    dispatch(resultModalActions.toggle())
-  }
+    dispatch(resultModalActions.toggle());
+  };
 
   return (
     <>
@@ -44,7 +44,7 @@ const FontMakePage: React.FC = () => {
       <div className={classes.contentContainer}>
         {step === 1 && <FontMakeStep1 />}
         {step === 2 && <FontMakeStep2 />}
-        {step === 3 && <FontOptionPage setStep={setStep} step={step}/>}
+        {step === 3 && <FontOptionPage setStep={setStep} step={step} />}
         {step === 4 && <FontMakeStep3 />}
       </div>
       <div className={classes.btnContainer}>

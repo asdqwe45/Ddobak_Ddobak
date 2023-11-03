@@ -51,54 +51,52 @@ const FontMakeStep2: React.FC = () => {
   return (
     <>
       <div className={classes.container}>
-          <div className={classes.rowContainer}>
-            <div className={classes.info}>
-              <p>업로드 후 반듯하게 정렬해주세요.</p>
-            </div>
-            <button className={classes.uploadBtn} onClick={openFileSelector}>이미지 업로드</button>
-            {/* 숨겨진 파일 입력 필드 */}
-            <input
-              type="file"
-              ref={fileInputRef}
-              style={{ display: 'none' }}
-              onChange={handleFileChange}
-            />
+        <div className={classes.rowContainer}>
+          <div className={classes.info}>
+            <p>업로드 후 반듯하게 정렬해주세요.</p>
           </div>
+          <button className={classes.uploadBtn} onClick={openFileSelector}>
+            이미지 업로드
+          </button>
+          {/* 숨겨진 파일 입력 필드 */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
+        </div>
 
-          <div
-            className={classes.upLoadList}
-            onDrop={onDrop}
-            onDragOver={onDragOver}
-          >
-            {/* 파일 없을 때 문구 넣기 */}
-            {files.length === 0 ? (
-              <div className={classes.emptyContainer}>
-                <img src={UploadFile} alt="UploadFile" />
-                <div className={classes.emptyMessage}>
-                  <p>파일을 끌어다 놓아주세요.</p>
-                  <p>(Drag & drop files here)</p>
-                </div>
+        <div className={classes.upLoadList} onDrop={onDrop} onDragOver={onDragOver}>
+          {/* 파일 없을 때 문구 넣기 */}
+          {files.length === 0 ? (
+            <div className={classes.emptyContainer}>
+              <img src={UploadFile} alt="UploadFile" />
+              <div className={classes.emptyMessage}>
+                <p>파일을 끌어다 놓아주세요.</p>
+                <p>(Drag & drop files here)</p>
               </div>
-            ) : (
-              files.map((file, index) => (
-                <div key={index} className={classes.upLoadFile}>
-                  <div className={classes.upLoadFileName}>
-                    <FaRegTimesCircle
-                      className={classes.deleteIcon}
-                      onClick={() => removeFile(index)}
-                    />
-                    {file.name}
-                  </div>
-                  <img src={file.src} alt={file.name} /> {/* 이미지 미리보기 */}
-                  {file.src && (
-                    <div className={classes.btnContainer}>
-                      <button className={classes.nextBtn}>이미지 반듯하게</button>
-                    </div>
-                  )}
+            </div>
+          ) : (
+            files.map((file, index) => (
+              <div key={index} className={classes.upLoadFile}>
+                <div className={classes.upLoadFileName}>
+                  <FaRegTimesCircle
+                    className={classes.deleteIcon}
+                    onClick={() => removeFile(index)}
+                  />
+                  {file.name}
                 </div>
-              ))
-            )}
-          </div>
+                <img src={file.src} alt={file.name} /> {/* 이미지 미리보기 */}
+                {file.src && (
+                  <div className={classes.btnContainer}>
+                    <button className={classes.nextBtn}>이미지 반듯하게</button>
+                  </div>
+                )}
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </>
   );
