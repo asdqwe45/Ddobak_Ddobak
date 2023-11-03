@@ -7,11 +7,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -31,10 +34,9 @@ public class SecurityConfig {
 
             // URL 별 권환 확인
             .authorizeRequests()
-            .antMatchers("/api/v1/member/email/**","/docs/**", "/api/v1/member/join/**").permitAll()
-                .antMatchers("/**").permitAll()
-                .anyRequest().authenticated()
+            .antMatchers("/api/v1/member/email/**","/docs/**", "/api/v1/member/signup/**", "api/v1/member/login").permitAll()
             .and()
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
     }
 }
