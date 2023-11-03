@@ -20,3 +20,4 @@ spring:
       host: redis
       port: 6377
       password: ${REDIS_PASSWORD}
+# deploy test
