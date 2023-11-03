@@ -156,13 +156,13 @@ const MyPage: React.FC = () => {
   };
 
   const transactionClick = () => {
-    dispatch(pointPayModalActions.toggle())
+    dispatch(pointPayModalActions.toggle());
   };
 
   // redux
   const dispatch = useDispatch();
   const clickDownloadHandler = () => {
-    console.log("다운로드")
+    console.log('다운로드');
   };
   const clickChangePwHandler = () => {
     dispatch(changePwModalActions.toggle());
@@ -544,7 +544,9 @@ const MyPage: React.FC = () => {
                 <ContentIngredient></ContentIngredient>
                 <ContentIngredient></ContentIngredient>
                 <FontBasketBottomBox>
-                  <ContentGrayTransaction onClick={transactionClick}>결제하기</ContentGrayTransaction>
+                  <ContentGrayTransaction onClick={transactionClick}>
+                    결제하기
+                  </ContentGrayTransaction>
                 </FontBasketBottomBox>
               </ContentLargeBox>
             </>

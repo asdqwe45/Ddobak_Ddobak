@@ -1,4 +1,4 @@
-import React from 'react'; // , { useState }
+import React, { useState } from 'react'; // , { useState }
 import classes from './FontOptionPage.module.css';
 
 // components
@@ -15,6 +15,12 @@ interface FontOptionPageProps {
 }
 
 const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
+  const [inputValue, setInputValue] = useState('');
+
+  // input 변경 핸들러 함수
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInputValue(event.target.value);
+  };
   // 라디오 버튼 선택
   // const [selectedOption, setSelectedOption] = useState<string>('');
 
@@ -29,6 +35,7 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
 
   const dispatch = useDispatch();
   const clickPayHandler = async () => {
+    dispatch(pointPayModalActions.payThePrice({ howMuch: 50000, boughtSometing: '폰트제작' }));
     dispatch(pointPayModalActions.toggle());
     if (step && setStep) {
       const nextStep = step + 1;
@@ -71,6 +78,22 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
         <br />
         <hr />
         <br />
+        <div className={classes.fontInfoContainer}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <BoxTitle>폰트 소개글</BoxTitle>
+            <span style={{ marginLeft: '20px' }}>({inputValue.length}/200)</span>
+            </div>
+          <div>
+            <textarea
+              placeholder=""
+              value={inputValue} // input 상태 바인딩
+              onChange={handleInputChange} // input 변경시 호출될 함수
+            />
+          </div>
+        </div>
+        <br />
+        <hr />
+        <br />
 
         {/* 저작권 관계 명시 */}
         <div className={classes.relationContainer}>
@@ -107,7 +130,7 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
             <RadioBtn
               options={['공개', '비공개']}
               name="open"
-              // onChange={setSelectedOption}
+            // onChange={setSelectedOption}
             />
           </div>
           <div className={classes.rowContainer}>
@@ -115,7 +138,7 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
             <RadioBtn
               options={['허용', '비허용']}
               name="use"
-              // onChange={setSelectedOption}
+            // onChange={setSelectedOption}
             />
           </div>
           <div className={classes.rowContainer}>
@@ -123,7 +146,7 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
             <RadioBtn
               options={['필수', '선택']}
               name="person"
-              // onChange={setSelectedOption}
+            // onChange={setSelectedOption}
             />
           </div>
           <div className={classes.rowContainer}>
@@ -131,7 +154,7 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
             <RadioBtn
               options={['가능', '금지']}
               name="edit"
-              // onChange={setSelectedOption}
+            // onChange={setSelectedOption}
             />
           </div>
           <br />
@@ -141,7 +164,7 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
             <RadioBtn
               options={['유료', '무료']}
               name="charge"
-              // onChange={setSelectedOption}
+            // onChange={setSelectedOption}
             />
             <InputTitle style={{ marginLeft: '100px' }}>판매 금액 설정</InputTitle>
             <input type="text" style={{ width: '15vw', height: '50px' }} />

@@ -43,6 +43,17 @@
   cursor: pointer;
 }
 
+.fontInfoContainer textarea {
+  margin: 20px 35px;
+  height: 70px;
+  width: 1050px;
+  font-size: 20px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 25px;
+  font-family: '수트', SUIT-Regular;
+}
+
 /* 저작권 관계 명시 */
 .priceContainer {
   display: flex;
