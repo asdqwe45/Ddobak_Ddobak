@@ -512,9 +512,6 @@ const MyPage: React.FC = () => {
                 </FontBasketTopBox>
                 <ContentIngredient>
                   <ContentInnerLeft>
-                    <ContentIconsBox>
-                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
-                    </ContentIconsBox>
                     <ContentInnerTextBox>
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
@@ -529,9 +526,6 @@ const MyPage: React.FC = () => {
                 </ContentIngredient>
                 <ContentIngredient>
                   <ContentInnerLeft>
-                    <ContentIconsBox>
-                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
-                    </ContentIconsBox>
                     <ContentInnerTextBox>
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
