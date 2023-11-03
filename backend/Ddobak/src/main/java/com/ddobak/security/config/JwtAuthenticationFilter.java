@@ -27,7 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
     private final CustomUserDetailService customUserDetailService;
 
-    @Value("{jwt.token.secret}")
+    @Value("${jwt.token.secret}")
     private String secretKey;
 
 
@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         log.debug("authorization start : {}", authorization);
 
         // 인증 여부 확인
-        if(authorization == null | !(authorization.startsWith("Bearer ")) | !(authorization.startsWith("Refresh "))) {
+        if(authorization == null || !(authorization.startsWith("Bearer ") || authorization.startsWith("Refresh "))) {
             log.error("authorization is null ");
             filterChain.doFilter(request, response);
             return;

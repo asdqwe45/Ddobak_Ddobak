@@ -31,7 +31,7 @@ public class MemberController {
     // 이메일 인증 요청
     @PostMapping("/email/verify-request")
     public ResponseEntity<Void> sendEmail(@RequestBody EmailVerifyRequest emailVerifyRequest) {
-        log.debug("Send Email to {}", emailVerifyRequest.email());
+        log.info("Send Email to {}", emailVerifyRequest.email());
 
         memberService.sendCodeToEmail(emailVerifyRequest.email());
 
@@ -41,7 +41,7 @@ public class MemberController {
     // 이메일 인증 확인
     @GetMapping("/email/verify")
     public ResponseEntity<Void> verifyEmail(@RequestBody EmailVerificationRequest emailVerificationRequest) {
-        log.debug("verify email {} with authCode {}", emailVerificationRequest.email(), emailVerificationRequest.authCode());
+        log.info("verify email {} with authCode {}", emailVerificationRequest.email(), emailVerificationRequest.authCode());
 
         memberService.verifyEmail(emailVerificationRequest.email(),
             emailVerificationRequest.authCode());
@@ -52,7 +52,7 @@ public class MemberController {
     // 회원 가입
     @PostMapping("/signup")
     public ResponseEntity<Void> singUpMember(@RequestPart SignUpRequest signUpRequest, @RequestPart(required = false) MultipartFile profileImg) {
-        log.debug("{} request signUp", signUpRequest.email());
+        log.info("{} request signUp", signUpRequest.email());
 
         memberService.signUpMember(signUpRequest, profileImg);
 
@@ -62,7 +62,7 @@ public class MemberController {
     // 로그인
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> memberLogin(@RequestBody @Valid MemberLoginRequest memberLoginRequest) {
-        log.debug("{} request Login", memberLoginRequest.email());
+        log.info("{} request Login", memberLoginRequest.email());
 
         LoginResponse loginResponse = memberService.loginMember(memberLoginRequest);
 
@@ -72,7 +72,7 @@ public class MemberController {
     // 로그아웃
     @GetMapping("/logout")
     public ResponseEntity<Void> memberLogout(@AuthenticationPrincipal LoginInfo loginInfo) {
-        log.debug("{} wants logout", loginInfo.email());
+        log.info("{} wants logout", loginInfo.email());
 
         memberService.logoutMember(loginInfo);
         return ResponseEntity.noContent().build();
