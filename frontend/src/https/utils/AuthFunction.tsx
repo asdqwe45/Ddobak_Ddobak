@@ -8,7 +8,7 @@ export function userEmailVerifyRequest(email: string): Promise<any> {
     email: email,
   };
   return axiosWithoutAuth
-    .post('/email/verify-request', data)
+    .post('/member/email/verify-request', data)
     .then((r) => {
       return r;
     })
@@ -31,7 +31,7 @@ type EmailCheckData = {
 
 export function userEmailVerifyAPI(data: EmailCheckData): Promise<any> {
   return axiosWithoutAuth
-    .post('/email/verify', data)
+    .post('/member/email/verify', data)
     .then((r) => {
       return r;
     })
@@ -48,7 +48,7 @@ type SignupData = {
 };
 export function userSignup(data: SignupData): Promise<any> {
   return axiosWithoutAuth
-    .post('/signup', data)
+    .post('/member/signup', data)
     .then((r) => {
       return r;
     })

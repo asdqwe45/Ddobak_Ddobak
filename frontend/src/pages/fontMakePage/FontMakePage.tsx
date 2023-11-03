@@ -44,7 +44,7 @@ const FontMakePage: React.FC = () => {
       <div className={classes.contentContainer}>
         {step === 1 && <FontMakeStep1 />}
         {step === 2 && <FontMakeStep2 />}
-        {step === 3 && <FontOptionPage />}
+        {step === 3 && <FontOptionPage setStep={setStep} step={step}/>}
         {step === 4 && <FontMakeStep3 />}
       </div>
       <div className={classes.btnContainer}>

@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import classes from '../../../pages/mainPage/mainPageComponents/MainPageLargeManuscript.module.css';
 import modalClasses from './FontResultModal.module.css';
 import ReactModal from 'react-modal';
-
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { resultModalActions } from 'store/resultModalSlice';
@@ -33,9 +32,20 @@ const FontResultModal: React.FC = () => {
     clickResultHandler();
   };
 
+  const clickCloseIcon = () => {
+    return alert("제작취소 또는 정보입력을 선택해주세요.")
+  }
+
   useEffect(() => {
     ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
   }, []);
+
+
+  // 제작 취소
+  const cancleHandler = async () => {
+    window.location.reload()
+  }
+
   return (
     <ReactModal
       isOpen={showResultModal}
@@ -57,7 +67,7 @@ const FontResultModal: React.FC = () => {
         <div className={modalClasses.modalBox} style={{ justifyContent: 'flex-end' }}>
           <AiOutlineClose
             size={40}
-            onClick={clickResultHandler}
+            onClick={clickCloseIcon}
             className={modalClasses.closeIcon}
           />
         </div>
@@ -169,7 +179,7 @@ const FontResultModal: React.FC = () => {
           <button
             className={modalClasses.modalBtn}
             style={{ backgroundColor: mainRedColor, color: 'white' }}
-            onClick={clickResultHandler}
+            onClick={cancleHandler}
           >
             제작취소
           </button>

@@ -85,6 +85,7 @@ import { changeProfileImgModalActions } from 'store/changeProfileImgModalSlice';
 
 // navigation
 import { NavLink } from 'react-router-dom';
+import { pointPayModalActions } from 'store/pointPayModalSlice';
 
 const MyPage: React.FC = () => {
   const [isClickedChange, setIsClickedChange] = useState<boolean>(false);
@@ -155,7 +156,7 @@ const MyPage: React.FC = () => {
   };
 
   const transactionClick = () => {
-    console.log('transaction');
+    dispatch(pointPayModalActions.toggle())
   };
 
   // redux
@@ -227,7 +228,7 @@ const MyPage: React.FC = () => {
               </PointHeader>
               <PointBtnBox>
                 <NavLink to={'/point'}>
-                  <PointTransactionBtn onClick={transactionClick}>거래내역</PointTransactionBtn>
+                  <PointTransactionBtn>거래내역</PointTransactionBtn>
                 </NavLink>
                 <PointExchangeBtn onClick={exchangeHandler}>인출하기</PointExchangeBtn>
               </PointBtnBox>
@@ -543,7 +544,7 @@ const MyPage: React.FC = () => {
                 <ContentIngredient></ContentIngredient>
                 <ContentIngredient></ContentIngredient>
                 <FontBasketBottomBox>
-                  <ContentGrayTransaction>결제하기</ContentGrayTransaction>
+                  <ContentGrayTransaction onClick={transactionClick}>결제하기</ContentGrayTransaction>
                 </FontBasketBottomBox>
               </ContentLargeBox>
             </>
