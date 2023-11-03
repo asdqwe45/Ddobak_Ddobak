@@ -53,7 +53,7 @@ const MainPageFontList: React.FC = () => {
         <Swiper
           onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
           slidesPerView={3}
-          spaceBetween={21}
+          spaceBetween={30}
           loop={true}
           autoplay={{
             delay: 2500,
