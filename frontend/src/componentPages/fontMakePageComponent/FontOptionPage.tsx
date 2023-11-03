@@ -111,9 +111,9 @@ const FontOptionPage: React.FC = () => {
             />
           </div>
           <div className={classes.rowContainer}>
-            <InputTitle style={{ width: '20vw' }}>수정 허용</InputTitle>
+            <InputTitle style={{ width: '20vw' }}>폰트 변형</InputTitle>
             <RadioBtn
-              options={['수정', '금지']}
+              options={['가능', '금지']}
               name="edit"
               // onChange={setSelectedOption}
             />

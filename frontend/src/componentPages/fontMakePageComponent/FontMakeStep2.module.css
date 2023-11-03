@@ -17,9 +17,9 @@
 .info {
   background-color: #e8e8e8;
   margin: 15px;
-  padding-left: 20px;
+  padding-left: 30px;
   border-radius: 20px;
-  width: 380px;
+  width: 430px;
   height: 50px;
   font-size: 22px;
   cursor: pointer;
@@ -32,8 +32,8 @@
   border: 2px solid #b6b6b6;
   padding: 25px 30px;
   border-radius: 30px;
-  width: 550px;
-  height: 300px;
+  width: 600px;
+  height: 320px;
   font-size: 18px;
   display: flex;
   /* 내용이 박스를 초과하면 스크롤 생성 */
@@ -61,6 +61,8 @@
 .upLoadFile {
   display: flex;
   flex-direction: column;
+  height: 250px;
+  margin-right: 40px;
 }
 
 .upLoadFileName {
@@ -71,7 +73,12 @@
 
 .upLoadFile img {
   height: 200px;
-  margin: 10px 0;
+  margin: 15px 0;
+}
+
+.pdfPreview {
+  margin: 15px 0;
+  height: 200px;
 }
 
 .deleteIcon {
