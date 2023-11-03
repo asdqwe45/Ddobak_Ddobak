@@ -6,7 +6,6 @@ import ReactModal from 'react-modal';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { resultModalActions } from 'store/resultModalSlice';
-import { pointPayModalActions } from 'store/pointPayModalSlice';
 
 import { mainRedColor } from 'common/colors/CommonColors';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -32,11 +31,6 @@ const FontResultModal: React.FC = () => {
   // 모달을 닫을 때 onRequestClose 함수 호출
   const closeModal = () => {
     clickResultHandler();
-  };
-
-  // 결제 모달 열기
-  const clickPayHandler = () => {
-    dispatch(pointPayModalActions.toggle());
   };
 
   useEffect(() => {
@@ -182,9 +176,9 @@ const FontResultModal: React.FC = () => {
           <button
             className={modalClasses.modalBtn}
             style={{ backgroundColor: 'white', fontWeight: 'bold' }}
-            onClick={clickPayHandler}
+            onClick={clickResultHandler}
           >
-            결제하기
+            정보입력
           </button>
         </div>
       </div>

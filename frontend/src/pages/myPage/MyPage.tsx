@@ -78,7 +78,6 @@ import Test6 from './myPageAssets/Test6.png';
 
 // redux
 import { useDispatch } from 'react-redux';
-import { resultModalActions } from 'store/resultModalSlice';
 import { changePwModalActions } from 'store/changePwModalSlice';
 import { reviewModalActions } from 'store/reviewModalSlice';
 import { exchangeModalActions } from 'store/exchangeModalSlice';
@@ -161,8 +160,8 @@ const MyPage: React.FC = () => {
 
   // redux
   const dispatch = useDispatch();
-  const clickResultHandler = () => {
-    dispatch(resultModalActions.toggle());
+  const clickDownloadHandler = () => {
+    console.log("다운로드")
   };
   const clickChangePwHandler = () => {
     dispatch(changePwModalActions.toggle());
@@ -315,7 +314,7 @@ const MyPage: React.FC = () => {
                   </ContentInnerLeft>
                   <ContentInnerRight>
                     <ContentGrayDisabled>결제완료</ContentGrayDisabled>
-                    <ContentRedBtn onClick={clickResultHandler}>다운로드</ContentRedBtn>
+                    <ContentRedBtn onClick={clickDownloadHandler}>다운로드</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
                 {/* 이게 한 콘텐트 */}

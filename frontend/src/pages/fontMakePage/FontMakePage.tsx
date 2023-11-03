@@ -4,6 +4,8 @@ import FontMakeStep1 from 'componentPages/fontMakePageComponent/FontMakeStep1';
 import FontMakeStep2 from 'componentPages/fontMakePageComponent/FontMakeStep2';
 import FontMakeStep3 from 'componentPages/fontMakePageComponent/FontMakeStep3';
 import FontOptionPage from 'componentPages/fontMakePageComponent/FontOptionPage';
+import { resultModalActions } from 'store/resultModalSlice';
+import { useDispatch } from 'react-redux';
 
 const FontMakePage: React.FC = () => {
   const [step, setStep] = useState(1);
@@ -11,8 +13,17 @@ const FontMakePage: React.FC = () => {
   const handleNext = () => {
     if (step < 4) {
       setStep((prevStep) => prevStep + 1);
+      if (step === 2) {
+        showPreviewHandler()
+      }
     }
   };
+
+  // 미리보기 모달 가져오기
+  const dispatch = useDispatch();
+  const showPreviewHandler = () => {
+    dispatch(resultModalActions.toggle())
+  }
 
   return (
     <>
