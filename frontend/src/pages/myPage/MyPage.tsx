@@ -88,6 +88,8 @@ import { goToBasketModalActions } from 'store/goToBasketModalSlice';
 // navigation
 import { NavLink, useLocation } from 'react-router-dom';
 
+import { checkToken } from 'https/utils/AuthFunction';
+
 const MyPage: React.FC = () => {
   const location = useLocation();
   const myValue = location.state?.pageValue;
@@ -107,6 +109,18 @@ const MyPage: React.FC = () => {
     }
     fetch();
   }, [myValue]);
+
+  useEffect(() => {
+    async function fetch() {
+      const token = await checkToken();
+      if (token) {
+        console.log('have Token');
+      } else {
+        console.log('잘못된 접근입니다.');
+      }
+    }
+    fetch();
+  }, []);
   const [isClickedChange, setIsClickedChange] = useState<boolean>(false);
   const [nickname, setNickname] = useState<string>('김싸피');
   const nicknameInputRef = useRef<HTMLInputElement>(null);

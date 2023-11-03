@@ -83,14 +83,14 @@ const FontResultModal: React.FC = () => {
           {/* 빈칸 끝 */}
           <div className={classes.lineBox}>
             {/* 1 */}
-            <TextSmallBox innerText="또" />
-            <TextSmallBox innerText="박" />
-            <TextSmallBox innerText="또" />
-            <TextSmallBox innerText="박" />
-            <TextSmallBox innerText="이" />
-            <TextSmallBox innerText="태" />
-            <TextSmallBox innerText="성" />
-            <TextSmallBox innerText="체" />
+            <TextSmallBox innerText="폰" />
+            <TextSmallBox innerText="트" />
+            <TextSmallBox />
+            <TextSmallBox innerText="미" />
+            <TextSmallBox innerText="리" />
+            <TextSmallBox innerText="보" />
+            <TextSmallBox innerText="기" />
+            <TextSmallBox />
             <TextSmallBox />
             <TextSmallBox />
             <TextSmallBox />
@@ -137,20 +137,20 @@ const FontResultModal: React.FC = () => {
           <div className={classes.lineBox}>
             {/* 1 */}
             <TextSmallBox />
-            <TextSmallBox innerText="다" />
-            <TextSmallBox innerText="람" />
-            <TextSmallBox innerText="쥐" />
-            <TextSmallBox />
-            <TextSmallBox innerText="헌" />
-            <TextSmallBox />
-            <TextSmallBox innerText="쳇" />
-            <TextSmallBox innerText="바" />
-            <TextSmallBox innerText="퀴" />
-            <TextSmallBox innerText="에" />
-            <TextSmallBox />
-            <TextSmallBox innerText="타" />
-            <TextSmallBox innerText="고" />
-            <TextSmallBox innerText="파" />
+            <TextSmallBox innerText="A" />
+            <TextSmallBox innerText="B" />
+            <TextSmallBox innerText="C" />
+            <TextSmallBox innerText="D" />
+            <TextSmallBox innerText="E" />
+            <TextSmallBox innerText="F" />
+            <TextSmallBox innerText="G" />
+            <TextSmallBox innerText="H" />
+            <TextSmallBox innerText="I" />
+            <TextSmallBox innerText="J" />
+            <TextSmallBox innerText="K" />
+            <TextSmallBox innerText="L" />
+            <TextSmallBox innerText="M" />
+            <TextSmallBox innerText="N" />
             <TextSmallBox />
           </div>
           {/* 라인 끝 */}
