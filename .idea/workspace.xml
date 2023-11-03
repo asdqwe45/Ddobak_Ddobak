@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42588689-721d-4ce2-8f75-5d7862f4ce0f" name="Changes" comment="">
+    <list default="true" id="42588689-721d-4ce2-8f75-5d7862f4ce0f" name="Changes" comment="&lt;feat&gt;[#136-LJE] 찜 API 구현">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/eng_template.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/eng_template.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/eng_template_original.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/eng_template_original.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/english_crop.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/english_crop.py" afterDir="false" />
@@ -134,9 +132,22 @@
       <workItem from="1698628755781" duration="739000" />
       <workItem from="1698716680603" duration="64000" />
     </task>
+    <task id="LOCAL-00001" summary="&lt;feat&gt;[#136-LJE] 찜 API 구현">
+      <option name="closed" value="true" />
+      <created>1699000160066</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1699000160066</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="&lt;feat&gt;[#136-LJE] 찜 API 구현" />
+    <option name="LAST_COMMIT_MESSAGE" value="&lt;feat&gt;[#136-LJE] 찜 API 구현" />
   </component>
 </project>
