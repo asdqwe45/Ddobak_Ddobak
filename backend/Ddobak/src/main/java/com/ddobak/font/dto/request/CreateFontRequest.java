@@ -1,10 +1,13 @@
 package com.ddobak.font.dto.request;
 
 public record CreateFontRequest(
-        Long producer_id,
-        String font_sort_url,
-        String kor_file_name,
-        String eng_file_name
+       String kor_font_name,
+       String eng_font_name,
+       Boolean openStatus,
+       Boolean freeStatus,
+       int price,
+       Boolean commerceStatus,
+       String introduceText
 ) {
 
 }

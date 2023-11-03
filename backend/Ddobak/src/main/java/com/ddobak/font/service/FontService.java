@@ -8,6 +8,7 @@ import com.ddobak.font.repository.FontRepository;
 
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.repository.MemberRepository;
+import com.ddobak.security.util.LoginInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,13 +28,13 @@ public class FontService {
 
     private final FontRepository fontRepository;
     private final MemberRepository memberRepository;
-    public void addFont(CreateFontRequest req, String font_file_url){
-        Long member_id = req.producer_id();
+    public void createFont(String font_sort_url, LoginInfo loginInfo){
+        String email = loginInfo.email();
 
-        Member member = memberRepository.findById(member_id).orElseThrow(
-                () -> new EntityNotFoundException("Member not found with id: " + member_id)
+        Member member = memberRepository.findByEmail(email).orElseThrow(
+                () -> new EntityNotFoundException("Member not found with email: " + email)
         );
-        Font newFont = Font.from(req,font_file_url,member);
+        Font newFont = Font.from(font_sort_url,member);
 
         fontRepository.save(newFont);
     }

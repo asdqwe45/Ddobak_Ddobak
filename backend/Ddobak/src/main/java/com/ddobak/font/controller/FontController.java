@@ -3,17 +3,18 @@ package com.ddobak.font.controller;
 import com.ddobak.font.dto.request.CreateFontRequest;
 import com.ddobak.font.service.FontImageService;
 import com.ddobak.font.service.FontService;
+import com.ddobak.security.util.LoginInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -25,23 +26,12 @@ import java.util.zip.ZipOutputStream;
 @Slf4j
 public class FontController {
 
-    public record FontWebRequest(
-        String font_sort_url,
-        Boolean openStatus,
-        Boolean freeStatus,
-        Integer price,
-        Boolean commerceStatus,
-        String introduceText
-
-    ){}
-
-
     private final FontImageService fontImageService;
     private final FontService fontService;
 
 
     @GetMapping("/test")
-    public String test(){
+    public String test(@AuthenticationPrincipal LoginInfo loginInfo){
         return "test";
     }
 //    @GetMapping("/list")
@@ -50,7 +40,8 @@ public class FontController {
 //    }
 
     @PostMapping("/sort")
-    public ResponseEntity<String> sort(@RequestParam("file") MultipartFile[] files){
+    public ResponseEntity<String> sort(@RequestParam("file") MultipartFile[] files,
+                                       @AuthenticationPrincipal LoginInfo loginInfo){
         System.out.println("0");
         try {
             String s3Url = new String();
@@ -78,25 +69,12 @@ public class FontController {
     }
     @CrossOrigin(origins = "http://localhost:3000") // React 앱의 URL을 허용합니다.
     @PostMapping("/watch")
-    public ResponseEntity<byte[]> watchImage(@RequestPart("file") MultipartFile[] files){
+    public ResponseEntity<byte[]> watchImage(@RequestBody String reqUrl,
+                                             @AuthenticationPrincipal LoginInfo loginInfo){
         try {
-            System.out.println("1111");
-            File tempFile1 = File.createTempFile("kor_file",".png");
-            File tempFile2 = File.createTempFile("eng_file",".png");
-
-            files[0].transferTo(tempFile1);
-
-            files[1].transferTo(tempFile2);
-
-            List<File> tempFile = new ArrayList<>();
-
-            tempFile.add(tempFile1);
-
-            tempFile.add(tempFile2);
-            System.out.println("1111");
+            List<File> tempFile = fontImageService.urlToFile(reqUrl);
 
             ResponseEntity<byte[]> zip = fontImageService.downloadZip(tempFile);
-            System.out.println("1111");
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
@@ -109,35 +87,11 @@ public class FontController {
         }
     }
 
-
-    @PostMapping("/make")
-    public ResponseEntity<String> makeFile(@RequestPart("file") MultipartFile[] files, @RequestPart(value = "data")CreateFontRequest req) {
-        try {
-            File tempFile1 = File.createTempFile("kor_file",".png");
-            File tempFile2 = File.createTempFile("eng_file",".png");
-
-            files[0].transferTo(tempFile1);
-
-            files[1].transferTo(tempFile2);
-
-            List<File> tempFile = new ArrayList<>();
-
-            tempFile.add(tempFile1);
-
-            tempFile.add(tempFile2);
-
-            ResponseEntity<String> s3Url = fontImageService.getS3MakeUrl(tempFile);
-
-            String fontUrl = s3Url.getBody();
-
-            fontService.addFont(req,fontUrl);
-
-            return ResponseEntity.ok(fontUrl);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    @PostMapping("/goSetting")
+    public ResponseEntity<String> createFont(@RequestBody String font_sort_url,
+                                           @AuthenticationPrincipal LoginInfo loginInfo) {
+        fontService.createFont(font_sort_url,loginInfo);
+        return ResponseEntity.ok("success");
     }
-
 }
 

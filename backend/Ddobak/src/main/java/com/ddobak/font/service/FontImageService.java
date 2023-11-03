@@ -17,6 +17,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
@@ -178,6 +182,34 @@ public class FontImageService {
         String extension = StringUtils.getFilenameExtension(filename);
         return extension;
     }
+    public List<File> urlToFile(String url) throws IOException {
+        String[] urls = url.split("\\$");
 
+        InputStream in1 = new URL(urls[0]).openStream();
+        InputStream in2 = new URL(urls[1]).openStream();
+
+        File tempFile1 = File.createTempFile("kor_file",".png");
+        File tempFile2 = File.createTempFile("eng_file",".png");
+
+        copyInputStreamToFile(in1, tempFile1);
+        copyInputStreamToFile(in2, tempFile2);
+
+        List<File> tempFile = new ArrayList<>();
+
+        tempFile.add(tempFile1);
+        tempFile.add(tempFile2);
+
+        return tempFile;
+    }
+    private void copyInputStreamToFile(InputStream inputStream, File file) throws IOException {
+        // try-with-resources를 사용하여 자동으로 리소스를 정리
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+            int read;
+            byte[] bytes = new byte[1024];
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+        }
+    }
 }
 
