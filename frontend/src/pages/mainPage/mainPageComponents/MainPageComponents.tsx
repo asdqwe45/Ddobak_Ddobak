@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { bolderColor, likeCountColor } from 'common/colors/CommonColors';
+import { borderColor, likeCountColor } from 'common/colors/CommonColors';
 
 export const MainLargePage = styled.div`
   width: 100%;
@@ -23,7 +23,7 @@ export const MainFooterBetweenInnerBox = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
-  border-top: 4px solid ${bolderColor};
+  border-top: 4px solid ${borderColor};
 `;
 
 export const MainFooterMiddle = styled.div`

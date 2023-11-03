@@ -1,2 +1,23 @@
 server:
-  port: 8088
+  port: 7077
+spring:
+  datasource:
+    url: jdbc:mariadb://mariadb:3306/ddobak
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: ${MARIADB_USERNAME}
+    password: ${MARIADB_PASSWORD}
+  jpa:
+    open-in-view: false
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600
+      cache-null-values: false
+      host: redis
+      port: 6377
+      password: ${REDIS_PASSWORD}
+# deploy test

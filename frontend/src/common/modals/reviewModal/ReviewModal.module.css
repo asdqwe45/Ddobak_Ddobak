@@ -1,0 +1,150 @@
+.overLay {
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.modalContainer {
+  background-color: white;
+  width: 600px;
+  height: 500px;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  border: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.closeIcon {
+  cursor: pointer;
+
+  &:hover {
+    color: #d71718;
+  }
+}
+
+.topBox {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  height: 30px;
+}
+
+.middleBox {
+  width: 100%;
+  height: 370px;
+  border-top: 3px solid #b6b6b6;
+  border-bottom: 3px solid #b6b6b6;
+  box-sizing: border-box;
+  padding: 0px 40px;
+}
+
+.innerBox {
+  width: 100%;
+  height: 70px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px;
+}
+
+.innerText {
+  margin: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.bottomBox {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 40px;
+}
+
+.modalBtn {
+  height: 100%;
+  border: 0px;
+  border-radius: 10px;
+  aspect-ratio: 4;
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  margin: 0px 10px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+}
+
+.inputText {
+  height: 50px;
+  width: 100%;
+  border-radius: 10px;
+  border: 2px solid #b6b6b6;
+  padding: 0px 10px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.notValid {
+  color: #d71718;
+  margin: 0px;
+  font-size: 12px;
+  font-weight: bolder;
+}
+
+.innerMiddleBox {
+  display: flex;
+  width: 100%;
+  margin: 10px 0px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.uploadBtn {
+  height: 40px;
+  width: 160px;
+  border: 0px;
+  border-radius: 10px;
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  background-color: #484848;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+}
+.innerImgBox {
+  border-radius: 10px;
+  border: 2px solid #b6b6b6;
+  height: 180px;
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+  padding: 10px;
+  align-items: flex-end;
+}
+.innerImgSize {
+  border-radius: 10px;
+  height: 100%;
+  aspect-ratio: 1;
+  border: 1px solid #b6b6b6;
+}
+.imgNameBox {
+  height: 40px;
+  display: flex;
+  align-items: center;
+}

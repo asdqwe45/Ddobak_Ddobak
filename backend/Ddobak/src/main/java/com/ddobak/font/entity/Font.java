@@ -1,15 +1,19 @@
 package com.ddobak.font.entity;
 
 import com.ddobak.font.controller.FontController;
+import com.ddobak.font.dto.request.CreateFontRequest;
 import com.ddobak.global.entity.BaseEntity;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
+import com.ddobak.member.dto.request.SignUpRequest;
 import com.ddobak.member.entity.Member;
+import com.ddobak.member.entity.SignUpType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -19,12 +23,14 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Font extends BaseEntity{
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name="producer")
-//    @Column(nullable = false)
-//    private Member member;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="producer", nullable = false)
+    private Member member;
 
     @Column(nullable = false)
     private String font_sort_url;
@@ -33,30 +39,16 @@ public class Font extends BaseEntity{
     private String font_file_url;
 
     @Column(columnDefinition = "varchar(255) default 'koNameDefault'")
-    private String ko_font_name;
+    private String kor_font_name;
 
     @Column(columnDefinition = "varchar(255) default 'enNameDefault'")
-    private String en_font_name;
+    private String eng_font_name;
 
     @Column(columnDefinition = "BOOLEAN default false")
     private Boolean openStatus;
 
     @Column(columnDefinition = "BOOLEAN default false")
     private Boolean freeStatus;
-
-//    public Font(Long producer_id, String font_sort_url, String font_file_url, String ko_font_name, String en_font_name, Boolean openStatus, Boolean freeStatus, Integer price, Boolean commerceStatus, String introduceText, LocalDate create_date) {
-//        this.member = producer_id;
-//        this.font_sort_url = font_sort_url;
-//        this.font_file_url = font_file_url;
-//        this.ko_font_name = ko_font_name;
-//        this.en_font_name = en_font_name;
-//        this.openStatus = openStatus;
-//        this.freeStatus = freeStatus;
-//        this.price = price;
-//        this.commerceStatus = commerceStatus;
-//        this.introduceText = introduceText;
-//        this.create_date = create_date;
-//    }
 
     @Column(columnDefinition = "int default 0")
     private Integer price;
@@ -70,59 +62,13 @@ public class Font extends BaseEntity{
     @Column
     private LocalDate create_date;
 
-
-    public Font() {
-    }
-
-    public Font setFont_file_url(String font_file_url) {
-        this.font_file_url = font_file_url;
-        return this;
-    }
-    public Font setKo_font_name(String ko_font_name) {
-        this.ko_font_name = ko_font_name;
-        return this;
-    }
-
-    public Font setEn_font_name(String en_font_name) {
-        this.en_font_name = en_font_name;
-        return this;
-    }
-
-    public Font setCreate_date(LocalDate create_date) {
-        this.create_date = create_date;
-        return this;
-    }
-    public Font setOpenStatus(Boolean openStatus) {
-        this.openStatus = openStatus;
-        return this;
-    }
-
-    public Font setFreeStatus(Boolean freeStatus) {
-        this.freeStatus = freeStatus;
-        return this;
-    }
-
-    public Font setPrice(Integer price) {
-        this.price = price;
-        return this;
-    }
-
-    public Font setCommerceStatus(Boolean commerceStatus) {
-        this.commerceStatus = commerceStatus;
-        return this;
-    }
-
-    public Font setIntroduceText(String introduceText) {
-        this.introduceText = introduceText;
-        return this;
-    }
-
-    public void createFont(FontController.FontWebRequest req, String font_file_url) {
-        this.font_file_url = font_file_url;
-        this.openStatus = req.openStatus();
-        this.freeStatus = req.freeStatus();
-        this.price = req.price();
-        this.commerceStatus = req.commerceStatus();
-        this.introduceText = req.introduceText();
+    public static Font from(CreateFontRequest createFontRequest, String font_file_url, Member producer) {
+        return Font.builder()
+                .member(producer)
+                .font_file_url(font_file_url)
+                .font_sort_url(createFontRequest.font_sort_url())
+                .kor_font_name(createFontRequest.kor_file_name())
+                .eng_font_name(createFontRequest.eng_file_name())
+                .build();
     }
 }
