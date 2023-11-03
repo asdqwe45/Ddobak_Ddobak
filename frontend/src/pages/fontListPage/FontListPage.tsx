@@ -108,8 +108,8 @@ const FontListPage: React.FC = () => {
             <input
               type="text"
               placeholder="폰트명, 제작자 검색"
-            // value={searchTerm}
-            // onChange={e => setSearchTerm(e.target.value)}
+              // value={searchTerm}
+              // onChange={e => setSearchTerm(e.target.value)}
             />
             <FaSistrix size={24} color="black" />
           </div>
@@ -123,8 +123,9 @@ const FontListPage: React.FC = () => {
                 size={22}
                 color="gray"
                 style={{ marginLeft: '4px' }}
-                className={`${classes.filterIcon} ${showFilterOptions ? classes.filterIconActive : ''
-                  }`}
+                className={`${classes.filterIcon} ${
+                  showFilterOptions ? classes.filterIconActive : ''
+                }`}
               />
             </div>
             {showFilterOptions && renderFilterOptions()}
@@ -132,7 +133,6 @@ const FontListPage: React.FC = () => {
         </div>
         <div className={classes.fontBoxContainer}>{renderFontBoxes()}</div>
       </div>
-
     </>
   );
 };

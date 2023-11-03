@@ -25,10 +25,7 @@ const FontMakeStep3: React.FC = () => {
       <div>
         <div className={classes.loadingContainer}>
           <div className={classes.loadingBar}>
-            <div
-              className={classes.progressBar}
-              style={{ width: `${progress}%` }}
-            >
+            <div className={classes.progressBar} style={{ width: `${progress}%` }}>
               {progress}%
             </div>
           </div>

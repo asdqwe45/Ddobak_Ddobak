@@ -7,6 +7,8 @@ import {
   ProfileContent,
   ProfilNameBox,
   ProfileName,
+  ChangeProfileName,
+  NicknameChangeBtn,
   ChangePassword,
   PointIngredient,
   PointHeader,
@@ -28,11 +30,12 @@ import {
   ContentInnerHeaderText,
   ContentInnerRight,
   ContentGrayDisabled,
+  ContentGrayTransaction,
+  ContentGrayBtn,
   ContentRedBtn,
   ContentIconsBox,
   FontBasketTopBox,
   FontBasketBottomBox,
-  ContentGrayBtn,
   SelectListDelete,
   CCLBox,
   CCLIcons,
@@ -48,10 +51,9 @@ import ShareAlike from './myPageAssets/ShareAlike.png';
 import Noncommercial from './myPageAssets/Noncommercial.png';
 
 // 아이콘
-import { FiSettings } from 'react-icons/fi';
 import { FaCircleUser } from 'react-icons/fa6';
 import { FaPencilAlt } from 'react-icons/fa';
-import { borderColor } from 'common/colors/CommonColors';
+import { borderColor, mainRedColor, likeCountColor } from 'common/colors/CommonColors';
 import { FaBookmark, FaRegCheckSquare, FaRegSquare } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
 
@@ -80,11 +82,26 @@ import { resultModalActions } from 'store/resultModalSlice';
 import { changePwModalActions } from 'store/changePwModalSlice';
 import { reviewModalActions } from 'store/reviewModalSlice';
 import { exchangeModalActions } from 'store/exchangeModalSlice';
+import { changeProfileImgModalActions } from 'store/changeProfileImgModalSlice';
 
 // navigation
 import { NavLink } from 'react-router-dom';
 
 const MyPage: React.FC = () => {
+  const [isClickedChange, setIsClickedChange] = useState<boolean>(false);
+  const [nickname, setNickname] = useState<string>('김싸피');
+  const nicknameInputRef = useRef<HTMLInputElement>(null);
+
+  const changeNickName = (selectedName: string) => {
+    if (selectedName === '수정') {
+      const nowNickname = nicknameInputRef.current?.value;
+      if (nowNickname) {
+        setNickname(nowNickname);
+      }
+    }
+    setIsClickedChange(false);
+  };
+
   const [pageLocation, setPageLocation] = useState({
     productsState: true,
     likeList: false,
@@ -138,9 +155,6 @@ const MyPage: React.FC = () => {
     }
   };
 
-  const pencilClick = () => {
-    console.log('name change');
-  };
   const transactionClick = () => {
     console.log('transaction');
   };
@@ -159,24 +173,47 @@ const MyPage: React.FC = () => {
   const exchangeHandler = () => {
     dispatch(exchangeModalActions.toggle());
   };
+  const clickProfileImgHandler = () => {
+    dispatch(changeProfileImgModalActions.toggle());
+  };
 
   return (
     <div className={classes.container}>
       <div className={classes.header}>
         <ProfileBox>
           <IngredientContent>
-            <ProfilImgBox>
+            <ProfilImgBox onClick={clickProfileImgHandler}>
               <FaCircleUser color={borderColor} className={classes.ImgStyle} />
             </ProfilImgBox>
             <ProfileContent>
               <ProfilNameBox>
-                <ProfileName>김싸피</ProfileName>
-                <FaPencilAlt
-                  size={30}
-                  style={{ cursor: 'pointer' }}
-                  onClick={pencilClick}
-                  className={classes.pencilBtn}
-                />
+                {isClickedChange ? (
+                  <>
+                    <ChangeProfileName type="text" placeholder="새 닉네임" ref={nicknameInputRef} />
+                    <NicknameChangeBtn
+                      onClick={() => changeNickName('수정')}
+                      style={{ backgroundColor: mainRedColor }}
+                    >
+                      수정
+                    </NicknameChangeBtn>
+                    <NicknameChangeBtn
+                      onClick={() => changeNickName('취소')}
+                      style={{ backgroundColor: likeCountColor }}
+                    >
+                      취소
+                    </NicknameChangeBtn>
+                  </>
+                ) : (
+                  <>
+                    <ProfileName>{nickname}</ProfileName>
+                    <FaPencilAlt
+                      size={30}
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => setIsClickedChange(true)}
+                      className={classes.pencilBtn}
+                    />
+                  </>
+                )}
               </ProfilNameBox>
               <ChangePassword onClick={clickChangePwHandler}>비밀번호 변경</ChangePassword>
             </ProfileContent>
@@ -203,14 +240,14 @@ const MyPage: React.FC = () => {
         <MyPageContent>
           <SelectBox>
             {pageLocation.productsState ? (
-              <SelectDisabled>제작 상태</SelectDisabled>
+              <SelectDisabled>제작한 폰트</SelectDisabled>
             ) : (
               <SelectBtn
                 onClick={() => {
                   pageClickHandle('productsState');
                 }}
               >
-                제작 상태
+                제작한 폰트
               </SelectBtn>
             )}
 
@@ -272,14 +309,13 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
                   </ContentInnerLeft>
                   <ContentInnerRight>
-                    <ContentGrayDisabled>제작완료</ContentGrayDisabled>
-                    <ContentRedBtn onClick={clickResultHandler}>결과확인</ContentRedBtn>
+                    <ContentGrayDisabled>결제완료</ContentGrayDisabled>
+                    <ContentRedBtn onClick={clickResultHandler}>다운로드</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
                 {/* 이게 한 콘텐트 */}
@@ -289,7 +325,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -305,7 +340,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -320,7 +354,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -335,7 +368,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -350,7 +382,6 @@ const MyPage: React.FC = () => {
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
                         <ContentProducerName>| 이태성</ContentProducerName>
-                        <FiSettings className={classes.settingIcon} />
                       </ContentHeader>
                       <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
                     </ContentInnerTextBox>
@@ -519,7 +550,7 @@ const MyPage: React.FC = () => {
                 <ContentIngredient></ContentIngredient>
                 <ContentIngredient></ContentIngredient>
                 <FontBasketBottomBox>
-                  <ContentGrayBtn>결제하기</ContentGrayBtn>
+                  <ContentGrayTransaction>결제하기</ContentGrayTransaction>
                 </FontBasketBottomBox>
               </ContentLargeBox>
             </>
