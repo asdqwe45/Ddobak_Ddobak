@@ -80,9 +80,9 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
         <br />
         <div className={classes.fontInfoContainer}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-          <BoxTitle>폰트 소개글</BoxTitle>
+            <BoxTitle>폰트 소개글</BoxTitle>
             <span style={{ marginLeft: '20px' }}>({inputValue.length}/200)</span>
-            </div>
+          </div>
           <div>
             <textarea
               placeholder=""
@@ -130,7 +130,7 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
             <RadioBtn
               options={['공개', '비공개']}
               name="open"
-            // onChange={setSelectedOption}
+              // onChange={setSelectedOption}
             />
           </div>
           <div className={classes.rowContainer}>
@@ -138,7 +138,7 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
             <RadioBtn
               options={['허용', '비허용']}
               name="use"
-            // onChange={setSelectedOption}
+              // onChange={setSelectedOption}
             />
           </div>
           <div className={classes.rowContainer}>
@@ -146,7 +146,7 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
             <RadioBtn
               options={['필수', '선택']}
               name="person"
-            // onChange={setSelectedOption}
+              // onChange={setSelectedOption}
             />
           </div>
           <div className={classes.rowContainer}>
@@ -154,7 +154,7 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
             <RadioBtn
               options={['가능', '금지']}
               name="edit"
-            // onChange={setSelectedOption}
+              // onChange={setSelectedOption}
             />
           </div>
           <br />
@@ -164,7 +164,7 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
             <RadioBtn
               options={['유료', '무료']}
               name="charge"
-            // onChange={setSelectedOption}
+              // onChange={setSelectedOption}
             />
             <InputTitle style={{ marginLeft: '100px' }}>판매 금액 설정</InputTitle>
             <input type="text" style={{ width: '15vw', height: '50px' }} />

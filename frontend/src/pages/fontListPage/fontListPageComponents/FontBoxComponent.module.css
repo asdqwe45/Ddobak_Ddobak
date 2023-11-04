@@ -10,9 +10,9 @@
 .container:hover {
   border: 3px solid #d71718;
   box-shadow:
-  5px 10px 20px rgba(0, 0, 0, 0.2),
-  5px 6px 4px rgba(0, 0, 0, 0.2);
-} 
+    5px 10px 20px rgba(0, 0, 0, 0.2),
+    5px 6px 4px rgba(0, 0, 0, 0.2);
+}
 
 .header {
   display: flex;
@@ -27,7 +27,7 @@
 
 .title:hover {
   cursor: pointer;
-  background-color: #FFF1F0;
+  background-color: #fff1f0;
 }
 
 .bookIcon {
@@ -48,7 +48,7 @@
 }
 
 .content span {
-cursor: pointer;
+  cursor: pointer;
 }
 
 .borderTop {
