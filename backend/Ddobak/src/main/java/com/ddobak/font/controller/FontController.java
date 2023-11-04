@@ -6,6 +6,9 @@ import com.ddobak.font.service.FontService;
 import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.member.exception.EmailException;
 import com.ddobak.security.util.LoginInfo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
@@ -26,7 +29,11 @@ public class FontController {
     private final FontService fontService;
 
 
-    @GetMapping("/test")
+
+
+    @GetMapping(value="/test")
+    @Operation(summary = "테스트", description = "테스트하는 api 입니다.")
+    @ApiResponse(responseCode = "200", description = "리턴 값으로 test를 반환합니다.")
     public ResponseEntity<String> test(@AuthenticationPrincipal LoginInfo loginInfo){
         return ResponseEntity.ok("test");
     }
@@ -35,9 +42,15 @@ public class FontController {
 //        return fontService.getFontAll();
 //    }
 
-    @PostMapping("/sort")
-    public ResponseEntity<String> sort(@RequestParam("file") MultipartFile[] files,
-                                       @AuthenticationPrincipal LoginInfo loginInfo){
+    @PostMapping(value = "/sort",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "정렬api", description = "이미지정렬 api 입니다.")
+    @ApiResponse(responseCode = "200", description = "리턴 값으로 s3Url을 반환합니다.")
+    public ResponseEntity<String> sort(
+            @Parameter(description = "multipart/form-data 형식의 이미지 리스트를 input으로 받습니다. 이때 key 값은 multipartFile 입니다.")
+            @RequestPart("multipartFile") List<MultipartFile> files){
+//            (@RequestParam("file") MultipartFile[] files,
+//                                       @AuthenticationPrincipal LoginInfo loginInfo){
         try {
             String s3Url = new String();
 
@@ -61,7 +74,9 @@ public class FontController {
         }
     }
 //    @CrossOrigin(origins = "http://localhost:3000") // React 앱의 URL을 허용합니다.
-    @PostMapping("/watch")
+    @PostMapping(value = "/watch")
+    @Operation(summary = "미리보기", description = "미리보기 api 입니다.")
+    @ApiResponse(responseCode = "200", description = "리턴 값으로 zip파일을 반환합니다.")
     public ResponseEntity<byte[]> watchImage(@RequestParam(value = "data") String reqUrl,
                                              @AuthenticationPrincipal LoginInfo loginInfo){
         try {
@@ -78,14 +93,18 @@ public class FontController {
         }
     }
 
-    @PostMapping("/goSetting")
+    @PostMapping(value = "/goSetting")
+    @Operation(summary = "폰트 세팅으로 이동", description = "초기 세팅하는 api 입니다.")
+    @ApiResponse(responseCode = "200", description = "리턴 값으로 success를 반환합니다.")
     public ResponseEntity<String> createFont(@RequestParam("data") String font_sort_url,
                                            @AuthenticationPrincipal LoginInfo loginInfo) {
         fontService.createFont(font_sort_url,loginInfo);
         return ResponseEntity.ok("success");
     }
 
-    @PostMapping("/make")
+    @PostMapping(value = "/make")
+    @Operation(summary = "폰트 제작", description = "폰트 제작하는 api 입니다.")
+    @ApiResponse(responseCode = "200", description = "리턴 값으로 success를 반환합니다.")
     public ResponseEntity<String> makeFont(@RequestBody MakeFontRequest req,
                                            @AuthenticationPrincipal LoginInfo loginInfo) throws IOException {
 
