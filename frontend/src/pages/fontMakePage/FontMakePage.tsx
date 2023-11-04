@@ -48,7 +48,7 @@ const FontMakePage: React.FC = () => {
         {step === 4 && <FontMakeStep3 />}
       </div>
       <div className={classes.btnContainer}>
-        {step < 3 && (
+        {step < 2 && (
           <button onClick={handleNext} className={classes.nextBtn}>
             다음
           </button>

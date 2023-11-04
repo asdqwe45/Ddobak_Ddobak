@@ -50,7 +50,7 @@ const FontBoxComponent: React.FC<FontBoxProps> = (props) => {
       <div className={classes.container}>
         <div className={classes.header}>
           <div className={classes.title} onClick={handleTitleClick}>
-            {props.title}
+            <span> {props.title} </span>
           </div>
           {isClicked ? (
             <FaBookmark className={classes.bookIcon} onClick={handleIconClick} />
@@ -59,12 +59,12 @@ const FontBoxComponent: React.FC<FontBoxProps> = (props) => {
           )}
         </div>
         <div className={classes.fontMaker} onClick={handleMakerClick}>
-          {props.maker}
+          <span> {props.maker} </span>
         </div>
         {/* box 중앙 선 */}
         <div className={classes.borderTop}></div>
         <div className={classes.content} onClick={handleTitleClick}>
-          {props.content}
+          <span> {props.content} </span>
         </div>
       </div>
     </>
