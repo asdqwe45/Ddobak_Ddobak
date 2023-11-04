@@ -60,9 +60,9 @@ const FontMakeStep2: React.FC = () => {
     else if (fileExtension === 'pdf') {
       return (
         <div className={classes.pdfPreview}>
-        <object data={file.src} type="application/pdf" width="80%" height="200px" >
-          <p>PDF 파일을 표시할 수 없습니다. <a href={file.src}>여기</a>를 클릭하여 파일을 다운로드하세요.</p>
-        </object>
+          <object data={file.src} type="application/pdf" width="80%" height="200px" >
+            <p>PDF 파일을 표시할 수 없습니다. <a href={file.src}>여기</a>를 클릭하여 파일을 다운로드하세요.</p>
+          </object>
         </div>
       );
     }
@@ -70,17 +70,14 @@ const FontMakeStep2: React.FC = () => {
     else {
       return (
         <div style={{ margin: '60px 30px', whiteSpace: 'pre-line', fontSize: '22px' }}><p>미리보기를 지원하지 않는{'\n'} 파일 형식입니다.</p></div>
-        )
+      )
     }
   };
   return (
     <>
       <div className={classes.container}>
-        <div className={classes.rowContainer}>
-          <div className={classes.info}>
-            <p>업로드 후 반듯하게 정렬해주세요.</p>
-          </div>
-          <button className={classes.uploadBtn} onClick={openFileSelector}>이미지 업로드</button>
+      <div className={classes.subContainer}>
+          <p className={classes.fileboxTitle}>한글 파일</p>
           {/* 숨겨진 파일 입력 필드 */}
           <input
             type="file"
@@ -88,8 +85,50 @@ const FontMakeStep2: React.FC = () => {
             style={{ display: 'none' }}
             onChange={handleFileChange}
           />
+        <div
+          className={classes.upLoadList}
+          onDrop={onDrop}
+          onDragOver={onDragOver}
+          >
+          {/* 파일 없을 때 문구 넣기 */}
+          {files.length === 0 ? (
+            <div className={classes.emptyContainer}>
+              <p>pdf, jpg, png 파일만 업로드 가능합니다.</p>
+              <div>
+                <button className={classes.uploadBtn} onClick={openFileSelector}>이미지 업로드</button>
+              </div>
+              <img src={UploadFile} alt="UploadFile" />
+              <div className={classes.emptyMessage}>
+                <p>파일을 끌어다 놓아주세요.</p>
+                <p>(Drag & drop files here)</p>
+              </div>
+            </div>
+          ) : (
+            files.map((file, index) => (
+              <div key={index} className={classes.upLoadFile}>
+                <div className={classes.upLoadFileName}>
+                  <FaRegTimesCircle
+                    className={classes.deleteIcon}
+                    onClick={() => removeFile(index)}
+                    />
+                  {file.name}
+                </div>
+                {/* 파일 미리보기 */}
+                {createFilePreview(file)}
+              </div>
+            ))
+            )}
+          </div>
         </div>
-
+        <div className={classes.subContainer}>
+          <p className={classes.fileboxTitle}>영문 및 숫자 파일</p>
+          {/* 숨겨진 파일 입력 필드 */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
         <div
           className={classes.upLoadList}
           onDrop={onDrop}
@@ -98,6 +137,10 @@ const FontMakeStep2: React.FC = () => {
           {/* 파일 없을 때 문구 넣기 */}
           {files.length === 0 ? (
             <div className={classes.emptyContainer}>
+              <p>pdf, jpg, png 파일만 업로드 가능합니다.</p>
+              <div>
+                <button className={classes.uploadBtn} onClick={openFileSelector}>이미지 업로드</button>
+              </div>
               <img src={UploadFile} alt="UploadFile" />
               <div className={classes.emptyMessage}>
                 <p>파일을 끌어다 놓아주세요.</p>
@@ -116,15 +159,18 @@ const FontMakeStep2: React.FC = () => {
                 </div>
                 {/* 파일 미리보기 */}
                 {createFilePreview(file)}
-                {file.src && (
-                  <div className={classes.btnContainer}>
-                    <button className={classes.nextBtn}>이미지 반듯하게</button>
-                  </div>
-                )}
               </div>
             ))
           )}
         </div>
+        </div>
+
+
+        {files.length > 1 && (
+          <div className={classes.btnContainer}>
+            <button className={classes.nextBtn}>이미지 반듯하게</button>
+          </div>
+        )}
       </div>
     </>
   );
