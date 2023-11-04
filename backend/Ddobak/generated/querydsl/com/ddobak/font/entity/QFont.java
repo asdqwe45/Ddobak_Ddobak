@@ -24,7 +24,11 @@ public class QFont extends EntityPathBase<Font> {
 
     public final com.ddobak.global.entity.QBaseEntity _super = new com.ddobak.global.entity.QBaseEntity(this);
 
-    public final BooleanPath commerceStatus = createBoolean("commerceStatus");
+    public final BooleanPath commerce_status = createBoolean("commerce_status");
+
+    public final StringPath copyrigher = createString("copyrigher");
+
+    public final BooleanPath copyright_notice = createBoolean("copyright_notice");
 
     public final DatePath<java.time.LocalDate> create_date = createDate("create_date", java.time.LocalDate.class);
 
@@ -37,23 +41,27 @@ public class QFont extends EntityPathBase<Font> {
 
     public final StringPath font_sort_url = createString("font_sort_url");
 
-    public final BooleanPath freeStatus = createBoolean("freeStatus");
+    public final BooleanPath free_status = createBoolean("free_status");
 
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final StringPath introduceText = createString("introduceText");
+    public final StringPath introduce_text = createString("introduce_text");
+
+    public final ListPath<Keyword, QKeyword> keywords = this.<Keyword, QKeyword>createList("keywords", Keyword.class, QKeyword.class, PathInits.DIRECT2);
 
     public final StringPath kor_font_name = createString("kor_font_name");
-
-    public final com.ddobak.member.entity.QMember member;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
-    public final BooleanPath openStatus = createBoolean("openStatus");
+    public final BooleanPath open_status = createBoolean("open_status");
 
     public final NumberPath<Integer> price = createNumber("price", Integer.class);
+
+    public final com.ddobak.member.entity.QMember producer;
+
+    public final BooleanPath same_person_check = createBoolean("same_person_check");
 
     public QFont(String variable) {
         this(Font.class, forVariable(variable), INITS);
@@ -73,7 +81,7 @@ public class QFont extends EntityPathBase<Font> {
 
     public QFont(Class<? extends Font> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new com.ddobak.member.entity.QMember(forProperty("member")) : null;
+        this.producer = inits.isInitialized("producer") ? new com.ddobak.member.entity.QMember(forProperty("producer")) : null;
     }
 
 }
