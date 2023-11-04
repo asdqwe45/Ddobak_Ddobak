@@ -58,8 +58,8 @@ const FontDetail: React.FC = () => {
   const openReviewModal = () => {
     dispatch(reviewModalActions.toggle());
   };
-  
-  window.scrollTo({left:0, top:0})
+
+  window.scrollTo({ left: 0, top: 0 });
 
   return (
     <>
