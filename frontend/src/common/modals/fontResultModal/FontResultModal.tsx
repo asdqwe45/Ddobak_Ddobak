@@ -44,7 +44,7 @@ const FontResultModal: React.FC = () => {
     // 30초 후에 isLoading을 false로 설정
     const loadingTimer = setTimeout(() => {
       setIsLoading(false);
-    }, 30000); // 30000ms = 30s
+    }, 1000); // 30000ms = 30s
 
     // 1초마다 elapsedTime 업데이트
     const interval = setInterval(() => {

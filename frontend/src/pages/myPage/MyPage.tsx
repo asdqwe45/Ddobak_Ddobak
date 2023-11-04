@@ -56,6 +56,7 @@ import { FaPencilAlt } from 'react-icons/fa';
 import { borderColor, mainRedColor, likeCountColor } from 'common/colors/CommonColors';
 import { FaBookmark, FaRegCheckSquare, FaRegSquare } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
+import { BsPersonWorkspace } from 'react-icons/bs';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -86,7 +87,7 @@ import { pointPayModalActions } from 'store/pointPayModalSlice';
 import { goToBasketModalActions } from 'store/goToBasketModalSlice';
 
 // navigation
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 import { checkToken } from 'https/utils/AuthFunction';
 
@@ -214,6 +215,16 @@ const MyPage: React.FC = () => {
     dispatch(goToBasketModalActions.toggle());
   };
 
+  const navigate = useNavigate();
+  const clickMyWorkspaceHandler = () => {
+    navigate('/maker');
+    // 실제로 내 페이지로 가려면 id나 뭐가 필요하겠지
+  };
+
+  // 닉네임 수정하기 마우스 호버시
+  const [isPencilHovered, setIsPencilHovered] = useState(false);
+  const [isWorkspaceHovered, setIsWorkspaceHovered] = useState(false);
+
   return (
     <div className={classes.container}>
       <div className={classes.header}>
@@ -246,9 +257,38 @@ const MyPage: React.FC = () => {
                     <FaPencilAlt
                       size={30}
                       style={{ cursor: 'pointer' }}
-                      onClick={() => setIsClickedChange(true)}
+                      onClick={() => {
+                        setIsClickedChange(true);
+                        setIsPencilHovered(false);
+                      }}
                       className={classes.pencilBtn}
+                      onMouseEnter={() => setIsPencilHovered(true)}
+                      onMouseLeave={() => setIsPencilHovered(false)}
                     />
+                    <BsPersonWorkspace
+                      size={30}
+                      onClick={() => {
+                        clickMyWorkspaceHandler();
+                        setIsWorkspaceHovered(false);
+                      }}
+                      className={classes.workspaceBtn}
+                      onMouseEnter={() => setIsWorkspaceHovered(true)}
+                      onMouseLeave={() => setIsWorkspaceHovered(false)}
+                    />
+                    {isPencilHovered ? (
+                      <>
+                        <p className={classes.changeNickName}>닉네임 수정하기</p>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                    {isWorkspaceHovered ? (
+                      <>
+                        <p className={classes.changeNickName}>소개 페이지 이동하기</p>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </>
                 )}
               </ProfilNameBox>
