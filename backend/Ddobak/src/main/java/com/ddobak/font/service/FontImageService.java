@@ -7,6 +7,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
@@ -17,6 +18,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
@@ -29,6 +34,7 @@ import java.util.Collections;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@ComponentScan
 public class FontImageService {
 
     @Autowired
@@ -131,7 +137,7 @@ public class FontImageService {
         return new ResponseEntity<>(zip.getBody(), headers, HttpStatus.OK);
     }
 
-    public ResponseEntity<String> getS3MakeUrl(List<File> imageFiles) {
+    public String getS3FontUrl(List<File> imageFiles) {
         String fastApiUrl = "http://localhost:8000/makeUpload";
         HttpHeaders headers = new HttpHeaders();
 
@@ -149,14 +155,23 @@ public class FontImageService {
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-        ResponseEntity<String> s3Url = restTemplate.exchange(
+        ResponseEntity<String> s3FontUrl = restTemplate.exchange(
                 fastApiUrl,
                 HttpMethod.POST,
                 requestEntity,
                 String.class
         );
+        String responseBody = s3FontUrl.getBody();
+        if (responseBody != null) {
+            responseBody = responseBody.replaceAll("^\"|\"$", "");
+        }
+        System.out.println("############");
+        System.out.println(responseBody);
+        System.out.println("############");
+        System.out.println(s3FontUrl.getBody());
+        System.out.println("############");
 
-        return s3Url;
+        return responseBody;
     }
 
 
@@ -178,6 +193,33 @@ public class FontImageService {
         String extension = StringUtils.getFilenameExtension(filename);
         return extension;
     }
+    public List<File> urlToFile(String url) throws IOException {
+        String[] urls = url.split("\\$");
 
+        InputStream in1 = new URL(urls[0]).openStream();
+        InputStream in2 = new URL(urls[1]).openStream();
+        File tempFile1 = File.createTempFile("kor_file",".png");
+        File tempFile2 = File.createTempFile("eng_file",".png");
+
+        copyInputStreamToFile(in1, tempFile1);
+        copyInputStreamToFile(in2, tempFile2);
+
+        List<File> tempFile = new ArrayList<>();
+
+        tempFile.add(tempFile1);
+        tempFile.add(tempFile2);
+
+        return tempFile;
+    }
+    private void copyInputStreamToFile(InputStream inputStream, File file) throws IOException {
+        // try-with-resources를 사용하여 자동으로 리소스를 정리
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+            int read;
+            byte[] bytes = new byte[1024];
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+        }
+    }
 }
 
