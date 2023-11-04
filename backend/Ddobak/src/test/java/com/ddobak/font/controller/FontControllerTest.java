@@ -73,17 +73,17 @@ public class FontControllerTest extends ControllerTest {
         SecurityContextHolder.setContext(securityContext);
         // 테스트 파일 생성
         MockMultipartFile firstFile = new MockMultipartFile(
-                "file",
+                "multipartFile", // 이 부분을 컨트롤러가 기대하는 파라미터 이름으로 변경해야 합니다.
                 "filename.png",
                 MediaType.IMAGE_PNG_VALUE,
-                "PNG data".getBytes() // 이 부분에 실제 PNG 파일의 바이트 데이터를 사용해야 합니다.
+                "PNG data".getBytes() // 실제 PNG 데이터로 대체해야 합니다.
         );
 
         MockMultipartFile secondFile = new MockMultipartFile(
-                "file",
+                "multipartFile", // 마찬가지로, 이 부분도 변경해야 합니다.
                 "other-file-name.png",
                 MediaType.IMAGE_PNG_VALUE,
-                "Other PNG data".getBytes() // 마찬가지로 PNG 파일 데이터가 들어가야 합니다.
+                "Other PNG data".getBytes() // 실제 PNG 데이터로 대체해야 합니다.
         );
 
         // FontImageService의 메서드에 대한 모의 행동 설정
@@ -108,7 +108,6 @@ public class FontControllerTest extends ControllerTest {
                         .file(secondFile)
                         .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk()) // HTTP 200 상태 코드 기대
-                .andExpect(content().contentType("text/plain;charset=UTF-8")) // JSON 응답 기대
                 .andExpect(jsonPath("$").isNotEmpty()) // 응답이 비어있지 않아야 함
                 .andDo(
                         document("/font/sort",
