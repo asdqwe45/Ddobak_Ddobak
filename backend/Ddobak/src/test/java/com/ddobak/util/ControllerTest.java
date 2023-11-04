@@ -1,5 +1,8 @@
 package com.ddobak.util;
 
+import com.ddobak.font.controller.FontController;
+import com.ddobak.font.service.FontImageService;
+import com.ddobak.font.service.FontService;
 import com.ddobak.global.service.S3Service;
 import com.ddobak.member.controller.MemberController;
 import com.ddobak.member.repository.MemberRepository;
@@ -36,7 +39,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(RestDocumentationExtension.class)
 @WebMvcTest({
-    MemberController.class
+    MemberController.class, FontController.class
 })
 public class ControllerTest {
 
@@ -49,6 +52,7 @@ public class ControllerTest {
     @MockBean protected JwtProvider jwtProvider;
     @MockBean protected S3Service s3Service;
 
+
     @Value("${jwt.token.secret}")
     protected String secretKey;
 
@@ -56,6 +60,8 @@ public class ControllerTest {
     @MockBean protected MemberService memberService;
     @MockBean protected EmailService emailService;
     @MockBean protected CustomUserDetailService customUserDetailService;
+    @MockBean protected FontImageService fontImageService;
+    @MockBean protected FontService fontService;
 
     // Repository
     @MockBean protected MemberRepository memberRepository;

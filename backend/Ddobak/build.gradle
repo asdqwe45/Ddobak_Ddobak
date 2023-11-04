@@ -76,6 +76,11 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'org.apache.pdfbox:pdfbox:2.0.27'
+
+    // rest docs
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
 }
 
 tasks.named('test') {
@@ -92,6 +97,13 @@ asciidoctor {
     dependsOn test
     inputs.dir snippetsDir
     outputDir file('src/docs/asciidoc')
+}
+
+bootJar {
+    dependsOn asciidoctor
+    from("${asciidoctor.outputDir}") {
+        into 'static/docs'
+    }
 }
 
 def querydslDir = "./generated/querydsl"
