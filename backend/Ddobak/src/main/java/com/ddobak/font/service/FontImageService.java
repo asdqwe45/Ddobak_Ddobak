@@ -7,6 +7,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
@@ -33,6 +34,7 @@ import java.util.Collections;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@ComponentScan
 public class FontImageService {
 
     @Autowired
@@ -135,7 +137,7 @@ public class FontImageService {
         return new ResponseEntity<>(zip.getBody(), headers, HttpStatus.OK);
     }
 
-    public ResponseEntity<String> getS3MakeUrl(List<File> imageFiles) {
+    public String getS3FontUrl(List<File> imageFiles) {
         String fastApiUrl = "http://localhost:8000/makeUpload";
         HttpHeaders headers = new HttpHeaders();
 
@@ -153,14 +155,23 @@ public class FontImageService {
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-        ResponseEntity<String> s3Url = restTemplate.exchange(
+        ResponseEntity<String> s3FontUrl = restTemplate.exchange(
                 fastApiUrl,
                 HttpMethod.POST,
                 requestEntity,
                 String.class
         );
+        String responseBody = s3FontUrl.getBody();
+        if (responseBody != null) {
+            responseBody = responseBody.replaceAll("^\"|\"$", "");
+        }
+        System.out.println("############");
+        System.out.println(responseBody);
+        System.out.println("############");
+        System.out.println(s3FontUrl.getBody());
+        System.out.println("############");
 
-        return s3Url;
+        return responseBody;
     }
 
 
@@ -187,7 +198,6 @@ public class FontImageService {
 
         InputStream in1 = new URL(urls[0]).openStream();
         InputStream in2 = new URL(urls[1]).openStream();
-
         File tempFile1 = File.createTempFile("kor_file",".png");
         File tempFile2 = File.createTempFile("eng_file",".png");
 
