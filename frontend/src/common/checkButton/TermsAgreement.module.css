@@ -1,0 +1,61 @@
+.container {
+  margin-left: 20px;
+  margin-top: 30px;
+}
+
+.container input {
+  width: 25px;
+  height: 25px;
+}
+
+.container span {
+  font-size: 22px;
+  margin-left: 10px;
+}
+
+.termContainer {
+  margin-left: 30px;
+  margin-top: 10px;
+  font-size: 20px;
+  line-height: 40px;
+}
+
+.rowContainer {
+  display: flex;
+  align-items: center;
+}
+
+/* 기본 체크박스 스타일 숨기기 */
+.container input[type='checkbox'] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  /* 동그란 모양 */
+  border: 2px solid #ccc;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
+
+/* 체크박스 선택 시 배경 및 테두리 색상 변경 */
+.container input[type='checkbox']:checked {
+  border: 2px solid #484848;
+  background-color: #484848;
+}
+
+/* 체크 표시 (원형 체크박스 내의 작은 원) */
+.container input[type='checkbox']:checked:after {
+  content: '';
+  width: 15px;
+  height: 15px;
+  color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  content: '✓';
+  font-weight: 600;
+  left: 5px;
+  font-size: 18px;
+}
