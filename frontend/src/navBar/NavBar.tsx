@@ -62,6 +62,12 @@ const NavBar: React.FC = () => {
     }
     return false;
   };
+
+  const logoutHandler = async () => {
+    localStorage.clear();
+    navigate('/');
+    window.location.reload();
+  };
   return (
     <div className={classes.header}>
       <div className={classes.list}>
@@ -110,13 +116,7 @@ const NavBar: React.FC = () => {
                 </NavLink>
               </div>
               <div className={classes.loginBox}>
-                <p
-                  className={classes.navFont}
-                  onClick={async () => {
-                    localStorage.clear();
-                    window.location.reload();
-                  }}
-                >
+                <p className={classes.navFont} onClick={logoutHandler}>
                   로그아웃
                 </p>
               </div>
@@ -149,18 +149,25 @@ const NavBar: React.FC = () => {
             onClick={hamburgerToggle}
             className={classes.hamburgerBar}
           />
-          {isClicked ? <>{testMenu(haveToken, navigate, setIsClicked)}</> : <></>}
+          {isClicked ? <>{hamburgerMenuBar(haveToken, navigate, setIsClicked)}</> : <></>}
         </div>
       </div>
     </div>
   );
 };
 export default NavBar;
-const testMenu = (
+
+const hamburgerMenuBar = (
   haveToken: boolean,
   navigate: NavigateFunction,
   setIsClicked: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
+  const logoutHandler = async () => {
+    setIsClicked(false);
+    localStorage.clear();
+    navigate('/');
+    window.location.reload();
+  };
   return (
     <div className={classes.menuDiv}>
       <div className={classes.menuList}>
@@ -225,14 +232,7 @@ const testMenu = (
       ) : (
         <>
           <div className={classes.menuList}>
-            <div
-              className={classes.menuDetail}
-              onClick={async () => {
-                setIsClicked(false);
-                navigate('/login');
-                window.location.reload();
-              }}
-            >
+            <div className={classes.menuDetail} onClick={logoutHandler}>
               <p className={classes.menuFont}>로그인</p>
             </div>
           </div>

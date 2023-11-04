@@ -9,6 +9,20 @@
   color: #d71718;
 }
 
+.workspaceBtn {
+  margin-left: 10px;
+  &:hover {
+    color: #d71718;
+    cursor: pointer;
+  }
+}
+
+.changeNickName {
+  font-size: 16px;
+  margin: 0px 10px;
+  color: #d71718;
+}
+
 .header {
   width: 100%;
   height: 140px;

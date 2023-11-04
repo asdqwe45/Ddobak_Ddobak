@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import classes from '../../../pages/mainPage/mainPageComponents/MainPageLargeManuscript.module.css';
 import modalClasses from './FontResultModal.module.css';
 import ReactModal from 'react-modal';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { resultModalActions } from 'store/resultModalSlice';
+import { RotatingLines } from 'react-loader-spinner';
 
 import { mainRedColor } from 'common/colors/CommonColors';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -18,6 +19,8 @@ interface ResultModalState {
 }
 
 const FontResultModal: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [elapsedTime, setElapsedTime] = useState<number>(0);
   // redux
   const dispatch = useDispatch();
   const clickResultHandler = () => {
@@ -38,6 +41,21 @@ const FontResultModal: React.FC = () => {
 
   useEffect(() => {
     ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
+    // 30초 후에 isLoading을 false로 설정
+    const loadingTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // 30000ms = 30s
+
+    // 1초마다 elapsedTime 업데이트
+    const interval = setInterval(() => {
+      setElapsedTime((prevTime) => prevTime + 1);
+    }, 1000); // 1000ms = 1s
+
+    // 컴포넌트가 언마운트될 때 타이머와 인터벌을 취소
+    return () => {
+      clearTimeout(loadingTimer);
+      clearInterval(interval);
+    };
   }, []);
 
   // 제작 취소
@@ -63,129 +81,148 @@ const FontResultModal: React.FC = () => {
       }}
     >
       <div className={modalClasses.modalContainer}>
-        <div className={modalClasses.modalBox} style={{ justifyContent: 'flex-end' }}>
-          <AiOutlineClose size={40} onClick={clickCloseIcon} className={modalClasses.closeIcon} />
-        </div>
-        {/* 원고지 헤더 시작 */}
-        <div className={classes.headerBox}>
-          <div className={classes.headerTextBox}>
-            <p className={classes.headerNoText}>No.</p>
-            <div className={classes.headerDiv}>
-              <p className={classes.headerBigText}>1</p>
+        {isLoading ? (
+          <>
+            <RotatingLines
+              strokeColor="grey"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="96"
+              visible={true}
+            />
+            <p className={modalClasses.justASecond}>잠깐만 기다려주세요... {elapsedTime}초 경과</p>
+          </>
+        ) : (
+          <>
+            <div className={modalClasses.modalBox} style={{ justifyContent: 'flex-end' }}>
+              <AiOutlineClose
+                size={40}
+                onClick={clickCloseIcon}
+                className={modalClasses.closeIcon}
+              />
             </div>
-          </div>
-        </div>
-        {/* 원고지 헤더 끝 */}
-        {/* 원고지 시작 */}
-        <div className={classes.largeBox}>
-          {/* 빈칸 */}
-          <div className={classes.blankLineBox}>{renderTopBlank()}</div>
-          {/* 빈칸 끝 */}
-          <div className={classes.lineBox}>
-            {/* 1 */}
-            <TextSmallBox innerText="또" />
-            <TextSmallBox innerText="박" />
-            <TextSmallBox innerText="또" />
-            <TextSmallBox innerText="박" />
-            <TextSmallBox innerText="이" />
-            <TextSmallBox innerText="태" />
-            <TextSmallBox innerText="성" />
-            <TextSmallBox innerText="체" />
-            <TextSmallBox />
-            <TextSmallBox />
-            <TextSmallBox />
-            <TextSmallBox />
-            <TextSmallBox />
-            <TextSmallBox />
-            <TextSmallBox />
-            <TextSmallBox />
-          </div>
-
-          <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-          {renderLineBoxes(1)}
-          {/* 라인 시작 */}
-          <div className={classes.lineBox}>
-            {/* 1 */}
-            <TextSmallBox />
-            {/* 이런식으로 수정해야함 */}
-            <div className={classes.smallBox}>
-              <div className={classes.content}>
-                <img src={GaImg} alt="가" className={modalClasses.fontImg} />
+            {/* 원고지 헤더 시작 */}
+            <div className={classes.headerBox}>
+              <div className={classes.headerTextBox}>
+                <p className={classes.headerNoText}>No.</p>
+                <div className={classes.headerDiv}>
+                  <p className={classes.headerBigText}>1</p>
+                </div>
               </div>
             </div>
-            <TextSmallBox innerText="나" />
-            <TextSmallBox innerText="다" />
-            <TextSmallBox innerText="라" />
-            <TextSmallBox innerText="마" />
-            <TextSmallBox innerText="바" />
-            <TextSmallBox innerText="사" />
-            <TextSmallBox innerText="아" />
-            <TextSmallBox innerText="자" />
-            <TextSmallBox innerText="차" />
-            <TextSmallBox innerText="카" />
-            <TextSmallBox innerText="타" />
-            <TextSmallBox innerText="파" />
-            <TextSmallBox innerText="하" />
-            <TextSmallBox />
-          </div>
-          {/* 라인 끝 */}
-          {/* 빈칸 */}
-          <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-          {/* 빈칸 끝 */}
-          {/* 세번 째 줄 */}
-          {/* 라인 시작 */}
-          <div className={classes.lineBox}>
-            {/* 1 */}
-            <TextSmallBox />
-            <TextSmallBox innerText="다" />
-            <TextSmallBox innerText="람" />
-            <TextSmallBox innerText="쥐" />
-            <TextSmallBox />
-            <TextSmallBox innerText="헌" />
-            <TextSmallBox />
-            <TextSmallBox innerText="쳇" />
-            <TextSmallBox innerText="바" />
-            <TextSmallBox innerText="퀴" />
-            <TextSmallBox innerText="에" />
-            <TextSmallBox />
-            <TextSmallBox innerText="타" />
-            <TextSmallBox innerText="고" />
-            <TextSmallBox innerText="파" />
-            <TextSmallBox />
-          </div>
-          {/* 라인 끝 */}
-          {/* 빈칸 */}
-          <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-          {/* 빈칸 끝 */}
-          {renderLineBoxes(2)}
-          {/* 빈칸 */}
-          <div className={classes.blankLineBox}>{renderBottomBlank()}</div>
-          {/* 빈칸 끝 */}
-        </div>
-        {/* 원고지 끝 */}
-        {/* 원고지 푸터 시작 */}
-        <div className={classes.footerBox}>
-          <div className={classes.footerTextBox}>
-            <p className={classes.footerText}>16 X 6</p>
-          </div>
-        </div>
-        {/* 원고지 푸터 끝 */}
-        <div className={modalClasses.modalBox} style={{ justifyContent: 'center' }}>
-          <button
-            className={modalClasses.modalBtn}
-            style={{ backgroundColor: mainRedColor, color: 'white' }}
-            onClick={cancleHandler}
-          >
-            제작취소
-          </button>
-          <button
-            className={modalClasses.modalBtn}
-            style={{ backgroundColor: 'white', fontWeight: 'bold' }}
-            onClick={clickResultHandler}
-          >
-            정보입력
-          </button>
-        </div>
+            {/* 원고지 헤더 끝 */}
+            {/* 원고지 시작 */}
+            <div className={classes.largeBox}>
+              {/* 빈칸 */}
+              <div className={classes.blankLineBox}>{renderTopBlank()}</div>
+              {/* 빈칸 끝 */}
+              <div className={classes.lineBox}>
+                {/* 1 */}
+                <TextSmallBox innerText="폰" />
+                <TextSmallBox innerText="트" />
+                <TextSmallBox />
+                <TextSmallBox innerText="미" />
+                <TextSmallBox innerText="리" />
+                <TextSmallBox innerText="보" />
+                <TextSmallBox innerText="기" />
+                <TextSmallBox />
+                <TextSmallBox />
+                <TextSmallBox />
+                <TextSmallBox />
+                <TextSmallBox />
+                <TextSmallBox />
+                <TextSmallBox />
+                <TextSmallBox />
+                <TextSmallBox />
+              </div>
+
+              <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
+              {renderLineBoxes(1)}
+              {/* 라인 시작 */}
+              <div className={classes.lineBox}>
+                {/* 1 */}
+                <TextSmallBox />
+                {/* 이런식으로 수정해야함 */}
+                <div className={classes.smallBox}>
+                  <div className={classes.content}>
+                    <img src={GaImg} alt="가" className={modalClasses.fontImg} />
+                  </div>
+                </div>
+                <TextSmallBox innerText="나" />
+                <TextSmallBox innerText="다" />
+                <TextSmallBox innerText="라" />
+                <TextSmallBox innerText="마" />
+                <TextSmallBox innerText="바" />
+                <TextSmallBox innerText="사" />
+                <TextSmallBox innerText="아" />
+                <TextSmallBox innerText="자" />
+                <TextSmallBox innerText="차" />
+                <TextSmallBox innerText="카" />
+                <TextSmallBox innerText="타" />
+                <TextSmallBox innerText="파" />
+                <TextSmallBox innerText="하" />
+                <TextSmallBox />
+              </div>
+              {/* 라인 끝 */}
+              {/* 빈칸 */}
+              <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
+              {/* 빈칸 끝 */}
+              {/* 세번 째 줄 */}
+              {/* 라인 시작 */}
+              <div className={classes.lineBox}>
+                {/* 1 */}
+                <TextSmallBox />
+                <TextSmallBox innerText="A" />
+                <TextSmallBox innerText="B" />
+                <TextSmallBox innerText="C" />
+                <TextSmallBox innerText="D" />
+                <TextSmallBox innerText="E" />
+                <TextSmallBox innerText="F" />
+                <TextSmallBox innerText="G" />
+                <TextSmallBox innerText="H" />
+                <TextSmallBox innerText="I" />
+                <TextSmallBox innerText="J" />
+                <TextSmallBox innerText="K" />
+                <TextSmallBox innerText="L" />
+                <TextSmallBox innerText="M" />
+                <TextSmallBox innerText="N" />
+                <TextSmallBox />
+              </div>
+              {/* 라인 끝 */}
+              {/* 빈칸 */}
+              <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
+              {/* 빈칸 끝 */}
+              {renderLineBoxes(2)}
+              {/* 빈칸 */}
+              <div className={classes.blankLineBox}>{renderBottomBlank()}</div>
+              {/* 빈칸 끝 */}
+            </div>
+            {/* 원고지 끝 */}
+            {/* 원고지 푸터 시작 */}
+            <div className={classes.footerBox}>
+              <div className={classes.footerTextBox}>
+                <p className={classes.footerText}>16 X 6</p>
+              </div>
+            </div>
+            {/* 원고지 푸터 끝 */}
+            <div className={modalClasses.modalBox} style={{ justifyContent: 'center' }}>
+              <button
+                className={modalClasses.modalBtn}
+                style={{ backgroundColor: mainRedColor, color: 'white' }}
+                onClick={cancleHandler}
+              >
+                제작취소
+              </button>
+              <button
+                className={modalClasses.modalBtn}
+                style={{ backgroundColor: 'white', fontWeight: 'bold' }}
+                onClick={clickResultHandler}
+              >
+                정보입력
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </ReactModal>
   );
