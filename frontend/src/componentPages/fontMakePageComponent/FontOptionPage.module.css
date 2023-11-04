@@ -52,6 +52,7 @@
   border: 1px solid #ccc;
   padding: 25px;
   font-family: '수트', SUIT-Regular;
+  resize: none;
 }
 
 /* 저작권 관계 명시 */
