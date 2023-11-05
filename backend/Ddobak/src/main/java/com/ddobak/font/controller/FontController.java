@@ -1,6 +1,7 @@
 package com.ddobak.font.controller;
 
 import com.ddobak.font.dto.request.MakeFontRequest;
+import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.service.FontImageService;
 import com.ddobak.font.service.FontService;
 import com.ddobak.global.exception.ErrorCode;
@@ -28,19 +29,12 @@ public class FontController {
     private final FontImageService fontImageService;
     private final FontService fontService;
 
-
-
-
     @GetMapping(value="/test")
     @Operation(summary = "테스트", description = "테스트하는 api 입니다.")
     @ApiResponse(responseCode = "200", description = "리턴 값으로 test를 반환합니다.")
     public ResponseEntity<String> test(@AuthenticationPrincipal LoginInfo loginInfo){
         return ResponseEntity.ok("test");
     }
-//    @GetMapping("/list")
-//    public List<FontQueryRepository.FontListWebResponse> getFontAll(){
-//        return fontService.getFontAll();
-//    }
 
     @PostMapping(value = "/sort",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -77,7 +71,7 @@ public class FontController {
     @PostMapping(value = "/watch")
     @Operation(summary = "미리보기", description = "미리보기 api 입니다.")
     @ApiResponse(responseCode = "200", description = "리턴 값으로 zip파일을 반환합니다.")
-    public ResponseEntity<byte[]> watchImage(@RequestParam(value = "data") String reqUrl,
+    public ResponseEntity<byte[]> watchImage(@RequestParam(value = "sortUrl") String reqUrl,
                                              @AuthenticationPrincipal LoginInfo loginInfo){
         try {
             List<File> tempFile = fontImageService.urlToFile(reqUrl);
@@ -96,7 +90,7 @@ public class FontController {
     @PostMapping(value = "/goSetting")
     @Operation(summary = "폰트 세팅으로 이동", description = "초기 세팅하는 api 입니다.")
     @ApiResponse(responseCode = "200", description = "리턴 값으로 success를 반환합니다.")
-    public ResponseEntity<String> createFont(@RequestParam("data") String font_sort_url,
+    public ResponseEntity<String> createFont(@RequestParam("sortUrl") String font_sort_url,
                                            @AuthenticationPrincipal LoginInfo loginInfo) {
         fontService.createFont(font_sort_url,loginInfo);
         return ResponseEntity.ok("success");
@@ -107,14 +101,19 @@ public class FontController {
     @ApiResponse(responseCode = "200", description = "리턴 값으로 success를 반환합니다.")
     public ResponseEntity<String> makeFont(@RequestBody MakeFontRequest req,
                                            @AuthenticationPrincipal LoginInfo loginInfo) throws IOException {
-
-
-
             // 포인트 로직
+
             List<File> tempFile = fontImageService.urlToFile(req.font_sort_url());
             String fontUrl = fontImageService.getS3FontUrl(tempFile);
             fontService.makeFont(req, loginInfo, fontUrl);
 
             return ResponseEntity.ok("success");
     }
+
+//    @GetMapping(value = "/list")
+//    @Operation(summary = "폰트 목록", description = "폰트 목록 조회하는 api입니다.")
+//    @ApiResponse(responseCode = "200", description = "리턴값으로 폰트목록에 필요한 값 리턴합니다.")
+//    public ResponseEntity<FontListResponse> getFontList(@AuthenticationPrincipal LoginInfo loginInfo){
+//        return fontService.getFontList();
+//    }
 }
