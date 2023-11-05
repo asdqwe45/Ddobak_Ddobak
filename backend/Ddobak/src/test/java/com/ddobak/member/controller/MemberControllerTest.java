@@ -22,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.ddobak.member.dto.request.EmailVerificationRequest;
 import com.ddobak.member.dto.request.EmailVerifyRequest;
 import com.ddobak.member.dto.request.MemberLoginRequest;
+import com.ddobak.member.dto.request.ModifyInfoTextRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
 import com.ddobak.member.dto.response.LoginResponse;
 import com.ddobak.security.util.LoginInfo;
@@ -168,6 +169,35 @@ public class MemberControllerTest extends ControllerTest {
                 document("/member/logout",
                     preprocessRequest(prettyPrint()),
                     preprocessResponse(prettyPrint()))
+            );
+    }
+
+    @Test
+    @DisplayName("회원_소개글_변경")
+    void modifyInfoTextTest() throws Exception {
+        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com");
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(new TestingAuthenticationToken(loginInfo, null));
+        SecurityContextHolder.setContext(securityContext);
+
+        ModifyInfoTextRequest modifyInfoTextRequest = new ModifyInfoTextRequest("변경 후 소개글");
+
+        doNothing().when(memberService).modifyInfoText(loginInfo, modifyInfoTextRequest);
+
+        mockMvc.perform(
+            post(baseUrl + "/textinfo")
+                .with(authentication(new TestingAuthenticationToken(loginInfo, null)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(modifyInfoTextRequest))
+        )
+            .andExpect(status().isNoContent())
+            .andDo(
+                document("/member/modify-textInfo",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint()),
+                    requestFields(
+                        fieldWithPath("infoText").description("변경된 소개글")
+                    ))
             );
     }
 }

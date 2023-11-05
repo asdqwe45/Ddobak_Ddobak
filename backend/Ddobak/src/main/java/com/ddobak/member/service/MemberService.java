@@ -3,6 +3,7 @@ package com.ddobak.member.service;
 import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.global.service.S3Service;
 import com.ddobak.member.dto.request.MemberLoginRequest;
+import com.ddobak.member.dto.request.ModifyInfoTextRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
 import com.ddobak.member.dto.response.LoginResponse;
 import com.ddobak.member.entity.Member;
@@ -115,6 +116,18 @@ public class MemberService {
         if(redisTemplate.hasKey(loginInfo.email())) {
             redisTemplate.delete(loginInfo.email());
         }
+    }
+
+    @Transactional
+    public void modifyInfoText(LoginInfo loginInfo, ModifyInfoTextRequest modifyInfoTextRequest) {
+        // 회원 검색
+        Member member = findByEmail(loginInfo.email());
+
+        member.modifyInfoText(modifyInfoTextRequest.infoText());
+    }
+
+    private Member findByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(() -> new MemberException(ErrorCode.USER_NOT_FOUND));
     }
 
     private Member findByEmailGeneral(String email, SignUpType signUpType) {

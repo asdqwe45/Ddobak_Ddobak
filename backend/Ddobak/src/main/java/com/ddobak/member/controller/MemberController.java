@@ -3,6 +3,7 @@ package com.ddobak.member.controller;
 import com.ddobak.member.dto.request.EmailVerificationRequest;
 import com.ddobak.member.dto.request.EmailVerifyRequest;
 import com.ddobak.member.dto.request.MemberLoginRequest;
+import com.ddobak.member.dto.request.ModifyInfoTextRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
 import com.ddobak.member.dto.response.LoginResponse;
 import com.ddobak.member.service.MemberService;
@@ -75,6 +76,16 @@ public class MemberController {
         log.info("{} wants logout", loginInfo.email());
 
         memberService.logoutMember(loginInfo);
+        return ResponseEntity.noContent().build();
+    }
+
+    // 소개글 변경
+    @PostMapping("/textinfo")
+    public ResponseEntity<Void> modifyInfoText(@AuthenticationPrincipal LoginInfo loginInfo, @RequestBody
+        ModifyInfoTextRequest modifyInfoTextRequest) {
+        log.info("{} wants to chang InfoText  -> {}", loginInfo.email(), modifyInfoTextRequest.infoText());
+
+        memberService.modifyInfoText(loginInfo, modifyInfoTextRequest);
         return ResponseEntity.noContent().build();
     }
 }

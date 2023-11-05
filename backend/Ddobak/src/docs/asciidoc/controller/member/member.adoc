@@ -47,3 +47,13 @@ include::{snippets}/member/logout/request-body.adoc[]
 ==== HTTP Response
 include::{snippets}/member/logout/http-response.adoc[]
 include::{snippets}/member/logout/response-body.adoc[]
+
+
+=== 소개글 수정
+==== HTTP Request
+include::{snippets}/member/modify-textInfo/http-request.adoc[]
+include::{snippets}/member/modify-textInfo/request-body.adoc[]
+
+==== HTTP Response
+include::{snippets}/member/modify-textInfo/http-response.adoc[]
+include::{snippets}/member/modify-textInfo/response-body.adoc[]
