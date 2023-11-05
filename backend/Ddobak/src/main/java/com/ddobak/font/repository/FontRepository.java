@@ -10,9 +10,7 @@ import java.util.Optional;
 
 public interface FontRepository extends JpaRepository<Font,Long> {
     @Query("SELECT f FROM Font f WHERE f.font_sort_url = :font_sort_url")
-    Font findByFontSortUrl(@Param("font_sort_url") String font_sort_url);
+    Optional<Font> findByFontSortUrl(@Param("font_sort_url") String font_sort_url);
 
-    @Query("SELECT f FROM Font f WHERE f.open_status = true ORDER BY f.create_date DESC")
-    Font findFontsByOpenStatusIsTrueOrderByCreate_dateDesc();
 }
 

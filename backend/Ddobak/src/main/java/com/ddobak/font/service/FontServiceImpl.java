@@ -13,13 +13,14 @@ import com.ddobak.member.repository.MemberRepository;
 import com.ddobak.security.util.LoginInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalLong;
 
 
 @Service
@@ -30,6 +31,7 @@ public class FontServiceImpl implements FontService {
     private final FontRepository fontRepository;
     private final MemberRepository memberRepository;
     private final KeywordRepository keywordRepository;
+    private final FontQueryRepository fontQueryRepository;
 
     @Override
     public void createFont(String font_sort_url, LoginInfo loginInfo){
@@ -49,47 +51,39 @@ public class FontServiceImpl implements FontService {
     @Override
     public void makeFont(MakeFontRequest req, LoginInfo loginInfo, String fontUrl) {
         String email = loginInfo.email();
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Member not found with email: " + email));
 
-        Member member = memberRepository.findByEmail(email).orElseThrow(
-                () -> new EntityNotFoundException("Member not found with email: " + email)
-        );
-        System.out.println("1");
-        Font font = fontRepository.findByFontSortUrl(req.font_sort_url());
-        System.out.println("2");
-        font.makeDetail(req,fontUrl);
+        Font font = fontRepository.findByFontSortUrl(req.font_sort_url())
+                .orElseThrow(() -> new EntityNotFoundException("Font not found with URL: " + req.font_sort_url()));
 
-        if(!keywordRepository.existsByKeyword(req.keyword1())) {
-            Keyword keyword = new Keyword(req.keyword1(),font);
-            keywordRepository.save(keyword);
-            font.getKeywords().add(keyword);
-        }else {
-            font.getKeywords().add(keywordRepository.findByKeyword(req.keyword1()));
-        }
-        if(req.keyword2() != null){
-            if(!keywordRepository.existsByKeyword(req.keyword2())) {
-                Keyword keyword = new Keyword(req.keyword2(),font);
-                keywordRepository.save(keyword);
-                font.getKeywords().add(keyword);
-            }else {
-                font.getKeywords().add(keywordRepository.findByKeyword(req.keyword2()));
-            }
-            if(req.keyword3() != null){
-                if(!keywordRepository.existsByKeyword(req.keyword3())) {
-                    Keyword keyword = new Keyword(req.keyword3(),font);
-                    keywordRepository.save(keyword);
-                    font.getKeywords().add(keyword);
-                }else {
-                    font.getKeywords().add(keywordRepository.findByKeyword(req.keyword3()));
-                }
-            }
-        }
+        font.makeDetail(req, fontUrl);
+
+        addKeywordToFont(req.keyword1(), font);
+        Optional.ofNullable(req.keyword2()).ifPresent(keyword -> addKeywordToFont(keyword, font));
+        Optional.ofNullable(req.keyword3()).ifPresent(keyword -> addKeywordToFont(keyword, font));
 
         fontRepository.save(font);
     }
 
+    private void addKeywordToFont(String keyword, Font font) {
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            Keyword keywordEntity = keywordRepository.findByKeyword(keyword)
+                    .orElseGet(() -> {
+                        Keyword newKeyword = new Keyword(keyword, font);
+                        keywordRepository.save(newKeyword);
+                        return newKeyword;
+                    });
+            font.getKeywords().add(keywordEntity);
+        }
+    }
     @Override
-    public ResponseEntity<FontListResponse> getFontList() {
-        return null;
+    public List<FontListResponse> getFontList(LoginInfo loginInfo,Pageable pageable,String search, List<String> keywords, Boolean free) {
+        Optional<Member> member = memberRepository.findByEmail(loginInfo.email());
+        Long member_id = member.get().getId();
+        List<FontListResponse> resultList = fontQueryRepository.getFontList(member_id,pageable,search, keywords,free);
+
+        return resultList;
     }
 
 }

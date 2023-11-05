@@ -1,6 +1,9 @@
 package com.ddobak.font.service;
 
+import com.ddobak.font.dto.request.MakeFontRequest;
+import com.ddobak.font.exception.InvalidFileFormatException;
 import com.ddobak.global.service.S3Service;
+import com.ddobak.security.util.LoginInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -43,8 +46,42 @@ public class FontImageServiceImpl implements FontImageService {
     private S3Service s3Service;
 
 
+    public String processAndUploadImages(List<MultipartFile> files) throws IOException {
+        StringBuilder s3UrlBuilder = new StringBuilder();
 
-    public File convertToPng(MultipartFile file) throws IOException{
+        for (MultipartFile file : files) {
+            File tempOutputFile = convertToPng(file);
+
+            if (tempOutputFile.length() == 0) {
+                throw new InvalidFileFormatException("변환할 파일 형식이 올바르지 않습니다.");
+            }
+
+            String uploadedUrl = getS3SortUrl(tempOutputFile);
+            if(uploadedUrl == null){
+                throw new InvalidFileFormatException("AI response의 파일 타입이 올바르지 않습니다.");
+            }
+
+            s3UrlBuilder.append(uploadedUrl).append("$");
+        }
+
+        s3UrlBuilder.deleteCharAt(s3UrlBuilder.length() - 1);
+
+        return s3UrlBuilder.toString();
+    }
+
+    public byte[] createZipFromUrls(String reqUrl) throws IOException {
+        List<File> tempFile = urlToFile(reqUrl);
+        ResponseEntity<byte[]> zipResponse = downloadZip(tempFile);
+        return zipResponse.getBody();
+    }
+
+    public String createFont(MakeFontRequest req, LoginInfo loginInfo) throws IOException {
+        List<File> tempFile = urlToFile(req.font_sort_url());
+        String fontUrl = getS3FontUrl(tempFile);
+        return fontUrl;
+    }
+
+    private File convertToPng(MultipartFile file) throws IOException{
         String fileExtension = StringUtils.getFilenameExtension(file.getOriginalFilename());
         File tempInputFile = File.createTempFile("source","."+fileExtension);
 
@@ -73,7 +110,7 @@ public class FontImageServiceImpl implements FontImageService {
         return outputFile;
     }
 
-    public String getS3SortUrl(File imageFile) {// 8889  8786 http://163.239.223.171:8786/api/v1/image_align
+    private String getS3SortUrl(File imageFile) {// 8889  8786 http://163.239.223.171:8786/api/v1/image_align
         String fastApiUrl = "http://163.239.223.171:8786/api/v1/image_align";
         HttpHeaders headers = new HttpHeaders();
 
@@ -103,7 +140,7 @@ public class FontImageServiceImpl implements FontImageService {
         return s3Url;
     }
 
-    public ResponseEntity<byte[]> downloadZip(List<File> imageFiles){
+    private ResponseEntity<byte[]> downloadZip(List<File> imageFiles){
 
         ByteArrayHttpMessageConverter byteArrayHttpMessageConverter = new ByteArrayHttpMessageConverter();
         List<MediaType> supportedMediaTypes = new ArrayList<>(byteArrayHttpMessageConverter.getSupportedMediaTypes());
@@ -196,7 +233,7 @@ public class FontImageServiceImpl implements FontImageService {
         String extension = StringUtils.getFilenameExtension(filename);
         return extension;
     }
-    public List<File> urlToFile(String url) throws IOException {
+    private List<File> urlToFile(String url) throws IOException {
         String[] urls = url.split("\\$");
         System.out.println("1");
         System.out.println(urls[0]);
