@@ -178,7 +178,9 @@ const SignupPage: React.FC = () => {
     const loginPassword = passwordInputRef.current?.value;
     if (email && nickname && loginPassword) {
       const data = {
-        signUpRequest: { email: email, nickname: nickname, loginPassword: loginPassword },
+        email: email,
+        nickname: nickname,
+        loginPassword: loginPassword,
         profileImg: profile,
       };
       console.log(data);

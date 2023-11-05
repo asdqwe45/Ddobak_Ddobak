@@ -1,5 +1,18 @@
 import { axiosWithoutAuth, axiosWithAuth } from 'https/http';
 
+// formData
+/*
+const aiDiagnosisRequest = {
+      surveyResult: arrayString,
+    };
+
+    const json = JSON.stringify(aiDiagnosisRequest);
+    const jsonBlob = new Blob([json], { type: "application/json" });
+
+    const formData = new FormData();
+    formData.append("aiDiagnosisRequest", jsonBlob);
+*/
+
 // Email Api
 // 이메일 인증번호 발송
 export async function userEmailVerifyRequest(email: string): Promise<any> {
@@ -41,16 +54,18 @@ export async function userEmailVerifyAPI(data: EmailCheckData): Promise<any> {
 
 // 회원가입
 type SignupData = {
-  signUpRequest: {
-    email: string;
-    nickname: string;
-    loginPassword: string;
-  };
+  email: string;
+  nickname: string;
+  loginPassword: string;
   profileImg: string | null;
 };
 export async function userSignup(data: SignupData): Promise<any> {
+  const json = JSON.stringify(data);
+  const jsonBlob = new Blob([json], { type: 'application/json' });
+  const formData = new FormData();
+  formData.append('SignUpRequest', jsonBlob);
   return axiosWithoutAuth
-    .post('/member/signup', data)
+    .post('/member/signup', formData)
     .then((r) => {
       return r;
     })
