@@ -34,10 +34,35 @@ const LoginPage: React.FC = () => {
     navigate('/');
     userTestLogin(data);
   };
+
+  // 이메일 확인
+  // 이메일 형식을 확인하는 함수
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
+  const validateEmail = (email: string) => {
+    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return regex.test(email);
+  };
+  // 이메일 input의 onChange 이벤트 핸들러
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const email = e.target.value;
+    setIsValidEmail(validateEmail(email));
+  };
+
   return (
     <div className={classes.container}>
       <AuthHeader>로그인</AuthHeader>
-      <AuthInput placeholder="이메일" ref={emailInputRef}></AuthInput>
+      <div>
+        <AuthInput
+          placeholder="이메일"
+          ref={emailInputRef}
+          onChange={handleEmailChange}
+        ></AuthInput>
+        {isValidEmail ? (
+          <></>
+        ) : (
+          <p className={classes.notValidEmail}>이메일 형식이 올바르지 않습니다.</p>
+        )}
+      </div>
       <div style={{ marginBottom: 20 }}>
         <AuthInput
           placeholder="비밀번호"

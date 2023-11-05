@@ -105,6 +105,7 @@ const SignupPage: React.FC = () => {
   // 인증 버튼 클릭
   const [timer, setTimer] = useState<number | null>(null); // 타이머의 현재 초
   const [isActive, setIsActive] = useState<boolean>(false); // 타이머가 활성화되어 있는지 여부
+  const [disabledBtn, setDisabledBtn] = useState<boolean>(false);
 
   useEffect(() => {
     if (isActive && timer !== null && timer > 0) {
@@ -161,6 +162,8 @@ const SignupPage: React.FC = () => {
           setTimer(null);
           setIsActive(false);
           setIsValidCheckNumber(true);
+          // 이메일 인증 비활성화 시켜야됨
+          setDisabledBtn(true);
         })
         .catch((e) => {
           console.error(e);
@@ -189,6 +192,45 @@ const SignupPage: React.FC = () => {
         });
     }
   };
+  // 닉네임 확인
+  const [validNickname, setValidNickname] = useState<boolean>(false);
+  const checkNickname = () => {
+    // 중복확인 결과 중복이 아닌경우
+    setValidNickname(true);
+  };
+
+  // 비밀번호 유효성 검사
+  // 유효성 검사
+  const [IsValidPw, setIsValidPw] = useState<boolean>(false);
+  const [checkIsValid, setCheckIsValid] = useState<boolean>(false);
+
+  const validPwChange = () => {
+    const changePw = passwordInputRef.current?.value;
+    if (changePw) {
+      if (changePw.length > 7) {
+        setIsValidPw(true);
+      } else {
+        setIsValidPw(false);
+      }
+    } else {
+      setIsValidPw(true);
+    }
+  };
+
+  const validCheckPwChange = () => {
+    const checkPw = checkPWInputRef.current?.value;
+    const changePw = passwordInputRef.current?.value;
+    if (checkPw) {
+      if (checkPw === changePw) {
+        setCheckIsValid(true);
+      } else {
+        setCheckIsValid(false);
+      }
+    } else {
+      setCheckIsValid(true);
+    }
+  };
+
   return (
     <div className={classes.container}>
       <AuthHeader>회원가입</AuthHeader>
@@ -217,13 +259,19 @@ const SignupPage: React.FC = () => {
           disabled={isActive}
         ></NewAuthInput>
         <button
-          className={isValidEmail ? classes.emailCheckBtn : classes.notValidEmail}
+          className={
+            disabledBtn
+              ? classes.notValidEmail
+              : isValidEmail
+              ? classes.emailCheckBtn
+              : classes.notValidEmail
+          }
           disabled={!isValidEmail}
           onClick={clickCheckBtn}
         >
           {timer !== null ? '재인증' : '인증'}
         </button>
-        {isValidEmail ? <></> : <NotValid>이메일이 유효하지 않습니다.</NotValid>}
+        {isValidEmail ? <></> : <NotValid>이메일 형식이 올바르지 않습니다.</NotValid>}
         {/* 타이머 출력 */}
         <EmailCheckBox>
           {timer !== null && (
@@ -246,12 +294,26 @@ const SignupPage: React.FC = () => {
           확인
         </button>
       </div>
-      <NewAuthInput ref={nickNameRef} placeholder="닉네임"></NewAuthInput>
+      <div>
+        <NewAuthInput
+          ref={nickNameRef}
+          placeholder="닉네임"
+          disabled={validNickname}
+        ></NewAuthInput>
+        <button
+          className={validNickname ? classes.notValidEmail : classes.emailCheckBtn}
+          onClick={checkNickname}
+        >
+          {validNickname ? '사용 가능' : '중복 확인'}
+        </button>
+        <NotValid>닉네임 중복을 확인해주세요.</NotValid>
+      </div>
       <div>
         <NewAuthInput
           ref={passwordInputRef}
           type={passwordShow ? undefined : 'password'}
           placeholder="비밀번호"
+          onChange={validPwChange}
         ></NewAuthInput>
         <div
           className={classes.passwordIcon}
@@ -265,12 +327,15 @@ const SignupPage: React.FC = () => {
             <FaEyeSlash size={24} color="black" />
           )}
         </div>
+        {IsValidPw ? <></> : <NotValid>※ 8자 이상 입력해주세요.</NotValid>}
       </div>
+      {/* 비밀번호 확인 */}
       <div>
         <NewAuthInput
           ref={checkPWInputRef}
           type={checkPWShow ? undefined : 'password'}
           placeholder="비밀번호 확인"
+          onChange={validCheckPwChange}
         ></NewAuthInput>
         <div
           className={classes.passwordIcon}
@@ -280,6 +345,7 @@ const SignupPage: React.FC = () => {
         >
           {checkPWShow ? <FaEye size={24} color="black" /> : <FaEyeSlash size={24} color="black" />}
         </div>
+        {checkIsValid ? <></> : <NotValid>※ 비밀번호가 일치하지 않습니다.</NotValid>}
       </div>
       <button className={classes.signupBtn} onClick={signupHandler}>
         회원가입
