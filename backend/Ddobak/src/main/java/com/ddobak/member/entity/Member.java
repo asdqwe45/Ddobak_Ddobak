@@ -51,6 +51,10 @@ public class Member extends UserInfo {
         this.profileImg = profileImgAddress;
     }
 
+    public void modifyInfoText(String infoText) {
+        this.introduceText = infoText;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
