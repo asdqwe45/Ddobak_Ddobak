@@ -4,8 +4,11 @@ import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.global.service.S3Service;
 import com.ddobak.member.dto.request.MemberLoginRequest;
 import com.ddobak.member.dto.request.ModifyInfoTextRequest;
+import com.ddobak.member.dto.request.ModifyLoginPassword;
+import com.ddobak.member.dto.request.ModifyNicknameRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
 import com.ddobak.member.dto.response.LoginResponse;
+import com.ddobak.member.dto.response.RefreshTokenResponse;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.entity.SignUpType;
 import com.ddobak.member.exception.EmailException;
@@ -133,6 +136,49 @@ public class MemberService {
         if(memberExists) {
             throw new MemberException(ErrorCode.NICKNAME_DUPLICATED);
         }
+    }
+
+    @Transactional
+    public RefreshTokenResponse refreshToken(String refreshToken) {
+        String accessToken = jwtProvider.createNewAccessToken(refreshToken, secretKey);
+
+        return new RefreshTokenResponse(accessToken);
+    }
+
+    @Transactional
+    public void modifyNickname(LoginInfo loginInfo, ModifyNicknameRequest modifyNicknameRequest) {
+        boolean memberExists = memberRepository.existsByNickname(modifyNicknameRequest.nickname());
+
+        if(memberExists) {
+            throw new MemberException(ErrorCode.NICKNAME_DUPLICATED);
+        }
+        else{
+            Member member = findByEmail(loginInfo.email());
+
+            member.modifyNickname(modifyNicknameRequest.nickname());
+        }
+    }
+
+    @Transactional
+    public void modifyProfileImg(LoginInfo loginInfo, MultipartFile profileImg) {
+        Member member = findByEmail(loginInfo.email());
+
+        String profileImgAddress = s3Service.uploadFile(profileImg);
+        member.registerProfileImg(profileImgAddress);
+    }
+
+    @Transactional
+    public void modifyLoginPassword(LoginInfo loginInfo, ModifyLoginPassword modifyLoginPassword) {
+        Member member = findByEmail(loginInfo.email());
+
+        // 비밀번호 비교
+        if(!passwordEncoder.matches(modifyLoginPassword.prevLoginPassword(), member.getLoginPassword())){
+            throw new MemberException(ErrorCode.PASSWORD_NOT_SAME);
+        }
+        else {
+            member.encodePassword(passwordEncoder.encode(modifyLoginPassword.newLoginPassword()));
+        }
+
     }
 
     private Member findByEmail(String email) {

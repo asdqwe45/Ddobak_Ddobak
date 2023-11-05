@@ -18,6 +18,7 @@ public enum ErrorCode {
     USER_NOT_FOUND("MEM02", HttpStatus.NOT_FOUND,"존재하지 않는 회원입니다."),
     INVALID_PASSWORD("MEM03",HttpStatus.BAD_REQUEST, "비밀번호가 틀립니다"),
     NICKNAME_DUPLICATED("MEM04",HttpStatus.CONFLICT,"이미 가입된 닉네임입니다."),
+    PASSWORD_NOT_SAME("MEM05", HttpStatus.CONFLICT, "현재 비밀번호가 일치 하지 않습니다."),
 
     // S3 Exception
     UPLOAD_FAIL("AWS01",HttpStatus.BAD_REQUEST,"알수 없는 이유로 업로드 실패"),
