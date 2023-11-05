@@ -4,6 +4,7 @@ import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.global.service.S3Service;
 import com.ddobak.member.dto.request.MemberLoginRequest;
 import com.ddobak.member.dto.request.ModifyInfoTextRequest;
+import com.ddobak.member.dto.request.ModifyLoginPassword;
 import com.ddobak.member.dto.request.ModifyNicknameRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
 import com.ddobak.member.dto.response.LoginResponse;
@@ -164,6 +165,20 @@ public class MemberService {
 
         String profileImgAddress = s3Service.uploadFile(profileImg);
         member.registerProfileImg(profileImgAddress);
+    }
+
+    @Transactional
+    public void modifyLoginPassword(LoginInfo loginInfo, ModifyLoginPassword modifyLoginPassword) {
+        Member member = findByEmail(loginInfo.email());
+
+        // 비밀번호 비교
+        if(!passwordEncoder.matches(modifyLoginPassword.prevLoginPassword(), member.getLoginPassword())){
+            throw new MemberException(ErrorCode.PASSWORD_NOT_SAME);
+        }
+        else {
+            member.encodePassword(passwordEncoder.encode(modifyLoginPassword.newLoginPassword()));
+        }
+
     }
 
     private Member findByEmail(String email) {

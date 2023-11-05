@@ -5,6 +5,7 @@ import com.ddobak.member.dto.request.EmailVerifyRequest;
 import com.ddobak.member.dto.request.MemberLoginRequest;
 import com.ddobak.member.dto.request.ModifyInfoTextRequest;
 import com.ddobak.member.dto.request.CheckNickNameRequest;
+import com.ddobak.member.dto.request.ModifyLoginPassword;
 import com.ddobak.member.dto.request.ModifyNicknameRequest;
 import com.ddobak.member.dto.request.RefreshTokenRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
@@ -121,13 +122,22 @@ public class MemberController {
         return ResponseEntity.noContent().build();
     }
 
+    // 비밀번호 변경
+    @PostMapping("/password")
+    public ResponseEntity<Void> modifyPassword(@AuthenticationPrincipal LoginInfo loginInfo, @RequestBody
+        ModifyLoginPassword modifyLoginPassword) {
+        log.info("{} request modify password", loginInfo.email());
 
+        memberService.modifyLoginPassword(loginInfo, modifyLoginPassword);
+        return ResponseEntity.noContent().build();
+    }
 
     // 프로필이미지 변경
     @PostMapping("/profileImg")
     public ResponseEntity<Void> modifyProfileImg(@AuthenticationPrincipal LoginInfo loginInfo, @RequestPart MultipartFile profileImg) {
         log.info("{} wants to change ProfileImg", loginInfo.email());
 
+        memberService.modifyProfileImg(loginInfo, profileImg);
         return ResponseEntity.noContent().build();
     }
 }
