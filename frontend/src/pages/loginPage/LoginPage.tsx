@@ -10,7 +10,7 @@ import { AuthHeader, AuthInput } from 'common/authComponents/AuthComponents';
 // Login 컴포넌트 가져오기
 import { Forgot, ForgotText } from './loginPageComponents/LoginPageComponents';
 
-import { userTestLogin, userLogin } from 'https/utils/AuthFunction';
+import { userLogin } from 'https/utils/AuthFunction';
 
 const LoginPage: React.FC = () => {
   // 비밀번호 보기
@@ -20,7 +20,7 @@ const LoginPage: React.FC = () => {
   // 비밀번호 입력
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const clickLoginHandle = () => {
+  const clickLoginHandle = async () => {
     // 느낌표 없으면 에러
     const email = emailInputRef.current!.value;
     // 이메일 형식이 잘못되거나 입력하지 않은 경우
@@ -29,12 +29,14 @@ const LoginPage: React.FC = () => {
     console.log(email, password);
     const data = {
       email: email,
-      password: password,
+      loginPassword: password,
     };
-    navigate('/');
-    userTestLogin(data);
     userLogin(data)
-      .then((r) => console.log(r))
+      .then((r) => {
+        console.log(r);
+        navigate('/');
+        window.location.reload();
+      })
       .catch((e) => console.error(e));
   };
 
