@@ -176,6 +176,7 @@ const SignupPage: React.FC = () => {
     const email = emailInputRef.current?.value;
     const nickname = nickNameRef.current?.value;
     const loginPassword = passwordInputRef.current?.value;
+    const profileImg = fileInputRef.current?.files?.[0];
     if (email && nickname && loginPassword) {
       const data = {
         email: email,
@@ -183,13 +184,23 @@ const SignupPage: React.FC = () => {
         loginPassword: loginPassword,
       };
       console.log(data);
-      userSignup(data, profile || '')
-        .then((r) => {
-          console.log(r);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      if (profileImg) {
+        userSignup(data, profileImg)
+          .then((r) => {
+            console.log(r);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      } else {
+        userSignup(data, '')
+          .then((r) => {
+            console.log(r);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
     }
   };
   // 닉네임 확인
