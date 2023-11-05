@@ -69,7 +69,7 @@ public class MemberControllerTest extends ControllerTest {
 
         mockMvc
             .perform(
-                get(baseUrl + "/email/verify")
+                post(baseUrl + "/email/verify")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsBytes(emailVerificationRequest))
             )
