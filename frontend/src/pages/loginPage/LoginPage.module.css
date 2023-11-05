@@ -46,3 +46,9 @@
   /* 최신 브라우저 */
   color: #6d6d6d;
 }
+
+.notValidEmail {
+  margin: 0px 20px;
+  color: #d71718;
+  font-size: 14px;
+}
