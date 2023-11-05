@@ -4,6 +4,7 @@ import com.ddobak.member.dto.request.EmailVerificationRequest;
 import com.ddobak.member.dto.request.EmailVerifyRequest;
 import com.ddobak.member.dto.request.MemberLoginRequest;
 import com.ddobak.member.dto.request.ModifyInfoTextRequest;
+import com.ddobak.member.dto.request.CheckNickNameRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
 import com.ddobak.member.dto.response.LoginResponse;
 import com.ddobak.member.service.MemberService;
@@ -83,9 +84,18 @@ public class MemberController {
     @PostMapping("/textinfo")
     public ResponseEntity<Void> modifyInfoText(@AuthenticationPrincipal LoginInfo loginInfo, @RequestBody
         ModifyInfoTextRequest modifyInfoTextRequest) {
-        log.info("{} wants to chang InfoText  -> {}", loginInfo.email(), modifyInfoTextRequest.infoText());
+        log.info("{} wants to change InfoText  -> {}", loginInfo.email(), modifyInfoTextRequest.infoText());
 
         memberService.modifyInfoText(loginInfo, modifyInfoTextRequest);
+        return ResponseEntity.noContent().build();
+    }
+
+    // 닉네임 중복 확인
+    @GetMapping("/nickname")
+    public ResponseEntity<Void>  checkNickname(@RequestBody CheckNickNameRequest checkNickNameRequest) {
+        log.info("{} is duplicated?", checkNickNameRequest.nickname());
+
+        memberService.isNicknameDuplicated(checkNickNameRequest.nickname());
         return ResponseEntity.noContent().build();
     }
 }

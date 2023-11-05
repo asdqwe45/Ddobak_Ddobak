@@ -2,6 +2,7 @@ package com.ddobak.member.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -19,6 +20,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.ddobak.member.dto.request.CheckNickNameRequest;
 import com.ddobak.member.dto.request.EmailVerificationRequest;
 import com.ddobak.member.dto.request.EmailVerifyRequest;
 import com.ddobak.member.dto.request.MemberLoginRequest;
@@ -197,6 +199,26 @@ public class MemberControllerTest extends ControllerTest {
                     preprocessResponse(prettyPrint()),
                     requestFields(
                         fieldWithPath("infoText").description("변경된 소개글")
+                    ))
+            );
+    }
+
+    @Test
+    @DisplayName("닉네임_중복_확인한다.")
+    void checkNicknameTest() throws Exception{
+        CheckNickNameRequest checkNickNameRequest = new CheckNickNameRequest("checkNickName");
+
+        mockMvc.perform(
+            get(baseUrl +"/nickname")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(checkNickNameRequest))
+        ).andExpect(status().isNoContent())
+            .andDo(
+                document("/member/checkNickname",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint()),
+                    requestFields(
+                        fieldWithPath("nickname").description("중복체크할 닉네임")
                     ))
             );
     }
