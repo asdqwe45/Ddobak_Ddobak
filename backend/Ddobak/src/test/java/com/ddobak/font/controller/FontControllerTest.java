@@ -148,7 +148,7 @@ public class FontControllerTest extends ControllerTest {
         });
 
         // mockMvc 테스트 실행
-        mockMvc.perform(post(baseUrl + "/watch").param("data", fakeUrl)
+        mockMvc.perform(post(baseUrl + "/watch").param("sortUrl", fakeUrl)
                         .with(authentication(new TestingAuthenticationToken(loginInfo, null)))
                 ).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_OCTET_STREAM))
@@ -170,7 +170,7 @@ public class FontControllerTest extends ControllerTest {
 
         doNothing().when(fontService).createFont(fakeUrl, loginInfo);
 
-        mockMvc.perform(post(baseUrl + "/goSetting").param("data",fakeUrl)
+        mockMvc.perform(post(baseUrl + "/goSetting").param("sortUrl",fakeUrl)
                 .with(authentication(new TestingAuthenticationToken(loginInfo,null)))
         ).andExpect(status().isOk())
                 .andDo(document("/font/goSetting",
