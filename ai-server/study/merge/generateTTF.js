@@ -13,7 +13,7 @@ var svg2ttf = require("svg2ttf");
 var svgicons2svgfont = require("svgicons2svgfont");
 
 var fontStream = new svgicons2svgfont({
-  fontName: "_FONT",
+  fontName: "ddobak_jieun",
 });
 
 var PNG = require("pngjs").PNG;
@@ -101,7 +101,7 @@ var app = function generate() {
     .pipe(fs.createWriteStream(`./svg_fonts/font_ss.svg`))
     .on("finish", function () {
       var ttf = svg2ttf(fs.readFileSync(`./svg_fonts/font_ss.svg`, "utf8"), {});
-      fs.writeFileSync(`./ttf_fonts/${"test"}.ttf`, new Buffer(ttf.buffer));
+      fs.writeFileSync(`./ttf_fonts/${"ddobak_jieun"}.ttf`, new Buffer(ttf.buffer));
     })
     .on("error", function (err) {
       console.log(err);
