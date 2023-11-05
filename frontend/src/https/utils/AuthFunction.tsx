@@ -1,4 +1,4 @@
-import { axiosWithoutAuth, axiosWithAuth } from 'https/http';
+import { axiosWithoutAuth, axiosWithAuth, axiosWithoutFormData } from 'https/http';
 
 // formData
 /*
@@ -60,14 +60,16 @@ type SignupData = {
 };
 export async function userSignup(data: SignupData, profileImg: File | string): Promise<any> {
   const formData = new FormData();
-
+  const json = JSON.stringify(data);
+  const jsonBlob = new Blob([json], { type: 'application/json' });
   // JSON 데이터를 추가합니다.
-  formData.append('signUpRequest', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+  await formData.append('signUpRequest', jsonBlob);
 
   // 이미지 파일을 추가합니다.
   if (profileImg) {
-    formData.append('profileImg', profileImg);
-    return axiosWithoutAuth
+    await formData.append('profileImg', profileImg);
+    console.log(formData);
+    return axiosWithoutFormData
       .post('/member/signup', formData)
       .then((r) => {
         return r;
@@ -76,7 +78,8 @@ export async function userSignup(data: SignupData, profileImg: File | string): P
         throw e;
       });
   } else {
-    return axiosWithoutAuth
+    console.log(json);
+    return axiosWithoutFormData
       .post('/member/signup', formData)
       .then((r) => {
         return r;
@@ -98,7 +101,7 @@ return item ? (parseJSON(item) as T) : initialValue
 
 interface LoginType {
   email: string;
-  password: string;
+  loginPassword: string;
 }
 
 export async function userTestLogin(data: LoginType) {
@@ -111,7 +114,7 @@ export async function userTestLogin(data: LoginType) {
 
 // 토큰이 있는지 확인해주는 함수
 export async function checkToken() {
-  const testToken = localStorage.getItem('testToken');
+  const testToken = localStorage.getItem('accessToken');
   if (testToken) {
     const newTestToken = JSON.parse(testToken);
     return newTestToken;
@@ -122,7 +125,16 @@ export async function checkToken() {
 export async function userLogin(data: LoginType): Promise<any> {
   return axiosWithoutAuth
     .post('/member/login', data)
-    .then((r) => {
+    .then(async (r) => {
+      const responseData = await r.data;
+      const id = await JSON.stringify(responseData.id);
+      const accessToken = await JSON.stringify(responseData.accessToken);
+      const refreshToken = await JSON.stringify(responseData.refreshToken);
+      const profileImgUrl = await JSON.stringify(responseData.profileImgUrl);
+      await localStorage.setItem('id', id);
+      await localStorage.setItem('accessToken', accessToken);
+      await localStorage.setItem('refreshToken', refreshToken);
+      await localStorage.setItem('profileImgUrl', profileImgUrl);
       return r.data;
     })
     .catch((e) => {

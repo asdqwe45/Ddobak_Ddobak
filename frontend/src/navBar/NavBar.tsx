@@ -41,13 +41,12 @@ const NavBar: React.FC = () => {
   const [myToken, setMyToken] = useState<string>('');
   useEffect(() => {
     async function fetch() {
-      const testToken = localStorage.getItem('testToken');
-      if (testToken) {
-        const newTestToken = JSON.parse(testToken);
+      const accessToken = localStorage.getItem('accessToken');
+      if (accessToken) {
+        const newAccessToken = JSON.parse(accessToken);
         setHaveToken(true);
-        setMyToken(newTestToken);
+        setMyToken(newAccessToken);
       }
-      console.log(myToken);
     }
     fetch();
   }, [myToken]);
@@ -65,15 +64,15 @@ const NavBar: React.FC = () => {
 
   const logoutHandler = async () => {
     userLogout()
-      .then((r) => {
+      .then(async (r) => {
         console.log(r);
+        localStorage.clear();
+        navigate('/');
+        window.location.reload();
       })
       .catch((e) => {
         console.error(e);
       });
-    localStorage.clear();
-    navigate('/');
-    window.location.reload();
   };
   return (
     <div className={classes.header}>
@@ -172,15 +171,15 @@ const hamburgerMenuBar = (
   const logoutHandler = async () => {
     setIsClicked(false);
     userLogout()
-      .then((r) => {
+      .then(async (r) => {
         console.log(r);
+        localStorage.clear();
+        navigate('/');
+        window.location.reload();
       })
       .catch((e) => {
         console.error(e);
       });
-    localStorage.clear();
-    navigate('/');
-    window.location.reload();
   };
   return (
     <div className={classes.menuDiv}>
