@@ -5,7 +5,7 @@ import NavLogo from '../common/commonAssets/ddobak_logo.png';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { mainRedColor } from 'common/colors/CommonColors';
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import { userLogout } from 'https/utils/AuthFunction';
 /*
 // Save to local storage
 window.localStorage.setItem(key, JSON.stringify(newValue))
@@ -64,6 +64,13 @@ const NavBar: React.FC = () => {
   };
 
   const logoutHandler = async () => {
+    userLogout()
+      .then((r) => {
+        console.log(r);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
     localStorage.clear();
     navigate('/');
     window.location.reload();
@@ -164,6 +171,13 @@ const hamburgerMenuBar = (
 ) => {
   const logoutHandler = async () => {
     setIsClicked(false);
+    userLogout()
+      .then((r) => {
+        console.log(r);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
     localStorage.clear();
     navigate('/');
     window.location.reload();
