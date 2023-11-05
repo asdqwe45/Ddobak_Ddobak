@@ -73,14 +73,14 @@ public class FontControllerTest extends ControllerTest {
         SecurityContextHolder.setContext(securityContext);
         // 테스트 파일 생성
         MockMultipartFile firstFile = new MockMultipartFile(
-                "multipartFile", // 이 부분을 컨트롤러가 기대하는 파라미터 이름으로 변경해야 합니다.
+                "kor_file", // 이 부분을 컨트롤러가 기대하는 파라미터 이름으로 변경해야 합니다.
                 "filename.png",
                 MediaType.IMAGE_PNG_VALUE,
                 "PNG data".getBytes() // 실제 PNG 데이터로 대체해야 합니다.
         );
 
         MockMultipartFile secondFile = new MockMultipartFile(
-                "multipartFile", // 마찬가지로, 이 부분도 변경해야 합니다.
+                "eng_file", // 마찬가지로, 이 부분도 변경해야 합니다.
                 "other-file-name.png",
                 MediaType.IMAGE_PNG_VALUE,
                 "Other PNG data".getBytes() // 실제 PNG 데이터로 대체해야 합니다.

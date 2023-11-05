@@ -88,13 +88,17 @@ public class FontImageServiceImpl implements FontImageService {
         body.add("file",resource);
 
         HttpEntity<MultiValueMap<String,Object>> requestEntity = new HttpEntity<>(body,headers);
+        System.out.println("AI request");
 
         ResponseEntity<byte[]> response = restTemplate.exchange(fastApiUrl, HttpMethod.POST, requestEntity,byte[].class);
+        System.out.println("AI response");
 
         String contentType = response.getHeaders().getContentType().toString();
-        String s3Url = new String();
+        System.out.println("2");
+        System.out.println(response.getBody());
+        String s3Url = s3Service.uploadSortFile(response.getBody(),"image/png");
+        System.out.println("2");
 
-        s3Url = s3Service.uploadSortFile(response.getBody(),"image/png");
 
         return s3Url;
     }
@@ -108,7 +112,7 @@ public class FontImageServiceImpl implements FontImageService {
 
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(byteArrayHttpMessageConverter);
-        String fastApiUrl = "http://localhost:8000/downloadZip";
+        String fastApiUrl = "http://163.239.223.171:8786/api/v1/font_create/sample_font";
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -116,12 +120,11 @@ public class FontImageServiceImpl implements FontImageService {
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
-        int fileIndex = 1;
-        for (File imageFile : imageFiles) {
-            FileSystemResource resource = new FileSystemResource(imageFile);
-            body.add("file" + fileIndex, resource);
-            fileIndex++;
-        }
+        FileSystemResource resource1 = new FileSystemResource(imageFiles.get(0));
+        FileSystemResource resource2 = new FileSystemResource(imageFiles.get(0));
+
+        body.add("kor_file",resource1);
+        body.add("eng_file",resource2);
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
         System.out.println("???");
@@ -195,9 +198,15 @@ public class FontImageServiceImpl implements FontImageService {
     }
     public List<File> urlToFile(String url) throws IOException {
         String[] urls = url.split("\\$");
-
+        System.out.println("1");
+        System.out.println(urls[0]);
+        System.out.println(urls[1]);
         InputStream in1 = new URL(urls[0]).openStream();
+        System.out.println("1");
+
         InputStream in2 = new URL(urls[1]).openStream();
+        System.out.println("1");
+
         File tempFile1 = File.createTempFile("kor_file",".png");
         File tempFile2 = File.createTempFile("eng_file",".png");
 
