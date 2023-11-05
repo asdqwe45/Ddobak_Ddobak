@@ -126,6 +126,15 @@ public class MemberService {
         member.modifyInfoText(modifyInfoTextRequest.infoText());
     }
 
+    @Transactional(readOnly = true)
+    public void isNicknameDuplicated(String nickname) {
+        boolean memberExists = memberRepository.existsByNickname(nickname);
+
+        if(memberExists) {
+            throw new MemberException(ErrorCode.NICKNAME_DUPLICATED);
+        }
+    }
+
     private Member findByEmail(String email) {
         return memberRepository.findByEmail(email).orElseThrow(() -> new MemberException(ErrorCode.USER_NOT_FOUND));
     }

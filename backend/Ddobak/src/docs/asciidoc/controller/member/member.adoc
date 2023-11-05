@@ -57,3 +57,12 @@ include::{snippets}/member/modify-textInfo/request-body.adoc[]
 ==== HTTP Response
 include::{snippets}/member/modify-textInfo/http-response.adoc[]
 include::{snippets}/member/modify-textInfo/response-body.adoc[]
+
+=== 닉네임 중복 확인
+==== HTTP Request
+include::{snippets}/member/checkNickname/http-request.adoc[]
+include::{snippets}/member/checkNickname/request-body.adoc[]
+
+==== HTTP Response
+include::{snippets}/member/checkNickname/http-response.adoc[]
+include::{snippets}/member/checkNickname/response-body.adoc[]
