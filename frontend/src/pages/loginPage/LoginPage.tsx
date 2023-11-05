@@ -10,7 +10,7 @@ import { AuthHeader, AuthInput } from 'common/authComponents/AuthComponents';
 // Login 컴포넌트 가져오기
 import { Forgot, ForgotText } from './loginPageComponents/LoginPageComponents';
 
-import { userTestLogin } from 'https/utils/AuthFunction';
+import { userTestLogin, userLogin } from 'https/utils/AuthFunction';
 
 const LoginPage: React.FC = () => {
   // 비밀번호 보기
@@ -33,6 +33,9 @@ const LoginPage: React.FC = () => {
     };
     navigate('/');
     userTestLogin(data);
+    userLogin(data)
+      .then((r) => console.log(r))
+      .catch((e) => console.error(e));
   };
 
   // 이메일 확인
