@@ -5,15 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42588689-721d-4ce2-8f75-5d7862f4ce0f" name="Changes" comment="&lt;feat&gt;[#136-LJE] 찜 API 구현">
-      <change afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/Ddobak/generated/querydsl/com/ddobak/follow/entity/QFollow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/eng_template.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/eng_template.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/eng_template_original.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/eng_template_original.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/english_crop.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/english_crop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/handwriting_template2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/kor/delete_margin.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/kor/delete_margin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/kor/template.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/kor/template.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/kor/template.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/template.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/merge/char2unicode.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/merge/char2unicode.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/merge/generateTTF.js" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/merge/generateTTF.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,38 +66,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feat/155-LJE&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "feat/136-LJE",
+    "last_opened_file_path": "C:/Users/SSAFY/Desktop/S09P31C208/backend/Ddobak/src",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="DdobakApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <envs>
+        <env name="EMAIL_SERVICE_ID" value="ddobak1324@gmail.com" />
         <env name="EMAIL_SERVICE_PASSWORD" value="musb bmbj agds pinq" />
         <env name="JWT_SECRET_KEY" value="jsonWebTokenjsonWebTokenjsonWebTokenjsonWebTokenjsonWebTokenjsonWebToken" />
-        <env name="MYSQL_PASSWORD" value="ddobak1234" />
         <env name="MYSQL_USER" value="ddobak" />
+        <env name="MYSQL_PASSWORD" value="ddobak1234" />
         <env name="REDIS_PASSWORD" value="ddobak1234" />
-        <env name="S3_ACCESS_KEY" value="AKIAVAKDL6FT5VX7CVUA" />
         <env name="S3_BUCKET_NAME" value="ddobak-profile-image" />
         <env name="S3_REGION" value="ap-northeast-2" />
-        <env name="S3_SECRET_KEY" value="HtPoQg1Nuzy9WHMdYJbfwyhYstnFsf3/DXAXD5ZD  -Dcom.amazonaws.sdk.disableEc2Metadata=true" />
-        <env name="EMAIL_SERVICE_ID" value="ddobak1324@gmail.com" />
+        <env name="S3_ACCESS_KEY" value="AKIAVAKDL6FT5VX7CVUA" />
+        <env name="S3_SECRET_KEY" value="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" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="com.ddobak.DdobakApplication" />
       <module name="Ddobak.main" />
+      <option name="VM_PARAMETERS" value="-Dcom.amazonaws.sdk.disableEc2Metadata=true" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.ddobak.*" />
@@ -128,9 +132,22 @@
       <workItem from="1698628755781" duration="739000" />
       <workItem from="1698716680603" duration="64000" />
     </task>
+    <task id="LOCAL-00001" summary="&lt;feat&gt;[#136-LJE] 찜 API 구현">
+      <option name="closed" value="true" />
+      <created>1699000160066</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1699000160066</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="&lt;feat&gt;[#136-LJE] 찜 API 구현" />
+    <option name="LAST_COMMIT_MESSAGE" value="&lt;feat&gt;[#136-LJE] 찜 API 구현" />
   </component>
 </project>
