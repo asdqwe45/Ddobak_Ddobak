@@ -94,7 +94,7 @@ def find_and_crop_table(image_path, output_path):
         x, y, w, h = rects[0]
 
         # 원본 이미지에서 표 부분만 자르기
-        cropped_table = image[y+2:y+h-2, x+2:x+w-2]
+        cropped_table = image[y+3:y+h-3, x+3:x+w-3]
 
         # 결과 이미지 저장
         cv2.imwrite(output_path, cropped_table)
