@@ -39,7 +39,7 @@ public class MemberController {
     }
 
     // 이메일 인증 확인
-    @GetMapping("/email/verify")
+    @PostMapping("/email/verify")
     public ResponseEntity<Void> verifyEmail(@RequestBody EmailVerificationRequest emailVerificationRequest) {
         log.info("verify email {} with authCode {}", emailVerificationRequest.email(), emailVerificationRequest.authCode());
 
