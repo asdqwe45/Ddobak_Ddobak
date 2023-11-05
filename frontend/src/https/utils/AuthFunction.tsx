@@ -57,13 +57,15 @@ type SignupData = {
   email: string;
   nickname: string;
   loginPassword: string;
-  profileImg: string | null;
 };
-export async function userSignup(data: SignupData): Promise<any> {
+export async function userSignup(data: SignupData, profileImg: string): Promise<any> {
   const json = JSON.stringify(data);
   const jsonBlob = new Blob([json], { type: 'application/json' });
   const formData = new FormData();
   formData.append('SignUpRequest', jsonBlob);
+  if (profileImg) {
+    formData.append('profileImg', profileImg);
+  }
   return axiosWithoutAuth
     .post('/member/signup', formData)
     .then((r) => {
