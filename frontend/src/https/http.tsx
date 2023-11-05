@@ -7,7 +7,8 @@ const getData = async (key: string) => {
   try {
     const value = await localStorage.getItem(key);
     if (value !== null) {
-      return value;
+      const validValue = JSON.parse(value);
+      return validValue;
     }
   } catch (e) {
     console.error(e);
@@ -33,8 +34,6 @@ export const axiosWithAuth = axios.create({
 
 axiosWithAuth.interceptors.request.use(
   async (config) => {
-    console.log('ok');
-
     const refreshToken = await getData('refreshToken'); // await를 사용하여 토큰 값을 가져옵니다.
     if (refreshToken) {
       config.headers['Authorization'] = 'Bearer ' + refreshToken;

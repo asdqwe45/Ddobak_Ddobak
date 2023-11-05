@@ -1,8 +1,8 @@
-import { axiosWithoutAuth } from 'https/http';
+import { axiosWithoutAuth, axiosWithAuth } from 'https/http';
 
 // Email Api
 // 이메일 인증번호 발송
-export function userEmailVerifyRequest(email: string): Promise<any> {
+export async function userEmailVerifyRequest(email: string): Promise<any> {
   const data = {
     email: email,
   };
@@ -28,7 +28,7 @@ type EmailCheckData = {
 //     }
 // }
 
-export function userEmailVerifyAPI(data: EmailCheckData): Promise<any> {
+export async function userEmailVerifyAPI(data: EmailCheckData): Promise<any> {
   return axiosWithoutAuth
     .post('/member/email/verify', data)
     .then((r) => {
@@ -41,11 +41,14 @@ export function userEmailVerifyAPI(data: EmailCheckData): Promise<any> {
 
 // 회원가입
 type SignupData = {
-  email: string;
-  nickname: string;
-  loginPassword: string;
+  signUpRequest: {
+    email: string;
+    nickname: string;
+    loginPassword: string;
+  };
+  profileImg: string | null;
 };
-export function userSignup(data: SignupData): Promise<any> {
+export async function userSignup(data: SignupData): Promise<any> {
   return axiosWithoutAuth
     .post('/member/signup', data)
     .then((r) => {
@@ -86,4 +89,26 @@ export async function checkToken() {
     return newTestToken;
   }
   return false;
+}
+
+export async function userLogin(data: LoginType): Promise<any> {
+  return axiosWithoutAuth
+    .post('/member/login', data)
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+
+export async function userLogout(): Promise<any> {
+  return axiosWithAuth
+    .get('/member/logout')
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
 }
