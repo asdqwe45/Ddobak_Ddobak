@@ -58,22 +58,33 @@ type SignupData = {
   nickname: string;
   loginPassword: string;
 };
-export async function userSignup(data: SignupData, profileImg: string): Promise<any> {
-  const json = JSON.stringify(data);
-  const jsonBlob = new Blob([json], { type: 'application/json' });
+export async function userSignup(data: SignupData, profileImg: File | string): Promise<any> {
   const formData = new FormData();
-  formData.append('SignUpRequest', jsonBlob);
+
+  // JSON 데이터를 추가합니다.
+  formData.append('signUpRequest', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+
+  // 이미지 파일을 추가합니다.
   if (profileImg) {
     formData.append('profileImg', profileImg);
+    return axiosWithoutAuth
+      .post('/member/signup', formData)
+      .then((r) => {
+        return r;
+      })
+      .catch((e) => {
+        throw e;
+      });
+  } else {
+    return axiosWithoutAuth
+      .post('/member/signup', formData)
+      .then((r) => {
+        return r;
+      })
+      .catch((e) => {
+        throw e;
+      });
   }
-  return axiosWithoutAuth
-    .post('/member/signup', formData)
-    .then((r) => {
-      return r;
-    })
-    .catch((e) => {
-      throw e;
-    });
 }
 
 /*
