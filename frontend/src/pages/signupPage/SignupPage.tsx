@@ -181,10 +181,9 @@ const SignupPage: React.FC = () => {
         email: email,
         nickname: nickname,
         loginPassword: loginPassword,
-        profileImg: profile,
       };
       console.log(data);
-      userSignup(data)
+      userSignup(data, profile || '')
         .then((r) => {
           console.log(r);
         })
