@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -42,11 +43,14 @@ public class FontController {
     @ApiResponse(responseCode = "200", description = "리턴 값으로 s3Url을 반환합니다.")
     public ResponseEntity<String> sort(
             @Parameter(description = "multipart/form-data 형식의 이미지 리스트를 input으로 받습니다. 이때 key 값은 multipartFile 입니다.")
-            @RequestPart("multipartFile") List<MultipartFile> files){
-//            (@RequestParam("file") MultipartFile[] files,
-//                                       @AuthenticationPrincipal LoginInfo loginInfo){
+            @RequestPart("kor_file") MultipartFile kor_file,
+            @RequestPart("eng_file") MultipartFile eng_file){
+
         try {
             String s3Url = new String();
+            List<MultipartFile> files = new ArrayList<>();
+            files.add(kor_file);
+            files.add(eng_file);
 
             for (MultipartFile file : files) {
                 File tempOutputFile = fontImageService.convertToPng(file);
@@ -55,13 +59,15 @@ public class FontController {
                 }
                 // AI에 넘겨주고 받기
                 s3Url = s3Url + fontImageService.getS3SortUrl(tempOutputFile);
+                System.out.println("#############" + s3Url);
                 if(s3Url == null){
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("AI response의 파일 타입이 올바르지 않습니다.");
                 }
                 s3Url = s3Url + "$";
             }
-
-            return ResponseEntity.ok(String.join(", ", s3Url));  // 모든 S3 URL을 반환합니다.
+            String temp =String.join(",", s3Url);
+            System.out.println("@@@@@@@@@@@@@@" + temp);
+            return ResponseEntity.ok(String.join(",", s3Url));  // 모든 S3 URL을 반환합니다.
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed ㅠㅠ");
@@ -74,11 +80,22 @@ public class FontController {
     public ResponseEntity<byte[]> watchImage(@RequestParam(value = "sortUrl") String reqUrl,
                                              @AuthenticationPrincipal LoginInfo loginInfo){
         try {
+            System.out.println("1");
             List<File> tempFile = fontImageService.urlToFile(reqUrl);
+            System.out.println("1");
+
             ResponseEntity<byte[]> zip = fontImageService.downloadZip(tempFile);
+            System.out.println("1");
+
             HttpHeaders headers = new HttpHeaders();
+            System.out.println("1");
+
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            System.out.println("1");
+
             headers.setContentDispositionFormData("attachment", "files.zip");
+            System.out.println("1");
+
 
            return new ResponseEntity<>(zip.getBody(), headers, HttpStatus.OK);
         } catch (IOException e) {
