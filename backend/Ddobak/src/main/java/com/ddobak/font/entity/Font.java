@@ -104,8 +104,10 @@ public class Font extends BaseEntity{
         this.same_person_check = req.samePersonCheck();
         this.copyrigher=req.copyrighter();
         this.create_date= LocalDate.now();
+        this.viewCount=0;
     }
-    public void plusViewCount(){
-        this.viewCount=this.viewCount+1;
+    public void plusViewCount() {
+        this.viewCount = this.viewCount + 1;
+
     }
 }

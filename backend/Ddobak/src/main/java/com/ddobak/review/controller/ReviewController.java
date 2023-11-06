@@ -19,9 +19,16 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerReview(@RequestPart("data") ReviewRegisterRequest req, @RequestPart("file")MultipartFile image, @AuthenticationPrincipal LoginInfo loginInfo){
+    public ResponseEntity<?> registerReview(@RequestPart("data") ReviewRegisterRequest req, @RequestPart(value = "file", required = false)MultipartFile image, @AuthenticationPrincipal LoginInfo loginInfo){
+        System.out.println(req.fontId());
         reviewService.registerReview(req,image,loginInfo);
         return ResponseEntity.ok("success");
     }
 
+    @DeleteMapping("/delete/{reviewId}")
+    public ResponseEntity<?> deleteReview(@PathVariable Long reviewId,@AuthenticationPrincipal LoginInfo loginInfo){
+        reviewService.deleteReview(reviewId, loginInfo);
+
+        return ResponseEntity.ok("success");
+    }
 }
