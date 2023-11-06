@@ -34,4 +34,9 @@ public class FollowController {
         List<Member> members = followService.getFollowingsByFollower(followerId);
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
+
+    @GetMapping("/check/{followerId}/{followingId}")
+    public Boolean existsByFollowerIdAndFollowingId(@PathVariable Long followerId, @PathVariable Long followingId){
+        return followService.existsByFollowerIdAndFollowingId(followerId, followingId);
+    }
 }
