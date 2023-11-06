@@ -7,8 +7,6 @@ import { useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 // Auth 컴포넌트 가져오기
 import { AuthHeader, AuthInput } from 'common/authComponents/AuthComponents';
-// Login 컴포넌트 가져오기
-import { Forgot, ForgotText } from './loginPageComponents/LoginPageComponents';
 
 import { userLogin } from 'https/utils/AuthFunction';
 
@@ -42,7 +40,7 @@ const LoginPage: React.FC = () => {
 
   // 이메일 확인
   // 이메일 형식을 확인하는 함수
-  const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(true);
   const validateEmail = (email: string) => {
     const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     return regex.test(email);
@@ -88,9 +86,6 @@ const LoginPage: React.FC = () => {
           {wantSee ? <FaEye size={24} color="black" /> : <FaEyeSlash size={24} color="black" />}
         </div>
       </div>
-      <Forgot>
-        <ForgotText>비밀번호를 잊어버리셨나요?</ForgotText>
-      </Forgot>
       <button onClick={clickLoginHandle} className={classes.loginBtn} type="button">
         로그인
       </button>
