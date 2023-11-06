@@ -2,25 +2,19 @@ package com.ddobak.font.repository;
 
 import com.ddobak.dib.entity.QDib;
 import com.ddobak.dib.repository.DibRepository;
-import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.entity.QFont;
-import com.ddobak.global.config.QueryDslConfig;
-import com.ddobak.member.entity.Member;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import static com.querydsl.core.types.Projections.constructor;
 import static com.querydsl.jpa.JPAExpressions.select;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository

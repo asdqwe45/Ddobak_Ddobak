@@ -8,25 +8,20 @@ import com.ddobak.font.entity.Font;
 import com.ddobak.font.entity.Keyword;
 import com.ddobak.font.repository.FontQueryRepository;
 import com.ddobak.font.repository.FontRepository;
-
 import com.ddobak.font.repository.KeywordRepository;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.repository.MemberRepository;
 import com.ddobak.security.util.LoginInfo;
-import com.sun.mail.imap.protocol.INTERNALDATE;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalLong;
 
 
 @Service
@@ -59,8 +54,8 @@ public class FontServiceImpl implements FontService {
     @Override
     public void makeFont(MakeFontRequest req, LoginInfo loginInfo, String fontUrl) {
         String email = loginInfo.email();
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("Member not found with email: " + email));
+        Member member = memberRepository.findById(loginInfo.id())
+                .orElseThrow(() -> new EntityNotFoundException("Member not found with email: " + loginInfo.id()));
 
         Font font = fontRepository.findByFontSortUrl(req.fontSortUrl())
                 .orElseThrow(() -> new EntityNotFoundException("Font not found with URL: " + req.fontSortUrl()));
