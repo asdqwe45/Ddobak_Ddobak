@@ -17,7 +17,12 @@ import { NotValid, TimerText, EmailCheckBox } from './signupPageComponents/Signu
 //  ===    axios    ===
 //  ===================
 // userEmailVerifyAPI,  userSignup
-import { userEmailVerifyAPI, userEmailVerifyRequest, userSignup } from 'https/utils/AuthFunction';
+import {
+  userEmailVerifyAPI,
+  userEmailVerifyRequest,
+  userSignup,
+  userNicknameAPI,
+} from 'https/utils/AuthFunction';
 import { useDispatch } from 'react-redux';
 import { signupLoaderActions } from 'store/signupLoaderSlice';
 
@@ -110,6 +115,7 @@ const SignupPage: React.FC = () => {
   // 닉네임 change 이벤트 핸들러
   const [nicknameUseState, setNicknameUseState] = useState(true);
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsDuplicated(false);
     const nickName = e.target.value;
     if (nickName) {
       setNicknameUseState(false);
@@ -255,13 +261,28 @@ const SignupPage: React.FC = () => {
       }
     }
   };
+  // 닉네임==================================================
   // 닉네임 확인
+  const [isDuplicated, setIsDuplicated] = useState<boolean>(false);
   const [validNickname, setValidNickname] = useState<boolean>(false);
   const checkNickname = () => {
     // 중복확인 결과 중복이 아닌경우
     // 중복확인 util이 필요
-    setValidNickname(true);
-    setNicknameUseState(true);
+    const signupNickname = nickNameRef.current?.value;
+    if (signupNickname) {
+      console.log(signupNickname);
+      userNicknameAPI(signupNickname)
+        .then((r) => {
+          console.log(r);
+          setValidNickname(true);
+          setNicknameUseState(true);
+        })
+        .catch((e) => {
+          console.log(e);
+          setNicknameUseState(true);
+          setIsDuplicated(true);
+        });
+    }
   };
 
   // 비밀번호 유효성 검사
@@ -377,6 +398,7 @@ const SignupPage: React.FC = () => {
         >
           {validNickname ? '사용 가능' : '중복 확인'}
         </button>
+        {isDuplicated ? <NotValid>닉네임이 중복되었습니다.</NotValid> : <></>}
         {nicknameUseState ? <></> : <NotValid>닉네임 중복을 확인해주세요.</NotValid>}
       </div>
       <div>

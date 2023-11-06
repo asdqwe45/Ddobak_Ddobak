@@ -92,6 +92,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { checkToken } from 'https/utils/AuthFunction';
 
 const MyPage: React.FC = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const myValue = location.state?.pageValue;
   useEffect(() => {
@@ -118,10 +119,12 @@ const MyPage: React.FC = () => {
         console.log('have Token');
       } else {
         console.log('잘못된 접근입니다.');
+        navigate('/wrong');
       }
     }
     fetch();
-  }, []);
+    // navigate를 의존성 배열에 추가합니다.
+  }, [navigate]);
   const [isClickedChange, setIsClickedChange] = useState<boolean>(false);
   const [nickname, setNickname] = useState<string>('김싸피');
   const nicknameInputRef = useRef<HTMLInputElement>(null);
@@ -215,7 +218,6 @@ const MyPage: React.FC = () => {
     dispatch(goToBasketModalActions.toggle());
   };
 
-  const navigate = useNavigate();
   const clickMyWorkspaceHandler = () => {
     navigate('/maker');
     // 실제로 내 페이지로 가려면 id나 뭐가 필요하겠지

@@ -99,11 +99,6 @@ return item ? (parseJSON(item) as T) : initialValue
 
 // const localStorage = window.localStorage
 
-interface LoginType {
-  email: string;
-  loginPassword: string;
-}
-
 export async function userTestLogin(data: LoginType) {
   console.log(data);
   const testToken = 'DFGHJDFGHJKGHJKFGHJKLFGHJKFGHJKLFGHJK';
@@ -114,14 +109,18 @@ export async function userTestLogin(data: LoginType) {
 
 // 토큰이 있는지 확인해주는 함수
 export async function checkToken() {
-  const testToken = localStorage.getItem('accessToken');
-  if (testToken) {
-    const newTestToken = JSON.parse(testToken);
-    return newTestToken;
+  const accessToken = await localStorage.getItem('accessToken');
+  if (accessToken) {
+    const NewAccessToken = await JSON.parse(accessToken);
+    return NewAccessToken;
   }
   return false;
 }
 
+interface LoginType {
+  email: string;
+  loginPassword: string;
+}
 export async function userLogin(data: LoginType): Promise<any> {
   return axiosWithoutAuth
     .post('/member/login', data)
@@ -145,6 +144,20 @@ export async function userLogin(data: LoginType): Promise<any> {
 export async function userLogout(): Promise<any> {
   return axiosWithAuth
     .get('/member/logout')
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+
+export async function userNicknameAPI(nickname: string): Promise<any> {
+  const data = {
+    nickname: nickname,
+  };
+  return axiosWithoutAuth
+    .post('/member/nickname/duplicate', data)
     .then((r) => {
       return r.data;
     })
