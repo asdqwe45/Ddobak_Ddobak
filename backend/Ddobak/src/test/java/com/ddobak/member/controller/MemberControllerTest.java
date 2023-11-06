@@ -213,7 +213,7 @@ public class MemberControllerTest extends ControllerTest {
         CheckNickNameRequest checkNickNameRequest = new CheckNickNameRequest("checkNickName");
 
         mockMvc.perform(
-            get(baseUrl +"/nickname/duplicate")
+            post(baseUrl +"/nickname/duplicate")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(checkNickNameRequest))
         ).andExpect(status().isNoContent())
