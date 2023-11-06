@@ -3,6 +3,7 @@
 }
 
 .topContainer {
+  position: relative; /* .filterOptions의 절대 위치 기준점 */
   display: flex;
   margin: 60px 30px 40px 30px;
 }
@@ -93,23 +94,60 @@
 .fontBoxContainer {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  max-height: calc(310px * 3); /* 항목 높이 * 세로로 표시할 항목 수 */
 }
 
 .fontBoxContainer > * {
-  flex: 1;
-  /* margin: 5px; */
-  min-width: calc(22%);
+  flex: 0 0 calc(25% - 10px); /* 가로 한 줄에 4개씩, margin 고려 */
+  height: 280px; /* 항목의 높이 */
+  margin: 5px; /* 항목 사이의 마진 */
+}
+
+@media (max-width: 1200px) {
+  .fontBoxContainer > * {
+    flex-basis: calc(50% - 10px);
+  }
 }
 
 @media (max-width: 800px) {
   .fontBoxContainer > * {
-    min-width: calc(50%);
+    flex-basis: calc(50% - 10px);
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   .fontBoxContainer > * {
-    min-width: 90%;
+    flex-basis: 90%;
   }
+}
+
+/* 페이지네이션 */
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.pageNumber {
+  display: inline-block; /* 인라인 블록으로 설정해 옆으로 나열 */
+  margin: 0 5px;
+  padding: 10px 15px;
+  border: 2px solid #ddd;
+  color: #333;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 20px;
+}
+
+.pageNumber:hover {
+  background-color: #d71718;
+  color: white;
+}
+
+.activePage {
+  background-color: #d71718;
+  color: white;
 }

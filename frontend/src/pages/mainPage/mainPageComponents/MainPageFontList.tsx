@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Swiper as SwiperInstance } from 'swiper';
@@ -23,8 +23,39 @@ import { mainRedColor } from 'common/colors/CommonColors';
 // 로고 테스트
 import DdobakLogo from '../../../common/commonAssets/ddobak_logo.png';
 
+// API 호출
+import { axiosWithAuth } from 'https/http';
+
+type Font = {
+  font_id: bigint;
+  kor_font_name: string;
+  producer_name: string;
+};
+
 const MainPageFontList: React.FC = () => {
   const swiperRef = useRef<SwiperCore>();
+  const [fonts, setFonts] = useState<Font[]>([]); // 폰트 데이터를 위한 상태
+
+  // 폰트 데이터를 가져오는 함수
+  useEffect(() => {
+    const fetchFonts = async () => {
+      try {
+        const response = await axiosWithAuth.get('/font/list'); // API 경로는 예시입니다
+        setFonts(response.data); // 폰트 데이터 상태 업데이트
+      } catch (error) {
+        console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
+      }
+    };
+    fetchFonts();
+  }, []);
+
+  const renderFontBoxes = () => {
+    return fonts.map((font) => (
+      <SwiperSlide key={font.font_id} className={classes.swiperSlid}>
+        <FontBoxComponent id={font.font_id} title={font.kor_font_name} maker={font.producer_name} />
+      </SwiperSlide>
+    ));
+  };
 
   return (
     <div className={classes.container}>
@@ -54,7 +85,7 @@ const MainPageFontList: React.FC = () => {
           onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
           slidesPerView={3}
           spaceBetween={30}
-          loop={true}
+          loop={fonts.length > 3}
           autoplay={{
             delay: 2500,
             disableOnInteraction: false,
@@ -63,7 +94,7 @@ const MainPageFontList: React.FC = () => {
           className={classes.swiper}
         >
           {/* {FontBoxSwiper()} */}
-          {renderFontBoxes()}
+          {fonts.length > 0 ? renderFontBoxes() : <div>로딩 중...</div>}
         </Swiper>
         <FaCircleChevronRight
           size={50}
@@ -93,61 +124,3 @@ export default MainPageFontList;
 //   return boxes;
 // };
 
-const renderFontBoxes = () => {
-  const fonts = [
-    {
-      id: '1',
-      title: '또박또박_테스트체_1',
-      maker: '김싸피_1',
-      content: '다람쥐 헌 쳇바퀴에 타고파_1',
-    },
-    {
-      id: '2',
-      title: '또박또박_테스트체_2',
-      maker: '이싸피_2',
-      content: '다람쥐 헌 쳇바퀴에 타고파_2',
-    },
-    {
-      id: '3',
-      title: '또박또박_테스트체_3',
-      maker: '박싸피_3',
-      content: '다람쥐 헌 쳇바퀴에 타고파_3',
-    },
-    {
-      id: '4',
-      title: '또박또박_테스트체_4',
-      maker: '최싸피_4',
-      content: '다람쥐 헌 쳇바퀴에 타고파_4',
-    },
-    {
-      id: '5',
-      title: '또박또박_테스트체_5',
-      maker: '정싸피_5',
-      content: '다람쥐 헌 쳇바퀴에 타고파_5',
-    },
-    {
-      id: '6',
-      title: '또박또박_테스트체_6',
-      maker: '양싸피_6',
-      content: '다람쥐 헌 쳇바퀴에 타고파_6',
-    },
-    {
-      id: '7',
-      title: '또박또박_테스트체_7',
-      maker: '위싸피_7',
-      content: '다람쥐 헌 쳇바퀴에 타고파_7',
-    },
-    {
-      id: '8',
-      title: '또박또박_테스트체_8',
-      maker: '안싸피_8',
-      content: '다람쥐 헌 쳇바퀴에 타고파_8',
-    },
-  ];
-
-  return fonts.map((font) => (
-    <SwiperSlide key={font.id} className={classes.swiperSlid}>
-      <FontBoxComponent id={font.id} title={font.title} maker={font.maker} content={font.content} />
-    </SwiperSlide>
-  ));
-};
