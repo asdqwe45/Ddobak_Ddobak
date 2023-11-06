@@ -95,7 +95,7 @@ public class MemberController {
     }
 
     // 닉네임 중복 확인
-    @GetMapping("/nickname/duplicate")
+    @PostMapping("/nickname/duplicate")
     public ResponseEntity<Void>  checkNickname(@RequestBody CheckNickNameRequest checkNickNameRequest) {
         log.info("{} is duplicated?", checkNickNameRequest.nickname());
 
