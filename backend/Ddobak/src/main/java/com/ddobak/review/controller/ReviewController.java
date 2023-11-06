@@ -20,7 +20,7 @@ public class ReviewController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerReview(@RequestPart("data") ReviewRegisterRequest req, @RequestPart("file")MultipartFile image, @AuthenticationPrincipal LoginInfo loginInfo){
-        reviewService.registerReview(req,loginInfo);
+        reviewService.registerReview(req,image,loginInfo);
         return ResponseEntity.ok("success");
     }
 
