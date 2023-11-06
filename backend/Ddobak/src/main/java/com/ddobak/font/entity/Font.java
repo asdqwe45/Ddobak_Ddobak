@@ -2,26 +2,16 @@ package com.ddobak.font.entity;
 
 import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.global.entity.BaseEntity;
-
-import java.security.Key;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
 import com.ddobak.member.entity.Member;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.w3c.dom.stylesheets.LinkStyle;
-
 import javax.persistence.*;
-import javax.security.auth.kerberos.KerberosTicket;
-
 
 @Entity
 @Getter

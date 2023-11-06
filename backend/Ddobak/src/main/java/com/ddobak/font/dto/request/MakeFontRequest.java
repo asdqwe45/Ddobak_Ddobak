@@ -1,8 +1,5 @@
 package com.ddobak.font.dto.request;
 
-import lombok.NoArgsConstructor;
-
-
 public record MakeFontRequest(
         String fontSortUrl,
         String korFontName,
