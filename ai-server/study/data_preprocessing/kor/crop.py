@@ -71,6 +71,6 @@ args = parser.parse_args()
 if __name__ == "__main__":
     rows = 3
     cols = 12
-    header_ratio = 16.5/(16.5+42)
+    header_ratio = 0.48/(0.48+2.25)
     crop_image_uniform(args.src_dir, args.dst_dir)
 #    crop_image_frequency(args.src_dir, args.dst_dir)
