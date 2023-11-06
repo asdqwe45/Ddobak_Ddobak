@@ -49,8 +49,13 @@ const LoginPage: React.FC = () => {
   };
   // 이메일 input의 onChange 이벤트 핸들러
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(isValidEmail);
     const email = e.target.value;
-    setIsValidEmail(validateEmail(email));
+    if (email) {
+      setIsValidEmail(validateEmail(email));
+    } else {
+      setIsValidEmail(true);
+    }
   };
 
   return (
