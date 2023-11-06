@@ -1,4 +1,9 @@
-import { axiosWithoutAuth, axiosWithAuth, axiosWithoutFormData } from 'https/http';
+import {
+  axiosWithoutAuth,
+  axiosWithAuth,
+  axiosWithoutFormData,
+  axiosWithFormData,
+} from 'https/http';
 
 // formData
 /*
@@ -158,6 +163,81 @@ export async function userNicknameAPI(nickname: string): Promise<any> {
   };
   return axiosWithoutAuth
     .post('/member/nickname/duplicate', data)
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+
+// 비밀번호 변경
+interface userChangePwType {
+  prevLoginPassword: string;
+  newLoginPassword: string;
+}
+export async function userChangePwAPI(data: userChangePwType): Promise<any> {
+  return axiosWithAuth
+    .post('/member/password', data)
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+
+// 프로필 이미지 변경 폼데이터
+export async function userChangeProfileAPI(profileImg: File | string): Promise<any> {
+  return axiosWithFormData
+    .post('/member/profileImg')
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+
+// 닉네임 변경
+interface userChnageNicknameType {
+  nickname: string;
+}
+
+export async function userChangeNicknameAPI(data: userChnageNicknameType): Promise<any> {
+  return axiosWithAuth
+    .post('/member/nickname')
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+
+// 소개글 변경
+interface userChangeInfoType {
+  infoText: string;
+}
+export async function userChangeInfoAPI(data: userChangeInfoType): Promise<any> {
+  return axiosWithAuth
+    .post('/member/textinfo', data)
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+
+// accessToken 만료 갱신??
+// 규민이한테 물어봐야함
+interface userAccessTokenType {
+  refreshToken: string;
+}
+export async function userAccessTokenAPI(data: userAccessTokenType): Promise<any> {
+  return axiosWithAuth
+    .post('/member/refresh')
     .then((r) => {
       return r.data;
     })
