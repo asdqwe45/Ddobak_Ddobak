@@ -9,4 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 public interface ReviewService {
 
     void registerReview(ReviewRegisterRequest req, MultipartFile image, LoginInfo loginInfo);
+
+    void deleteReview(Long reviewId, LoginInfo loginInfo);
 }
