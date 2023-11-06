@@ -1,7 +1,7 @@
 import os
 
 # 원본 파일들이 있는 디렉토리
-directory_path = 'kor'
+directory_path = 'test'
 
 # 파일들을 저장할 새로운 디렉토리
 save_directory_path = 'test'  # 이 경로를 원하는 대로 변경하세요.
