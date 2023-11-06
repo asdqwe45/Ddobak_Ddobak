@@ -1,4 +1,9 @@
-import { axiosWithoutAuth, axiosWithAuth, axiosWithoutFormData } from 'https/http';
+import {
+  axiosWithoutAuth,
+  axiosWithAuth,
+  axiosWithoutFormData,
+  axiosWithFormData,
+} from 'https/http';
 
 // formData
 /*
@@ -99,11 +104,6 @@ return item ? (parseJSON(item) as T) : initialValue
 
 // const localStorage = window.localStorage
 
-interface LoginType {
-  email: string;
-  loginPassword: string;
-}
-
 export async function userTestLogin(data: LoginType) {
   console.log(data);
   const testToken = 'DFGHJDFGHJKGHJKFGHJKLFGHJKFGHJKLFGHJK';
@@ -114,14 +114,18 @@ export async function userTestLogin(data: LoginType) {
 
 // 토큰이 있는지 확인해주는 함수
 export async function checkToken() {
-  const testToken = localStorage.getItem('accessToken');
-  if (testToken) {
-    const newTestToken = JSON.parse(testToken);
-    return newTestToken;
+  const accessToken = await localStorage.getItem('accessToken');
+  if (accessToken) {
+    const NewAccessToken = await JSON.parse(accessToken);
+    return NewAccessToken;
   }
   return false;
 }
 
+interface LoginType {
+  email: string;
+  loginPassword: string;
+}
 export async function userLogin(data: LoginType): Promise<any> {
   return axiosWithoutAuth
     .post('/member/login', data)
@@ -145,6 +149,95 @@ export async function userLogin(data: LoginType): Promise<any> {
 export async function userLogout(): Promise<any> {
   return axiosWithAuth
     .get('/member/logout')
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+
+export async function userNicknameAPI(nickname: string): Promise<any> {
+  const data = {
+    nickname: nickname,
+  };
+  return axiosWithoutAuth
+    .post('/member/nickname/duplicate', data)
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+
+// 비밀번호 변경
+interface userChangePwType {
+  prevLoginPassword: string;
+  newLoginPassword: string;
+}
+export async function userChangePwAPI(data: userChangePwType): Promise<any> {
+  return axiosWithAuth
+    .post('/member/password', data)
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+
+// 프로필 이미지 변경 폼데이터
+export async function userChangeProfileAPI(profileImg: File | string): Promise<any> {
+  return axiosWithFormData
+    .post('/member/profileImg')
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+
+// 닉네임 변경
+interface userChnageNicknameType {
+  nickname: string;
+}
+
+export async function userChangeNicknameAPI(data: userChnageNicknameType): Promise<any> {
+  return axiosWithAuth
+    .post('/member/nickname')
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+
+// 소개글 변경
+interface userChangeInfoType {
+  infoText: string;
+}
+export async function userChangeInfoAPI(data: userChangeInfoType): Promise<any> {
+  return axiosWithAuth
+    .post('/member/textinfo', data)
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+
+// accessToken 만료 갱신??
+// 규민이한테 물어봐야함
+interface userAccessTokenType {
+  refreshToken: string;
+}
+export async function userAccessTokenAPI(data: userAccessTokenType): Promise<any> {
+  return axiosWithAuth
+    .post('/member/refresh')
     .then((r) => {
       return r.data;
     })

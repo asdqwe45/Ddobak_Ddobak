@@ -17,7 +17,14 @@ import { NotValid, TimerText, EmailCheckBox } from './signupPageComponents/Signu
 //  ===    axios    ===
 //  ===================
 // userEmailVerifyAPI,  userSignup
-import { userEmailVerifyAPI, userEmailVerifyRequest, userSignup } from 'https/utils/AuthFunction';
+import {
+  userEmailVerifyAPI,
+  userEmailVerifyRequest,
+  userSignup,
+  userNicknameAPI,
+} from 'https/utils/AuthFunction';
+import { useDispatch } from 'react-redux';
+import { signupLoaderActions } from 'store/signupLoaderSlice';
 
 const Circle = styled.div`
   width: 36px;
@@ -89,7 +96,7 @@ const SignupPage: React.FC = () => {
 
   // 이메일 확인
   // 이메일 형식을 확인하는 함수
-  const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(true);
 
   const validateEmail = (email: string) => {
     const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -99,7 +106,22 @@ const SignupPage: React.FC = () => {
   // 이메일 input의 onChange 이벤트 핸들러
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
-    setIsValidEmail(validateEmail(email));
+    if (email) {
+      setIsValidEmail(validateEmail(email));
+    } else {
+      setIsValidEmail(true);
+    }
+  };
+  // 닉네임 change 이벤트 핸들러
+  const [nicknameUseState, setNicknameUseState] = useState(true);
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsDuplicated(false);
+    const nickName = e.target.value;
+    if (nickName) {
+      setNicknameUseState(false);
+    } else {
+      setNicknameUseState(true);
+    }
   };
 
   // 인증 버튼 클릭
@@ -128,6 +150,7 @@ const SignupPage: React.FC = () => {
     setTimer(1800); // 5분 = 300초
   };
   const clickCheckBtn = async () => {
+    signupLoaderHandler();
     // 타이머 실행
     // 인증번호 재발송 버튼 활성화
     // 인증번호 유효한지 확인
@@ -135,8 +158,14 @@ const SignupPage: React.FC = () => {
     console.log(email);
     if (email) {
       await userEmailVerifyRequest(email)
-        .then((r) => console.log(r))
-        .catch((e) => console.error(e));
+        .then((r) => {
+          console.log(r);
+          signupLoaderHandler();
+        })
+        .catch((e) => {
+          console.error(e);
+          signupLoaderHandler();
+        });
     }
     await startTimer();
   };
@@ -147,7 +176,7 @@ const SignupPage: React.FC = () => {
   };
 
   // 인증번호 확인
-  const [isValidCheckNumber, setIsValidCheckNumber] = useState<boolean>(false);
+  const [isValidCheckNumber, setIsValidCheckNumber] = useState<boolean>(true);
   const checkNumberHandler = async () => {
     const email = emailInputRef.current?.value;
     const authCode = checkEmailRef.current?.value;
@@ -167,12 +196,30 @@ const SignupPage: React.FC = () => {
         })
         .catch((e) => {
           console.error(e);
+          setIsValidCheckNumber(false);
         });
     }
   };
+
+  const dispatch = useDispatch();
+  const signupLoaderHandler = () => {
+    dispatch(signupLoaderActions.toggle());
+  };
+  const signupLoadingStop = () => {
+    dispatch(signupLoaderActions.isLoadingStop());
+  };
+  const errorSignupFC = () => {
+    dispatch(signupLoaderActions.errorSignup());
+  };
+  const successSignupFC = () => {
+    dispatch(signupLoaderActions.successSignup());
+  };
+
   // isValidCheckNumber 가 true일 경우 이메일 확인 비활성화
-  const signupHandler = () => {
-    console.log(isValidCheckNumber);
+  const signupHandler = async () => {
+    // console.log(isValidCheckNumber);
+    // 회원가입 실행
+    signupLoaderHandler();
     const email = emailInputRef.current?.value;
     const nickname = nickNameRef.current?.value;
     const loginPassword = passwordInputRef.current?.value;
@@ -183,40 +230,68 @@ const SignupPage: React.FC = () => {
         nickname: nickname,
         loginPassword: loginPassword,
       };
-      console.log(data);
       if (profileImg) {
         userSignup(data, profileImg)
-          .then((r) => {
+          .then(async (r) => {
             console.log(r);
+            signupLoadingStop();
+            successSignupFC();
+            signupLoaderHandler();
           })
-          .catch((e) => {
-            console.log(e);
+          .catch(async (e) => {
+            console.error(e);
+            signupLoadingStop();
+            errorSignupFC();
+            signupLoaderHandler();
           });
       } else {
         userSignup(data, '')
-          .then((r) => {
+          .then(async (r) => {
             console.log(r);
+            signupLoadingStop();
+            successSignupFC();
+            signupLoaderHandler();
           })
-          .catch((e) => {
-            console.log(e);
+          .catch(async (e) => {
+            signupLoadingStop();
+            console.error(e);
+            errorSignupFC();
+            signupLoaderHandler();
           });
       }
     }
   };
+  // 닉네임==================================================
   // 닉네임 확인
+  const [isDuplicated, setIsDuplicated] = useState<boolean>(false);
   const [validNickname, setValidNickname] = useState<boolean>(false);
   const checkNickname = () => {
     // 중복확인 결과 중복이 아닌경우
-    setValidNickname(true);
+    // 중복확인 util이 필요
+    const signupNickname = nickNameRef.current?.value;
+    if (signupNickname) {
+      console.log(signupNickname);
+      userNicknameAPI(signupNickname)
+        .then((r) => {
+          console.log(r);
+          setValidNickname(true);
+          setNicknameUseState(true);
+        })
+        .catch((e) => {
+          console.log(e);
+          setNicknameUseState(true);
+          setIsDuplicated(true);
+        });
+    }
   };
 
   // 비밀번호 유효성 검사
   // 유효성 검사
-  const [IsValidPw, setIsValidPw] = useState<boolean>(false);
-  const [checkIsValid, setCheckIsValid] = useState<boolean>(false);
+  const [isValidPw, setIsValidPw] = useState<boolean>(true);
+  const [checkIsValid, setCheckIsValid] = useState<boolean>(true);
 
-  const validPwChange = () => {
-    const changePw = passwordInputRef.current?.value;
+  const validPwChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const changePw = e.target.value;
     if (changePw) {
       if (changePw.length > 7) {
         setIsValidPw(true);
@@ -228,17 +303,14 @@ const SignupPage: React.FC = () => {
     }
   };
 
-  const validCheckPwChange = () => {
-    const checkPw = checkPWInputRef.current?.value;
-    const changePw = passwordInputRef.current?.value;
-    if (checkPw) {
-      if (checkPw === changePw) {
-        setCheckIsValid(true);
-      } else {
-        setCheckIsValid(false);
-      }
-    } else {
+  const validCheckPwChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checkPw = passwordInputRef.current?.value;
+    const nowPw = e.target.value;
+
+    if (checkPw === nowPw) {
       setCheckIsValid(true);
+    } else {
+      setCheckIsValid(false);
     }
   };
 
@@ -267,11 +339,11 @@ const SignupPage: React.FC = () => {
           ref={emailInputRef}
           placeholder="이메일 입력"
           onChange={handleEmailChange}
-          disabled={isActive}
+          disabled={disabledBtn || isActive}
         ></NewAuthInput>
         <button
           className={
-            disabledBtn
+            disabledBtn || !emailInputRef.current?.value
               ? classes.notValidEmail
               : isValidEmail
               ? classes.emailCheckBtn
@@ -300,16 +372,25 @@ const SignupPage: React.FC = () => {
         </EmailCheckBox>
       </div>
       <div>
-        <NewAuthInput ref={checkEmailRef} placeholder="인증번호"></NewAuthInput>
-        <button className={classes.emailCheckBtn} onClick={checkNumberHandler}>
+        <NewAuthInput
+          ref={checkEmailRef}
+          placeholder="인증번호"
+          disabled={disabledBtn}
+        ></NewAuthInput>
+        <button
+          className={disabledBtn ? classes.notValidEmail : classes.emailCheckBtn}
+          onClick={checkNumberHandler}
+        >
           확인
         </button>
+        {isValidCheckNumber ? <></> : <NotValid>인증번호를 다시 확인해주세요.</NotValid>}
       </div>
       <div>
         <NewAuthInput
           ref={nickNameRef}
           placeholder="닉네임"
           disabled={validNickname}
+          onChange={handleNicknameChange}
         ></NewAuthInput>
         <button
           className={validNickname ? classes.notValidEmail : classes.emailCheckBtn}
@@ -317,7 +398,8 @@ const SignupPage: React.FC = () => {
         >
           {validNickname ? '사용 가능' : '중복 확인'}
         </button>
-        <NotValid>닉네임 중복을 확인해주세요.</NotValid>
+        {isDuplicated ? <NotValid>닉네임이 중복되었습니다.</NotValid> : <></>}
+        {nicknameUseState ? <></> : <NotValid>닉네임 중복을 확인해주세요.</NotValid>}
       </div>
       <div>
         <NewAuthInput
@@ -338,7 +420,7 @@ const SignupPage: React.FC = () => {
             <FaEyeSlash size={24} color="black" />
           )}
         </div>
-        {IsValidPw ? <></> : <NotValid>※ 8자 이상 입력해주세요.</NotValid>}
+        {isValidPw ? <></> : <NotValid>※ 8자 이상 입력해주세요.</NotValid>}
       </div>
       {/* 비밀번호 확인 */}
       <div>
