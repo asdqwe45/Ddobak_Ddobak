@@ -4,8 +4,13 @@ import com.ddobak.member.dto.request.EmailVerificationRequest;
 import com.ddobak.member.dto.request.EmailVerifyRequest;
 import com.ddobak.member.dto.request.MemberLoginRequest;
 import com.ddobak.member.dto.request.ModifyInfoTextRequest;
+import com.ddobak.member.dto.request.CheckNickNameRequest;
+import com.ddobak.member.dto.request.ModifyLoginPasswordRequest;
+import com.ddobak.member.dto.request.ModifyNicknameRequest;
+import com.ddobak.member.dto.request.RefreshTokenRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
 import com.ddobak.member.dto.response.LoginResponse;
+import com.ddobak.member.dto.response.RefreshTokenResponse;
 import com.ddobak.member.service.MemberService;
 import com.ddobak.security.util.LoginInfo;
 import javax.validation.Valid;
@@ -83,9 +88,56 @@ public class MemberController {
     @PostMapping("/textinfo")
     public ResponseEntity<Void> modifyInfoText(@AuthenticationPrincipal LoginInfo loginInfo, @RequestBody
         ModifyInfoTextRequest modifyInfoTextRequest) {
-        log.info("{} wants to chang InfoText  -> {}", loginInfo.email(), modifyInfoTextRequest.infoText());
+        log.info("{} wants to change InfoText  -> {}", loginInfo.email(), modifyInfoTextRequest.infoText());
 
         memberService.modifyInfoText(loginInfo, modifyInfoTextRequest);
+        return ResponseEntity.noContent().build();
+    }
+
+    // 닉네임 중복 확인
+    @GetMapping("/nickname/duplicate")
+    public ResponseEntity<Void>  checkNickname(@RequestBody CheckNickNameRequest checkNickNameRequest) {
+        log.info("{} is duplicated?", checkNickNameRequest.nickname());
+
+        memberService.isNicknameDuplicated(checkNickNameRequest.nickname());
+        return ResponseEntity.noContent().build();
+    }
+
+    // accessToken 갱신
+    @PostMapping("/refresh")
+    public ResponseEntity<RefreshTokenResponse> refreshToken(@AuthenticationPrincipal LoginInfo loginInfo, @RequestBody RefreshTokenRequest refreshTokenRequest) {
+        log.info("{} wants to refresh Token", loginInfo.email());
+
+        RefreshTokenResponse refreshTokenResponse = memberService.refreshToken(
+            refreshTokenRequest.refreshToken());
+        return ResponseEntity.ok().body(refreshTokenResponse);
+    }
+
+    // 닉네임 변경
+    @PostMapping("/nickname")
+    public ResponseEntity<Void> modifyNickname(@AuthenticationPrincipal LoginInfo loginInfo, @RequestBody ModifyNicknameRequest modifyNicknameRequest) {
+        log.info("{} wants to change nickname to {}", loginInfo.email(), modifyNicknameRequest.nickname());
+
+        memberService.modifyNickname(loginInfo, modifyNicknameRequest);
+        return ResponseEntity.noContent().build();
+    }
+
+    // 비밀번호 변경
+    @PostMapping("/password")
+    public ResponseEntity<Void> modifyPassword(@AuthenticationPrincipal LoginInfo loginInfo, @RequestBody
+    ModifyLoginPasswordRequest modifyLoginPasswordRequest) {
+        log.info("{} request modify password", loginInfo.email());
+
+        memberService.modifyLoginPassword(loginInfo, modifyLoginPasswordRequest);
+        return ResponseEntity.noContent().build();
+    }
+
+    // 프로필이미지 변경
+    @PostMapping("/profileImg")
+    public ResponseEntity<Void> modifyProfileImg(@AuthenticationPrincipal LoginInfo loginInfo, @RequestPart MultipartFile profileImg) {
+        log.info("{} wants to change ProfileImg", loginInfo.email());
+
+        memberService.modifyProfileImg(loginInfo, profileImg);
         return ResponseEntity.noContent().build();
     }
 }
