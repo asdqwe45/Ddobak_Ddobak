@@ -5,7 +5,7 @@ import com.ddobak.member.dto.request.EmailVerifyRequest;
 import com.ddobak.member.dto.request.MemberLoginRequest;
 import com.ddobak.member.dto.request.ModifyInfoTextRequest;
 import com.ddobak.member.dto.request.CheckNickNameRequest;
-import com.ddobak.member.dto.request.ModifyLoginPassword;
+import com.ddobak.member.dto.request.ModifyLoginPasswordRequest;
 import com.ddobak.member.dto.request.ModifyNicknameRequest;
 import com.ddobak.member.dto.request.RefreshTokenRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
@@ -95,7 +95,7 @@ public class MemberController {
     }
 
     // 닉네임 중복 확인
-    @GetMapping("/nickname")
+    @GetMapping("/nickname/duplicate")
     public ResponseEntity<Void>  checkNickname(@RequestBody CheckNickNameRequest checkNickNameRequest) {
         log.info("{} is duplicated?", checkNickNameRequest.nickname());
 
@@ -125,10 +125,10 @@ public class MemberController {
     // 비밀번호 변경
     @PostMapping("/password")
     public ResponseEntity<Void> modifyPassword(@AuthenticationPrincipal LoginInfo loginInfo, @RequestBody
-        ModifyLoginPassword modifyLoginPassword) {
+    ModifyLoginPasswordRequest modifyLoginPasswordRequest) {
         log.info("{} request modify password", loginInfo.email());
 
-        memberService.modifyLoginPassword(loginInfo, modifyLoginPassword);
+        memberService.modifyLoginPassword(loginInfo, modifyLoginPasswordRequest);
         return ResponseEntity.noContent().build();
     }
 

@@ -46,7 +46,7 @@ public class FontControllerTest extends ControllerTest {
     @Test
     @DisplayName("테스트 엔드포인트")
     void testTest() throws Exception {
-        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com");
+        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com",1L);
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(new TestingAuthenticationToken(loginInfo, null));
         SecurityContextHolder.setContext(securityContext);
@@ -67,7 +67,7 @@ public class FontControllerTest extends ControllerTest {
     @Test
     @DisplayName("정렬하기")
     void sortTest() throws Exception {
-        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com");
+        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com",1L);
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(new TestingAuthenticationToken(loginInfo, null));
         SecurityContextHolder.setContext(securityContext);
@@ -119,7 +119,7 @@ public class FontControllerTest extends ControllerTest {
     @Test
     @DisplayName("미리보기")
     void watchTest() throws Exception {
-        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com");
+        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com",1L);
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(new TestingAuthenticationToken(loginInfo, null));
         SecurityContextHolder.setContext(securityContext);
@@ -161,7 +161,7 @@ public class FontControllerTest extends ControllerTest {
     @Test
     @DisplayName("폰트 엔티티 초기 제작")
     void createFontTest() throws Exception {
-        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com");
+        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com",1L);
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(new TestingAuthenticationToken(loginInfo, null));
         SecurityContextHolder.setContext(securityContext);
@@ -181,7 +181,7 @@ public class FontControllerTest extends ControllerTest {
     @Test
     @DisplayName("폰트 디데일 제작")
     void makeFontTest() throws Exception {
-        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com");
+        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com",1L);
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(new TestingAuthenticationToken(loginInfo, null));
         SecurityContextHolder.setContext(securityContext);

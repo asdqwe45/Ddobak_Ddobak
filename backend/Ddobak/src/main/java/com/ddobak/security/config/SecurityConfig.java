@@ -38,8 +38,7 @@ public class SecurityConfig {
 
             // URL 별 권환 확인
             .authorizeRequests()
-            .antMatchers("/api/v1/member/email/**","/docs/**", "/api/v1/member/signup/**", "/api/v1/member/login/**", "/swagger-ui/**").permitAll()
-            .antMatchers("/**").permitAll()
+            .antMatchers("/api/v1/member/email/**","/docs/**", "/api/v1/member/signup/**", "/api/v1/member/login/**", "/swagger-ui/**","/api/v1/member/nickname/duplicate/**").permitAll()
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
