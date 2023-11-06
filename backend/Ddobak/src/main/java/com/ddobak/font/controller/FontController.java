@@ -1,6 +1,7 @@
 package com.ddobak.font.controller;
 
 import com.ddobak.font.dto.request.MakeFontRequest;
+import com.ddobak.font.dto.response.FontDetailResponse;
 import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.exception.InvalidFileFormatException;
 import com.ddobak.font.service.FontImageService;
@@ -54,6 +55,7 @@ public class FontController {
         try {
             List<MultipartFile> files = Arrays.asList(kor_file, eng_file);
             String s3Urls = fontImageService.processAndUploadImages(files);
+
             return ResponseEntity.ok(s3Urls);
         } catch (InvalidFileFormatException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -73,8 +75,6 @@ public class FontController {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
             headers.setContentDispositionFormData("attachment", "files.zip");
-
-
 
             return new ResponseEntity<>(zipBytes, headers, HttpStatus.OK);
         } catch (IOException e) {
@@ -97,8 +97,6 @@ public class FontController {
     @ApiResponse(responseCode = "200", description = "리턴 값으로 success를 반환합니다.")
     public ResponseEntity<String> makeFont(@RequestBody MakeFontRequest req,
                                            @AuthenticationPrincipal LoginInfo loginInfo) throws IOException {
-            // 포인트 로직
-
         try {
             String fontUrl = fontImageService.createFont(req, loginInfo);
             fontService.makeFont(req,loginInfo,fontUrl);
@@ -117,10 +115,12 @@ public class FontController {
         return ResponseEntity.ok(result);
     }
 
-//    @GetMapping(value = "/datail")
-//    @Operation(summary = "폰트 디테일",  description = "폰트 디테일을 조회하는 api입니다.")
-//    @ApiResponse(responseCode = "200", description = "리턴값으로 조회한 폰트의 디테일 값을 리턴합니다.")
-//    public ResponseEntity<FontDetailResponse>> getFontDetail(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long font_id){
-//
-//    }
+    @GetMapping(value = "/datail/{fontId}")
+    @Operation(summary = "폰트 디테일",  description = "폰트 디테일을 조회하는 api입니다.")
+    @ApiResponse(responseCode = "200", description = "리턴값으로 조회한 폰트의 디테일 값을 리턴합니다.")
+    public ResponseEntity<FontDetailResponse> getFontDetail(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long fontId){
+        FontDetailResponse result = fontService.getFontDetail(fontId, loginInfo);
+        return ResponseEntity.ok(result);
+    }
+
 }

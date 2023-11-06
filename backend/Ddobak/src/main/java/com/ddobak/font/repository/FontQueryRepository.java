@@ -88,5 +88,12 @@ public class FontQueryRepository {
 
         return fonts;
     }
+    public Font getFontWithKeywords(Long fontId) {
+        return em.createQuery(
+                        "SELECT f FROM Font f JOIN FETCH f.keywords WHERE f.id = :fontId", Font.class)
+                .setParameter("fontId", fontId)
+                .getSingleResult();
+    }
+
 }
 

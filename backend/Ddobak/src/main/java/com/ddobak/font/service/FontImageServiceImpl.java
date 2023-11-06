@@ -4,6 +4,7 @@ import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.font.exception.InvalidFileFormatException;
 import com.ddobak.global.service.S3Service;
 import com.ddobak.security.util.LoginInfo;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -28,11 +30,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
+import javax.swing.text.html.Option;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -76,10 +80,13 @@ public class FontImageServiceImpl implements FontImageService {
     }
 
     public String createFont(MakeFontRequest req, LoginInfo loginInfo) throws IOException {
-        List<File> tempFile = urlToFile(req.font_sort_url());
+        List<File> tempFile = urlToFile(req.fontSortUrl());
         String fontUrl = getS3FontUrl(tempFile);
         return fontUrl;
     }
+
+
+
 
     private File convertToPng(MultipartFile file) throws IOException{
         String fileExtension = StringUtils.getFilenameExtension(file.getOriginalFilename());

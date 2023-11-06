@@ -12,5 +12,7 @@ public interface FontRepository extends JpaRepository<Font,Long> {
     @Query("SELECT f FROM Font f WHERE f.font_sort_url = :font_sort_url")
     Optional<Font> findByFontSortUrl(@Param("font_sort_url") String font_sort_url);
 
+    Optional<Font> findAllById(Long font_id);
+
 }
 

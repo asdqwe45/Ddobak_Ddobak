@@ -1,6 +1,8 @@
 package com.ddobak.font.service;
 
+import com.ddobak.dib.repository.DibRepository;
 import com.ddobak.font.dto.request.MakeFontRequest;
+import com.ddobak.font.dto.response.FontDetailResponse;
 import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.entity.Keyword;
@@ -11,13 +13,17 @@ import com.ddobak.font.repository.KeywordRepository;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.repository.MemberRepository;
 import com.ddobak.security.util.LoginInfo;
+import com.sun.mail.imap.protocol.INTERNALDATE;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalLong;
@@ -26,12 +32,14 @@ import java.util.OptionalLong;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class FontServiceImpl implements FontService {
 
     private final FontRepository fontRepository;
     private final MemberRepository memberRepository;
     private final KeywordRepository keywordRepository;
     private final FontQueryRepository fontQueryRepository;
+    private final DibRepository dibRepository;
 
     @Override
     public void createFont(String font_sort_url, LoginInfo loginInfo){
@@ -54,8 +62,8 @@ public class FontServiceImpl implements FontService {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("Member not found with email: " + email));
 
-        Font font = fontRepository.findByFontSortUrl(req.font_sort_url())
-                .orElseThrow(() -> new EntityNotFoundException("Font not found with URL: " + req.font_sort_url()));
+        Font font = fontRepository.findByFontSortUrl(req.fontSortUrl())
+                .orElseThrow(() -> new EntityNotFoundException("Font not found with URL: " + req.fontSortUrl()));
 
         font.makeDetail(req, fontUrl);
 
@@ -84,6 +92,27 @@ public class FontServiceImpl implements FontService {
         List<FontListResponse> resultList = fontQueryRepository.getFontList(member_id,pageable,search, keywords,free);
 
         return resultList;
+    }
+
+    @Async
+    protected void plusViewCount(Font font){
+        font.plusViewCount();
+    }
+
+    @Override
+    public FontDetailResponse getFontDetail(Long fontId, LoginInfo loginInfo){
+        Font font = fontQueryRepository.getFontWithKeywords(fontId);
+        plusViewCount(font);
+//        Boolean dibCheck = dibRepository.existsByMemberIdAndFontId(loginInfo.id(), fontId);
+        Boolean dibCheck =true;
+        List<String> fontKeywords = new ArrayList<>();
+        for(Keyword k : font.getKeywords()){
+            fontKeywords.add(k.getKeyword());
+        }
+        Long dibCount = dibRepository.countByFontId(fontId);
+        FontDetailResponse result = new FontDetailResponse(fontId,dibCheck,"producer", font.getViewCount(),fontKeywords,font.getIntroduce_text(),font.getFont_file_url(),dibCount);
+
+        return result;
     }
 
 }
