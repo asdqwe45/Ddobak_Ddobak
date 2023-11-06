@@ -61,4 +61,9 @@ public class FollowServiceImpl implements FollowService{
         return  follows.stream()
                 .map(Follow::getFollowing).collect(Collectors.toList());
     }
+
+    @Override
+    public boolean existsByFollowerIdAndFollowingId(Long followerId, Long followingId) {
+        return followRepository.existsByFollowerIdAndFollowingId(followerId, followingId);
+    }
 }

@@ -9,4 +9,5 @@ public interface FollowService {
     HttpStatus createFollow(Long followerId, Long followingId);
     HttpStatus unfollow(Long followerId, Long followingId);
     List<Member> getFollowingsByFollower(Long followerId);
+    boolean existsByFollowerIdAndFollowingId(Long followerId, Long followingId);
 }
