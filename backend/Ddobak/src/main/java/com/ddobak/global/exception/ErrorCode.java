@@ -22,7 +22,16 @@ public enum ErrorCode {
     UPLOAD_FAIL("AWS01",HttpStatus.BAD_REQUEST,"알수 없는 이유로 업로드 실패"),
 
     // Security Exception
-    INVALID_REFRESH_TOKEN("TOK01",HttpStatus.BAD_REQUEST,"유효하지 않은 토큰");
+    INVALID_REFRESH_TOKEN("TOK01",HttpStatus.BAD_REQUEST,"유효하지 않은 토큰"),
+
+    // Convert Exception
+    CONVERT_FAIL("CON01", HttpStatus.BAD_REQUEST, "변환할 파일 형식이 올바르지 않습니다."),
+
+    // AI Exception
+    AI_FAIL("AI01",HttpStatus.BAD_REQUEST,"AI Response의 파일 타입이 올바르지 않습니다."),
+
+    // Font Exception
+    PAY_FAIL("FONT01", HttpStatus.BAD_REQUEST, "포인트가 부족합니다.");
 
     private final String code;
     private final HttpStatus httpStatus;

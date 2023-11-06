@@ -18,39 +18,33 @@ public class QKeyword extends EntityPathBase<Keyword> {
 
     private static final long serialVersionUID = -526732007L;
 
-    private static final PathInits INITS = PathInits.DIRECT2;
+    public static final QKeyword keyword1 = new QKeyword("keyword1");
 
-    public static final QKeyword keyword = new QKeyword("keyword");
+    public final com.ddobak.global.entity.QBaseEntity _super = new com.ddobak.global.entity.QBaseEntity(this);
 
-    public final QFont Font;
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final StringPath Keyword1 = createString("Keyword1");
+    public final ListPath<Font, QFont> fonts = this.<Font, QFont>createList("fonts", Font.class, QFont.class, PathInits.DIRECT2);
 
-    public final StringPath Keyword2 = createString("Keyword2");
+    //inherited
+    public final NumberPath<Long> id = _super.id;
 
-    public final StringPath Keyword3 = createString("Keyword3");
+    public final StringPath keyword = createString("keyword");
 
-    public final NumberPath<Long> keyword_id = createNumber("keyword_id", Long.class);
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
     public QKeyword(String variable) {
-        this(Keyword.class, forVariable(variable), INITS);
+        super(Keyword.class, forVariable(variable));
     }
 
     public QKeyword(Path<? extends Keyword> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QKeyword(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QKeyword(PathMetadata metadata, PathInits inits) {
-        this(Keyword.class, metadata, inits);
-    }
-
-    public QKeyword(Class<? extends Keyword> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.Font = inits.isInitialized("Font") ? new QFont(forProperty("Font"), inits.get("Font")) : null;
+        super(Keyword.class, metadata);
     }
 
 }

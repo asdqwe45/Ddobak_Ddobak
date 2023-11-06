@@ -1,0 +1,60 @@
+.radioContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 라디오 버튼 간 간격 */
+  margin-right: 45px;
+}
+
+/* 기존 라디오 버튼 */
+.radioInput {
+  display: none;
+}
+
+/* 라디오 버튼 라벨 */
+.radioLabel {
+  position: relative;
+  /* 버튼과 라벨 간격 */
+  padding-left: 40px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 22px;
+}
+
+/* 선택 전 */
+.radioLabel:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 17px;
+  height: 17px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: background-color 0.3s;
+}
+
+/* 선택 후 버튼 배경 */
+.radioInput:checked + .radioLabel:before {
+  border-color: #d71718;
+  background-color: #fff;
+}
+
+/* 선택 후 버튼 가운데 */
+.radioLabel:after {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  border-radius: 50%;
+  background-color: #d71718;
+  content: '';
+  opacity: 0; /* 미선택 시 안보이게 */
+  transition: opacity 0.3s;
+}
+
+.radioInput:checked + .radioLabel:after {
+  opacity: 1;
+}
