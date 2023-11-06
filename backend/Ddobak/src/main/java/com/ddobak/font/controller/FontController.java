@@ -98,6 +98,7 @@ public class FontController {
     public ResponseEntity<String> makeFont(@RequestBody MakeFontRequest req,
                                            @AuthenticationPrincipal LoginInfo loginInfo) throws IOException {
         try {
+            System.out.println(req.fontSortUrl());
             String fontUrl = fontImageService.createFont(req, loginInfo);
             fontService.makeFont(req,loginInfo,fontUrl);
             return ResponseEntity.ok("success");
@@ -111,11 +112,12 @@ public class FontController {
     @Operation(summary = "폰트 목록", description = "폰트 목록 조회하는 api입니다.")
     @ApiResponse(responseCode = "200", description = "리턴값으로 폰트목록에 필요한 값 리턴합니다.")
     public ResponseEntity<List<FontListResponse>> getFontList(@AuthenticationPrincipal LoginInfo loginInfo,@PageableDefault(size=12) Pageable pageable,@RequestPart(required = false) String search, @RequestPart(required = false) List<String> keywords, @RequestPart(required = false) Boolean free){
+        System.out.println("####################" + search);
         List<FontListResponse> result = fontService.getFontList(loginInfo,pageable,search,keywords,free);
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping(value = "/datail/{fontId}")
+    @GetMapping(value = "/detail/{fontId}")
     @Operation(summary = "폰트 디테일",  description = "폰트 디테일을 조회하는 api입니다.")
     @ApiResponse(responseCode = "200", description = "리턴값으로 조회한 폰트의 디테일 값을 리턴합니다.")
     public ResponseEntity<FontDetailResponse> getFontDetail(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long fontId){

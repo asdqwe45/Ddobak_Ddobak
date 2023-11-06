@@ -28,12 +28,17 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public void registerReview(ReviewRegisterRequest req, MultipartFile image, LoginInfo loginInfo){
+        System.out.println("####################");
+        System.out.println(loginInfo.id());
+        System.out.println("####################");
+
         Member member = memberRepository.findById(loginInfo.id())
                 .orElseThrow(() -> new RuntimeException("Member Not Found"));
+        System.out.println("####################");
 
         Font font = fontRepository.findById(req.fontId())
                 .orElseThrow(() -> new RuntimeException("Font Not Found"));
-
+        System.out.println("####################");
         byte[] fileData;
         try {
             fileData = image.getBytes();
@@ -52,4 +57,12 @@ public class ReviewServiceImpl implements ReviewService{
 
     }
 
+    public void deleteReview(Long reviewId, LoginInfo loginInfo){
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new RuntimeException("Review Not Found."));
+        if(loginInfo.id().equals(review.getMember().getId())){
+            reviewRepository.deleteById(reviewId);
+        }else{
+            throw new RuntimeException("You are not authorized to delete this review.");
+        }
+    }
 }
