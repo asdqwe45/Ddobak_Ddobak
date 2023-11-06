@@ -4,13 +4,24 @@ import UploadFile from './fontDetailPageAssets/upload_file.png';
 import { FaRegTimesCircle } from 'react-icons/fa';
 import { resultModalActions } from 'store/resultModalSlice';
 import { useDispatch } from 'react-redux';
+import AlertCustomModal from 'common/modals/alertCustomModal/AlertCustomModal';
+// import axios from 'axios';
+import { axiosWithFormData } from 'https/http';
 
 const FontMakeStep2: React.FC = () => {
   const [koreanFiles, setKoreanFiles] = useState<{ src: string; name: string }[]>([]);
   const [englishFiles, setEnglishFiles] = useState<{ src: string; name: string }[]>([]);
+  const [KorfileData, setKorFileData] = useState<File | null>(null); // 파일 객체를 위한 상태
+  const [EngfileData, setEngFileData] = useState<File | null>(null); // 파일 객체를 위한 상태
 
   const koreanFileInputRef = useRef<HTMLInputElement>(null);
   const englishFileInputRef = useRef<HTMLInputElement>(null);
+
+  const [showAlertModal, setShowAlertModal] = useState(false);
+
+  const handleInvalidFileType = () => {
+    setShowAlertModal(true); //
+  };
 
   // 파일 형식 검증 함수
   const isValidFileType = (file: File) => {
@@ -23,13 +34,14 @@ const FontMakeStep2: React.FC = () => {
     if (fileList) {
       const file = fileList[0]; // 첫 번째 파일만 선택합니다.
       if (isValidFileType(file)) {
+        setKorFileData(file);
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
           setKoreanFiles([{ src: reader.result as string, name: file.name }]);
         };
       } else {
-        alert('허용되지 않는 형식의 파일입니다. png, pdf, jpg 파일로 업로드해주세요.');
+        handleInvalidFileType();
       }
     }
   };
@@ -39,13 +51,15 @@ const FontMakeStep2: React.FC = () => {
     if (fileList) {
       const file = fileList[0]; // 첫 번째 파일만 선택합니다.
       if (isValidFileType(file)) {
+        setEngFileData(file);
+
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
           setEnglishFiles([{ src: reader.result as string, name: file.name }]);
         };
       } else {
-        alert('허용되지 않는 형식의 파일입니다. pdf, jpg, png 파일로 업로드해주세요.');
+        handleInvalidFileType();
       }
     }
   };
@@ -72,7 +86,7 @@ const FontMakeStep2: React.FC = () => {
         };
         reader.readAsDataURL(file);
       } else {
-        alert('허용되지 않는 형식의 파일입니다. pdf, jpg, png 파일로 업로드해주세요.');
+        handleInvalidFileType();
       }
     }
   };
@@ -107,24 +121,14 @@ const FontMakeStep2: React.FC = () => {
     const fileExtension = file.name.split('.').pop()?.toLowerCase();
 
     // 이미지 파일 미리보기
-    if (
-      fileExtension === 'jpg' ||
-      fileExtension === 'png' ||
-      fileExtension === 'gif' ||
-      fileExtension === 'jpeg'
-    ) {
+    if (fileExtension === 'jpg' || fileExtension === 'png' || fileExtension === 'jpeg') {
       return <img src={file.src} alt={file.name} className={classes.filePreview} />;
     }
     // PDF 파일 미리보기
     else if (fileExtension === 'pdf') {
       return (
         <div className={classes.pdfPreview}>
-          <object data={file.src} type="application/pdf" width="80%" height="200px">
-            <p>
-              PDF 파일을 표시할 수 없습니다. <a href={file.src}>여기</a>를 클릭하여 파일을
-              다운로드하세요.
-            </p>
-          </object>
+          <object data={file.src} type="application/pdf" height="210">pdf미리보기</object>
         </div>
       );
     }
@@ -141,11 +145,57 @@ const FontMakeStep2: React.FC = () => {
   const [isImageStraightened, setIsImageStraightened] = useState(false);
 
   // 이미지 반듯하게 처리
-  const straightenImage = () => {
-    // 이미지를 반듯하게 처리하는 로직 추가
-    setIsImageStraightened(true);
-  };
+  const straightenImage = async () => {
+    console.log(KorfileData);
+    console.log(EngfileData);
+    if (KorfileData && EngfileData) {
+      try {
+        const formData = new FormData();
+        console.log(KorfileData);
+        console.log(EngfileData);
+        formData.append('kor_file', KorfileData);
+        formData.append('eng_file', EngfileData);
 
+        const response = axiosWithFormData
+          .post('/font/sort', formData)
+          .then((r) => {
+            return r;
+          })
+          .catch((e) => {
+            throw e;
+          });
+        console.log((await response).data)
+        // 성공적으로 처리되었다면, 결과 이미지 URL을 파싱하여 상태 업데이트
+        if ((await response).data) {
+          // 이미지 URL을 `$` 기준으로 파싱
+          const imageUrls = (await response).data
+            .split('$')
+            .filter((url: string) => url.trim() !== '');
+          // const imageUrls = (await response).data.body
+          // console.log(imageUrls)
+
+          // 첫 번째 이미지로 한국어 파일 미리보기 업데이트
+          if (imageUrls.length > 0) {
+            setKoreanFiles([{ ...koreanFiles[0], src: imageUrls[0] }]);
+            // 미리보기 생성 가능
+            createFilePreview({ src: imageUrls[0], name: 'kor_file.png' }); // 파일 이름은 예시임
+          }
+
+          // 영어 파일 미리보기는 두 번째 URL을 사용
+          if (imageUrls.length > 1) {
+            setEnglishFiles([{ ...englishFiles[0], src: imageUrls[1] }]);
+            createFilePreview({ src: imageUrls[1], name: 'eng_file.png' }); // 파일 이름은 예시임
+          }
+
+          setIsImageStraightened(true);
+        } else {
+          alert('이미지를 처리하는데 실패했다.');
+        }
+      } catch (error) {
+        console.error('이미지 처리 중 오류가 발생했다:', error);
+      }
+    }
+  };
   // 미리보기 모달 가져오기
   const dispatch = useDispatch();
   const showPreviewHandler = () => {
@@ -169,7 +219,7 @@ const FontMakeStep2: React.FC = () => {
             onDragOver={onDragOver}
             onDrop={(e) => onDrop(e, 'korean')}
           >
-            {/* 파일 없을 때 문구 넣기 */}
+            {/* 파일 없을 때 문구 */}
             {koreanFiles.length === 0 ? (
               <div className={classes.emptyContainer}>
                 <p>pdf, jpg, png 파일만 업로드 가능합니다.</p>
@@ -216,7 +266,7 @@ const FontMakeStep2: React.FC = () => {
             onDragOver={onDragOver}
             onDrop={(e) => onDrop(e, 'english')}
           >
-            {/* 파일 없을 때 문구 넣기 */}
+            {/* 파일 없을 때 문구 */}
             {englishFiles.length === 0 ? (
               <div className={classes.emptyContainer}>
                 <p>pdf, jpg, png 파일만 업로드 가능합니다.</p>
@@ -261,6 +311,13 @@ const FontMakeStep2: React.FC = () => {
           </button>
         ) : null}
       </div>
+      <AlertCustomModal
+        show={showAlertModal}
+        onHide={() => setShowAlertModal(false)}
+        message1="허용되지 않는 형식의 파일입니다."
+        message2="pdf, jpg, png 파일로 업로드해주세요."
+        btnName="확인"
+      />
     </>
   );
 };

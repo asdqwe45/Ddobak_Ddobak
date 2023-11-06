@@ -35,7 +35,7 @@ const FontMakePage: React.FC = () => {
           <p>손글씨 업로드</p>
         </div>
         <div className={`${classes.stepBar} ${step === 3 ? classes.nowStep : classes.restStep}`}>
-          <p>폰트 정보 입력</p>
+          <p>정보 입력 및 결제</p>
         </div>
         <div className={`${classes.stepBar} ${step === 4 ? classes.nowStep : classes.restStep}`}>
           <p>AI폰트 제작</p>
