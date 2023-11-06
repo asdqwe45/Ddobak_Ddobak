@@ -1,6 +1,8 @@
 package com.ddobak.font.service;
 
+import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.global.service.S3Service;
+import com.ddobak.security.util.LoginInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -34,14 +36,12 @@ import java.util.Collections;
 @Service
 public interface FontImageService {
 
-    File convertToPng(MultipartFile file) throws IOException;
-
-    String getS3SortUrl(File imageFile);
-
-    ResponseEntity<byte[]> downloadZip(List<File> imageFiles);
-
     String getS3FontUrl(List<File> imageFiles);
 
-    List<File> urlToFile(String url) throws IOException;
+    String processAndUploadImages(List<MultipartFile> files) throws IOException;
+
+    byte[] createZipFromUrls(String reqUrl) throws IOException;
+
+    String createFont(MakeFontRequest req, LoginInfo loginInfo) throws IOException;
 }
 

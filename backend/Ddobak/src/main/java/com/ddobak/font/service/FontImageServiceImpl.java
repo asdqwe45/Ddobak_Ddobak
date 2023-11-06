@@ -1,6 +1,10 @@
 package com.ddobak.font.service;
 
+import com.ddobak.font.dto.request.MakeFontRequest;
+import com.ddobak.font.exception.InvalidFileFormatException;
 import com.ddobak.global.service.S3Service;
+import com.ddobak.security.util.LoginInfo;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -11,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -25,11 +30,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
+import javax.swing.text.html.Option;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -43,8 +50,45 @@ public class FontImageServiceImpl implements FontImageService {
     private S3Service s3Service;
 
 
+    public String processAndUploadImages(List<MultipartFile> files) throws IOException {
+        StringBuilder s3UrlBuilder = new StringBuilder();
 
-    public File convertToPng(MultipartFile file) throws IOException{
+        for (MultipartFile file : files) {
+            File tempOutputFile = convertToPng(file);
+
+            if (tempOutputFile.length() == 0) {
+                throw new InvalidFileFormatException("변환할 파일 형식이 올바르지 않습니다.");
+            }
+
+            String uploadedUrl = getS3SortUrl(tempOutputFile);
+            if(uploadedUrl == null){
+                throw new InvalidFileFormatException("AI response의 파일 타입이 올바르지 않습니다.");
+            }
+
+            s3UrlBuilder.append(uploadedUrl).append("$");
+        }
+
+        s3UrlBuilder.deleteCharAt(s3UrlBuilder.length() - 1);
+
+        return s3UrlBuilder.toString();
+    }
+
+    public byte[] createZipFromUrls(String reqUrl) throws IOException {
+        List<File> tempFile = urlToFile(reqUrl);
+        ResponseEntity<byte[]> zipResponse = downloadZip(tempFile);
+        return zipResponse.getBody();
+    }
+
+    public String createFont(MakeFontRequest req, LoginInfo loginInfo) throws IOException {
+        List<File> tempFile = urlToFile(req.fontSortUrl());
+        String fontUrl = getS3FontUrl(tempFile);
+        return fontUrl;
+    }
+
+
+
+
+    private File convertToPng(MultipartFile file) throws IOException{
         String fileExtension = StringUtils.getFilenameExtension(file.getOriginalFilename());
         File tempInputFile = File.createTempFile("source","."+fileExtension);
 
@@ -73,7 +117,7 @@ public class FontImageServiceImpl implements FontImageService {
         return outputFile;
     }
 
-    public String getS3SortUrl(File imageFile) {// 8889  8786 http://163.239.223.171:8786/api/v1/image_align
+    private String getS3SortUrl(File imageFile) {// 8889  8786 http://163.239.223.171:8786/api/v1/image_align
         String fastApiUrl = "http://163.239.223.171:8786/api/v1/image_align";
         HttpHeaders headers = new HttpHeaders();
 
@@ -88,18 +132,22 @@ public class FontImageServiceImpl implements FontImageService {
         body.add("file",resource);
 
         HttpEntity<MultiValueMap<String,Object>> requestEntity = new HttpEntity<>(body,headers);
+        System.out.println("AI request");
 
         ResponseEntity<byte[]> response = restTemplate.exchange(fastApiUrl, HttpMethod.POST, requestEntity,byte[].class);
+        System.out.println("AI response");
 
         String contentType = response.getHeaders().getContentType().toString();
-        String s3Url = new String();
+        System.out.println("2");
+        System.out.println(response.getBody());
+        String s3Url = s3Service.uploadSortFile(response.getBody(),"image/png");
+        System.out.println("2");
 
-        s3Url = s3Service.uploadSortFile(response.getBody(),"image/png");
 
         return s3Url;
     }
 
-    public ResponseEntity<byte[]> downloadZip(List<File> imageFiles){
+    private ResponseEntity<byte[]> downloadZip(List<File> imageFiles){
 
         ByteArrayHttpMessageConverter byteArrayHttpMessageConverter = new ByteArrayHttpMessageConverter();
         List<MediaType> supportedMediaTypes = new ArrayList<>(byteArrayHttpMessageConverter.getSupportedMediaTypes());
@@ -108,7 +156,7 @@ public class FontImageServiceImpl implements FontImageService {
 
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(byteArrayHttpMessageConverter);
-        String fastApiUrl = "http://localhost:8000/downloadZip";
+        String fastApiUrl = "http://163.239.223.171:8786/api/v1/font_create/sample_font";
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -116,12 +164,11 @@ public class FontImageServiceImpl implements FontImageService {
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
-        int fileIndex = 1;
-        for (File imageFile : imageFiles) {
-            FileSystemResource resource = new FileSystemResource(imageFile);
-            body.add("file" + fileIndex, resource);
-            fileIndex++;
-        }
+        FileSystemResource resource1 = new FileSystemResource(imageFiles.get(0));
+        FileSystemResource resource2 = new FileSystemResource(imageFiles.get(0));
+
+        body.add("kor_file",resource1);
+        body.add("eng_file",resource2);
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
         System.out.println("???");
@@ -193,11 +240,17 @@ public class FontImageServiceImpl implements FontImageService {
         String extension = StringUtils.getFilenameExtension(filename);
         return extension;
     }
-    public List<File> urlToFile(String url) throws IOException {
+    private List<File> urlToFile(String url) throws IOException {
         String[] urls = url.split("\\$");
-
+        System.out.println("1");
+        System.out.println(urls[0]);
+        System.out.println(urls[1]);
         InputStream in1 = new URL(urls[0]).openStream();
+        System.out.println("1");
+
         InputStream in2 = new URL(urls[1]).openStream();
+        System.out.println("1");
+
         File tempFile1 = File.createTempFile("kor_file",".png");
         File tempFile2 = File.createTempFile("eng_file",".png");
 
