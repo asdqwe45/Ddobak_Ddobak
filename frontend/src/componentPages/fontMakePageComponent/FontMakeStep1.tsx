@@ -70,8 +70,8 @@ const FontMakeStep1: React.FC = () => {
           <div className={classes.warningBox}>
             <div className={classes.warningTitle}>주의해주세요!</div>
             <div className={classes.warningContent}>
-              - 글자가 <strong>가이드라인에 닿지 않게</strong> 작성해 주세요. <br />- 틀린 글자는
-              수정테이프로 고쳐주세요.
+              - 글자가 <strong>가이드라인에 닿지 않게, 중앙에</strong> 작성해 주세요. <br />- 틀린 글자는
+              수정테이프로 고쳐주세요. <br />- 제작 비용 : 50,000P (첫 제작은 무료에요. 🤗)
             </div>
           </div>
         </div>
