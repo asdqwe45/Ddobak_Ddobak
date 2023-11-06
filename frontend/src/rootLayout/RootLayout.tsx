@@ -10,10 +10,12 @@ import ChargePointModal from 'common/modals/chargePointModal/ChargePointModal';
 import ExchangeModal from 'common/modals/exchangeModal/ExchangeModal';
 import ChangeProfileImgModal from 'common/modals/changeProfileImgModal/ChangeProfileImgModal';
 import GoToBasketModal from 'common/modals/goToBasketModal/GoToBasketModal';
+import SignupLoaderModal from 'common/modals/signupLoaderModal/SignupLoaderModal';
 
 const RootLayout: React.FC = () => {
   return (
     <div>
+      <SignupLoaderModal />
       <GoToBasketModal />
       <ChangeProfileImgModal />
       <ExchangeModal />
