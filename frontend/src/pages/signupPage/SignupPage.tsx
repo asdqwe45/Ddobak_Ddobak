@@ -124,7 +124,7 @@ const SignupPage: React.FC = () => {
 
   const startTimer = () => {
     setIsActive(true);
-    setTimer(1800); // 5분 = 300초
+    setTimer(300); // 5분 = 300초
   };
   const clickCheckBtn = async () => {
     // 타이머 실행

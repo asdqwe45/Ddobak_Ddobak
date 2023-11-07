@@ -46,6 +46,3 @@ logging:
   level:
     org.hibernate.SQL: DEBUG
 
-servers:
-  - url: https://ddobak.com/
-    description: Production server

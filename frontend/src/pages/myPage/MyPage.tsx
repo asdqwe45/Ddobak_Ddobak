@@ -78,6 +78,7 @@ import Test6 from './myPageAssets/Test6.png';
 
 // redux
 import { useDispatch } from 'react-redux';
+import { resultModalActions } from 'store/resultModalSlice';
 import { changePwModalActions } from 'store/changePwModalSlice';
 import { reviewModalActions } from 'store/reviewModalSlice';
 import { exchangeModalActions } from 'store/exchangeModalSlice';
@@ -85,7 +86,6 @@ import { changeProfileImgModalActions } from 'store/changeProfileImgModalSlice';
 
 // navigation
 import { NavLink } from 'react-router-dom';
-import { pointPayModalActions } from 'store/pointPayModalSlice';
 
 const MyPage: React.FC = () => {
   const [isClickedChange, setIsClickedChange] = useState<boolean>(false);
@@ -156,13 +156,13 @@ const MyPage: React.FC = () => {
   };
 
   const transactionClick = () => {
-    dispatch(pointPayModalActions.toggle())
+    console.log('transaction');
   };
 
   // redux
   const dispatch = useDispatch();
-  const clickDownloadHandler = () => {
-    console.log("다운로드")
+  const clickResultHandler = () => {
+    dispatch(resultModalActions.toggle());
   };
   const clickChangePwHandler = () => {
     dispatch(changePwModalActions.toggle());
@@ -228,7 +228,7 @@ const MyPage: React.FC = () => {
               </PointHeader>
               <PointBtnBox>
                 <NavLink to={'/point'}>
-                  <PointTransactionBtn>거래내역</PointTransactionBtn>
+                  <PointTransactionBtn onClick={transactionClick}>거래내역</PointTransactionBtn>
                 </NavLink>
                 <PointExchangeBtn onClick={exchangeHandler}>인출하기</PointExchangeBtn>
               </PointBtnBox>
@@ -315,7 +315,7 @@ const MyPage: React.FC = () => {
                   </ContentInnerLeft>
                   <ContentInnerRight>
                     <ContentGrayDisabled>결제완료</ContentGrayDisabled>
-                    <ContentRedBtn onClick={clickDownloadHandler}>다운로드</ContentRedBtn>
+                    <ContentRedBtn onClick={clickResultHandler}>다운로드</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
                 {/* 이게 한 콘텐트 */}
@@ -513,6 +513,9 @@ const MyPage: React.FC = () => {
                 </FontBasketTopBox>
                 <ContentIngredient>
                   <ContentInnerLeft>
+                    <ContentIconsBox>
+                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
+                    </ContentIconsBox>
                     <ContentInnerTextBox>
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
@@ -527,6 +530,9 @@ const MyPage: React.FC = () => {
                 </ContentIngredient>
                 <ContentIngredient>
                   <ContentInnerLeft>
+                    <ContentIconsBox>
+                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
+                    </ContentIconsBox>
                     <ContentInnerTextBox>
                       <ContentHeader>
                         <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
@@ -544,7 +550,7 @@ const MyPage: React.FC = () => {
                 <ContentIngredient></ContentIngredient>
                 <ContentIngredient></ContentIngredient>
                 <FontBasketBottomBox>
-                  <ContentGrayTransaction onClick={transactionClick}>결제하기</ContentGrayTransaction>
+                  <ContentGrayTransaction>결제하기</ContentGrayTransaction>
                 </FontBasketBottomBox>
               </ContentLargeBox>
             </>

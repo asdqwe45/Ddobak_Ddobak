@@ -12,7 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Entity
@@ -51,12 +50,6 @@ public class Member extends UserInfo {
     public void registerProfileImg(String profileImgAddress) {
         this.profileImg = profileImgAddress;
     }
-
-    public void modifyInfoText(String infoText) {
-        this.introduceText = infoText;
-    }
-
-    public void modifyNickname(String nickname) { this.nickname = nickname; }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
