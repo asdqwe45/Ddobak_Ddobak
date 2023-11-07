@@ -82,9 +82,18 @@ public class FontServiceImpl implements FontService {
     }
     @Override
     public List<FontListResponse> getFontList(LoginInfo loginInfo,Pageable pageable,String search, List<String> keywords, Boolean free) {
+        //Integer fontCount = fontRepository.countAll();
         Optional<Member> member = memberRepository.findByEmail(loginInfo.email());
         Long member_id = member.get().getId();
         List<FontListResponse> resultList = fontQueryRepository.getFontList(member_id,pageable,search, keywords,free);
+
+        return resultList;
+    }
+
+    @Override
+    public List<FontListResponse> getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free){
+        //Integer fontCount = fontRepository.countAll();
+        List<FontListResponse> resultList = fontQueryRepository.getFontListNoAuth(pageable,search, keywords,free);
 
         return resultList;
     }

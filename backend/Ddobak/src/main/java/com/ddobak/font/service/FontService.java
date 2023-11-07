@@ -18,6 +18,8 @@ public interface FontService {
 
     List<FontListResponse> getFontList(LoginInfo loginInfo,Pageable pageable,String search, List<String> keywords, Boolean free);
 
+    List<FontListResponse> getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free);
+
 
     FontDetailResponse getFontDetail(Long fontId, LoginInfo loginInfo);
 }
