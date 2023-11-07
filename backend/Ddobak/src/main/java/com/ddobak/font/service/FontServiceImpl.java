@@ -6,11 +6,14 @@ import com.ddobak.font.dto.response.FontDetailResponse;
 import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.entity.Keyword;
+import com.ddobak.font.exception.FontException;
 import com.ddobak.font.repository.FontQueryRepository;
 import com.ddobak.font.repository.FontRepository;
 
 import com.ddobak.font.repository.KeywordRepository;
+import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.member.entity.Member;
+import com.ddobak.member.exception.MemberException;
 import com.ddobak.member.repository.MemberRepository;
 import com.ddobak.security.util.LoginInfo;
 import com.sun.mail.imap.protocol.INTERNALDATE;
@@ -115,5 +118,8 @@ public class FontServiceImpl implements FontService {
         return result;
     }
 
+    public Font findByFontId(Long id) {
+        return fontRepository.findAllById(id).orElseThrow(() -> new FontException(ErrorCode.FONT_NOT_FOUND));
+    }
 }
 

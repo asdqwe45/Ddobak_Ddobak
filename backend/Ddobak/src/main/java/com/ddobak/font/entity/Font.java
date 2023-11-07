@@ -3,6 +3,7 @@ package com.ddobak.font.entity;
 import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.global.entity.BaseEntity;
 
+import com.ddobak.transaction.entity.Creation;
 import java.security.Key;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -75,6 +76,9 @@ public class Font extends BaseEntity{
 
     @Column
     private Integer viewCount;
+
+    @OneToOne(mappedBy = "createdFont")
+    private Creation creation;
 
     @ManyToMany
     @JoinTable(

@@ -4,6 +4,7 @@ import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.font.dto.response.FontDetailResponse;
 import com.ddobak.font.dto.response.FontListResponse;
 
+import com.ddobak.font.entity.Font;
 import com.ddobak.security.util.LoginInfo;
 
 import org.springframework.data.domain.Pageable;
@@ -23,5 +24,7 @@ public interface FontService {
 
 
     FontDetailResponse getFontDetail(Long fontId, LoginInfo loginInfo);
+
+    Font findByFontId(Long id);
 }
 
