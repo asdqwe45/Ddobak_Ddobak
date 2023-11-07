@@ -132,3 +132,28 @@ export const mainRedColor = "#D71718" */
   justify-content: space-around;
   align-items: center;
 }
+
+@media (min-width: 1170px) and (max-width: 1350px) {
+  .contentHeader {
+    font-size: 26px;
+  }
+  .contentText {
+    font-size: 20px;
+  }
+}
+@media (max-width: 1169.999px) {
+  .contentHeader {
+    font-size: 22px;
+  }
+  .contentText {
+    font-size: 18px;
+  }
+  .downloadBtn {
+    font-size: 16px;
+  }
+}
+@media (max-width: 1105px) {
+  .contentText {
+    font-size: 14px;
+  }
+}

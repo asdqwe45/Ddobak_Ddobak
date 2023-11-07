@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import classes from './MainPage.module.css';
 import {
   MainFooter,
@@ -14,6 +15,19 @@ import MainPageFontList from './mainPageComponents/MainPageFontList';
 import MainPageGuide from './mainPageComponents/MainPageGuide';
 
 const MainPage: React.FC = () => {
+  const [screenWidth, setScreenWidth] = useState<number>(0);
+  const handleResize = () => {
+    setScreenWidth(window.innerWidth);
+  };
+  // resize 이벤트에 대한 리스너를 설정합니다.
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너를 정리합니다.
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   return (
     <main className={classes.container}>
       {/* 첫 번째 메인 페이지 */}
@@ -23,9 +37,16 @@ const MainPage: React.FC = () => {
       <div className={classes.mainLargePage}>
         <MainPageFontList />
       </div>
-      <div className={classes.mainLargePage}>
-        <MainPageGuide />
-      </div>
+      {screenWidth < 1000 ? (
+        <></>
+      ) : (
+        <>
+          <div className={classes.mainLargePage}>
+            <MainPageGuide />
+          </div>
+        </>
+      )}
+
       <MainFooter>
         <MainFooterBetween>
           <MainFooterBetweenInnerBox>
