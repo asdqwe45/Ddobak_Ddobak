@@ -63,6 +63,8 @@ public class QFont extends EntityPathBase<Font> {
 
     public final BooleanPath same_person_check = createBoolean("same_person_check");
 
+    public final NumberPath<Integer> viewCount = createNumber("viewCount", Integer.class);
+
     public QFont(String variable) {
         this(Font.class, forVariable(variable), INITS);
     }
