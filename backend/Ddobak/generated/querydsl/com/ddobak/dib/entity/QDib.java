@@ -55,7 +55,7 @@ public class QDib extends EntityPathBase<Dib> {
 
     public QDib(Class<? extends Dib> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.font = inits.isInitialized("font") ? new com.ddobak.font.entity.QFont(forProperty("font")) : null;
+        this.font = inits.isInitialized("font") ? new com.ddobak.font.entity.QFont(forProperty("font"), inits.get("font")) : null;
         this.member = inits.isInitialized("member") ? new com.ddobak.member.entity.QMember(forProperty("member")) : null;
     }
 

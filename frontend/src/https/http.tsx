@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:7000';
+const BASE_URL = 'https://ddobak.com:7077/api/v1';
 
 // 토큰 가져오기 함수
 const getData = async (key: string) => {

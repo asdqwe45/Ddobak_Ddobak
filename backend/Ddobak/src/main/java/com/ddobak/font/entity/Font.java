@@ -2,26 +2,16 @@ package com.ddobak.font.entity;
 
 import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.global.entity.BaseEntity;
-
-import java.security.Key;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
 import com.ddobak.member.entity.Member;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.w3c.dom.stylesheets.LinkStyle;
-
 import javax.persistence.*;
-import javax.security.auth.kerberos.KerberosTicket;
-
 
 @Entity
 @Getter
@@ -73,6 +63,9 @@ public class Font extends BaseEntity{
     @Column
     private String copyrigher;
 
+    @Column
+    private Integer viewCount;
+
     @ManyToMany
     @JoinTable(
             name = "font_keyword",
@@ -90,16 +83,21 @@ public class Font extends BaseEntity{
     }
     public void makeDetail(MakeFontRequest req, String fontUrl){
         this.font_file_url=fontUrl;
-        this.kor_font_name = req.kor_font_name();
-        this.eng_font_name = req.eng_font_name();
-        this.open_status = req.open_status();
-        this.free_status = req.free_status();
+        this.kor_font_name = req.korFontName();
+        this.eng_font_name = req.engFontName();
+        this.open_status = req.openStatus();
+        this.free_status = req.freeStatus();
         this.price=req.price();
-        this.commerce_status = req.commerce_status();
-        this.introduce_text = req.introduce_text();
-        this.copyright_notice=req.copyright_notice();
-        this.same_person_check = req.same_person_check();
+        this.commerce_status = req.commerceStatus();
+        this.introduce_text = req.introduceText();
+        this.copyright_notice=req.copyrightNotice();
+        this.same_person_check = req.samePersonCheck();
         this.copyrigher=req.copyrighter();
         this.create_date= LocalDate.now();
+        this.viewCount=0;
+    }
+    public void plusViewCount() {
+        this.viewCount = this.viewCount + 1;
+
     }
 }
