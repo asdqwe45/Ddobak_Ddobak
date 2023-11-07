@@ -36,6 +36,8 @@
   height: 530px;
   box-sizing: border-box;
   padding: 0px 20px;
+  display: flex;
+  justify-content: space-around;
 }
 
 .ImgStyle {
@@ -106,4 +108,11 @@
   object-fit: cover;
   max-width: 300px;
   max-height: 300px;
+}
+
+@media (max-width: 1260px) {
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }

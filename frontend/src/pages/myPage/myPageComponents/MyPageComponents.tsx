@@ -12,6 +12,7 @@ export const IngredientContent = styled.div`
   border: 2px solid ${borderColor};
   border-radius: 10px;
   display: flex;
+  min-width: 380px;
 `;
 // profile
 export const ProfileBox = styled(IngredientBox)`
@@ -143,10 +144,12 @@ export const MyPageContent = styled.div`
   border-radius: 10px;
   border: 2px solid ${borderColor};
   display: flex;
+  min-width: 807px;
 `;
 // 선택 상자
 export const SelectBox = styled.div`
   min-height: 370px;
+  min-width: 214px;
   width: 28%;
   height: 100%;
   box-sizing: border-box;
