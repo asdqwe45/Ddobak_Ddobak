@@ -2,11 +2,9 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from image_align.controller.controller import router as image_align_router
-from font_create.controller.controller import router as font_create
 app = FastAPI()
-
+import uvicorn
 app.include_router(image_align_router, prefix="/api/v1/image_align")
-app.include_router(font_create, prefix="/api/v1/font_create")
 app.mount("/font_file", StaticFiles(directory="font_file"), name="font_file")
 
 
@@ -26,3 +24,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+if __name__ == '__main__':
+    uvicorn.run("main:app",host='0.0.0.0', port=7000, reload=True)

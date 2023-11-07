@@ -1,28 +1,26 @@
 package com.ddobak.font.entity;
 
+import com.ddobak.global.entity.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter @Setter
-public class Keyword {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "keyword_id")
-    private Long keyword_id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="font_id")
-    private Font Font;
+@NoArgsConstructor
+@AllArgsConstructor
+public class Keyword extends BaseEntity {
 
     @Column(nullable = false)
-    private String Keyword1;
+    private String keyword;
 
-    @Column(columnDefinition = "varchar(255) default 'default'")
-    private String Keyword2;
-
-    private String Keyword3;
-
+    @ManyToMany(mappedBy = "keywords")
+    private List<Font> fonts;
+    public Keyword(String keyword, Font font){
+        this.keyword=keyword;
+    }
 }
 

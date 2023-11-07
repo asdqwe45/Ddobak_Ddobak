@@ -4,8 +4,8 @@ import classes from './NavBar.module.css';
 import NavLogo from '../common/commonAssets/ddobak_logo.png';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { mainRedColor } from 'common/colors/CommonColors';
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate, useLocation } from 'react-router-dom';
+import { userLogout } from 'https/utils/AuthFunction';
 /*
 // Save to local storage
 window.localStorage.setItem(key, JSON.stringify(newValue))
@@ -41,16 +41,39 @@ const NavBar: React.FC = () => {
   const [myToken, setMyToken] = useState<string>('');
   useEffect(() => {
     async function fetch() {
-      const testToken = localStorage.getItem('testToken');
-      if (testToken) {
-        const newTestToken = JSON.parse(testToken);
+      const accessToken = localStorage.getItem('accessToken');
+      if (accessToken) {
+        const newAccessToken = JSON.parse(accessToken);
         setHaveToken(true);
-        setMyToken(newTestToken);
+        setMyToken(newAccessToken);
       }
-      console.log(myToken);
     }
     fetch();
   }, [myToken]);
+
+  const location = useLocation();
+
+  const isActivePath = (pathPatterns: string[]): boolean => {
+    for (const pattern of pathPatterns) {
+      if (location.pathname.startsWith(pattern)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const logoutHandler = async () => {
+    userLogout()
+      .then(async (r) => {
+        console.log(r);
+        localStorage.clear();
+        navigate('/');
+        window.location.reload();
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
   return (
     <div className={classes.header}>
       <div className={classes.list}>
@@ -71,7 +94,9 @@ const NavBar: React.FC = () => {
           <div className={classes.smallBox}>
             <NavLink
               to="/fontList"
-              className={({ isActive }) => (isActive ? classes.active : undefined)}
+              className={
+                isActivePath(['/fontList', '/font/', '/maker']) ? classes.active : undefined
+              }
             >
               폰트보기
             </NavLink>
@@ -97,13 +122,7 @@ const NavBar: React.FC = () => {
                 </NavLink>
               </div>
               <div className={classes.loginBox}>
-                <p
-                  className={classes.navFont}
-                  onClick={async () => {
-                    localStorage.clear();
-                    window.location.reload();
-                  }}
-                >
+                <p className={classes.navFont} onClick={logoutHandler}>
                   로그아웃
                 </p>
               </div>
@@ -136,18 +155,32 @@ const NavBar: React.FC = () => {
             onClick={hamburgerToggle}
             className={classes.hamburgerBar}
           />
-          {isClicked ? <>{testMenu(haveToken, navigate, setIsClicked)}</> : <></>}
+          {isClicked ? <>{hamburgerMenuBar(haveToken, navigate, setIsClicked)}</> : <></>}
         </div>
       </div>
     </div>
   );
 };
 export default NavBar;
-const testMenu = (
+
+const hamburgerMenuBar = (
   haveToken: boolean,
   navigate: NavigateFunction,
   setIsClicked: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
+  const logoutHandler = async () => {
+    setIsClicked(false);
+    userLogout()
+      .then(async (r) => {
+        console.log(r);
+        localStorage.clear();
+        navigate('/');
+        window.location.reload();
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
   return (
     <div className={classes.menuDiv}>
       <div className={classes.menuList}>
@@ -212,14 +245,7 @@ const testMenu = (
       ) : (
         <>
           <div className={classes.menuList}>
-            <div
-              className={classes.menuDetail}
-              onClick={async () => {
-                setIsClicked(false);
-                navigate('/login');
-                window.location.reload();
-              }}
-            >
+            <div className={classes.menuDetail} onClick={logoutHandler}>
               <p className={classes.menuFont}>로그인</p>
             </div>
           </div>

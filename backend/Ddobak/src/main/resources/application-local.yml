@@ -3,7 +3,7 @@ spring:
     url: jdbc:mysql://localhost:3306/ddobak?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}
-
+    dialect: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: create
@@ -11,6 +11,7 @@ spring:
       hibernate:
         show-sql: true
         format_sql: true
+        dialect: org.hibernate.dialect.MySQL5Dialect
 
   cache:
     type: redis
