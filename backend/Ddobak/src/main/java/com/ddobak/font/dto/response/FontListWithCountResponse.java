@@ -3,10 +3,11 @@ package com.ddobak.font.dto.response;
 import java.util.List;
 
 public record FontListWithCountResponse(
-        List<FontResponse> fontResponseList,
-        Long fontCount
+        Long fontCount,
+        List<FontResponse> fontResponseList
+
 ) {
-    public FontListWithCountResponse(List<FontResponse> fontResponseList, Long fontCount){
+    public FontListWithCountResponse( Long fontCount,List<FontResponse> fontResponseList){
         this.fontResponseList=fontResponseList;
         this.fontCount = fontCount;
     }
