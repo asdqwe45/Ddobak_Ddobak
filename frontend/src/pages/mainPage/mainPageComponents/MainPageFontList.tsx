@@ -123,4 +123,3 @@ export default MainPageFontList;
 
 //   return boxes;
 // };
-

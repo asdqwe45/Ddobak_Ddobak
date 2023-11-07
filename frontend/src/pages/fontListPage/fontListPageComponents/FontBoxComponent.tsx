@@ -18,7 +18,9 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker }) => {
     navigate(`/font/${id}`, {
       // state 객체 전달
       state: {
-        id, title, maker
+        id,
+        title,
+        maker,
       },
     });
   };
@@ -27,7 +29,9 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker }) => {
     navigate(`/maker`, {
       // state 객체 전달
       state: {
-        id, title, maker
+        id,
+        title,
+        maker,
       },
     });
   };
