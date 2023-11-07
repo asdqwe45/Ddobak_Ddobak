@@ -17,7 +17,7 @@ const MainPageGuide: React.FC = () => {
           <div className={classes.ingredientBox}>
             <div className={classes.contentImgBox}>
               <div className={classes.aspectImg}>
-                <img src={guideLine} alt="" className={classes.guideImg} />
+                <img src={guideLine} alt="가이드라인" className={classes.guideImg} />
               </div>
             </div>
             <div className={classes.btnBox}>

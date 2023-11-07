@@ -41,11 +41,27 @@ const NavBar: React.FC = () => {
   const [myToken, setMyToken] = useState<string>('');
   useEffect(() => {
     async function fetch() {
+      const offset = new Date().getTimezoneOffset() * 60000;
+      const today = new Date(Date.now() - offset);
       const accessToken = localStorage.getItem('accessToken');
-      if (accessToken) {
+      const prevDate = localStorage.getItem('today');
+      if (accessToken && prevDate) {
         const newAccessToken = JSON.parse(accessToken);
-        setHaveToken(true);
-        setMyToken(newAccessToken);
+        // 현재 시간이랑 비교
+        // 1시간
+        const oneHour = 3540000;
+        const prevToday = new Date(prevDate);
+        if (today.getTime() <= prevToday.getTime() + oneHour) {
+          setHaveToken(true);
+          setMyToken(newAccessToken);
+        } else {
+          localStorage.removeItem('id');
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          localStorage.removeItem('profileImgUrl');
+          localStorage.removeItem('today');
+          window.location.reload();
+        }
       }
     }
     fetch();
@@ -66,7 +82,11 @@ const NavBar: React.FC = () => {
     userLogout()
       .then(async (r) => {
         console.log(r);
-        localStorage.clear();
+        localStorage.removeItem('id');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('profileImgUrl');
+        localStorage.removeItem('today');
         navigate('/');
         window.location.reload();
       })
@@ -173,7 +193,11 @@ const hamburgerMenuBar = (
     userLogout()
       .then(async (r) => {
         console.log(r);
-        localStorage.clear();
+        localStorage.removeItem('id');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('profileImgUrl');
+        localStorage.removeItem('today');
         navigate('/');
         window.location.reload();
       })
@@ -233,9 +257,7 @@ const hamburgerMenuBar = (
             <div
               className={classes.menuDetail}
               onClick={async () => {
-                setIsClicked(false);
-                localStorage.clear();
-                window.location.reload();
+                logoutHandler();
               }}
             >
               <p className={classes.menuFont}>로그아웃</p>
@@ -245,7 +267,13 @@ const hamburgerMenuBar = (
       ) : (
         <>
           <div className={classes.menuList}>
-            <div className={classes.menuDetail} onClick={logoutHandler}>
+            <div
+              className={classes.menuDetail}
+              onClick={async () => {
+                setIsClicked(false);
+                navigate('/login');
+              }}
+            >
               <p className={classes.menuFont}>로그인</p>
             </div>
           </div>

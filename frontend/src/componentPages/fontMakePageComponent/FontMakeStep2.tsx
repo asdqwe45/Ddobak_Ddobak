@@ -128,7 +128,9 @@ const FontMakeStep2: React.FC = () => {
     else if (fileExtension === 'pdf') {
       return (
         <div className={classes.pdfPreview}>
-          <object data={file.src} type="application/pdf" height="210">pdf미리보기</object>
+          <object data={file.src} type="application/pdf" height="210">
+            pdf미리보기
+          </object>
         </div>
       );
     }
@@ -164,7 +166,7 @@ const FontMakeStep2: React.FC = () => {
           .catch((e) => {
             throw e;
           });
-        console.log((await response).data)
+        console.log((await response).data);
         // 성공적으로 처리되었다면, 결과 이미지 URL을 파싱하여 상태 업데이트
         if ((await response).data) {
           // 이미지 URL을 `$` 기준으로 파싱

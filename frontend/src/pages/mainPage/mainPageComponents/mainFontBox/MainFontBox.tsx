@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import classes from './FontBoxComponent.module.css';
+import classes from './MainFontBox.module.css';
 import { useNavigate } from 'react-router-dom';
 
 // icons
@@ -11,7 +11,7 @@ interface FontBoxProps {
   maker: string;
 }
 
-const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker }) => {
+const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker }) => {
   const navigate = useNavigate();
 
   const handleTitleClick = () => {
@@ -68,4 +68,4 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker }) => {
     </>
   );
 };
-export default FontBoxComponent;
+export default MainFontBox;
