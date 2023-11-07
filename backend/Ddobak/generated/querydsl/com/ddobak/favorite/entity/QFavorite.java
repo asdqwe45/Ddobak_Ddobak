@@ -20,7 +20,7 @@ public class QFavorite extends EntityPathBase<Favorite> {
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QFavorite dib = new QFavorite("dib");
+    public static final QFavorite favorite = new QFavorite("favorite");
 
     public final com.ddobak.global.entity.QBaseEntity _super = new com.ddobak.global.entity.QBaseEntity(this);
 
