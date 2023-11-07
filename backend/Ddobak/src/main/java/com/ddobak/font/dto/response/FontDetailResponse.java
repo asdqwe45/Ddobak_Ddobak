@@ -10,7 +10,8 @@ public record FontDetailResponse(
         List<String> keywords,
         String introduceContext,
         String fontFileUrl,
-        Long dibCount
+        Long dibCount,
+        String fontName
 ) {
     public FontDetailResponse(Long fontId,
                             Boolean dibCheck,
@@ -19,7 +20,8 @@ public record FontDetailResponse(
                             List<String> keywords,
                             String introduceContext,
                             String fontFileUrl,
-                              Long dibCount){
+                              Long dibCount,
+                            String fontName){
         this.fontId=fontId;
         this.dibCheck=dibCheck;
         this.producerName=producerName;
@@ -28,5 +30,6 @@ public record FontDetailResponse(
         this.introduceContext=introduceContext;
         this.fontFileUrl=fontFileUrl;
         this.dibCount = dibCount;
+        this.fontName=fontName;
     }
 }
