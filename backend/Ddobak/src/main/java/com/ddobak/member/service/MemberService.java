@@ -181,13 +181,17 @@ public class MemberService {
 
     }
 
-    private Member findByEmail(String email) {
+    public Member findByEmail(String email) {
         return memberRepository.findByEmail(email).orElseThrow(() -> new MemberException(ErrorCode.USER_NOT_FOUND));
     }
 
     private Member findByEmailGeneral(String email, SignUpType signUpType) {
         return memberRepository.findByEmailAndSignUpType(email,signUpType)
                                .orElseThrow(() -> new MemberException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    public Member findSellerById(Long id) {
+        return memberRepository.findById(id).orElseThrow(() -> new MemberException(ErrorCode.SELLER_NOT_FOUND));
     }
 
     private String createCode() {

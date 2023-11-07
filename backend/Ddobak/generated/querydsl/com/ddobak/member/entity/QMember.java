@@ -40,6 +40,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath nickname = createString("nickname");
 
+    public final NumberPath<Integer> point = createNumber("point", Integer.class);
+
     public final BooleanPath productionStatus = createBoolean("productionStatus");
 
     public final StringPath profileImg = createString("profileImg");
