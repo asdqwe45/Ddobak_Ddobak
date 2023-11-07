@@ -32,6 +32,13 @@ def crop_image_uniform(template_image, base_output_dir):
         cols = 12
         header_ratio = 16.5 / (16.5 + 42)
         length = 28
+        img = template_image
+        width, height = img.size
+        cell_width = width / float(cols)
+        cell_height = height / float(rows)
+        header_offset = height / float(rows) * header_ratio
+        width_margin = cell_width * 0.02
+        height_margin = cell_height * 0.02
     elif (base_output_dir == './cropped_output_eng'):
         base_list = [
             "0041", "0042", "0043", "0044", "0045", "0046", "0047", "0048", "0049",
@@ -48,20 +55,22 @@ def crop_image_uniform(template_image, base_output_dir):
             "005E", "007E"
         ]
 
-        rows = 8
-        cols = 12
-        header_ratio = 16.5 / (16.5 + 42)
+        rows = 7
+        cols = 13
+        header_ratio = .5/2.5
         length = 86
+        img = template_image
+        width, height = img.size
+        cell_width = width / float(cols)
+        cell_height = height / float(rows)
+        header_offset = height / float(rows) * header_ratio
+        width_margin = cell_width * 0.05
+        height_margin = cell_height * 0.05
 
     # img = Image.open(template_image).convert('L')
-    img = template_image
-    print("hello")
-    width, height = img.size
-    cell_width = width / float(cols)
-    cell_height = height / float(rows)
-    header_offset = height / float(rows) * header_ratio
-    width_margin = cell_width * 0.02
-    height_margin = cell_height * 0.02
+
+
+
 
     for j in range(0, rows):
         for i in range(0, cols):
