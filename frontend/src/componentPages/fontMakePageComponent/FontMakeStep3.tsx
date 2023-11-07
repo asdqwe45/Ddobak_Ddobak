@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import classes from './FontMakeStep3.module.css';
-// import { useSelector } from 'react-redux';
 
 import RedPencil from './fontDetailPageAssets/red_pencil.png';
 
 const FontMakeStep3: React.FC = () => {
-  // const startMake = useSelector((state: ))
   const [progress, setProgress] = useState(0);
 
   const loadingTime = 5000; // 로딩 시간을 5000ms (5초)로 설정

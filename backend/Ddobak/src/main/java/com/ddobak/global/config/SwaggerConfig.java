@@ -3,8 +3,6 @@ package com.ddobak.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -16,8 +14,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 import java.util.List;
 
 @Configuration
-@EnableWebMvc
-public class SwaggerConfig extends WebMvcConfigurationSupport {
+
+public class SwaggerConfig {
 
     private static final String REFERENCE = "Authorization 헤더 값";
 
@@ -62,5 +60,4 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .name(REFERENCE).build();
     }
 }
-
 

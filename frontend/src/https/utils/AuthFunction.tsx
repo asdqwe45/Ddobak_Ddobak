@@ -1,5 +1,6 @@
 import { axiosWithoutAuth } from 'https/http';
 
+const BASE_URL = '/api/v1/member';
 
 // Email Api
 // 이메일 인증번호 발송
@@ -8,7 +9,7 @@ export function userEmailVerifyRequest(email: string): Promise<any> {
     email: email,
   };
   return axiosWithoutAuth
-    .post('/member/email/verify-request', data)
+    .post(BASE_URL + '/email/verify-request', data)
     .then((r) => {
       return r;
     })
@@ -31,7 +32,7 @@ type EmailCheckData = {
 
 export function userEmailVerifyAPI(data: EmailCheckData): Promise<any> {
   return axiosWithoutAuth
-    .post('/member/email/verify', data)
+    .post(BASE_URL + '/email/verify', data)
     .then((r) => {
       return r;
     })
@@ -48,7 +49,7 @@ type SignupData = {
 };
 export function userSignup(data: SignupData): Promise<any> {
   return axiosWithoutAuth
-    .post('/member/signup', data)
+    .post(BASE_URL + '/signup', data)
     .then((r) => {
       return r;
     })

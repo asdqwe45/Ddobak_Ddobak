@@ -1,16 +1,19 @@
 package com.ddobak.font.dto.request;
 
+import lombok.NoArgsConstructor;
+
+
 public record MakeFontRequest(
-        String fontSortUrl,
-        String korFontName,
-        String engFontName,
-        Boolean openStatus,
-        Boolean freeStatus,
+        String font_sort_url,
+        String kor_font_name,
+        String eng_font_name,
+        Boolean open_status,
+        Boolean free_status,
         int price,
-        Boolean commerceStatus,
-        String introduceText,
-        Boolean copyrightNotice,
-        Boolean samePersonCheck,
+        Boolean commerce_status,
+        String introduce_text,
+        Boolean copyright_notice,
+        Boolean same_person_check,
         String copyrighter,
         String keyword1,
         String keyword2,

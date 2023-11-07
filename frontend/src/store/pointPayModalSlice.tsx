@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const pointModalSlice = createSlice({
   name: 'pointModal',
-  initialState: { pointPayVisible: false, howMuch: 0,  },
+  initialState: { pointPayVisible: false },
   reducers: {
     toggle(state) {
       state.pointPayVisible = !state.pointPayVisible;
