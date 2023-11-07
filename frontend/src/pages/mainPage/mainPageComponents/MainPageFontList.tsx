@@ -15,7 +15,7 @@ import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper as SwiperCore } from 'swiper/types';
 
 // 컴포넌트
-import FontBoxComponent from 'pages/fontListPage/fontListPageComponents/FontBoxComponent';
+import MainFontBox from './mainFontBox/MainFontBox';
 
 import { FaCircleChevronLeft, FaCircleChevronRight } from 'react-icons/fa6';
 import { mainRedColor } from 'common/colors/CommonColors';
@@ -61,7 +61,7 @@ const MainPageFontList: React.FC = () => {
   const renderFontBoxes = () => {
     return fonts.map((font) => (
       <SwiperSlide key={font.font_id} className={classes.swiperSlid}>
-        <FontBoxComponent id={font.font_id} title={font.kor_font_name} maker={font.producer_name} />
+        <MainFontBox id={font.font_id} title={font.kor_font_name} maker={font.producer_name} />
       </SwiperSlide>
     ));
   };
