@@ -114,7 +114,7 @@ public class FontServiceImpl implements FontService {
             fontKeywords.add(k.getKeyword());
         }
         Long dibCount = favoriteRepository.countByFontId(fontId);
-        FontDetailResponse result = new FontDetailResponse(fontId,dibCheck,"producer", font.getViewCount(),fontKeywords,font.getIntroduce_text(),font.getFont_file_url(),dibCount);
+        FontDetailResponse result = new FontDetailResponse(fontId,dibCheck,"producer", font.getViewCount(),fontKeywords,font.getIntroduce_text(),font.getFont_file_url(),dibCount, font.getKor_font_name());
 
         return result;
     }
