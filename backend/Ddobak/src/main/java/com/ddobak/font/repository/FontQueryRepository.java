@@ -1,8 +1,8 @@
 package com.ddobak.font.repository;
 
-import com.ddobak.dib.entity.QDib;
-import com.ddobak.dib.repository.DibRepository;
-import com.ddobak.font.dto.response.FontResponse;
+import com.ddobak.favorite.entity.QFavorite;
+import com.ddobak.favorite.repository.FavoriteRepository;
+import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.entity.QFont;
 import com.querydsl.core.BooleanBuilder;
@@ -30,18 +30,18 @@ public class FontQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Autowired
-    private final DibRepository dibRepository;
+    private final FavoriteRepository favoriteRepository;
 
     @Autowired
-    public FontQueryRepository(EntityManager em, DibRepository dibRepository){
+    public FontQueryRepository(EntityManager em, FavoriteRepository favoriteRepository){
         this.jpaQueryFactory = new JPAQueryFactory(em);
-        this.dibRepository=dibRepository;
+        this.favoriteRepository = favoriteRepository;
     }
 
 
     public List<FontResponse> getFontList(Long member_id,Pageable pageable,String search, List<String> keywords, Boolean free) {
         QFont font = QFont.font; // 이는 생성된 Querydsl 메타 모델을 가정합니다.
-        QDib dib = QDib.dib;
+        QFavorite favorite = QFavorite.favorite;
         BooleanBuilder whereClause = new BooleanBuilder();
 
         whereClause.and(font.open_status.isTrue());
@@ -69,9 +69,9 @@ public class FontQueryRepository {
                         font.kor_font_name,
                         font.producer.nickname,
                         font.font_file_url,
-                        select(dib.id.count())
-                                .from(dib)
-                                .where(dib.member.id.eq(member_id))
+                        select(favorite.id.count())
+                                .from(favorite)
+                                .where(favorite.member.id.eq(member_id))
                                 .gt(0L)
                 ))
                 .from(font)
@@ -85,7 +85,7 @@ public class FontQueryRepository {
     }
     public List<FontResponse> getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free) {
         QFont font = QFont.font; // 이는 생성된 Querydsl 메타 모델을 가정합니다.
-        QDib dib = QDib.dib;
+        QFavorite favorite = QFavorite.favorite;
         BooleanBuilder whereClause = new BooleanBuilder();
 
         whereClause.and(font.open_status.isTrue());
@@ -113,7 +113,7 @@ public class FontQueryRepository {
                         font.kor_font_name,
                         font.producer.nickname,
                         font.font_file_url,
-                        Expressions.as(Expressions.constant(false), "dibCheck")
+                        Expressions.as(Expressions.constant(false), "favoriteCheck")
                 ))
                 .from(font)
                 .where(whereClause)
