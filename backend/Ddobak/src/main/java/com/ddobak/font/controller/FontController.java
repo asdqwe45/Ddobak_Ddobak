@@ -111,6 +111,15 @@ public class FontController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping(value = "/list/NoAuth")
+    @Operation(summary = "폰트 목록", description = "폰트 목록 조회하는 api입니다.")
+    @ApiResponse(responseCode = "200", description = "리턴값으로 폰트목록에 필요한 값 리턴합니다.")
+    public ResponseEntity<List<FontListResponse>> getFontList(@PageableDefault(size=12) Pageable pageable,@RequestPart(required = false) String search, @RequestPart(required = false) List<String> keywords, @RequestPart(required = false) Boolean free){
+        System.out.println("####################" + search);
+        List<FontListResponse> result = fontService.getFontListNoAuth(pageable,search,keywords,free);
+        return ResponseEntity.ok(result);
+    }
+
     @GetMapping(value = "/detail/{fontId}")
     @Operation(summary = "폰트 디테일",  description = "폰트 디테일을 조회하는 api입니다.")
     @ApiResponse(responseCode = "200", description = "리턴값으로 조회한 폰트의 디테일 값을 리턴합니다.")
