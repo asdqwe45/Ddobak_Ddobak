@@ -69,9 +69,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             // 정보 추출 및 SecurityContextHolder 에 저장할 레코드 생성
             String email = jwtProvider.getEmail(accessToken, secretKey);
+            Long id = jwtProvider.getId(accessToken, secretKey);
 
             UserInfo userInfo = (UserInfo) customUserDetailService.loadUserByUsername(email);
-            LoginInfo loginInfo = new LoginInfo(email);
+            LoginInfo loginInfo = new LoginInfo(email, id);
 
             // SecurityContextHolder 에 저장
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginInfo, null, userInfo.getAuthorities());

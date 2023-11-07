@@ -39,10 +39,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.hibernate:hibernate-core:5.6.15.Final'
+    implementation 'mysql:mysql-connector-java:8.0.26' // MySQL JDBC 드라이버 의존성
+
     testImplementation 'org.projectlombok:lombok:1.18.26'
     implementation 'com.h2database:h2'
     compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    //developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     annotationProcessor 'org.projectlombok:lombok'
@@ -76,6 +80,15 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'commons-io:commons-io:2.11.0'
     implementation 'org.apache.pdfbox:pdfbox:2.0.27'
+
+    // rest docs
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+    // sweagger
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
 }
 
 tasks.named('test') {
@@ -92,6 +105,13 @@ asciidoctor {
     dependsOn test
     inputs.dir snippetsDir
     outputDir file('src/docs/asciidoc')
+}
+
+bootJar {
+    dependsOn asciidoctor
+    from("${asciidoctor.outputDir}") {
+        into 'static/docs'
+    }
 }
 
 def querydslDir = "./generated/querydsl"

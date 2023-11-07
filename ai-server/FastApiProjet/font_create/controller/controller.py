@@ -1,15 +1,15 @@
 from fastapi import APIRouter, Query
 from fastapi.responses import FileResponse
-from ..service.korean_crop import crop_image_uniform
-from ..service.english_crop import crop_image_uniform_eng
-from ..service.sample_font import sample_font
+from ..service.template_crop import crop_image_uniform
+from ..service.font_image_create import font_image_create
 import os
+
 router = APIRouter()
 from ..service.compress import create_zip_from_folder
 ########
 from PIL import Image
 from io import BytesIO
-from fastapi import File, UploadFile
+from fastapi import File, UploadFile,Form
 
 
 @router.post("/image_crop")
@@ -17,11 +17,9 @@ async def crop_template(kor_file: UploadFile = File(...), eng_file: UploadFile =
     kor_image_bytes = await kor_file.read()
     eng_image_bytes = await eng_file.read()
     kor_img = Image.open(BytesIO(kor_image_bytes)).convert('L')
-    message1 = crop_image_uniform(kor_img)
+    message1 = crop_image_uniform(kor_img, './cropped_output_kor')
     eng_img = Image.open(BytesIO(eng_image_bytes)).convert('L')
-    message2 = crop_image_uniform_eng(eng_img)
-
-    if (message1 == message2): return message1
+    message2 = crop_image_uniform(eng_img, './cropped_output_eng')
 
 
 @router.post("/sample_font")
@@ -29,12 +27,22 @@ async def crop_template(kor_file: UploadFile = File(...), eng_file: UploadFile =
     kor_image_bytes = await kor_file.read()
     eng_image_bytes = await eng_file.read()
     kor_img = Image.open(BytesIO(kor_image_bytes)).convert('L')
-    message1 = crop_image_uniform(kor_img)
+    unique_kor_dir = crop_image_uniform(kor_img, './cropped_output_kor')
     eng_img = Image.open(BytesIO(eng_image_bytes)).convert('L')
-    message2 = crop_image_uniform_eng(eng_img)
+    unique_eng_dir = crop_image_uniform(eng_img, './cropped_output_eng')
 
-    sample_font()
-    folder_path = './font_create/service/result/dm/cropped_output_kor/test'
-    zip_output_path = './font_create/service/result/dm/cropped_output_kor'
-    zip_file_path = create_zip_from_folder(folder_path, zip_output_path)
-    return FileResponse(path=zip_file_path, filename=os.path.basename(zip_file_path), media_type='application/zip')
+    response = font_image_create(unique_kor_dir,unique_eng_dir, sample=True)
+
+    return response
+@router.post("/create_font")
+async def create_font(kor_file:UploadFile=File(...),eng_file:UploadFile=File(...),font_name:str=Form(None)):
+    kor_image_bytes = await kor_file.read()
+    eng_image_bytes = await eng_file.read()
+    kor_img = Image.open(BytesIO(kor_image_bytes)).convert('L')
+    unique_kor_dir = crop_image_uniform(kor_img, './cropped_output_kor')
+    eng_img = Image.open(BytesIO(eng_image_bytes)).convert('L')
+    unique_eng_dir = crop_image_uniform(eng_img, './cropped_output_eng')
+
+    response = font_image_create(unique_kor_dir,unique_eng_dir, sample=False,font_name=font_name)
+
+    return response

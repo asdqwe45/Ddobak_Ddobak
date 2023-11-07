@@ -1,66 +1,53 @@
 .container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* .upLoadContainer {
-  margin: auto;
-} */
-
-.rowContainer {
-  display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.info {
-  background-color: #e8e8e8;
-  margin: 15px;
-  padding-left: 20px;
-  border-radius: 20px;
-  width: 380px;
-  height: 50px;
-  font-size: 22px;
-  cursor: pointer;
+.subContainer {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  margin: 0 20px;
+}
+
+.fileboxTitle {
+  font-size: 25px;
+  font-weight: 600;
+  margin: 10px;
 }
 
 .upLoadList {
-  /* border: 3px dashed #b6b6b6; */
   border: 2px solid #b6b6b6;
-  padding: 25px 30px;
+  padding: 35px 35px;
   border-radius: 30px;
-  width: 550px;
-  height: 300px;
+  width: 350px;
+  height: 310px;
   font-size: 18px;
   display: flex;
-  /* 내용이 박스를 초과하면 스크롤 생성 */
-  overflow-y: hidden;
-  overflow-x: auto;
+  justify-content: center;
 }
 
 .emptyContainer {
-  /* display: flex; */
   align-items: center;
   text-align: center;
   margin: auto;
 }
 
 .emptyContainer img {
-  width: 8vw;
+  width: 7vw;
 }
 
 .emptyMessage {
-  font-size: 23px;
+  font-size: 21px;
   line-height: 13px;
-  /* font-weight: 600; */
 }
 
 .upLoadFile {
   display: flex;
   flex-direction: column;
+  /* height: 300px; */
 }
 
 .upLoadFileName {
@@ -70,8 +57,15 @@
 }
 
 .upLoadFile img {
+  margin-top: 30px;
+  background-size: cover;
   height: 200px;
-  margin: 10px 0;
+}
+
+.pdfPreview {
+  margin: 20px 0 0 30px;
+  height: 280px;
+  object-fit: cover;
 }
 
 .deleteIcon {
@@ -97,15 +91,16 @@
   text-align: center;
   font-size: 19px;
   font-weight: 600;
-  margin-right: 15px;
-
+  margin-bottom: 20px;
 }
 
 .btnContainer {
-  margin: auto;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
 }
 
-.nextBtn {
+.cropBtn {
   background-color: #ffffff;
   color: #d71718;
   border: 2px solid #d71718;
@@ -117,9 +112,28 @@
   font-weight: 600;
 }
 
-.nextBtn:hover {
+.cropBtn:hover {
   background-color: #d71718;
   color: white;
   border: none;
+  cursor: pointer;
+}
+
+.nextBtn {
+  background-color: #484848;
+  border-radius: 10px;
+  width: 120px;
+  height: 45px;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  border: none;
+}
+
+.nextBtn:hover {
+  background-color: #ffffff;
+  color: #484848;
+  border: 2px solid #484848;
   cursor: pointer;
 }

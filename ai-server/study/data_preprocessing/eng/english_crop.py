@@ -13,7 +13,7 @@ def crop_image_uniform(src_dir, dst_dir):
     if not os.path.exists(dst_dir):
         os.makedirs(dst_dir)
 
-    img = Image.open( src_dir )
+    img = Image.open( src_dir ).convert('L')
 
     width, height = img.size
     cell_width = width/float(cols)
@@ -69,8 +69,8 @@ parser.add_argument('--dst_dir', dest='dst_dir', required=True, help='directory 
 args = parser.parse_args()
 
 if __name__ == "__main__":
-    rows = 7
-    cols = 13
-    header_ratio = .5/2.5
+    rows = 8
+    cols = 12
+    header_ratio = 16.5/(16.5+42)
     crop_image_uniform(args.src_dir, args.dst_dir)
 #    crop_image_frequency(args.src_dir, args.dst_dir)

@@ -2,6 +2,7 @@ package com.ddobak.member.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -19,11 +20,17 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.ddobak.member.dto.request.CheckNickNameRequest;
 import com.ddobak.member.dto.request.EmailVerificationRequest;
 import com.ddobak.member.dto.request.EmailVerifyRequest;
 import com.ddobak.member.dto.request.MemberLoginRequest;
+import com.ddobak.member.dto.request.ModifyInfoTextRequest;
+import com.ddobak.member.dto.request.ModifyLoginPasswordRequest;
+import com.ddobak.member.dto.request.ModifyNicknameRequest;
+import com.ddobak.member.dto.request.RefreshTokenRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
 import com.ddobak.member.dto.response.LoginResponse;
+import com.ddobak.member.dto.response.RefreshTokenResponse;
 import com.ddobak.security.util.LoginInfo;
 import com.ddobak.util.ControllerTest;
 import java.nio.charset.StandardCharsets;
@@ -68,7 +75,7 @@ public class MemberControllerTest extends ControllerTest {
 
         mockMvc
             .perform(
-                get(baseUrl + "/email/verify")
+                post(baseUrl + "/email/verify")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsBytes(emailVerificationRequest))
             )
@@ -153,7 +160,7 @@ public class MemberControllerTest extends ControllerTest {
     @Test
     @DisplayName("로그아웃")
     void memberLogoutTest() throws Exception {
-        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com");
+        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com",1L);
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(new TestingAuthenticationToken(loginInfo, null));
         SecurityContextHolder.setContext(securityContext);
@@ -168,6 +175,171 @@ public class MemberControllerTest extends ControllerTest {
                 document("/member/logout",
                     preprocessRequest(prettyPrint()),
                     preprocessResponse(prettyPrint()))
+            );
+    }
+
+    @Test
+    @DisplayName("회원_소개글_변경")
+    void modifyInfoTextTest() throws Exception {
+        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com",1L);
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(new TestingAuthenticationToken(loginInfo, null));
+        SecurityContextHolder.setContext(securityContext);
+
+        ModifyInfoTextRequest modifyInfoTextRequest = new ModifyInfoTextRequest("변경 후 소개글");
+
+        doNothing().when(memberService).modifyInfoText(loginInfo, modifyInfoTextRequest);
+
+        mockMvc.perform(
+            post(baseUrl + "/textinfo")
+                .with(authentication(new TestingAuthenticationToken(loginInfo, null)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(modifyInfoTextRequest))
+        )
+            .andExpect(status().isNoContent())
+            .andDo(
+                document("/member/modify-textInfo",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint()),
+                    requestFields(
+                        fieldWithPath("infoText").description("변경된 소개글")
+                    ))
+            );
+    }
+
+    @Test
+    @DisplayName("닉네임_중복_확인한다.")
+    void checkNicknameTest() throws Exception{
+        CheckNickNameRequest checkNickNameRequest = new CheckNickNameRequest("checkNickName");
+
+        mockMvc.perform(
+            post(baseUrl +"/nickname/duplicate")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(checkNickNameRequest))
+        ).andExpect(status().isNoContent())
+            .andDo(
+                document("/member/checkNickname",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint()),
+                    requestFields(
+                        fieldWithPath("nickname").description("중복체크할 닉네임")
+                    ))
+            );
+    }
+
+    @Test
+    @DisplayName("회원_닉네임_변경")
+    void modifyNicknameTest() throws  Exception {
+        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com", 1L);
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(new TestingAuthenticationToken(loginInfo, null));
+        SecurityContextHolder.setContext(securityContext);
+
+        ModifyNicknameRequest modifyNicknameRequest = new ModifyNicknameRequest("변경된 닉네임");
+
+        doNothing().when(memberService).modifyNickname(loginInfo,modifyNicknameRequest);
+
+        mockMvc.perform(
+            post(baseUrl + "/nickname")
+                .with(authentication(new TestingAuthenticationToken(loginInfo, null)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(modifyNicknameRequest))
+        ).andExpect(status().isNoContent())
+            .andDo(
+                document("/member/modify-nickname",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint()),
+                    requestFields(
+                        fieldWithPath("nickname").description("변경된 닉네임")
+                    ))
+            );
+    }
+
+    @Test
+    @DisplayName("회원_AccessToekn_갱신")
+    void refreshTokenTest() throws Exception {
+        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com", 1L);
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(new TestingAuthenticationToken(loginInfo, null));
+        SecurityContextHolder.setContext(securityContext);
+
+        RefreshTokenRequest refreshTokenRequest = new RefreshTokenRequest("refreshToken");
+        RefreshTokenResponse refreshTokenResponse = new RefreshTokenResponse("newAccess_Token");
+
+        when(memberService.refreshToken("refreshToken")).thenReturn(refreshTokenResponse);
+
+        mockMvc.perform(
+            post(baseUrl + "/refresh")
+                .with(authentication(new TestingAuthenticationToken(loginInfo, null)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(refreshTokenRequest))
+        ).andExpect(status().isOk())
+               .andDo(
+                   document("/member/refresh-Token",
+                       preprocessRequest(prettyPrint()),
+                       preprocessResponse(prettyPrint()),
+                       requestFields(
+                           fieldWithPath("refreshToken").description("fresh Token")
+                       ),
+                       responseFields(
+                           fieldWithPath("accessToken").description("새로 발급한 accessToken")
+                       ))
+               );
+    }
+
+    @Test
+    @DisplayName("회원_비밀번호_변경")
+    void modifyPasswordTest() throws Exception {
+        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com", 1L);
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(new TestingAuthenticationToken(loginInfo, null));
+        SecurityContextHolder.setContext(securityContext);
+
+        ModifyLoginPasswordRequest modifyLoginPasswordRequest = new ModifyLoginPasswordRequest("oldPassword","newPassword");
+
+        mockMvc.perform(
+            post(baseUrl + "/password")
+                .with(authentication(new TestingAuthenticationToken(loginInfo, null)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsBytes(modifyLoginPasswordRequest))
+        ).andExpect(status().isNoContent())
+            .andDo(
+                document("/member/modify-password",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint()),
+                    requestFields(
+                        fieldWithPath("prevLoginPassword").description("이번 비밀번호"),
+                        fieldWithPath("newLoginPassword").description("바뀐 비밀번호")
+                    ))
+            );
+    }
+
+    @Test
+    @DisplayName("회원_프로필이미지_변경")
+    void modifyProfileImgTest() throws Exception {
+        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com", 1L);
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(new TestingAuthenticationToken(loginInfo, null));
+        SecurityContextHolder.setContext(securityContext);
+
+        MockMultipartFile profileImg = new MockMultipartFile("profileImg","reg.png", "image/png", "<<png data>>".getBytes(
+            StandardCharsets.UTF_8));
+
+        mockMvc
+            .perform(
+                multipart(baseUrl + "/profileImg")
+                    .file(profileImg)
+                    .with(authentication(new TestingAuthenticationToken(loginInfo,null)))
+            )
+            .andExpect(status().isNoContent())
+            .andDo(
+                document("/member/modify-profileImg",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint()),
+                    requestParts(
+                        partWithName("profileImg").description("프로필 이미지")
+                    )
+                )
             );
     }
 }
