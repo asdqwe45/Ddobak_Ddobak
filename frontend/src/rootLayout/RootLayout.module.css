@@ -2,6 +2,14 @@
   padding-left: 100px;
   padding-right: 100px;
 }
+
+@media (max-width: 810px) {
+  .container {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
 /* CSS 파일 내에서 */
 body::-webkit-scrollbar {
   display: none; /* 스크롤바를 숨깁니다 */

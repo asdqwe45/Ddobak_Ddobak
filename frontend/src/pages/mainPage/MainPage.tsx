@@ -1,6 +1,5 @@
 import classes from './MainPage.module.css';
 import {
-  MainLargePage,
   MainFooter,
   MainFooterHeader,
   MainFooterText,
@@ -18,17 +17,15 @@ const MainPage: React.FC = () => {
   return (
     <main className={classes.container}>
       {/* 첫 번째 메인 페이지 */}
-      <MainLargePage>
+      <div className={classes.mainLargePage}>
         <MainPageLargeManuscript />
-      </MainLargePage>
-      {/* 두 번째 메인 페이지 */}
-      <MainLargePage>
+      </div>
+      <div className={classes.mainLargePage}>
         <MainPageFontList />
-      </MainLargePage>
-      {/* 세 번째 메인 페이지 */}
-      <MainLargePage>
+      </div>
+      <div className={classes.mainLargePage}>
         <MainPageGuide />
-      </MainLargePage>
+      </div>
       <MainFooter>
         <MainFooterBetween>
           <MainFooterBetweenInnerBox>
