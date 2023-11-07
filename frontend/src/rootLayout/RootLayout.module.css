@@ -1,7 +1,19 @@
 .container {
-  padding-left: 100px;
-  padding-right: 100px;
+  padding: 0px 100px;
 }
+
+@media (max-width: 810px) {
+  .container {
+    padding: 0px 5px;
+  }
+}
+
+@media (min-width: 810.001px) and (max-width: 880px) {
+  .container {
+    padding: 0px 40px;
+  }
+}
+
 /* CSS 파일 내에서 */
 body::-webkit-scrollbar {
   display: none; /* 스크롤바를 숨깁니다 */

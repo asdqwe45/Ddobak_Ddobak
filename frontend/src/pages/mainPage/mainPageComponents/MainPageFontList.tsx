@@ -15,7 +15,7 @@ import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper as SwiperCore } from 'swiper/types';
 
 // 컴포넌트
-import FontBoxComponent from 'pages/fontListPage/fontListPageComponents/FontBoxComponent';
+import MainFontBox from './mainFontBox/MainFontBox';
 
 import { FaCircleChevronLeft, FaCircleChevronRight } from 'react-icons/fa6';
 import { mainRedColor } from 'common/colors/CommonColors';
@@ -24,7 +24,7 @@ import { mainRedColor } from 'common/colors/CommonColors';
 import DdobakLogo from '../../../common/commonAssets/ddobak_logo.png';
 
 // API 호출
-import { axiosWithAuth } from 'https/http';
+import { axiosWithoutAuth } from 'https/http';
 
 type Font = {
   font_id: bigint;
@@ -32,6 +32,10 @@ type Font = {
   producer_name: string;
   font_file_url: string;
   dibCheck: boolean;
+};
+type FontList = {
+  fontResponseList: Font[];
+  fontCount: number;
 };
 // type FontList = {
 //   fontResponseList: Font[];
@@ -46,8 +50,11 @@ const MainPageFontList: React.FC = () => {
   useEffect(() => {
     const fetchFonts = async () => {
       try {
-        const response = await axiosWithAuth.get('/font/list'); // API 경로는 예시입니다
-        setFonts(response.data.fontResponseList); // 폰트 데이터 상태 업데이트
+        const response: FontList = await axiosWithoutAuth.get('/font/list/NoAuth').then((r) => {
+          return r.data;
+        }); // API 경로는 예시입니다
+        console.log(response);
+        setFonts(response.fontResponseList); // 폰트 데이터 상태 업데이트
       } catch (error) {
         console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
       }
@@ -58,27 +65,52 @@ const MainPageFontList: React.FC = () => {
   const renderFontBoxes = () => {
     return fonts.map((font) => (
       <SwiperSlide key={font.font_id} className={classes.swiperSlid}>
-        <FontBoxComponent 
-        id={font.font_id.toString()} 
-        title={font.kor_font_name} 
-        maker={font.producer_name}
-        // dib={font.dibCheck}
-        />
+        <MainFontBox id={font.font_id} title={font.kor_font_name} maker={font.producer_name} />
       </SwiperSlide>
     ));
   };
+
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [getNumber, setGetNumber] = useState<number>(3);
+  const [gapSize, setGapSize] = useState<number>(31);
+  // 화면 크기가 변경될 때 호출되는 함수
+  const handleResize = () => {
+    setScreenWidth(window.innerWidth);
+  };
+
+  // useEffect 내에서 화면 크기에 따라 getNumber 상태를 설정하는 로직
+  useEffect(() => {
+    if (screenWidth <= 930) {
+      setGetNumber(1);
+      setGapSize(40);
+    } else if (screenWidth <= 1200) {
+      setGetNumber(2);
+      setGapSize(40);
+    } else {
+      setGetNumber(3);
+      setGapSize(31);
+    }
+  }, [screenWidth]); // screenWidth가 변경될 때마다 이 효과를 실행합니다.
+
+  // resize 이벤트에 대한 리스너를 설정합니다.
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너를 정리합니다.
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []); // 빈 의존성 배열로 이 효과는 컴포넌트가 마운트될 때 한 번만 실행됩니다.
 
   return (
     <div className={classes.container}>
       <div className={classes.headerBox}>
         <h1 className={classes.swiperHeader}>
           "여러분의 손글씨도 폰트가 될 수 있습니다."
-          <br /> <span>폰트 제작 서비스, </span>
+          <br /> <span className={classes.swiperHeader}>폰트 제작 서비스, </span>
           <span className={classes.typeWriterContainer}>
-            {/* <span className={classes.animationHeaderText}>또박또박</span> */}
-            {/* test */}
             <span className={classes.animationHeaderText}>
-              <img src={DdobakLogo} style={{ height: 60 }} alt="또박또박" />
+              <img src={DdobakLogo} className={classes.ddobakLogo} alt="또박또박" />
             </span>
           </span>
         </h1>
@@ -94,8 +126,8 @@ const MainPageFontList: React.FC = () => {
         />
         <Swiper
           onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
-          slidesPerView={3}
-          spaceBetween={30}
+          slidesPerView={getNumber}
+          spaceBetween={gapSize}
           loop={fonts.length > 3}
           autoplay={{
             delay: 2500,
@@ -134,4 +166,3 @@ export default MainPageFontList;
 
 //   return boxes;
 // };
-
