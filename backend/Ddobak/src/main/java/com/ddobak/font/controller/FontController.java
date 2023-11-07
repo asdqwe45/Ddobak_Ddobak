@@ -2,7 +2,8 @@ package com.ddobak.font.controller;
 
 import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.font.dto.response.FontDetailResponse;
-import com.ddobak.font.dto.response.FontListResponse;
+import com.ddobak.font.dto.response.FontListWithCountResponse;
+import com.ddobak.font.dto.response.FontResponse;
 import com.ddobak.font.exception.InvalidFileFormatException;
 import com.ddobak.font.service.FontImageService;
 import com.ddobak.font.service.FontService;
@@ -105,18 +106,20 @@ public class FontController {
     @GetMapping(value = "/list")
     @Operation(summary = "폰트 목록", description = "폰트 목록 조회하는 api입니다.")
     @ApiResponse(responseCode = "200", description = "리턴값으로 폰트목록에 필요한 값 리턴합니다.")
-    public ResponseEntity<List<FontListResponse>> getFontList(@AuthenticationPrincipal LoginInfo loginInfo,@PageableDefault(size=12) Pageable pageable,@RequestPart(required = false) String search, @RequestPart(required = false) List<String> keywords, @RequestPart(required = false) Boolean free){
+    public ResponseEntity<FontListWithCountResponse> getFontList(@AuthenticationPrincipal LoginInfo loginInfo,@PageableDefault(size=12) Pageable pageable,@RequestPart(required = false) String search, @RequestPart(required = false) List<String> keywords, @RequestPart(required = false) Boolean free){
         System.out.println("####################" + search);
-        List<FontListResponse> result = fontService.getFontList(loginInfo,pageable,search,keywords,free);
+        List<FontResponse> fontList = fontService.getFontList(loginInfo,pageable,search,keywords,free);
+        FontListWithCountResponse result = new FontListWithCountResponse(fontList,fontList.stream().count());
         return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/list/NoAuth")
     @Operation(summary = "폰트 목록", description = "폰트 목록 조회하는 api입니다.")
     @ApiResponse(responseCode = "200", description = "리턴값으로 폰트목록에 필요한 값 리턴합니다.")
-    public ResponseEntity<List<FontListResponse>> getFontList(@PageableDefault(size=12) Pageable pageable,@RequestPart(required = false) String search, @RequestPart(required = false) List<String> keywords, @RequestPart(required = false) Boolean free){
+    public ResponseEntity<FontListWithCountResponse> getFontList(@PageableDefault(size=12) Pageable pageable,@RequestPart(required = false) String search, @RequestPart(required = false) List<String> keywords, @RequestPart(required = false) Boolean free){
         System.out.println("####################" + search);
-        List<FontListResponse> result = fontService.getFontListNoAuth(pageable,search,keywords,free);
+        List<FontResponse> fontList = fontService.getFontListNoAuth(pageable,search,keywords,free);
+        FontListWithCountResponse result = new FontListWithCountResponse(fontList,fontList.stream().count());
         return ResponseEntity.ok(result);
     }
 

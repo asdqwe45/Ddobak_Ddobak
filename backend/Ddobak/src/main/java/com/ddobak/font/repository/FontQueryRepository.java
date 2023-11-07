@@ -2,12 +2,10 @@ package com.ddobak.font.repository;
 
 import com.ddobak.dib.entity.QDib;
 import com.ddobak.dib.repository.DibRepository;
-import com.ddobak.font.dto.response.FontListResponse;
+import com.ddobak.font.dto.response.FontResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.entity.QFont;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.ConstantImpl;
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -42,7 +39,7 @@ public class FontQueryRepository {
     }
 
 
-    public List<FontListResponse> getFontList(Long member_id,Pageable pageable,String search, List<String> keywords, Boolean free) {
+    public List<FontResponse> getFontList(Long member_id,Pageable pageable,String search, List<String> keywords, Boolean free) {
         QFont font = QFont.font; // 이는 생성된 Querydsl 메타 모델을 가정합니다.
         QDib dib = QDib.dib;
         BooleanBuilder whereClause = new BooleanBuilder();
@@ -66,8 +63,8 @@ public class FontQueryRepository {
         }
 
         // 쿼리 생성 및 실행
-        List<FontListResponse> fonts = jpaQueryFactory
-                .select(constructor(FontListResponse.class,
+        List<FontResponse> fonts = jpaQueryFactory
+                .select(constructor(FontResponse.class,
                         font.id,
                         font.kor_font_name,
                         font.producer.nickname,
@@ -86,7 +83,7 @@ public class FontQueryRepository {
 
         return fonts;
     }
-    public List<FontListResponse> getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free) {
+    public List<FontResponse> getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free) {
         QFont font = QFont.font; // 이는 생성된 Querydsl 메타 모델을 가정합니다.
         QDib dib = QDib.dib;
         BooleanBuilder whereClause = new BooleanBuilder();
@@ -110,8 +107,8 @@ public class FontQueryRepository {
         }
 
         // 쿼리 생성 및 실행
-        List<FontListResponse> fonts = jpaQueryFactory
-                .select(constructor(FontListResponse.class,
+        List<FontResponse> fonts = jpaQueryFactory
+                .select(constructor(FontResponse.class,
                         font.id,
                         font.kor_font_name,
                         font.producer.nickname,

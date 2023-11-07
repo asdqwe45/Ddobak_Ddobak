@@ -3,7 +3,7 @@ package com.ddobak.font.service;
 import com.ddobak.dib.repository.DibRepository;
 import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.font.dto.response.FontDetailResponse;
-import com.ddobak.font.dto.response.FontListResponse;
+import com.ddobak.font.dto.response.FontResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.entity.Keyword;
 import com.ddobak.font.repository.FontQueryRepository;
@@ -81,19 +81,19 @@ public class FontServiceImpl implements FontService {
         }
     }
     @Override
-    public List<FontListResponse> getFontList(LoginInfo loginInfo,Pageable pageable,String search, List<String> keywords, Boolean free) {
+    public List<FontResponse> getFontList(LoginInfo loginInfo,Pageable pageable,String search, List<String> keywords, Boolean free) {
         //Integer fontCount = fontRepository.countAll();
         Optional<Member> member = memberRepository.findByEmail(loginInfo.email());
         Long member_id = member.get().getId();
-        List<FontListResponse> resultList = fontQueryRepository.getFontList(member_id,pageable,search, keywords,free);
+        List<FontResponse> resultList = fontQueryRepository.getFontList(member_id,pageable,search, keywords,free);
 
         return resultList;
     }
 
     @Override
-    public List<FontListResponse> getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free){
+    public List<FontResponse> getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free){
         //Integer fontCount = fontRepository.countAll();
-        List<FontListResponse> resultList = fontQueryRepository.getFontListNoAuth(pageable,search, keywords,free);
+        List<FontResponse> resultList = fontQueryRepository.getFontListNoAuth(pageable,search, keywords,free);
 
         return resultList;
     }
