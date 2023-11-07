@@ -60,6 +60,7 @@ const NavBar: React.FC = () => {
           localStorage.removeItem('refreshToken');
           localStorage.removeItem('profileImgUrl');
           localStorage.removeItem('today');
+          window.location.reload();
         }
       }
     }

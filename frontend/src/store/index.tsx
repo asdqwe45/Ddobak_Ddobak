@@ -9,6 +9,7 @@ import exchangeModalSlice from './exchangeModalSlice';
 import changeProfileImgModalSlice from './changeProfileImgModalSlice';
 import goToBasketModalSlice from './goToBasketModalSlice';
 import signupLoaderSlice from './signupLoaderSlice';
+import failAuthModalSlice from './failAuthModalSlice';
 
 const initialState = { value: 0, showCounter: true, showModal: false };
 
@@ -46,6 +47,7 @@ const store = configureStore({
     changeProfileImg: changeProfileImgModalSlice.reducer,
     goToBasket: goToBasketModalSlice.reducer,
     signupLoader: signupLoaderSlice.reducer,
+    failAuth: failAuthModalSlice.reducer,
   },
 });
 
