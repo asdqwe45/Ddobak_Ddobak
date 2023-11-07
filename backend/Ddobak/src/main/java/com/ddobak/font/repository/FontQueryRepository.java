@@ -47,8 +47,8 @@ public class FontQueryRepository {
         whereClause.and(font.open_status.isTrue());
 
         if (search != null && !search.isEmpty()) {
-            whereClause.and(font.producer.nickname.eq(search)
-                    .or(font.kor_font_name.eq(search)));
+            whereClause.and(font.producer.nickname.contains(search)
+                    .or(font.kor_font_name.contains(search)));
         }
 
 
@@ -91,8 +91,8 @@ public class FontQueryRepository {
         whereClause.and(font.open_status.isTrue());
 
         if (search != null && !search.isEmpty()) {
-            whereClause.and(font.producer.nickname.eq(search)
-                    .or(font.kor_font_name.eq(search)));
+            whereClause.and(font.producer.nickname.contains(search)
+                    .or(font.kor_font_name.contains(search)));
         }
 
 
