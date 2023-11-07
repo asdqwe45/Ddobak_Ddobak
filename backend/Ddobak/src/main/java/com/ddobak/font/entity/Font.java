@@ -1,25 +1,17 @@
 package com.ddobak.font.entity;
 
-import com.ddobak.font.controller.FontController;
-import com.ddobak.font.dto.request.CreateFontRequest;
+import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.global.entity.BaseEntity;
 import java.time.LocalDate;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
-import com.ddobak.member.dto.request.SignUpRequest;
 import com.ddobak.member.entity.Member;
-import com.ddobak.member.entity.SignUpType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -30,7 +22,7 @@ public class Font extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="producer", nullable = false)
-    private Member member;
+    private Member producer;
 
     @Column(nullable = false)
     private String font_sort_url;
@@ -45,30 +37,67 @@ public class Font extends BaseEntity{
     private String eng_font_name;
 
     @Column(columnDefinition = "BOOLEAN default false")
-    private Boolean openStatus;
+    private Boolean open_status;
 
     @Column(columnDefinition = "BOOLEAN default false")
-    private Boolean freeStatus;
+    private Boolean free_status;
 
     @Column(columnDefinition = "int default 0")
     private Integer price;
 
     @Column(columnDefinition = "BOOLEAN default false")
-    private Boolean commerceStatus;
+    private Boolean commerce_status;
 
     @Column(columnDefinition = "varchar(255) default 'IntroduceDefault'")
-    private String introduceText;
+    private String introduce_text;
 
     @Column
     private LocalDate create_date;
 
-    public static Font from(CreateFontRequest createFontRequest, String font_file_url, Member producer) {
+    @Column
+    private Boolean copyright_notice;
+
+    @Column
+    private Boolean same_person_check;
+
+    @Column
+    private String copyrigher;
+
+    @Column
+    private Integer viewCount;
+
+    @ManyToMany
+    @JoinTable(
+            name = "font_keyword",
+            joinColumns = @JoinColumn(name = "font_id"),
+            inverseJoinColumns = @JoinColumn(name = "keyword_id")
+    )
+    private List<Keyword> keywords;
+
+
+    public static Font from(String font_sort_url, Member producer) {
         return Font.builder()
-                .member(producer)
-                .font_file_url(font_file_url)
-                .font_sort_url(createFontRequest.font_sort_url())
-                .kor_font_name(createFontRequest.kor_file_name())
-                .eng_font_name(createFontRequest.eng_file_name())
+                .producer(producer)
+                .font_sort_url(font_sort_url)
                 .build();
+    }
+    public void makeDetail(MakeFontRequest req, String fontUrl){
+        this.font_file_url=fontUrl;
+        this.kor_font_name = req.korFontName();
+        this.eng_font_name = req.engFontName();
+        this.open_status = req.openStatus();
+        this.free_status = req.freeStatus();
+        this.price=req.price();
+        this.commerce_status = req.commerceStatus();
+        this.introduce_text = req.introduceText();
+        this.copyright_notice=req.copyrightNotice();
+        this.same_person_check = req.samePersonCheck();
+        this.copyrigher=req.copyrighter();
+        this.create_date= LocalDate.now();
+        this.viewCount=0;
+    }
+    public void plusViewCount() {
+        this.viewCount = this.viewCount + 1;
+
     }
 }

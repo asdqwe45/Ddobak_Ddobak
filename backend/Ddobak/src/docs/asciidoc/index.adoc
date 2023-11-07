@@ -15,3 +15,8 @@ endif::[]
 == Member API
 
 include::controller/member/member.adoc[]
+
+[[Font-API]]
+== Font API
+
+// include::controller/font/font.adoc[]
