@@ -1,4 +1,4 @@
-package com.ddobak.review.entity;
+package com.ddobak.dib.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -11,20 +11,18 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QReview is a Querydsl query type for Review
+ * QDib is a Querydsl query type for Dib
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QReview extends EntityPathBase<Review> {
+public class QDib extends EntityPathBase<Dib> {
 
-    private static final long serialVersionUID = 2141210737L;
+    private static final long serialVersionUID = 1626740103L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QReview review = new QReview("review");
+    public static final QDib dib = new QDib("dib");
 
     public final com.ddobak.global.entity.QBaseEntity _super = new com.ddobak.global.entity.QBaseEntity(this);
-
-    public final StringPath context = createString("context");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
@@ -34,32 +32,30 @@ public class QReview extends EntityPathBase<Review> {
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final StringPath image_url = createString("image_url");
-
     public final com.ddobak.member.entity.QMember member;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
-    public QReview(String variable) {
-        this(Review.class, forVariable(variable), INITS);
+    public QDib(String variable) {
+        this(Dib.class, forVariable(variable), INITS);
     }
 
-    public QReview(Path<? extends Review> path) {
+    public QDib(Path<? extends Dib> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QReview(PathMetadata metadata) {
+    public QDib(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QReview(PathMetadata metadata, PathInits inits) {
-        this(Review.class, metadata, inits);
+    public QDib(PathMetadata metadata, PathInits inits) {
+        this(Dib.class, metadata, inits);
     }
 
-    public QReview(Class<? extends Review> type, PathMetadata metadata, PathInits inits) {
+    public QDib(Class<? extends Dib> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.font = inits.isInitialized("font") ? new com.ddobak.font.entity.QFont(forProperty("font"), inits.get("font")) : null;
+        this.font = inits.isInitialized("font") ? new com.ddobak.font.entity.QFont(forProperty("font")) : null;
         this.member = inits.isInitialized("member") ? new com.ddobak.member.entity.QMember(forProperty("member")) : null;
     }
 

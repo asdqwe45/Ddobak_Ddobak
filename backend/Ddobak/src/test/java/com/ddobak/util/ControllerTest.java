@@ -89,7 +89,7 @@ public class ControllerTest {
     }
 
     protected void setAuthentication() {
-        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com",1L);
+        LoginInfo loginInfo = new LoginInfo("lkm454545@gmail.com");
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(new TestingAuthenticationToken(loginInfo, null));
         SecurityContextHolder.setContext(securityContext);

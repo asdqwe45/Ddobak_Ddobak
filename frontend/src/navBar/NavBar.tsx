@@ -4,7 +4,7 @@ import classes from './NavBar.module.css';
 import NavLogo from '../common/commonAssets/ddobak_logo.png';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { mainRedColor } from 'common/colors/CommonColors';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 /*
 // Save to local storage
@@ -51,17 +51,6 @@ const NavBar: React.FC = () => {
     }
     fetch();
   }, [myToken]);
-
-  const location = useLocation();
-
-  const isActivePath = (pathPatterns: string[]): boolean => {
-    for (const pattern of pathPatterns) {
-      if (location.pathname.startsWith(pattern)) {
-        return true;
-      }
-    }
-    return false;
-  };
   return (
     <div className={classes.header}>
       <div className={classes.list}>
@@ -82,9 +71,7 @@ const NavBar: React.FC = () => {
           <div className={classes.smallBox}>
             <NavLink
               to="/fontList"
-              className={
-                isActivePath(['/fontList', '/font/', '/maker']) ? classes.active : undefined
-              }
+              className={({ isActive }) => (isActive ? classes.active : undefined)}
             >
               폰트보기
             </NavLink>
