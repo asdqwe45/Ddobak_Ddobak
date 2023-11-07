@@ -31,7 +31,7 @@ type Font = {
   kor_font_name: string;
   producer_name: string;
   font_file_url: string;
-  dibCheck: string;
+  dibCheck: boolean;
 };
 type FontList = {
   fontResponseList: Font[];
