@@ -1,4 +1,4 @@
-package com.ddobak.dib.entity;
+package com.ddobak.favorite.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -14,7 +14,7 @@ import com.querydsl.core.types.dsl.PathInits;
  * QDib is a Querydsl query type for Dib
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QDib extends EntityPathBase<Dib> {
+public class QDib extends EntityPathBase<Favorite> {
 
     private static final long serialVersionUID = 1626740103L;
 
@@ -38,10 +38,10 @@ public class QDib extends EntityPathBase<Dib> {
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
     public QDib(String variable) {
-        this(Dib.class, forVariable(variable), INITS);
+        this(Favorite.class, forVariable(variable), INITS);
     }
 
-    public QDib(Path<? extends Dib> path) {
+    public QDib(Path<? extends Favorite> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
@@ -50,10 +50,10 @@ public class QDib extends EntityPathBase<Dib> {
     }
 
     public QDib(PathMetadata metadata, PathInits inits) {
-        this(Dib.class, metadata, inits);
+        this(Favorite.class, metadata, inits);
     }
 
-    public QDib(Class<? extends Dib> type, PathMetadata metadata, PathInits inits) {
+    public QDib(Class<? extends Favorite> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.font = inits.isInitialized("font") ? new com.ddobak.font.entity.QFont(forProperty("font"), inits.get("font")) : null;
         this.member = inits.isInitialized("member") ? new com.ddobak.member.entity.QMember(forProperty("member")) : null;

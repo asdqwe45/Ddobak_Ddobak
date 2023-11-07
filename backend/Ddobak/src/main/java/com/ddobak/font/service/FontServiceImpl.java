@@ -1,6 +1,6 @@
 package com.ddobak.font.service;
 
-import com.ddobak.dib.repository.DibRepository;
+import com.ddobak.favorite.repository.FavoriteRepository;
 import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.font.dto.response.FontDetailResponse;
 import com.ddobak.font.dto.response.FontListResponse;
@@ -34,7 +34,7 @@ public class FontServiceImpl implements FontService {
     private final MemberRepository memberRepository;
     private final KeywordRepository keywordRepository;
     private final FontQueryRepository fontQueryRepository;
-    private final DibRepository dibRepository;
+    private final FavoriteRepository favoriteRepository;
 
     @Override
     public void createFont(String font_sort_url, LoginInfo loginInfo){
@@ -104,7 +104,7 @@ public class FontServiceImpl implements FontService {
         for(Keyword k : font.getKeywords()){
             fontKeywords.add(k.getKeyword());
         }
-        Long dibCount = dibRepository.countByFontId(fontId);
+        Long dibCount = favoriteRepository.countByFontId(fontId);
         FontDetailResponse result = new FontDetailResponse(fontId,dibCheck,"producer", font.getViewCount(),fontKeywords,font.getIntroduce_text(),font.getFont_file_url(),dibCount);
 
         return result;

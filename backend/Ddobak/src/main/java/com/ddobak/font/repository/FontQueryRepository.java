@@ -1,7 +1,7 @@
 package com.ddobak.font.repository;
 
-import com.ddobak.dib.entity.QDib;
-import com.ddobak.dib.repository.DibRepository;
+import com.ddobak.favorite.entity.QDib;
+import com.ddobak.favorite.repository.FavoriteRepository;
 import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.entity.QFont;
@@ -29,12 +29,12 @@ public class FontQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Autowired
-    private final DibRepository dibRepository;
+    private final FavoriteRepository favoriteRepository;
 
     @Autowired
-    public FontQueryRepository(EntityManager em, DibRepository dibRepository){
+    public FontQueryRepository(EntityManager em, FavoriteRepository favoriteRepository){
         this.jpaQueryFactory = new JPAQueryFactory(em);
-        this.dibRepository=dibRepository;
+        this.favoriteRepository = favoriteRepository;
     }
 
 
