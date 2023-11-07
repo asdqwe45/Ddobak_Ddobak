@@ -30,7 +30,13 @@ type Font = {
   font_id: bigint;
   kor_font_name: string;
   producer_name: string;
+  font_file_url: string;
+  dibCheck: boolean;
 };
+// type FontList = {
+//   fontResponseList: Font[];
+//   fontCount: number;
+// };
 
 const MainPageFontList: React.FC = () => {
   const swiperRef = useRef<SwiperCore>();
@@ -41,7 +47,7 @@ const MainPageFontList: React.FC = () => {
     const fetchFonts = async () => {
       try {
         const response = await axiosWithAuth.get('/font/list'); // API 경로는 예시입니다
-        setFonts(response.data); // 폰트 데이터 상태 업데이트
+        setFonts(response.data.fontResponseList); // 폰트 데이터 상태 업데이트
       } catch (error) {
         console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
       }
@@ -52,7 +58,12 @@ const MainPageFontList: React.FC = () => {
   const renderFontBoxes = () => {
     return fonts.map((font) => (
       <SwiperSlide key={font.font_id} className={classes.swiperSlid}>
-        <FontBoxComponent id={font.font_id} title={font.kor_font_name} maker={font.producer_name} />
+        <FontBoxComponent 
+        id={font.font_id.toString()} 
+        title={font.kor_font_name} 
+        maker={font.producer_name}
+        // dib={font.dibCheck}
+        />
       </SwiperSlide>
     ));
   };

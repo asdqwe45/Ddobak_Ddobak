@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './FontMakeStep1.module.css';
-import guideLine from './fontDetailPageAssets/guideline_ex.png';
+import guideLine from './fontMakePageAssets/guideline_ex.png';
 
 // 가이드라인 다운로드
 const handleDownload = async () => {

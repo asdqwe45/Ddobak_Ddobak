@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import classes from './FontMakeStep2.module.css';
-import UploadFile from './fontDetailPageAssets/upload_file.png';
+import UploadFile from './fontMakePageAssets/upload_file.png';
 import { FaRegTimesCircle } from 'react-icons/fa';
 import { resultModalActions } from 'store/resultModalSlice';
 import { useDispatch } from 'react-redux';
