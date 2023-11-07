@@ -59,6 +59,8 @@ const FontDetail: React.FC = () => {
     dispatch(reviewModalActions.toggle());
   };
 
+  window.scrollTo({ left: 0, top: 0 });
+
   return (
     <>
       <div className={classes.topContainer}>

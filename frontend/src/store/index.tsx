@@ -7,6 +7,8 @@ import reviewModalSlice from './reviewModalSlice';
 import chargePointModalSlice from './chargePointModalSlice';
 import exchangeModalSlice from './exchangeModalSlice';
 import changeProfileImgModalSlice from './changeProfileImgModalSlice';
+import goToBasketModalSlice from './goToBasketModalSlice';
+import signupLoaderSlice from './signupLoaderSlice';
 
 const initialState = { value: 0, showCounter: true, showModal: false };
 
@@ -42,6 +44,8 @@ const store = configureStore({
     chargePoint: chargePointModalSlice.reducer,
     exchangeModal: exchangeModalSlice.reducer,
     changeProfileImg: changeProfileImgModalSlice.reducer,
+    goToBasket: goToBasketModalSlice.reducer,
+    signupLoader: signupLoaderSlice.reducer,
   },
 });
 

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   ProfileBox,
   PointBox,
@@ -56,6 +56,7 @@ import { FaPencilAlt } from 'react-icons/fa';
 import { borderColor, mainRedColor, likeCountColor } from 'common/colors/CommonColors';
 import { FaBookmark, FaRegCheckSquare, FaRegSquare } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
+import { BsPersonWorkspace } from 'react-icons/bs';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -82,12 +83,48 @@ import { changePwModalActions } from 'store/changePwModalSlice';
 import { reviewModalActions } from 'store/reviewModalSlice';
 import { exchangeModalActions } from 'store/exchangeModalSlice';
 import { changeProfileImgModalActions } from 'store/changeProfileImgModalSlice';
+import { pointPayModalActions } from 'store/pointPayModalSlice';
+import { goToBasketModalActions } from 'store/goToBasketModalSlice';
 
 // navigation
-import { NavLink } from 'react-router-dom';
-import { pointPayModalActions } from 'store/pointPayModalSlice';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+
+import { checkToken } from 'https/utils/AuthFunction';
 
 const MyPage: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const myValue = location.state?.pageValue;
+  useEffect(() => {
+    async function fetch() {
+      if (myValue) {
+        if (myValue === 'fontBasket') {
+          setPageLocation({
+            productsState: false,
+            likeList: false,
+            fontBasket: true,
+            boughtFonts: false,
+            likeProducers: false,
+          });
+        }
+      }
+    }
+    fetch();
+  }, [myValue]);
+
+  useEffect(() => {
+    async function fetch() {
+      const token = await checkToken();
+      if (token) {
+        console.log('have Token');
+      } else {
+        console.log('잘못된 접근입니다.');
+        navigate('/wrong');
+      }
+    }
+    fetch();
+    // navigate를 의존성 배열에 추가합니다.
+  }, [navigate]);
   const [isClickedChange, setIsClickedChange] = useState<boolean>(false);
   const [nickname, setNickname] = useState<string>('김싸피');
   const nicknameInputRef = useRef<HTMLInputElement>(null);
@@ -156,13 +193,13 @@ const MyPage: React.FC = () => {
   };
 
   const transactionClick = () => {
-    dispatch(pointPayModalActions.toggle())
+    dispatch(pointPayModalActions.toggle());
   };
 
   // redux
   const dispatch = useDispatch();
   const clickDownloadHandler = () => {
-    console.log("다운로드")
+    console.log('다운로드');
   };
   const clickChangePwHandler = () => {
     dispatch(changePwModalActions.toggle());
@@ -176,6 +213,19 @@ const MyPage: React.FC = () => {
   const clickProfileImgHandler = () => {
     dispatch(changeProfileImgModalActions.toggle());
   };
+  const clickBasketHandler = () => {
+    console.log('click');
+    dispatch(goToBasketModalActions.toggle());
+  };
+
+  const clickMyWorkspaceHandler = () => {
+    navigate('/maker');
+    // 실제로 내 페이지로 가려면 id나 뭐가 필요하겠지
+  };
+
+  // 닉네임 수정하기 마우스 호버시
+  const [isPencilHovered, setIsPencilHovered] = useState(false);
+  const [isWorkspaceHovered, setIsWorkspaceHovered] = useState(false);
 
   return (
     <div className={classes.container}>
@@ -209,9 +259,38 @@ const MyPage: React.FC = () => {
                     <FaPencilAlt
                       size={30}
                       style={{ cursor: 'pointer' }}
-                      onClick={() => setIsClickedChange(true)}
+                      onClick={() => {
+                        setIsClickedChange(true);
+                        setIsPencilHovered(false);
+                      }}
                       className={classes.pencilBtn}
+                      onMouseEnter={() => setIsPencilHovered(true)}
+                      onMouseLeave={() => setIsPencilHovered(false)}
                     />
+                    <BsPersonWorkspace
+                      size={30}
+                      onClick={() => {
+                        clickMyWorkspaceHandler();
+                        setIsWorkspaceHovered(false);
+                      }}
+                      className={classes.workspaceBtn}
+                      onMouseEnter={() => setIsWorkspaceHovered(true)}
+                      onMouseLeave={() => setIsWorkspaceHovered(false)}
+                    />
+                    {isPencilHovered ? (
+                      <>
+                        <p className={classes.changeNickName}>닉네임 수정하기</p>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                    {isWorkspaceHovered ? (
+                      <>
+                        <p className={classes.changeNickName}>소개 페이지 이동하기</p>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </>
                 )}
               </ProfilNameBox>
@@ -412,7 +491,7 @@ const MyPage: React.FC = () => {
                     </ContentInnerTextBox>
                   </ContentInnerLeft>
                   <ContentInnerRight>
-                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
                 <ContentIngredient>
@@ -429,7 +508,7 @@ const MyPage: React.FC = () => {
                     </ContentInnerTextBox>
                   </ContentInnerLeft>
                   <ContentInnerRight>
-                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
                 <ContentIngredient>
@@ -446,7 +525,7 @@ const MyPage: React.FC = () => {
                     </ContentInnerTextBox>
                   </ContentInnerLeft>
                   <ContentInnerRight>
-                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
                 <ContentIngredient>
@@ -463,7 +542,7 @@ const MyPage: React.FC = () => {
                     </ContentInnerTextBox>
                   </ContentInnerLeft>
                   <ContentInnerRight>
-                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
                 <ContentIngredient>
@@ -480,7 +559,7 @@ const MyPage: React.FC = () => {
                     </ContentInnerTextBox>
                   </ContentInnerLeft>
                   <ContentInnerRight>
-                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
                 <ContentIngredient>
@@ -497,7 +576,7 @@ const MyPage: React.FC = () => {
                     </ContentInnerTextBox>
                   </ContentInnerLeft>
                   <ContentInnerRight>
-                    <ContentRedBtn>장바구니 담기</ContentRedBtn>
+                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
                   </ContentInnerRight>
                 </ContentIngredient>
               </ContentLargeBox>
@@ -544,7 +623,9 @@ const MyPage: React.FC = () => {
                 <ContentIngredient></ContentIngredient>
                 <ContentIngredient></ContentIngredient>
                 <FontBasketBottomBox>
-                  <ContentGrayTransaction onClick={transactionClick}>결제하기</ContentGrayTransaction>
+                  <ContentGrayTransaction onClick={transactionClick}>
+                    결제하기
+                  </ContentGrayTransaction>
                 </FontBasketBottomBox>
               </ContentLargeBox>
             </>
