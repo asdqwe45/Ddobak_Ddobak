@@ -11,17 +11,13 @@
     height: 60vh;
   }
 }
+/* @media (max-width: 680px) {
 
+} */
 @media (min-width: 510.001px) and (max-width: 810px) {
   .mainLargePage {
     height: 80vh;
   }
-}
-
-@media (min-width: 810.001px) and (max-width: 948px) {
-}
-
-@media (min-width: 948.001px) and (max-width: 1140px) {
 }
 
 .manuscriptLargeBox {
@@ -32,6 +28,7 @@
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
+  margin: 0px 30px;
 }
 .manuscriptLargeBox:hover {
   opacity: 0.7;

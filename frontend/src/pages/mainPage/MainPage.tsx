@@ -7,6 +7,8 @@ import {
   MainFooterBetween,
   MainFooterMiddle,
   MainFooterBetweenInnerBox,
+  MainFooterHeaderText1,
+  MainFooterHeaderText2,
 } from './mainPageComponents/MainPageComponents';
 // 조금 큰 컴포넌트
 import MainPageMiniManuscript from './mainPageComponents/MainPageMiniManuscript';
@@ -50,21 +52,22 @@ const MainPage: React.FC = () => {
       <MainFooter>
         <MainFooterBetween>
           <MainFooterBetweenInnerBox>
-            <MainFooterText>LEE JI EUN</MainFooterText>
-            <MainFooterText>LEE TAE SEONG</MainFooterText>
-            <MainFooterText>LEE JAE MYEONG</MainFooterText>
+            <MainFooterText screenWidth={screenWidth}>LEE JI EUN</MainFooterText>
+            <MainFooterText screenWidth={screenWidth}>LEE TAE SEONG</MainFooterText>
+            <MainFooterText screenWidth={screenWidth}>LEE JAE MYEONG</MainFooterText>
           </MainFooterBetweenInnerBox>
         </MainFooterBetween>
         <MainFooterMiddle>
           <MainFooterHeader>또박또박 고객문의</MainFooterHeader>
-          <MainFooterText>"원고지를 클릭하시면 구글폼으로 연결됩니다."</MainFooterText>
+          <MainFooterHeaderText1>원고지를 클릭하시면 </MainFooterHeaderText1>
+          <MainFooterHeaderText2>구글폼으로 연결됩니다</MainFooterHeaderText2>
           <MainPageMiniManuscript />
         </MainFooterMiddle>
         <MainFooterBetween>
           <MainFooterBetweenInnerBox>
-            <MainFooterText>KIM JIN JU</MainFooterText>
-            <MainFooterText>LEE MIN KYU</MainFooterText>
-            <MainFooterText>LEE KYU MIN</MainFooterText>
+            <MainFooterText screenWidth={screenWidth}>KIM JIN JU</MainFooterText>
+            <MainFooterText screenWidth={screenWidth}>LEE MIN KYU</MainFooterText>
+            <MainFooterText screenWidth={screenWidth}>LEE KYU MIN</MainFooterText>
           </MainFooterBetweenInnerBox>
         </MainFooterBetween>
       </MainFooter>
