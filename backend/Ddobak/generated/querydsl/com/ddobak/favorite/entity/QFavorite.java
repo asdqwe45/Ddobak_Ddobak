@@ -1,4 +1,4 @@
-package com.ddobak.dib.entity;
+package com.ddobak.favorite.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -11,16 +11,16 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QDib is a Querydsl query type for Dib
+ * QFavorite is a Querydsl query type for Dib
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QDib extends EntityPathBase<Dib> {
+public class QFavorite extends EntityPathBase<Favorite> {
 
     private static final long serialVersionUID = 1626740103L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QDib dib = new QDib("dib");
+    public static final QFavorite dib = new QFavorite("dib");
 
     public final com.ddobak.global.entity.QBaseEntity _super = new com.ddobak.global.entity.QBaseEntity(this);
 
@@ -37,23 +37,23 @@ public class QDib extends EntityPathBase<Dib> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
-    public QDib(String variable) {
-        this(Dib.class, forVariable(variable), INITS);
+    public QFavorite(String variable) {
+        this(Favorite.class, forVariable(variable), INITS);
     }
 
-    public QDib(Path<? extends Dib> path) {
+    public QFavorite(Path<? extends Favorite> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QDib(PathMetadata metadata) {
+    public QFavorite(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QDib(PathMetadata metadata, PathInits inits) {
-        this(Dib.class, metadata, inits);
+    public QFavorite(PathMetadata metadata, PathInits inits) {
+        this(Favorite.class, metadata, inits);
     }
 
-    public QDib(Class<? extends Dib> type, PathMetadata metadata, PathInits inits) {
+    public QFavorite(Class<? extends Favorite> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.font = inits.isInitialized("font") ? new com.ddobak.font.entity.QFont(forProperty("font"), inits.get("font")) : null;
         this.member = inits.isInitialized("member") ? new com.ddobak.member.entity.QMember(forProperty("member")) : null;

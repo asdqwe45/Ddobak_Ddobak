@@ -1,7 +1,7 @@
 package com.ddobak.font.repository;
 
-import com.ddobak.dib.entity.QDib;
-import com.ddobak.dib.repository.DibRepository;
+import com.ddobak.favorite.entity.QFavorite;
+import com.ddobak.favorite.repository.FavoriteRepository;
 import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.entity.QFont;
@@ -33,18 +33,18 @@ public class FontQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Autowired
-    private final DibRepository dibRepository;
+    private final FavoriteRepository favoriteRepository;
 
     @Autowired
-    public FontQueryRepository(EntityManager em, DibRepository dibRepository){
+    public FontQueryRepository(EntityManager em, FavoriteRepository favoriteRepository){
         this.jpaQueryFactory = new JPAQueryFactory(em);
-        this.dibRepository=dibRepository;
+        this.favoriteRepository = favoriteRepository;
     }
 
 
     public List<FontListResponse> getFontList(Long member_id,Pageable pageable,String search, List<String> keywords, Boolean free) {
         QFont font = QFont.font; // 이는 생성된 Querydsl 메타 모델을 가정합니다.
-        QDib dib = QDib.dib;
+        QFollow favorite = QFollow.favorite;
         BooleanBuilder whereClause = new BooleanBuilder();
 
         whereClause.and(font.open_status.isTrue());
@@ -88,7 +88,7 @@ public class FontQueryRepository {
     }
     public List<FontListResponse> getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free) {
         QFont font = QFont.font; // 이는 생성된 Querydsl 메타 모델을 가정합니다.
-        QDib dib = QDib.dib;
+        QFavorite favorite = QFavorite.favorite;
         BooleanBuilder whereClause = new BooleanBuilder();
 
         whereClause.and(font.open_status.isTrue());
