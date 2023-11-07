@@ -18,6 +18,7 @@ public class FavoriteController {
 
     private final FavoriteService favoriteService;
 
+
     // 찜 확인
     @GetMapping("/check/{fontId}")
     public ResponseEntity<Boolean> checkDibExists(@PathVariable Long fontId,
