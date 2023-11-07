@@ -2,7 +2,7 @@ package com.ddobak.font.repository;
 
 import com.ddobak.favorite.entity.QFavorite;
 import com.ddobak.favorite.repository.FavoriteRepository;
-import com.ddobak.font.dto.response.FontListResponse;
+import com.ddobak.font.dto.response.FontResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.entity.QFont;
 import com.querydsl.core.BooleanBuilder;
@@ -39,7 +39,7 @@ public class FontQueryRepository {
     }
 
 
-    public List<FontResponse> getFontList(Long member_id,Pageable pageable,String search, List<String> keywords, Boolean free) {
+    public List<FontResponse> getFontList(Long member_id, Pageable pageable, String search, List<String> keywords, Boolean free) {
         QFont font = QFont.font; // 이는 생성된 Querydsl 메타 모델을 가정합니다.
         QFavorite favorite = QFavorite.favorite;
         BooleanBuilder whereClause = new BooleanBuilder();
