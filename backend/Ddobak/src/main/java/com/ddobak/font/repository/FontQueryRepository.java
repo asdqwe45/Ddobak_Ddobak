@@ -1,26 +1,22 @@
 package com.ddobak.font.repository;
 
-import com.ddobak.dib.entity.QDib;
-import com.ddobak.dib.repository.DibRepository;
-import com.ddobak.font.dto.request.MakeFontRequest;
-import com.ddobak.font.dto.response.FontListResponse;
+import com.ddobak.favorite.entity.QFavorite;
+import com.ddobak.favorite.repository.FavoriteRepository;
+import com.ddobak.font.dto.response.FontResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.entity.QFont;
-import com.ddobak.global.config.QueryDslConfig;
-import com.ddobak.member.entity.Member;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import static com.querydsl.core.types.Projections.constructor;
 import static com.querydsl.jpa.JPAExpressions.select;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -35,25 +31,25 @@ public class FontQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Autowired
-    private final DibRepository dibRepository;
+    private final FavoriteRepository favoriteRepository;
 
     @Autowired
-    public FontQueryRepository(EntityManager em, DibRepository dibRepository){
+    public FontQueryRepository(EntityManager em, FavoriteRepository favoriteRepository){
         this.jpaQueryFactory = new JPAQueryFactory(em);
-        this.dibRepository=dibRepository;
+        this.favoriteRepository = favoriteRepository;
     }
 
 
-    public List<FontListResponse> getFontList(Long member_id,Pageable pageable,String search, List<String> keywords, Boolean free) {
-        QFont font = QFont.font; // 이는 생성된 Querydsl 메타 모델을 가정합니다.
-        QDib dib = QDib.dib;
+    public List<FontResponse> getFontList(Long member_id, Pageable pageable, String search, List<String> keywords, Boolean free) {
+        QFont font = QFont.font;
+        QFavorite favorite = QFavorite.favorite;
         BooleanBuilder whereClause = new BooleanBuilder();
 
         whereClause.and(font.open_status.isTrue());
 
         if (search != null && !search.isEmpty()) {
-            whereClause.and(font.producer.nickname.eq(search)
-                    .or(font.kor_font_name.eq(search)));
+            whereClause.and(font.producer.nickname.contains(search)
+                    .or(font.kor_font_name.contains(search)));
         }
 
 
@@ -62,22 +58,77 @@ public class FontQueryRepository {
         }
 
         if (keywords != null && !keywords.isEmpty()) {
+            BooleanExpression keywordExpressions = null;
             for (String keywordStr : keywords) {
-                whereClause.and(font.keywords.any().keyword.eq(keywordStr));
+                System.out.println("#############keywordStr : " + keywordStr);
+                BooleanExpression keywordExpression = font.keywords.any().keyword.eq(keywordStr);
+                if (keywordExpressions == null) {
+                    keywordExpressions = keywordExpression;
+                } else {
+                    keywordExpressions = keywordExpressions.or(keywordExpression);
+                }
             }
+            whereClause.and(keywordExpressions);
         }
 
-        // 쿼리 생성 및 실행
-        List<FontListResponse> fonts = jpaQueryFactory
-                .select(constructor(FontListResponse.class,
+        List<FontResponse> fonts = jpaQueryFactory
+                .select(constructor(FontResponse.class,
                         font.id,
                         font.kor_font_name,
                         font.producer.nickname,
                         font.font_file_url,
-                        select(dib.id.count())
-                                .from(dib)
-                                .where(dib.member.id.eq(member_id))
+                        select(favorite.id.count())
+                                .from(favorite)
+                                .where(favorite.member.id.eq(member_id))
                                 .gt(0L)
+                ))
+                .from(font)
+                .where(whereClause)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(font.id.desc())
+                .fetch();
+
+        return fonts;
+    }
+    public List<FontResponse> getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free) {
+        QFont font = QFont.font;
+        QFavorite favorite = QFavorite.favorite;
+        BooleanBuilder whereClause = new BooleanBuilder();
+
+        whereClause.and(font.open_status.isTrue());
+
+        if (search != null && !search.isEmpty()) {
+            whereClause.and(font.producer.nickname.contains(search)
+                    .or(font.kor_font_name.contains(search)));
+        }
+
+
+        if (free != null) {
+            whereClause.and(font.free_status.eq(free));
+        }
+
+        if (keywords != null && !keywords.isEmpty()) {
+            BooleanExpression keywordExpressions = null;
+            for (String keywordStr : keywords) {
+                System.out.println("#############keywordStr : " + keywordStr);
+                BooleanExpression keywordExpression = font.keywords.any().keyword.eq(keywordStr);
+                if (keywordExpressions == null) {
+                    keywordExpressions = keywordExpression;
+                } else {
+                    keywordExpressions = keywordExpressions.or(keywordExpression);
+                }
+            }
+            whereClause.and(keywordExpressions);
+        }
+
+        List<FontResponse> fonts = jpaQueryFactory
+                .select(constructor(FontResponse.class,
+                        font.id,
+                        font.kor_font_name,
+                        font.producer.nickname,
+                        font.font_file_url,
+                        Expressions.as(Expressions.constant(false), "favoriteCheck")
                 ))
                 .from(font)
                 .where(whereClause)

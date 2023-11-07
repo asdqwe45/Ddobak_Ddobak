@@ -76,8 +76,9 @@ public class S3Service {
         // Public URL을 반환. 이 부분은 버킷 설정에 따라 변경될 수 있습니다.
         return "https://" + bucketName + ".s3.amazonaws.com/" + fileName;
     }
-    public String uploadFontFile(byte[] fileData, String mimeType) {
-        String fileName = "font-path/" + System.currentTimeMillis() + ".ttf";  // 파일 이름을 원하는 대로 지정
+
+    public String uploadReviewFile(byte[] fileData, String mimeType) {
+        String fileName = "review-path/" + System.currentTimeMillis() + ".png";  // 파일 이름을 원하는 대로 지정
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(mimeType);
@@ -90,5 +91,6 @@ public class S3Service {
         // Public URL을 반환. 이 부분은 버킷 설정에 따라 변경될 수 있습니다.
         return "https://" + bucketName + ".s3.amazonaws.com/" + fileName;
     }
+
 
 }

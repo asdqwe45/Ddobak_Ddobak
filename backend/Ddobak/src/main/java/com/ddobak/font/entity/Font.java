@@ -6,23 +6,15 @@ import com.ddobak.global.entity.BaseEntity;
 import com.ddobak.transaction.entity.Creation;
 import java.security.Key;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
 import com.ddobak.member.entity.Member;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.w3c.dom.stylesheets.LinkStyle;
-
 import javax.persistence.*;
-import javax.security.auth.kerberos.KerberosTicket;
-
 
 @Entity
 @Getter
@@ -108,8 +100,10 @@ public class Font extends BaseEntity{
         this.same_person_check = req.samePersonCheck();
         this.copyrigher=req.copyrighter();
         this.create_date= LocalDate.now();
+        this.viewCount=0;
     }
-    public void plusViewCount(){
-        this.viewCount=this.viewCount+1;
+    public void plusViewCount() {
+        this.viewCount = this.viewCount + 1;
+
     }
 }
