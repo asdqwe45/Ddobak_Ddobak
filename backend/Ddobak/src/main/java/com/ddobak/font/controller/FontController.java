@@ -106,20 +106,40 @@ public class FontController {
     @GetMapping(value = "/list")
     @Operation(summary = "폰트 목록", description = "폰트 목록 조회하는 api입니다.")
     @ApiResponse(responseCode = "200", description = "리턴값으로 폰트목록에 필요한 값 리턴합니다.")
-    public ResponseEntity<FontListWithCountResponse> getFontList(@AuthenticationPrincipal LoginInfo loginInfo,@PageableDefault(size=12) Pageable pageable,@RequestPart(required = false) String search, @RequestPart(required = false) List<String> keywords, @RequestPart(required = false) Boolean free){
+    public ResponseEntity<FontListWithCountResponse> getFontList(@AuthenticationPrincipal LoginInfo loginInfo,@PageableDefault(size=12) Pageable pageable,@RequestPart(required = false) String search, @RequestPart(required = false) List<String> keywords, @RequestPart(required = false) String freeCheck){
         System.out.println("####################" + search);
+
+        Boolean free = false;
+        if(freeCheck != null){
+            if(freeCheck.equals("true")) {
+                free = true;
+            }
+        }
+
         List<FontResponse> fontList = fontService.getFontList(loginInfo,pageable,search,keywords,free);
-        FontListWithCountResponse result = new FontListWithCountResponse(fontList,fontList.stream().count());
+        FontListWithCountResponse result = new FontListWithCountResponse(fontList.stream().count(),fontList);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/list/NoAuth")
     @Operation(summary = "폰트 목록", description = "폰트 목록 조회하는 api입니다.")
     @ApiResponse(responseCode = "200", description = "리턴값으로 폰트목록에 필요한 값 리턴합니다.")
-    public ResponseEntity<FontListWithCountResponse> getFontList(@PageableDefault(size=12) Pageable pageable,@RequestPart(required = false) String search, @RequestPart(required = false) List<String> keywords, @RequestPart(required = false) Boolean free){
-        System.out.println("####################" + search);
+    public ResponseEntity<FontListWithCountResponse> getFontList(@PageableDefault(size=12) Pageable pageable,@RequestPart(required = false) String search, @RequestPart(required = false) List<String> keywords, @RequestPart(required = false) String freeCheck){
+        System.out.println("#################### search : " + search);
+        System.out.println("#################### freeCheck : " + freeCheck);
+        System.out.println("#################### page : " + pageable.getPageNumber());
+        System.out.println("#################### sizee : " + pageable.getPageSize());
+
+
+        Boolean free = false;
+        if(freeCheck != null){
+            if(freeCheck.equals("true")) {
+                free = true;
+            }
+        }
+
         List<FontResponse> fontList = fontService.getFontListNoAuth(pageable,search,keywords,free);
-        FontListWithCountResponse result = new FontListWithCountResponse(fontList,fontList.stream().count());
+        FontListWithCountResponse result = new FontListWithCountResponse(fontList.stream().count(),fontList);
         return ResponseEntity.ok(result);
     }
 
