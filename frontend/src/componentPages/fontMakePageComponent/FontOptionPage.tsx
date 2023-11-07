@@ -6,8 +6,15 @@ import { BoxTitle, InputTitle } from 'common/titleComponents/TitleComponents';
 import RadioBtn from 'common/checkButton/RadioBtn';
 import KeywordBtn from 'common/keywordButton/KeywordBtn';
 import TermsAgreement from 'common/checkButton/TermsAgreement';
+import { useDispatch } from 'react-redux';
+import { pointPayModalActions } from 'store/pointPayModalSlice';
 
-const FontOptionPage: React.FC = () => {
+interface FontOptionPageProps {
+  step?: number;
+  setStep?: (step: number) => void;
+}
+
+const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
   // 라디오 버튼 선택
   // const [selectedOption, setSelectedOption] = useState<string>('');
 
@@ -17,6 +24,15 @@ const FontOptionPage: React.FC = () => {
       console.log('모든 약관에 동의하였습니다.');
     } else {
       console.log('모든 약관에 동의하지 않았습니다.');
+    }
+  };
+
+  const dispatch = useDispatch();
+  const clickPayHandler = async () => {
+    dispatch(pointPayModalActions.toggle());
+    if (step && setStep) {
+      const nextStep = step + 1;
+      setStep(nextStep);
     }
   };
 
@@ -157,7 +173,9 @@ const FontOptionPage: React.FC = () => {
         <hr />
         <br />
         <div className={classes.btnContainer}>
-          <button className={classes.nextBtn}>결제하기</button>
+          <button className={classes.nextBtn} onClick={clickPayHandler}>
+            결제하기
+          </button>
         </div>
       </div>
     </>

@@ -32,6 +32,15 @@ public class JwtProvider {
 
     }
 
+    public Long getId(String token, String secretKey) {
+        return Jwts.parserBuilder()
+            .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
+            .build()
+            .parseClaimsJws(token)
+            .getBody()
+            .get("id", Long.class);
+    }
+
     public boolean isExpired(String token, String secretKey) {
         return Jwts.parserBuilder()
             .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
