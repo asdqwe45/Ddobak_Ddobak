@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { reviewModalActions } from 'store/reviewModalSlice';
@@ -13,9 +13,48 @@ import FontUserReview from './fontDetailPageComponent/FontUserReview';
 // icons
 import { FaRegBookmark, FaBookmark, FaRegCopy, FaPen } from 'react-icons/fa';
 
+import { axiosWithAuth } from 'https/http';
+// import axios from 'axios';
+
+// API로부터 받아올 폰트 데이터의 타입을 정의
+type Font = {
+  font_id: string;
+  dib_check: boolean;
+  producer_name: string;
+  view_count: bigint;
+  keywords: string[];
+  introduce_context: string;
+  font_file_url: string;
+  dib_count: bigint;
+};
+
 const FontDetail: React.FC = () => {
-  const { state } = useLocation();
-  const font = state as { id: string; title: string; maker: string; content: string };
+const { state } = useLocation();
+const font = state as { id: string; title: string; maker: string; content: string;};
+ const [fontDetail, setFontDetail] = useState<Font | null>(null);
+
+ // 컴포넌트 마운트시 API 호출
+useEffect(() => {
+  fetchFonts();
+}, []);
+
+
+ // 폰트 데이터를 가져오는 함수
+ const fetchFonts = async () => {
+  // const fontId = fontDetail.font_id
+  try {
+    const response = await axiosWithAuth.get(`/font/detail/13`)
+    .then((r) => { return r });
+    if (response.data) {
+      console.log("API로부터 받은 데이터:", response.data); // 데이터 로깅 추가
+      setFontDetail(response.data); // 상태 업데이트
+    } else {
+      console.log("API 응답에 fonts 프로퍼티가 없습니다.", response.data); // 경고 로그 추가
+    }
+  } catch (error) {
+    console.error('API 호출 에러:', error); // 에러 로깅 개선
+  }
+};
 
   // 책갈피 찜하기
   const [isClicked, setIsClicked] = useState(false);
@@ -75,21 +114,23 @@ const FontDetail: React.FC = () => {
           )}
         </div>
         {/* 폰트 이름 */}
-        <div className={classes.title}>{font.title}</div>
+        {/* <div className={classes.title}>{font.title}</div> */}
       </div>
 
       <div className={classes.subContainer}>
         <div className={classes.makerContainer}>
           <p>
             <strong>제작 </strong>
-            {font.maker}
+            {/* {font.producer_name} */}
           </p>
           <p>
             <strong>조회수 </strong>224K
           </p>
           {/* 폰트에 해당하는 키워드로 변경 필요 */}
           <p>
-            <strong>형태 </strong>네모네모 | 가지런한 | 어른같은
+            <strong>형태 </strong>
+            {/* 네모네모 | 가지런한 | 어른같은 */}
+            {fontDetail ? fontDetail.keywords.join(' | ') : '정보를 불러오는 중...'}
           </p>
         </div>
 
@@ -119,7 +160,8 @@ const FontDetail: React.FC = () => {
         <div className={classes.intro}>
           <BoxTitle>폰트 소개</BoxTitle>
           <div className={classes.introBox} style={{ width: '35vw' }}>
-            안녕하세요. {font.maker} 님이 만든 {font.title} 입니다. {'\n'}
+            {/* 안녕하세요. {font.maker} 님이 만든 {font.title} 입니다. {'\n'} */}
+            {/* {font.introduce_context} */}
             많이 사용해주세요. :)
           </div>
         </div>
@@ -170,7 +212,8 @@ const FontDetail: React.FC = () => {
       <div className={classes.intro}>
         <BoxTitle>또박또박 라이선스</BoxTitle>
         <div className={classes.introBox}>
-          <strong>저작권</strong> : "{font.title}" 는 개인 및 기업 사용자를 포함한 모든 사용자에게
+          {/* <strong>저작권</strong> : "{font.title}"  */}
+          는 개인 및 기업 사용자를 포함한 모든 사용자에게
           무료로 제공되며 자유롭게 사용할 수 있고 상업적 이용이 가능합니다. {'\n'}본 서체는 글꼴
           자체를 유료로 판매하거나 왜곡·변형할 수 없습니다.
         </div>
