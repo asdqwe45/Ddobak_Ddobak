@@ -113,36 +113,26 @@ public class FontServiceImpl implements FontService {
 
     @Override
     public FontDetailResponse getFontDetail(Long fontId, LoginInfo loginInfo){
-        System.out.println("######### ?????????????");
         Font font = fontQueryRepository.getFontWithKeywords(fontId);
-        System.out.println("######### ?????????????");
 
         plusViewCount(font);
-        System.out.println("######### ?????????????");
 
         Boolean dibCheck = favoriteRepository.existsByMemberIdAndFontId(loginInfo.id(), fontId);
-        System.out.println("######### ?????????????");
 
 //        Boolean dibCheck =true;
         List<String> fontKeywords = new ArrayList<>();
-        System.out.println("######### ?????????????");
 
         for(Keyword k : font.getKeywords()){
             fontKeywords.add(k.getKeyword());
         }
-        System.out.println("######### ?????????????");
 
         List<ReviewResponse> reviewResponseList = reviewService.findReviewByFontId(font.getId());
-        System.out.println("######### ?????????????");
 
         Long reviewCount = reviewResponseList.stream().count();
-        System.out.println("######### ?????????????");
 
         Long dibCount = favoriteRepository.countByFontId(fontId);
-        System.out.println("######### ?????????????");
 
-        FontDetailResponse result = new FontDetailResponse(fontId,dibCheck,"producer", font.getViewCount(),fontKeywords,font.getIntroduce_text(),font.getFont_file_url(),dibCount, font.getKor_font_name(),reviewCount, reviewResponseList);
-        System.out.println("######### ?????????????");
+        FontDetailResponse result = new FontDetailResponse(fontId,dibCheck,font.getProducer().getNickname(), font.getViewCount(),fontKeywords,font.getIntroduce_text(),font.getFont_file_url(),dibCount, font.getKor_font_name(),reviewCount, reviewResponseList);
 
 
         return result;
