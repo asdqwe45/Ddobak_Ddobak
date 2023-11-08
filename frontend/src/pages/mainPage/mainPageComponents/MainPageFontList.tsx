@@ -65,7 +65,12 @@ const MainPageFontList: React.FC = () => {
   const renderFontBoxes = () => {
     return fonts.map((font) => (
       <SwiperSlide key={font.font_id} className={classes.swiperSlid}>
-        <MainFontBox id={font.font_id.toString()} title={font.kor_font_name} maker={font.producer_name} dib={font.dibCheck} />
+        <MainFontBox
+          id={font.font_id.toString()}
+          title={font.kor_font_name}
+          maker={font.producer_name}
+          dib={font.dibCheck}
+        />
       </SwiperSlide>
     ));
   };

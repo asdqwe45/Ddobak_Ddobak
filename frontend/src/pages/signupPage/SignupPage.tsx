@@ -168,7 +168,7 @@ const SignupPage: React.FC = () => {
         });
       await startTimer();
     } else {
-      handleAlertEmailModal()
+      handleAlertEmailModal();
     }
   };
 
@@ -322,12 +322,12 @@ const SignupPage: React.FC = () => {
     }
   };
 
-// 경고 모달 설정
-  const [modalContent, setModalContent] = useState("");
+  // 경고 모달 설정
+  const [modalContent, setModalContent] = useState('');
   const [showAlertModal, setShowAlertModal] = useState(false);
 
   const handleAlertEmailModal = () => {
-    setModalContent('이메일을 입력해주세요.')
+    setModalContent('이메일을 입력해주세요.');
     setShowAlertModal(true);
   };
   const handleAlertCodeModal = () => {
@@ -375,8 +375,8 @@ const SignupPage: React.FC = () => {
             disabledBtn || !emailInputRef.current?.value
               ? classes.notValidEmail
               : isValidEmail
-                ? classes.emailCheckBtn
-                : classes.notValidEmail
+              ? classes.emailCheckBtn
+              : classes.notValidEmail
           }
           disabled={!isValidEmail}
           onClick={clickCheckBtn}

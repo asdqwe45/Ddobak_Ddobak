@@ -45,13 +45,14 @@ const FontDetail: React.FC = () => {
   // 폰트 데이터를 가져오는 함수
   const fetchFontDetails = async (fontId: string) => {
     try {
-      const response = await axiosWithAuth.get(`/font/detail/${fontId}`)
-        .then((r) => { return r });
+      const response = await axiosWithAuth.get(`/font/detail/${fontId}`).then((r) => {
+        return r;
+      });
       if (response.data) {
-        console.log("API로부터 받은 데이터:", response.data);
+        console.log('API로부터 받은 데이터:', response.data);
         setFontDetail(response.data); // 받아온 폰트 정보로 상태 업데이트
       } else {
-        console.log("API 응답에 fonts 프로퍼티가 없습니다.", response.data);
+        console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
       }
     } catch (error) {
       console.error('API 호출 에러:', error); // 에러 로깅 개선
@@ -92,12 +93,13 @@ const FontDetail: React.FC = () => {
   const handleIconClick = async () => {
     const newDibCheck = !dibCheck; // 찜 상태 반전
     const newDibCount = newDibCheck ? dibCount + 1 : dibCount - 1;
-  
+
     // 로컬 상태를 먼저 업데이트
     setDibCheck(newDibCheck);
     setDibCount(newDibCount);
 
-    if (fontId) { // fontId가 존재하면
+    if (fontId) {
+      // fontId가 존재하면
       try {
         // 백엔드에 찜 상태 업데이트 요청
         await updateDibStatus(newDibCheck, newDibCount);
@@ -111,7 +113,7 @@ const FontDetail: React.FC = () => {
   };
 
   // 웹 폰트 코드 넣기
-  const webFontCode = "@font-face: {}"
+  const webFontCode = '@font-face: {}';
 
   const copyToClipboard = async () => {
     try {
@@ -251,10 +253,11 @@ const FontDetail: React.FC = () => {
       <div className={classes.intro}>
         <BoxTitle>또박또박 라이선스</BoxTitle>
         <div className={classes.introBox}>
-          <strong>저작권</strong> :
-          '{fontDetail ? fontDetail.fontName : ''}' 폰트의 라이선스는 {fontDetail ? fontDetail.producerName : '제작자'}에게 있습니다.{'\n'}
-          '{fontDetail ? fontDetail.fontName : ''}' 는 개인 및 기업 사용자를 포함한 모든 사용자에게 무료로 제공되며 자유롭게 사용할 수 있고 상업적 이용이 가능합니다.
-          본 서체는 글꼴 자체를 유료로 판매하거나 왜곡·변형할 수 없습니다.
+          <strong>저작권</strong> : '{fontDetail ? fontDetail.fontName : ''}' 폰트의 라이선스는{' '}
+          {fontDetail ? fontDetail.producerName : '제작자'}에게 있습니다.{'\n'}'
+          {fontDetail ? fontDetail.fontName : ''}' 는 개인 및 기업 사용자를 포함한 모든 사용자에게
+          무료로 제공되며 자유롭게 사용할 수 있고 상업적 이용이 가능합니다. 본 서체는 글꼴 자체를
+          유료로 판매하거나 왜곡·변형할 수 없습니다.
         </div>
       </div>
       <br />
