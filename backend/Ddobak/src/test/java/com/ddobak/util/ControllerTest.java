@@ -11,6 +11,7 @@ import com.ddobak.member.service.MemberService;
 import com.ddobak.security.service.CustomUserDetailService;
 import com.ddobak.security.util.JwtProvider;
 import com.ddobak.security.util.LoginInfo;
+import com.ddobak.transaction.service.TransactionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -62,6 +63,7 @@ public class ControllerTest {
     @MockBean protected CustomUserDetailService customUserDetailService;
     @MockBean protected FontImageService fontImageService;
     @MockBean protected FontService fontService;
+    @MockBean protected TransactionService transactionService;
 
     // Repository
     @MockBean protected MemberRepository memberRepository;
