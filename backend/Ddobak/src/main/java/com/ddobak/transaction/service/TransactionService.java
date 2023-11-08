@@ -20,7 +20,7 @@ import com.ddobak.transaction.entity.Transaction;
 import com.ddobak.transaction.entity.Withdrawal;
 import com.ddobak.transaction.repository.ChargeRepository;
 import com.ddobak.transaction.repository.CreationRepository;
-import com.ddobak.transaction.repository.OrderRepository;
+import com.ddobak.transaction.repository.PurchaseOrderRepository;
 import com.ddobak.transaction.repository.TransactionRepository;
 import com.ddobak.transaction.repository.WithdrawalRepository;
 import java.time.LocalDateTime;
@@ -42,7 +42,7 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final ChargeRepository chargeRepository;
     private final WithdrawalRepository withdrawalRepository;
-    private final OrderRepository orderRepository;
+    private final PurchaseOrderRepository purchaseOrderRepository;
     private final CreationRepository creationRepository;
 
     private final MemberService memberService;
@@ -142,10 +142,10 @@ public class TransactionService {
     @Transactional
     public PurchaseResponse purchaseFont(LoginInfo loginInfo, List<PurchaseRequest> purchaseRequestList, int totalAmount) {
         Member buyer = memberService.findByEmail(loginInfo.email());
-        List<TransactionResponse> transactionResponseList = new ArrayList<>();
         LocalDateTime now = LocalDateTime.now();
         PurchaseResponse purchaseResponse;
         int purchaseAfterAmount = 0;
+        int sellAfterAmount = 0;
 
         int forMultiplePurchaseAmount = 0;
         int forMultiplePurchaseAfterAmount = 0;
@@ -153,10 +153,13 @@ public class TransactionService {
             // 해당 폰트 정보 가져오기
             Font purchaseFont = fontService.findByFontId(purchaseRequestList.get(0).fontId());
             Member seller = memberService.findSellerById(purchaseRequestList.get(0).sellerId());
-            // 판매자 포인트 증가
-            seller.chargePoint(purchaseFont.getPrice());
+
             // 폰트 가격만큼 계산
             purchaseAfterAmount = buyer.withdrawPoint(purchaseFont.getPrice());
+
+            // 판매자 포인트 증가
+            sellAfterAmount = seller.chargePoint(purchaseFont.getPrice());
+
             // Response 생성
             purchaseResponse = new PurchaseResponse(purchaseFont.getPrice(), purchaseAfterAmount,false);
 
@@ -169,31 +172,53 @@ public class TransactionService {
                                                        .orderDate(now)
                                                        .totalAfterAmount(purchaseAfterAmount)
                                                        .build();
+            purchaseOrderRepository.save(purchaseOrder);
 
             // 구매 및 판매 내역 저장
-            Transaction transaction = new Transaction(seller, buyer, purchaseFont, purchaseOrder);
+            Transaction transaction = Transaction.builder()
+                                                     .transactionAmount(purchaseFont.getPrice())
+                                                 .transactionAfterAmount(purchaseAfterAmount)
+                                                     .transactionDate(now)
+                                                     .seller(seller)
+                                                     .buyer(buyer)
+                                                     .transactionFont(purchaseFont)
+                                                 .purchaseOrder(purchaseOrder)
+                                                 .sellerAfterAmount(sellAfterAmount)
+                                                     .build();
+
             transactionRepository.save(transaction);
         }
         else { // 여러개 일때
             Font firstFont = fontService.findByFontId(purchaseRequestList.get(0).fontId());
             PurchaseOrder purchaseOrder = PurchaseOrder.builder()
                                                        .buyer(buyer)
+                .orderDate(now)
                                                        .mainFont(firstFont.getKor_font_name())
                                                        .fontId(firstFont.getId())
                                                        .orderCount(purchaseRequestList.size())
                                                        .totalAmount(totalAmount)
                                                        .build();
-
+            purchaseOrderRepository.save(purchaseOrder);
+            int forMultiplePurchaseBefore = buyer.getPoint();
             for(int i=0;i<purchaseRequestList.size();i++) {
                 Font purchaseFont = fontService.findByFontId(purchaseRequestList.get(i).fontId());
                 Member seller = memberService.findSellerById(purchaseRequestList.get(i).sellerId());
                 forMultiplePurchaseAmount += purchaseFont.getPrice();
-                forMultiplePurchaseAfterAmount += buyer.withdrawPoint(purchaseFont.getPrice());
-
-                Transaction transaction = new Transaction(seller, buyer, purchaseFont,
-                    purchaseOrder);
+                forMultiplePurchaseBefore -= purchaseFont.getPrice();
+                sellAfterAmount = seller.chargePoint(purchaseFont.getPrice());
+                Transaction transaction = Transaction.builder()
+                                                         .transactionDate(now)
+                                                             .seller(seller)
+                                                         .buyer(buyer)
+                                                         .transactionFont(purchaseFont)
+                                                         .purchaseOrder(purchaseOrder)
+                                                         .transactionAmount(purchaseFont.getPrice())
+                                                         .transactionAfterAmount(forMultiplePurchaseBefore)
+                    .sellerAfterAmount(sellAfterAmount)
+                                                         .build();
                 transactionRepository.save(transaction);
             }
+            forMultiplePurchaseAfterAmount += buyer.withdrawPoint(forMultiplePurchaseAmount);
             purchaseOrder.calcAfterAmount(forMultiplePurchaseAfterAmount);
 
             purchaseResponse = new PurchaseResponse(forMultiplePurchaseAmount, forMultiplePurchaseAfterAmount, true);
@@ -206,7 +231,7 @@ public class TransactionService {
     @Transactional(readOnly = true)
     public List<TransactionResponse> getPurchaseList(Long memberId) {
         // 구매 내역 가져오기
-        List<PurchaseOrder> purchaseOrderList = orderRepository.findOrdersByBuyer(memberId);
+        List<PurchaseOrder> purchaseOrderList = purchaseOrderRepository.findOrdersByBuyer(memberId);
 
         // response 에 맞게 변환
         List<TransactionResponse> transactionResponseList = new ArrayList<>();
@@ -241,6 +266,29 @@ public class TransactionService {
         }
 
         transactionResponseList.sort(Comparator.comparing(TransactionResponse::transactionDate).reversed());
+        return transactionResponseList;
+    }
+
+    // 폰트 판매 내역 조회
+    @Transactional(readOnly = true)
+    public List<TransactionResponse> getSellList(Long memberId) {
+        List<TransactionResponse> transactionResponseList = new ArrayList<>();
+        List<Transaction> transactionList = transactionRepository.findTransactionBySeller(memberId);
+
+        for(int i=0;i<transactionList.size();i++) {
+            TransactionResponse transactionResponse = new TransactionResponse(
+                transactionList.get(i).getTransactionDate(),
+                "폰트 판매",
+                transactionList.get(i).getTransactionFont().getKor_font_name(),
+                transactionList.get(i).getSeller().getNickname(),
+                transactionList.get(i).getTransactionFont().getPrice(),
+                transactionList.get(i).getSellerAfterAmount(),
+                false,
+                0
+            );
+            transactionResponseList.add(transactionResponse);
+        }
+
         return transactionResponseList;
     }
 
@@ -305,10 +353,10 @@ public class TransactionService {
         return transactionResponseList;
     }
 
+    // 거래 내역 전체 조회
     @Transactional(readOnly = true)
     public List<TransactionResponse> getAllTransactionList(Long memberId) {
         List<TransactionResponse> transactionResponseList = new ArrayList<>();
-
 
         // 충전
         List<Charge> chargeList = chargeRepository.findChargesByCharger(memberId);
@@ -361,7 +409,7 @@ public class TransactionService {
 
         // 구매 판매
         // 구매(Order), 판매(Transaction)
-        List<PurchaseOrder> purchaseOrderList = orderRepository.findOrdersByBuyer(memberId);
+        List<PurchaseOrder> purchaseOrderList = purchaseOrderRepository.findOrdersByBuyer(memberId);
         for(int i=0;i< purchaseOrderList.size();i++) {
             Font purchasedFont = fontService.findByFontId(purchaseOrderList.get(i).getFontId());
             boolean checkMultiple;
@@ -385,7 +433,7 @@ public class TransactionService {
         }
 
 
-        List<Transaction> transactionList = transactionRepository.findTransactionBuyer(memberId);
+        List<Transaction> transactionList = transactionRepository.findTransactionBySeller(memberId);
         for(int i=0;i<transactionList.size();i++) {
             TransactionResponse transactionResponse = new TransactionResponse(
                 transactionList.get(i).getTransactionDate(),
