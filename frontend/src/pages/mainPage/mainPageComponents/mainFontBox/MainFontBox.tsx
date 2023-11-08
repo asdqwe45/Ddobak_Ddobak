@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 // icons
 import { FaRegBookmark } from 'react-icons/fa';
 
+import { getData } from 'https/http';
+
 interface FontBoxProps {
   id: string;
   title: string;
@@ -15,27 +17,37 @@ interface FontBoxProps {
 const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
   const navigate = useNavigate();
 
-  const handleTitleClick = () => {
-    navigate(`/font/${id}`, {
-      // state 객체 전달
-      state: {
-        id,
-        title,
-        maker,
-        dib
-      },
-    });
+  const handleTitleClick = async () => {
+    const token = await getData('accessToken');
+    if (token) {
+      navigate(`/font/${id}`, {
+        // state 객체 전달
+        state: {
+          id,
+          title,
+          maker,
+          dib,
+        },
+      });
+    } else {
+      alert('로그인 해주세요');
+    }
   };
 
-  const handleMakerClick = () => {
-    navigate(`/maker`, {
-      // state 객체 전달
-      state: {
-        id,
-        title,
-        maker,
-      },
-    });
+  const handleMakerClick = async () => {
+    const token = await getData('accessToken');
+    if (token) {
+      navigate(`/maker/${maker}`, {
+        // state 객체 전달
+        state: {
+          id,
+          title,
+          maker,
+        },
+      });
+    } else {
+      alert('로그인 해주세요');
+    }
   };
 
   return (
@@ -45,7 +57,7 @@ const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
           <div className={classes.title} onClick={handleTitleClick}>
             <span> {title} </span>
           </div>
-            <FaRegBookmark className={classes.bookIcon} />
+          <FaRegBookmark className={classes.bookIcon} />
         </div>
         <div className={classes.fontMaker} onClick={handleMakerClick}>
           <span> {maker} </span>

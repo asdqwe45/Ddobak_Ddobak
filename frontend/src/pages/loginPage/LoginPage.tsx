@@ -32,14 +32,12 @@ const LoginPage: React.FC = () => {
     // 이메일 형식이 잘못되거나 입력하지 않은 경우
     // 우선 나중에
     const password = passwordInputRef.current!.value;
-    console.log(email, password);
     const data = {
       email: email,
       loginPassword: password,
     };
     userLogin(data)
       .then((r) => {
-        console.log(r);
         navigate('/');
         window.location.reload();
       })

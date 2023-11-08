@@ -9,7 +9,7 @@ import { getData } from 'https/http';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
 // type FontList = {
-  //   fontCount: number;
+//   fontCount: number;
 //   fontResponseList: Font[];
 // };
 type Font = {
@@ -32,11 +32,9 @@ const FontListPage: React.FC = () => {
   useEffect(() => {
     const fetch = async () => {
       const token = await getData('accessToken');
-      console.log(token)
       if (!token) {
         // 토큰 있음
         try {
-          
           const response = await axiosWithoutAuth.get('/font/list/NoAuth').then((r) => {
             return r;
           });
@@ -100,7 +98,18 @@ const FontListPage: React.FC = () => {
   //   );
   // };
 
-  const options = ['단정한','가지런한','둥글둥글','네모네모','삐뚤빼뚤','귀여운','문서체','어른같은','아이같은','자유로운',];
+  const options = [
+    '단정한',
+    '가지런한',
+    '둥글둥글',
+    '네모네모',
+    '삐뚤빼뚤',
+    '귀여운',
+    '문서체',
+    '어른같은',
+    '아이같은',
+    '자유로운',
+  ];
 
   const renderFilterOptions = () => {
     return (

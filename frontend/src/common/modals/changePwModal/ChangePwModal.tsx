@@ -32,7 +32,7 @@ const ChangePwModal: React.FC = () => {
 
   const changePasswordFC = () => {
     const prevLoginPassword = currentPwRef.current?.value;
-    const newLoginPassword = currentPwRef.current?.value;
+    const newLoginPassword = changePwRef.current?.value;
     if (prevLoginPassword && newLoginPassword) {
       const data = {
         prevLoginPassword: prevLoginPassword,
