@@ -82,10 +82,9 @@ public class TransactionController {
     @PostMapping("/purchase")
     public ResponseEntity<PurchaseResponse> requestPurchaseFont(@AuthenticationPrincipal LoginInfo loginInfo, @RequestBody
         List<PurchaseRequest> purchaseRequestList) {
-        int totalAmount = 0;
+        int totalAmount = purchaseRequestList.size();
         for(int i=0;i< purchaseRequestList.size();i++){
             log.info("{} purchase font {}", loginInfo.email(), purchaseRequestList.get(i).fontId());
-            totalAmount += purchaseRequestList.get(i).amount();
         }
         PurchaseResponse purchaseResponse = transactionService.purchaseFont(loginInfo, purchaseRequestList, totalAmount);
         return ResponseEntity.ok().body(purchaseResponse);
@@ -100,14 +99,14 @@ public class TransactionController {
         return ResponseEntity.ok().body(transactionResponseList);
     }
 
-    // 판매 내역 반환
-//    @GetMapping("/sell/list/{memberId}")
-//    public ResponseEntity<List<TransactionResponse>> requestSellList(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long memberId) {
-//        log.info("{} wants to show sellList",loginInfo.email());
-//
-//        List<TransactionResponse> transactionResponseList;
-//        return ResponseEntity.ok().body(transactionResponseList);
-//    }
+//     판매 내역 반환
+    @GetMapping("/sell/list/{memberId}")
+    public ResponseEntity<List<TransactionResponse>> requestSellList(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long memberId) {
+        log.info("{} wants to show sellList",loginInfo.email());
+
+        List<TransactionResponse> transactionResponseList = transactionService.getSellList(memberId);
+        return ResponseEntity.ok().body(transactionResponseList);
+    }
 
     // 전체 거래 내역 반환
     @GetMapping("/list/{memberId}")

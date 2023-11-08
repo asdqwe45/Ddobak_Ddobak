@@ -10,4 +10,7 @@ public interface TransactionRepository extends JpaRepository<Transaction,Long> {
 
     @Query("SELECT t FROM Transaction t WHERE t.buyer.id =:memberId")
     List<Transaction> findTransactionBuyer(@Param("memberId") Long memberId);
+
+    @Query("SELECT t FROM Transaction t WHERE t.seller.id =:memberId")
+    List<Transaction> findTransactionBySeller(@Param("memberId") Long memberId);
 }

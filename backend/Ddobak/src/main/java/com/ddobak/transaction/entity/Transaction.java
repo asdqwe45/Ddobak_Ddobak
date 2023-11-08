@@ -39,4 +39,6 @@ public class  Transaction extends TransactionInfo{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private PurchaseOrder purchaseOrder;
+
+    private int sellerAfterAmount;
 }
