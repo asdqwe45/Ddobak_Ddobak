@@ -15,7 +15,7 @@ import com.ddobak.transaction.dto.response.TransactionResponse;
 import com.ddobak.transaction.dto.response.WithdrawResponse;
 import com.ddobak.transaction.entity.Charge;
 import com.ddobak.transaction.entity.Creation;
-import com.ddobak.transaction.entity.Order;
+import com.ddobak.transaction.entity.PurchaseOrder;
 import com.ddobak.transaction.entity.Transaction;
 import com.ddobak.transaction.entity.Withdrawal;
 import com.ddobak.transaction.repository.ChargeRepository;
@@ -25,8 +25,6 @@ import com.ddobak.transaction.repository.TransactionRepository;
 import com.ddobak.transaction.repository.WithdrawalRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -160,29 +158,29 @@ public class TransactionService {
             // Response 생성
             purchaseResponse = new PurchaseResponse(purchaseFont.getPrice(), purchaseAfterAmount,false);
 
-            Order order = Order.builder()
-                .buyer(buyer)
-                .mainFont(purchaseFont.getKor_font_name())
-                .fontId(purchaseFont.getId())
-                .orderCount(1)
-                .totalAmount(purchaseFont.getPrice())
-                .orderDate(now)
-                .totalAfterAmount(purchaseAfterAmount)
-                .build();
+            PurchaseOrder purchaseOrder = PurchaseOrder.builder()
+                                                       .buyer(buyer)
+                                                       .mainFont(purchaseFont.getKor_font_name())
+                                                       .fontId(purchaseFont.getId())
+                                                       .orderCount(1)
+                                                       .totalAmount(purchaseFont.getPrice())
+                                                       .orderDate(now)
+                                                       .totalAfterAmount(purchaseAfterAmount)
+                                                       .build();
 
             // 구매 및 판매 내역 저장
-            Transaction transaction = new Transaction(seller, buyer, purchaseFont, order);
+            Transaction transaction = new Transaction(seller, buyer, purchaseFont, purchaseOrder);
             transactionRepository.save(transaction);
         }
         else { // 여러개 일때
             Font firstFont = fontService.findByFontId(purchaseRequestList.get(0).fontId());
-            Order order = Order.builder()
-                .buyer(buyer)
-                .mainFont(firstFont.getKor_font_name())
-                .fontId(firstFont.getId())
-                .orderCount(purchaseRequestList.size())
-                .totalAmount(totalAmount)
-                .build();
+            PurchaseOrder purchaseOrder = PurchaseOrder.builder()
+                                                       .buyer(buyer)
+                                                       .mainFont(firstFont.getKor_font_name())
+                                                       .fontId(firstFont.getId())
+                                                       .orderCount(purchaseRequestList.size())
+                                                       .totalAmount(totalAmount)
+                                                       .build();
 
             for(int i=0;i<purchaseRequestList.size();i++) {
                 Font purchaseFont = fontService.findByFontId(purchaseRequestList.get(i).fontId());
@@ -190,10 +188,11 @@ public class TransactionService {
                 forMultiplePurchaseAmount += purchaseFont.getPrice();
                 forMultiplePurchaseAfterAmount += buyer.withdrawPoint(purchaseFont.getPrice());
 
-                Transaction transaction = new Transaction(seller, buyer, purchaseFont,order);
+                Transaction transaction = new Transaction(seller, buyer, purchaseFont,
+                    purchaseOrder);
                 transactionRepository.save(transaction);
             }
-            order.calcAfterAmount(forMultiplePurchaseAfterAmount);
+            purchaseOrder.calcAfterAmount(forMultiplePurchaseAfterAmount);
 
             purchaseResponse = new PurchaseResponse(forMultiplePurchaseAmount, forMultiplePurchaseAfterAmount, true);
         }
@@ -205,33 +204,33 @@ public class TransactionService {
     @Transactional(readOnly = true)
     public List<TransactionResponse> getPurchaseList(Long memberId) {
         // 구매 내역 가져오기
-        List<Order> orderList = orderRepository.findOrdersByBuyer(memberId);
+        List<PurchaseOrder> purchaseOrderList = orderRepository.findOrdersByBuyer(memberId);
 
         // response 에 맞게 변환
         List<TransactionResponse> transactionResponseList = new ArrayList<>();
-        for(int i=0;i<orderList.size();i++) {
-            Font nowFont = fontService.findByFontId(orderList.get(i).getFontId());
+        for(int i=0;i< purchaseOrderList.size();i++) {
+            Font nowFont = fontService.findByFontId(purchaseOrderList.get(i).getFontId());
             TransactionResponse transactionResponse;
-            if(orderList.get(i).getOrderCount() > 1) {
+            if(purchaseOrderList.get(i).getOrderCount() > 1) {
                 transactionResponse = new TransactionResponse(
-                    orderList.get(i).getOrderDate(),
+                    purchaseOrderList.get(i).getOrderDate(),
                     "폰트 구매",
-                    orderList.get(i).getMainFont(),
+                    purchaseOrderList.get(i).getMainFont(),
                     nowFont.getProducer().getNickname(),
-                    orderList.get(i).getTotalAmount(),
-                    orderList.get(i).getTotalAfterAmount(),
+                    purchaseOrderList.get(i).getTotalAmount(),
+                    purchaseOrderList.get(i).getTotalAfterAmount(),
                     true,
-                    orderList.get(i).getOrderCount()
+                    purchaseOrderList.get(i).getOrderCount()
                     );
             }
             else {
                 transactionResponse = new TransactionResponse(
-                    orderList.get(i).getOrderDate(),
+                    purchaseOrderList.get(i).getOrderDate(),
                     "폰트 구매",
-                    orderList.get(i).getMainFont(),
+                    purchaseOrderList.get(i).getMainFont(),
                     nowFont.getProducer().getNickname(),
-                    orderList.get(i).getTotalAmount(),
-                    orderList.get(i).getTotalAfterAmount(),
+                    purchaseOrderList.get(i).getTotalAmount(),
+                    purchaseOrderList.get(i).getTotalAfterAmount(),
                         false,
                     0
                     );
@@ -257,7 +256,7 @@ public class TransactionService {
             Creation creation = Creation.builder()
                 .createdFont(createdFont)
                 .creator(creator)
-                .transactionAmount(50000)
+                .transactionAmount(0)
                 .transactionAfterAmount(creator.getPoint())
                 .transactionDate(now)
                 .build();
@@ -356,25 +355,25 @@ public class TransactionService {
 
         // 구매 판매
         // 구매(Order), 판매(Transaction)
-        List<Order> orderList = orderRepository.findOrdersByBuyer(memberId);
-        for(int i=0;i<orderList.size();i++) {
-            Font purchasedFont = fontService.findByFontId(orderList.get(i).getFontId());
+        List<PurchaseOrder> purchaseOrderList = orderRepository.findOrdersByBuyer(memberId);
+        for(int i=0;i< purchaseOrderList.size();i++) {
+            Font purchasedFont = fontService.findByFontId(purchaseOrderList.get(i).getFontId());
             boolean checkMultiple;
-            if(orderList.get(i).getOrderCount() >= 2) {
+            if(purchaseOrderList.get(i).getOrderCount() >= 2) {
                 checkMultiple = true;
             }
             else {
                 checkMultiple = false;
             }
             TransactionResponse transactionResponse = new TransactionResponse(
-                orderList.get(i).getOrderDate(),
+                purchaseOrderList.get(i).getOrderDate(),
                 "폰트 구매",
                 purchasedFont.getKor_font_name(),
                 purchasedFont.getProducer().getNickname(),
-                orderList.get(i).getTotalAmount(),
-                orderList.get(i).getTotalAfterAmount(),
+                purchaseOrderList.get(i).getTotalAmount(),
+                purchaseOrderList.get(i).getTotalAfterAmount(),
                 checkMultiple,
-                orderList.get(i).getOrderCount()
+                purchaseOrderList.get(i).getOrderCount()
             );
         }
 
