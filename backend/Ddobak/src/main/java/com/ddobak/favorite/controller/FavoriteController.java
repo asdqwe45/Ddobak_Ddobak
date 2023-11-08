@@ -23,10 +23,10 @@ public class FavoriteController {
 
     private final FontService fontService;
     private final FavoriteService favoriteService;
+
     // 찜 확인
     @GetMapping("/check/{fontId}")
-    public ResponseEntity<Boolean> checkDibExists(@PathVariable Long fontId,
-                                                  @AuthenticationPrincipal LoginInfo loginInfo){
+    public ResponseEntity<Boolean> checkDibExists(@PathVariable Long fontId, @AuthenticationPrincipal LoginInfo loginInfo) {
         Long memberId = loginInfo.id();
         boolean result = favoriteService.existsByMemberIDAndFontID(memberId, fontId);
         return ResponseEntity.ok(result);
@@ -34,8 +34,7 @@ public class FavoriteController {
 
     // 찜 하기
     @PostMapping("/{fontId}")
-    public ResponseEntity<Void> makeDib(@PathVariable Long fontId,
-                                        @AuthenticationPrincipal LoginInfo loginInfo) {
+    public ResponseEntity<Void> makeDib(@PathVariable Long fontId, @AuthenticationPrincipal LoginInfo loginInfo) {
         Long memberId = loginInfo.id();
         favoriteService.makeDib(memberId, fontId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -43,8 +42,7 @@ public class FavoriteController {
 
     // 찜 삭제
     @DeleteMapping("/{fontId}")
-    public ResponseEntity<Void> removeDib(@PathVariable Long fontId,
-                                          @AuthenticationPrincipal LoginInfo loginInfo){
+    public ResponseEntity<Void> removeDib(@PathVariable Long fontId, @AuthenticationPrincipal LoginInfo loginInfo) {
         Long memberId = loginInfo.id();
         favoriteService.removeDib(memberId, fontId);
         return ResponseEntity.noContent().build();
@@ -70,11 +68,10 @@ public class FavoriteController {
             for (Favorite favorite : favorites) {
                 Long fontId = favorite.getFont().getId(); // 즐겨찾기된 폰트의 ID를 가져오는 메소드
                 result.add(fontService.findByFontId(fontId));
-                }
+            }
             return ResponseEntity.ok(result);
 
-            }
         }
-
     }
+
 }
