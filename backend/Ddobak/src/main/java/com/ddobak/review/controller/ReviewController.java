@@ -1,6 +1,7 @@
 package com.ddobak.review.controller;
 
 import com.ddobak.review.dto.request.ReviewRegisterRequest;
+import com.ddobak.review.dto.response.ReviewListResponse;
 import com.ddobak.review.dto.response.ReviewResponse;
 import com.ddobak.review.service.ReviewService;
 import com.ddobak.security.util.LoginInfo;
@@ -37,6 +38,7 @@ public class ReviewController {
     @GetMapping("/list/{fontId}")
     public ResponseEntity<?> findReviewList(@PathVariable Long fontId) {
         List<ReviewResponse> reviewResponseList = reviewService.findReviewByFontId(fontId);
-        return ResponseEntity.ok(reviewResponseList);
+        ReviewListResponse result = new ReviewListResponse(reviewResponseList.stream().count(),reviewResponseList);
+        return ResponseEntity.ok(result);
     }
 }

@@ -54,7 +54,7 @@ public class ReviewServiceImpl implements ReviewService{
 
         String imageUrl = s3Service.uploadReviewFile(fileData,"image/png");
 
-        Review review = new Review(req.context(),imageUrl,member,font);
+        Review review = new Review(imageUrl,req.context(),member,font);
 
         reviewRepository.save(review);
 
