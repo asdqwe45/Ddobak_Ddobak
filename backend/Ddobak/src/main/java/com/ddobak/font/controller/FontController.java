@@ -118,7 +118,7 @@ public class FontController {
                 free = true;
             }
             else{
-                free = true;
+                free = false;
             }
         }
 
@@ -138,7 +138,7 @@ public class FontController {
                 free = true;
             }
             else{
-                free = true;
+                free = false;
             }
         }
 
