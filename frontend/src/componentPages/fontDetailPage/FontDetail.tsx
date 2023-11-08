@@ -14,7 +14,6 @@ import FontUserReview from './fontDetailPageComponent/FontUserReview';
 import { FaRegBookmark, FaBookmark, FaRegCopy, FaPen } from 'react-icons/fa';
 
 import { axiosWithAuth } from 'https/http';
-// import axios from 'axios';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
 type Font = {
@@ -26,6 +25,7 @@ type Font = {
   keywords: string[];
   producerName: string;
   viewCount: bigint;
+  fontName: string;
 };
 
 const FontDetail: React.FC = () => {
@@ -102,7 +102,7 @@ const FontDetail: React.FC = () => {
       <div className={classes.topContainer}>
         {/* 폰트 찜 책갈피 */}
         <div className={classes.dibContainer}>
-          <div className={classes.dibCount}>{fontDetail ? fontDetail.dibCount : '정보를 불러오는 중...'}</div>
+          <div className={classes.dibCount}>{fontDetail ? fontDetail.dibCount : ''}</div>
           {isClicked ? (
             <FaBookmark className={classes.bookIcon} onClick={handleIconClick} />
 
@@ -112,22 +112,21 @@ const FontDetail: React.FC = () => {
           )}
         </div>
         {/* 폰트 이름 */}
-        {/* <div className={classes.title}>{font.title}</div> */}
+        <div className={classes.title}>{fontDetail ? fontDetail.fontName : ''}</div>
       </div>
-
       <div className={classes.subContainer}>
         <div className={classes.makerContainer}>
           <p>
             <strong>제작 </strong>
-            {fontDetail ? fontDetail.producerName : '정보를 불러오는 중...'}
+            {fontDetail ? fontDetail.producerName : ''}
           </p>
           <p>
             <>
-              <strong>조회수 </strong> {fontDetail ? fontDetail.viewCount : '정보를 불러오는 중...'}
+              <strong>조회수 </strong> {fontDetail ? fontDetail.viewCount : ''}
             </>
           </p>
           <p>
-            <strong>형태 </strong> {fontDetail ? fontDetail.keywords.join(' | ') : '정보를 불러오는 중...'}
+            <strong>형태 </strong> {fontDetail ? fontDetail.keywords.join(' | ') : ' | '}
           </p>
         </div>
 
@@ -157,7 +156,7 @@ const FontDetail: React.FC = () => {
         <div className={classes.intro}>
           <BoxTitle>폰트 소개</BoxTitle>
           <div className={classes.introBox} style={{ width: '35vw' }}>
-            {fontDetail ? fontDetail.introduceContext : '정보를 불러오는 중...'}
+            {fontDetail ? fontDetail.introduceContext : '안녕하세요. 제작자입니다.'}
           </div>
         </div>
         <div>
@@ -208,10 +207,8 @@ const FontDetail: React.FC = () => {
         <BoxTitle>또박또박 라이선스</BoxTitle>
         <div className={classes.introBox}>
           <strong>저작권</strong> : 
-          '{/* "{font.title}" */}'
-          폰트의 라이선스는 {fontDetail ? fontDetail.producerName : '정보를 불러오는 중...'}에게 있습니다.{'\n'}
-          '{/* "{font.title}" */}'
-          는 개인 및 기업 사용자를 포함한 모든 사용자에게 무료로 제공되며 자유롭게 사용할 수 있고 상업적 이용이 가능합니다. 
+          '{fontDetail ? fontDetail.fontName : ''}' 폰트의 라이선스는 {fontDetail ? fontDetail.producerName : '제작자'}에게 있습니다.{'\n'}
+          '{fontDetail ? fontDetail.fontName : ''}' 는 개인 및 기업 사용자를 포함한 모든 사용자에게 무료로 제공되며 자유롭게 사용할 수 있고 상업적 이용이 가능합니다. 
           본 서체는 글꼴 자체를 유료로 판매하거나 왜곡·변형할 수 없습니다.
         </div>
       </div>

@@ -11,11 +11,11 @@ import './common/font/fonts.css';
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <div style={{ fontFamily: 'SUIT-Regular' }}>
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
       <Provider store={store}>
         <App />
       </Provider>
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
     ,
   </div>,
 );
