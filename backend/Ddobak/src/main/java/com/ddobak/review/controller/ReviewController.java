@@ -24,7 +24,6 @@ public class ReviewController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerReview(@RequestPart("data") ReviewRegisterRequest req, @RequestPart(value = "file", required = false) MultipartFile image, @AuthenticationPrincipal LoginInfo loginInfo) {
-        System.out.println(req.fontId());
         reviewService.registerReview(req, image, loginInfo);
         return ResponseEntity.ok("success");
     }

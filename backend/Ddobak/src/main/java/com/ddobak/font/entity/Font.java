@@ -4,8 +4,7 @@ import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.global.entity.BaseEntity;
 
 import com.ddobak.transaction.entity.Creation;
-import java.security.Key;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,7 +54,7 @@ public class Font extends BaseEntity{
     private String introduce_text;
 
     @Column
-    private LocalDate create_date;
+    private LocalDateTime create_datetime;
 
     @Column
     private Boolean copyright_notice;
@@ -99,7 +98,7 @@ public class Font extends BaseEntity{
         this.copyright_notice=req.copyrightNotice();
         this.same_person_check = req.samePersonCheck();
         this.copyrigher=req.copyrighter();
-        this.create_date= LocalDate.now();
+        this.create_datetime= LocalDateTime.now();
         this.viewCount=0;
     }
     public void plusViewCount() {
