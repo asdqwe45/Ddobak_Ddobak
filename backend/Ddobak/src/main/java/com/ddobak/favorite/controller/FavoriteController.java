@@ -68,10 +68,12 @@ public class FavoriteController {
         } else {
             ArrayList<Font> result = new ArrayList<>();
             for (Favorite favorite : favorites) {
-                Font font = favorite.getFont(); // 즐겨찾기된 폰트의 ID를 가져오는 메소드
-                    result.add(font);
-            }
+                Long fontId = favorite.getFont().getId(); // 즐겨찾기된 폰트의 ID를 가져오는 메소드
+                result.add(fontService.findByFontId(fontId));
+                }
             return ResponseEntity.ok(result);
+
+            }
         }
 
     }
