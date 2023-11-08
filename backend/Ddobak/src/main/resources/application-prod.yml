@@ -2,7 +2,7 @@ server:
   port: 7077
 spring:
   datasource:
-    url: jdbc:mariadb://mariadb:3306/ddobak
+    url: jdbc:mariadb://mariadb:3306/ddobak?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     driver-class-name: org.mariadb.jdbc.Driver
     username: ${MARIADB_USERNAME}
     password: ${MARIADB_PASSWORD}
