@@ -4,10 +4,12 @@ import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.font.dto.response.FontDetailResponse;
 import com.ddobak.font.dto.response.FontListWithCountResponse;
 import com.ddobak.font.dto.response.FontResponse;
+import com.ddobak.font.entity.Font;
 import com.ddobak.font.exception.InvalidFileFormatException;
 import com.ddobak.font.service.FontImageService;
 import com.ddobak.font.service.FontService;
 import com.ddobak.security.util.LoginInfo;
+import com.ddobak.transaction.service.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -31,6 +33,7 @@ public class FontController {
 
     private final FontImageService fontImageService;
     private final FontService fontService;
+    private final TransactionService transactionService;
 
     @GetMapping(value="/test")
     @Operation(summary = "테스트", description = "테스트하는 api 입니다.")
@@ -93,9 +96,10 @@ public class FontController {
     public ResponseEntity<String> makeFont(@RequestBody MakeFontRequest req,
                                            @AuthenticationPrincipal LoginInfo loginInfo) throws IOException {
         try {
-            System.out.println(req.fontSortUrl());
+
             String fontUrl = fontImageService.createFont(req, loginInfo);
-            fontService.makeFont(req,loginInfo,fontUrl);
+            Font makedFont = fontService.makeFont(req,loginInfo,fontUrl);
+            transactionService.requestFontTransaction(makedFont, loginInfo.id(),makedFont.getPrice());
             return ResponseEntity.ok("success");
         } catch (IOException e) {
             e.printStackTrace();
