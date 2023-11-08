@@ -1,5 +1,7 @@
 package com.ddobak.font.dto.response;
 
+import com.ddobak.review.dto.response.ReviewResponse;
+
 import java.util.List;
 
 public record FontDetailResponse(
@@ -11,7 +13,9 @@ public record FontDetailResponse(
         String introduceContext,
         String fontFileUrl,
         Long dibCount,
-        String fontName
+        String fontName,
+        Long reviewCount,
+        List<ReviewResponse> reviewResponseList
     ) {
     public FontDetailResponse(Long fontId,
                             Boolean dibCheck,
@@ -21,7 +25,9 @@ public record FontDetailResponse(
                             String introduceContext,
                             String fontFileUrl,
                               Long dibCount,
-                            String fontName
+                            String fontName,
+                              Long reviewCount,
+                              List<ReviewResponse> reviewResponseList
                               ){
         this.fontId=fontId;
         this.dibCheck=dibCheck;
@@ -32,5 +38,7 @@ public record FontDetailResponse(
         this.fontFileUrl=fontFileUrl;
         this.dibCount = dibCount;
         this.fontName=fontName;
+        this.reviewCount=reviewCount;
+        this.reviewResponseList=reviewResponseList;
     }
 }

@@ -17,6 +17,7 @@ import com.ddobak.member.repository.MemberRepository;
 import com.ddobak.review.dto.response.ReviewResponse;
 import com.ddobak.review.entity.Review;
 import com.ddobak.review.repository.ReviewRepository;
+import com.ddobak.review.service.ReviewService;
 import com.ddobak.security.util.LoginInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,7 @@ public class FontServiceImpl implements FontService {
     private final FontQueryRepository fontQueryRepository;
     private final FavoriteRepository favoriteRepository;
     private final ReviewRepository reviewRepository;
+    private final ReviewService reviewService;
 
     @Override
     public void createFont(String font_sort_url, LoginInfo loginInfo){
@@ -111,16 +113,37 @@ public class FontServiceImpl implements FontService {
 
     @Override
     public FontDetailResponse getFontDetail(Long fontId, LoginInfo loginInfo){
+        System.out.println("######### ?????????????");
         Font font = fontQueryRepository.getFontWithKeywords(fontId);
+        System.out.println("######### ?????????????");
+
         plusViewCount(font);
+        System.out.println("######### ?????????????");
+
         Boolean dibCheck = favoriteRepository.existsByMemberIdAndFontId(loginInfo.id(), fontId);
+        System.out.println("######### ?????????????");
+
 //        Boolean dibCheck =true;
         List<String> fontKeywords = new ArrayList<>();
+        System.out.println("######### ?????????????");
+
         for(Keyword k : font.getKeywords()){
             fontKeywords.add(k.getKeyword());
         }
+        System.out.println("######### ?????????????");
+
+        List<ReviewResponse> reviewResponseList = reviewService.findReviewByFontId(font.getId());
+        System.out.println("######### ?????????????");
+
+        Long reviewCount = reviewResponseList.stream().count();
+        System.out.println("######### ?????????????");
+
         Long dibCount = favoriteRepository.countByFontId(fontId);
-        FontDetailResponse result = new FontDetailResponse(fontId,dibCheck,"producer", font.getViewCount(),fontKeywords,font.getIntroduce_text(),font.getFont_file_url(),dibCount, font.getKor_font_name());
+        System.out.println("######### ?????????????");
+
+        FontDetailResponse result = new FontDetailResponse(fontId,dibCheck,"producer", font.getViewCount(),fontKeywords,font.getIntroduce_text(),font.getFont_file_url(),dibCount, font.getKor_font_name(),reviewCount, reviewResponseList);
+        System.out.println("######### ?????????????");
+
 
         return result;
     }
