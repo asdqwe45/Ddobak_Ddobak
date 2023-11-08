@@ -17,7 +17,7 @@ import MainPageFontList from './mainPageComponents/MainPageFontList';
 import MainPageGuide from './mainPageComponents/MainPageGuide';
 
 const MainPage: React.FC = () => {
-  const [screenWidth, setScreenWidth] = useState<number>(0);
+  const [screenWidth, setScreenWidth] = useState<number>(1001);
   const handleResize = () => {
     setScreenWidth(window.innerWidth);
   };
