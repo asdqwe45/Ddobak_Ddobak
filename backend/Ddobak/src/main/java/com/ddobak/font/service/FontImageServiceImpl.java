@@ -177,7 +177,7 @@ public class FontImageServiceImpl implements FontImageService {
     }
 
     public String getS3FontUrl(List<File> imageFiles) {
-        String fastApiUrl = "http://localhost:8000/makeUpload";
+        String fastApiUrl = "163.239.223.171:8786/api/v1/font_create/create_font";
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);

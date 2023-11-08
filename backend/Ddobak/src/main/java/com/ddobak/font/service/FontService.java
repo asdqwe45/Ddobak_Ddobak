@@ -16,7 +16,7 @@ public interface FontService {
 
     void createFont(String font_sort_url, LoginInfo loginInfo);
 
-    void makeFont(MakeFontRequest req, LoginInfo loginInfo, String fontUrl);
+    Font makeFont(MakeFontRequest req, LoginInfo loginInfo, String fontUrl);
 
     List<FontResponse> getFontList(LoginInfo loginInfo, Pageable pageable, String search, List<String> keywords, Boolean free);
 

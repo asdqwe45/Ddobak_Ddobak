@@ -14,6 +14,9 @@ import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.exception.MemberException;
 import com.ddobak.member.repository.MemberRepository;
+import com.ddobak.review.dto.response.ReviewResponse;
+import com.ddobak.review.entity.Review;
+import com.ddobak.review.repository.ReviewRepository;
 import com.ddobak.security.util.LoginInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +41,7 @@ public class FontServiceImpl implements FontService {
     private final KeywordRepository keywordRepository;
     private final FontQueryRepository fontQueryRepository;
     private final FavoriteRepository favoriteRepository;
+    private final ReviewRepository reviewRepository;
 
     @Override
     public void createFont(String font_sort_url, LoginInfo loginInfo){
@@ -55,7 +59,7 @@ public class FontServiceImpl implements FontService {
     }
 
     @Override
-    public void makeFont(MakeFontRequest req, LoginInfo loginInfo, String fontUrl) {
+    public Font makeFont(MakeFontRequest req, LoginInfo loginInfo, String fontUrl) {
         String email = loginInfo.email();
         Member member = memberRepository.findById(loginInfo.id())
                 .orElseThrow(() -> new EntityNotFoundException("Member not found with email: " + loginInfo.id()));
@@ -70,6 +74,8 @@ public class FontServiceImpl implements FontService {
         Optional.ofNullable(req.keyword3()).ifPresent(keyword -> addKeywordToFont(keyword, font));
 
         fontRepository.save(font);
+
+        return font;
     }
 
     private void addKeywordToFont(String keyword, Font font) {
@@ -110,8 +116,8 @@ public class FontServiceImpl implements FontService {
     public FontDetailResponse getFontDetail(Long fontId, LoginInfo loginInfo){
         Font font = fontQueryRepository.getFontWithKeywords(fontId);
         plusViewCount(font);
-//        Boolean dibCheck = dibRepository.existsByMemberIdAndFontId(loginInfo.id(), fontId);
-        Boolean dibCheck =true;
+        Boolean dibCheck = favoriteRepository.existsByMemberIdAndFontId(loginInfo.id(), fontId);
+//        Boolean dibCheck =true;
         List<String> fontKeywords = new ArrayList<>();
         for(Keyword k : font.getKeywords()){
             fontKeywords.add(k.getKeyword());
