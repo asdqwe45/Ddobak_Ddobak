@@ -1,5 +1,6 @@
 package com.ddobak.font.entity;
 
+import com.ddobak.basket.entity.Basket;
 import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.global.entity.BaseEntity;
 
@@ -71,14 +72,13 @@ public class Font extends BaseEntity{
     @OneToOne(mappedBy = "createdFont")
     private Creation creation;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "font_keyword",
             joinColumns = @JoinColumn(name = "font_id"),
             inverseJoinColumns = @JoinColumn(name = "keyword_id")
     )
     private List<Keyword> keywords;
-
 
     public static Font from(String font_sort_url, Member producer) {
         return Font.builder()
