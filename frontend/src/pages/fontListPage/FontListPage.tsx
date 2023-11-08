@@ -57,7 +57,7 @@ const FontListPage: React.FC = () => {
         id={font.font_id.toString()}
         title={font.kor_font_name}
         maker={font.producer_name}
-        // dib={font.dibCheck}
+        dib={font.dibCheck}
       />
     ));
   };
