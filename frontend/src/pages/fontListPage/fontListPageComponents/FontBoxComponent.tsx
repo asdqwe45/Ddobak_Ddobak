@@ -21,18 +21,37 @@ interface FontBoxProps {
 const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
   const navigate = useNavigate();
 
-  const handleTitleClick = () => {
-    navigate(`/font/${id}`, {
-      // state 객체 전달
-      state: { id, title, maker, dib },
-    });
+  const handleTitleClick = async () => {
+    const token = await getData('accessToken');
+    if (token) {
+      navigate(`/font/${id}`, {
+        // state 객체 전달
+        state: {
+          id,
+          title,
+          maker,
+          dib,
+        },
+      });
+    } else {
+      alert('로그인 해주세요');
+    }
   };
 
-  const handleMakerClick = () => {
-    navigate(`/maker`, {
-      // state 객체 전달
-      state: { id, title, maker },
-    });
+  const handleMakerClick = async () => {
+    const token = await getData('accessToken');
+    if (token) {
+      navigate(`/maker/${maker}`, {
+        // state 객체 전달
+        state: {
+          id,
+          title,
+          maker,
+        },
+      });
+    } else {
+      alert('로그인 해주세요');
+    }
   };
 
   const [fontDetail, setFontDetail] = useState<Font | null>(null);
@@ -40,7 +59,6 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => 
     // 라우트에서 폰트 ID 가져오기
     const fetchNoAuth = async () => {
       const token = await getData('accessToken');
-      console.log(token);
       if (token) {
         if (id) {
           fetchFontDetails(id); // 폰트 ID로 폰트 정보를 불러오는 함수 호출
@@ -74,7 +92,6 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => 
   useEffect(() => {
     const fetchNoAuth = async () => {
       const token = await getData('accessToken');
-      console.log(token);
       if (token) {
         if (fontDetail) {
           setDibCheck(fontDetail.dibCheck);

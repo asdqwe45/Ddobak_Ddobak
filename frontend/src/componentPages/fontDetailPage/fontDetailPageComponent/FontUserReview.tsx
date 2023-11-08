@@ -41,15 +41,14 @@ const FontUserReview: React.FC = () => {
   const swiperRef = useRef<SwiperCore>();
 
   // FontUserReview.js 예시
-// const fetchReviews = async () => {
-//   try {
-//     const response = await axios.get('/api/review');
-//     // 상태에 리뷰 데이터 저장
-//   } catch (error) {
-//     // 에러 핸들링
-//   }
-// };
-
+  // const fetchReviews = async () => {
+  //   try {
+  //     const response = await axios.get('/api/review');
+  //     // 상태에 리뷰 데이터 저장
+  //   } catch (error) {
+  //     // 에러 핸들링
+  //   }
+  // };
 
   return (
     <>

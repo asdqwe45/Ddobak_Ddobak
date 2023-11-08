@@ -205,7 +205,7 @@ const MyPage: React.FC = () => {
   };
 
   const clickMyWorkspaceHandler = () => {
-    navigate('/maker');
+    navigate('/maker/');
     // 실제로 내 페이지로 가려면 id나 뭐가 필요하겠지
   };
 

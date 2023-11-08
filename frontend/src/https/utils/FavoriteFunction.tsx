@@ -1,12 +1,11 @@
-import { axiosWithoutAuth, getData } from 'https/http';
+import { axiosWithoutAuth, axiosWithAuth } from 'https/http';
 
-const BASE_URL = '/dib';
+const BASE_URL = '/favorite';
 
 // 찜 조회하기
 export async function dibIsActiveAPI(fontId: string): Promise<any> {
-  const memberId = await getData('id');
-  return axiosWithoutAuth
-    .get(BASE_URL + `/${memberId}/${fontId}`)
+  return axiosWithAuth
+    .get(BASE_URL + `/check/${fontId}`)
     .then((r) => {
       return r.data;
     })
@@ -17,9 +16,8 @@ export async function dibIsActiveAPI(fontId: string): Promise<any> {
 
 // 폰트 찜하기
 export async function dibAddAPI(fontId: string): Promise<any> {
-  const memberId = await getData('id');
-  return axiosWithoutAuth
-    .post(BASE_URL + `/add/${memberId}/${fontId}`)
+  return axiosWithAuth
+    .post(BASE_URL + `/${fontId}`)
     .then((r) => {
       return r.data;
     })
@@ -30,9 +28,8 @@ export async function dibAddAPI(fontId: string): Promise<any> {
 
 // 찜 삭제하기
 export async function dibRemoveAPI(fontId: string): Promise<any> {
-  const memberId = await getData('id');
-  return axiosWithoutAuth
-    .delete(BASE_URL + `/remove/${memberId}/${fontId}`)
+  return axiosWithAuth
+    .delete(BASE_URL + `/${fontId}`)
     .then((r) => {
       return r.data;
     })
@@ -55,9 +52,8 @@ export async function dibCountAPI(fontId: string): Promise<any> {
 
 // 사용자 찜 목록 가져오기
 export async function dibListAPI(): Promise<any> {
-  const memberId = await getData('id');
-  return axiosWithoutAuth
-    .get(BASE_URL + `/${memberId}/`)
+  return axiosWithAuth
+    .get(BASE_URL + `/list`)
     .then((r) => {
       return r.data;
     })
