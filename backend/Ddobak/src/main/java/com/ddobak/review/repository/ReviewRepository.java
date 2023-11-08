@@ -12,8 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review,Long> {
-
     @Query("select new com.ddobak.review.dto.response.ReviewResponse(r.member.nickname, r.context, r.image_url) from Review r where r.font.id = :fontId")
     List<ReviewResponse> findAllByFontId(@Param("fontId") Long fontId);
-
 }
