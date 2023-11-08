@@ -151,6 +151,7 @@ public class FontController {
     @Operation(summary = "폰트 디테일",  description = "폰트 디테일을 조회하는 api입니다.")
     @ApiResponse(responseCode = "200", description = "리턴값으로 조회한 폰트의 디테일 값을 리턴합니다.")
     public ResponseEntity<FontDetailResponse> getFontDetail(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long fontId){
+        System.out.println("######## 되나?");
         FontDetailResponse result = fontService.getFontDetail(fontId, loginInfo);
         return ResponseEntity.ok(result);
     }
