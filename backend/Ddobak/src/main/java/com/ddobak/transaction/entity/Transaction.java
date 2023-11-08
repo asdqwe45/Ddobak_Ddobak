@@ -1,7 +1,6 @@
 package com.ddobak.transaction.entity;
 
 import com.ddobak.font.entity.Font;
-import com.ddobak.global.entity.BaseEntity;
 import com.ddobak.member.entity.Member;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,5 +38,5 @@ public class  Transaction extends TransactionInfo{
     // 구매 내역
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
-    private Order order;
+    private PurchaseOrder purchaseOrder;
 }

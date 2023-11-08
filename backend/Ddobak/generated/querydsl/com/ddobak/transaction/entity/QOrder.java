@@ -14,7 +14,7 @@ import com.querydsl.core.types.dsl.PathInits;
  * QOrder is a Querydsl query type for Order
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QOrder extends EntityPathBase<Order> {
+public class QOrder extends EntityPathBase<PurchaseOrder> {
 
     private static final long serialVersionUID = -1834749673L;
 
@@ -48,10 +48,10 @@ public class QOrder extends EntityPathBase<Order> {
     public final NumberPath<Integer> totalAmount = createNumber("totalAmount", Integer.class);
 
     public QOrder(String variable) {
-        this(Order.class, forVariable(variable), INITS);
+        this(PurchaseOrder.class, forVariable(variable), INITS);
     }
 
-    public QOrder(Path<? extends Order> path) {
+    public QOrder(Path<? extends PurchaseOrder> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
@@ -60,10 +60,10 @@ public class QOrder extends EntityPathBase<Order> {
     }
 
     public QOrder(PathMetadata metadata, PathInits inits) {
-        this(Order.class, metadata, inits);
+        this(PurchaseOrder.class, metadata, inits);
     }
 
-    public QOrder(Class<? extends Order> type, PathMetadata metadata, PathInits inits) {
+    public QOrder(Class<? extends PurchaseOrder> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.buyer = inits.isInitialized("buyer") ? new com.ddobak.member.entity.QMember(forProperty("buyer")) : null;
     }
