@@ -68,7 +68,8 @@ public class FavoriteController {
         } else {
             ArrayList<Font> result = new ArrayList<>();
             for (Favorite favorite : favorites) {
-                result.add(fontService.findByFontId(favorite.getId()));
+                Font font = favorite.getFont(); // 즐겨찾기된 폰트의 ID를 가져오는 메소드
+                    result.add(font);
             }
             return ResponseEntity.ok(result);
         }

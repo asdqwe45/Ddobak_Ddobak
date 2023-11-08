@@ -5,6 +5,7 @@ import com.ddobak.global.entity.BaseEntity;
 import com.ddobak.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -20,7 +21,9 @@ public class Favorite extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    @Getter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "font_id", nullable = false)
     private Font font;
+
 }
