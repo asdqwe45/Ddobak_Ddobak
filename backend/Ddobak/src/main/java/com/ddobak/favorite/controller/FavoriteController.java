@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/dibs") // changed to plural form to be more RESTful
+@RequestMapping("/api/v1/favorite") // changed to plural form to be more RESTful
 public class FavoriteController {
 
     private final FavoriteService favoriteService;
