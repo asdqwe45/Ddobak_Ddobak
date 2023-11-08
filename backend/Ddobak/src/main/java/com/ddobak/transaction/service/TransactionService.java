@@ -89,6 +89,7 @@ public class TransactionService {
             transactionResponseList.add(transactionResponse);
         }
 
+        transactionResponseList.sort(Comparator.comparing(TransactionResponse::transactionDate).reversed());
         return transactionResponseList;
     }
 
@@ -133,6 +134,7 @@ public class TransactionService {
             transactionResponseList.add(transactionResponse);
         }
 
+        transactionResponseList.sort(Comparator.comparing(TransactionResponse::transactionDate).reversed());
         return transactionResponseList;
     }
 
@@ -238,6 +240,7 @@ public class TransactionService {
             transactionResponseList.add(transactionResponse);
         }
 
+        transactionResponseList.sort(Comparator.comparing(TransactionResponse::transactionDate).reversed());
         return transactionResponseList;
     }
 
@@ -306,6 +309,7 @@ public class TransactionService {
     public List<TransactionResponse> getAllTransactionList(Long memberId) {
         List<TransactionResponse> transactionResponseList = new ArrayList<>();
 
+
         // 충전
         List<Charge> chargeList = chargeRepository.findChargesByCharger(memberId);
         for(int i=0;i<chargeList.size();i++) {
@@ -337,6 +341,7 @@ public class TransactionService {
                     0);
             transactionResponseList.add(transactionResponse);
         }
+
         // 제작
         List<Creation> creationList = creationRepository.findCreationsByCreator(memberId);
         for(int i=0;i<creationList.size();i++) {
@@ -352,6 +357,7 @@ public class TransactionService {
             );
             transactionResponseList.add(transactionResponse);
         }
+
 
         // 구매 판매
         // 구매(Order), 판매(Transaction)
@@ -375,7 +381,9 @@ public class TransactionService {
                 checkMultiple,
                 purchaseOrderList.get(i).getOrderCount()
             );
+            transactionResponseList.add(transactionResponse);
         }
+
 
         List<Transaction> transactionList = transactionRepository.findTransactionBuyer(memberId);
         for(int i=0;i<transactionList.size();i++) {
