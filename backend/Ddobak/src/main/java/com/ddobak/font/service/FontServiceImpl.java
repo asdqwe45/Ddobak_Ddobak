@@ -3,13 +3,16 @@ package com.ddobak.font.service;
 import com.ddobak.favorite.repository.FavoriteRepository;
 import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.font.dto.response.FontDetailResponse;
-import com.ddobak.font.dto.response.FontListResponse;
+import com.ddobak.font.dto.response.FontResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.entity.Keyword;
+import com.ddobak.font.exception.FontException;
 import com.ddobak.font.repository.FontQueryRepository;
 import com.ddobak.font.repository.FontRepository;
 import com.ddobak.font.repository.KeywordRepository;
+import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.member.entity.Member;
+import com.ddobak.member.exception.MemberException;
 import com.ddobak.member.repository.MemberRepository;
 import com.ddobak.security.util.LoginInfo;
 import lombok.RequiredArgsConstructor;
@@ -81,19 +84,19 @@ public class FontServiceImpl implements FontService {
         }
     }
     @Override
-    public List<FontListResponse> getFontList(LoginInfo loginInfo,Pageable pageable,String search, List<String> keywords, Boolean free) {
+    public List<FontResponse> getFontList(LoginInfo loginInfo,Pageable pageable,String search, List<String> keywords, Boolean free) {
         //Integer fontCount = fontRepository.countAll();
         Optional<Member> member = memberRepository.findByEmail(loginInfo.email());
         Long member_id = member.get().getId();
-        List<FontListResponse> resultList = fontQueryRepository.getFontList(member_id,pageable,search, keywords,free);
+        List<FontResponse> resultList = fontQueryRepository.getFontList(member_id,pageable,search, keywords,free);
 
         return resultList;
     }
 
     @Override
-    public List<FontListResponse> getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free){
+    public List<FontResponse> getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free){
         //Integer fontCount = fontRepository.countAll();
-        List<FontListResponse> resultList = fontQueryRepository.getFontListNoAuth(pageable,search, keywords,free);
+        List<FontResponse> resultList = fontQueryRepository.getFontListNoAuth(pageable,search, keywords,free);
 
         return resultList;
     }
@@ -114,10 +117,13 @@ public class FontServiceImpl implements FontService {
             fontKeywords.add(k.getKeyword());
         }
         Long dibCount = favoriteRepository.countByFontId(fontId);
-        FontDetailResponse result = new FontDetailResponse(fontId,dibCheck,"producer", font.getViewCount(),fontKeywords,font.getIntroduce_text(),font.getFont_file_url(),dibCount);
+        FontDetailResponse result = new FontDetailResponse(fontId,dibCheck,"producer", font.getViewCount(),fontKeywords,font.getIntroduce_text(),font.getFont_file_url(),dibCount, font.getKor_font_name());
 
         return result;
     }
 
+    public Font findByFontId(Long id) {
+        return fontRepository.findAllById(id).orElseThrow(() -> new FontException(ErrorCode.FONT_NOT_FOUND));
+    }
 }
 
