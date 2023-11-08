@@ -35,6 +35,8 @@ public class QFont extends EntityPathBase<Font> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
+    public final com.ddobak.transaction.entity.QCreation creation;
+
     public final StringPath eng_font_name = createString("eng_font_name");
 
     public final StringPath font_file_url = createString("font_file_url");
@@ -83,6 +85,7 @@ public class QFont extends EntityPathBase<Font> {
 
     public QFont(Class<? extends Font> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.creation = inits.isInitialized("creation") ? new com.ddobak.transaction.entity.QCreation(forProperty("creation"), inits.get("creation")) : null;
         this.producer = inits.isInitialized("producer") ? new com.ddobak.member.entity.QMember(forProperty("producer")) : null;
     }
 

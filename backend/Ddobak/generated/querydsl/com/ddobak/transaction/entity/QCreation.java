@@ -27,7 +27,9 @@ public class QCreation extends EntityPathBase<Creation> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final com.ddobak.font.entity.QFont createFont;
+    public final com.ddobak.font.entity.QFont createdFont;
+
+    public final com.ddobak.member.entity.QMember creator;
 
     //inherited
     public final NumberPath<Long> id = _super.id;
@@ -42,7 +44,7 @@ public class QCreation extends EntityPathBase<Creation> {
     public final NumberPath<Integer> transactionAmount = _super.transactionAmount;
 
     //inherited
-    public final DateTimePath<java.util.Date> transactionDate = _super.transactionDate;
+    public final DateTimePath<java.time.LocalDateTime> transactionDate = _super.transactionDate;
 
     public QCreation(String variable) {
         this(Creation.class, forVariable(variable), INITS);
@@ -62,7 +64,8 @@ public class QCreation extends EntityPathBase<Creation> {
 
     public QCreation(Class<? extends Creation> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.createFont = inits.isInitialized("createFont") ? new com.ddobak.font.entity.QFont(forProperty("createFont"), inits.get("createFont")) : null;
+        this.createdFont = inits.isInitialized("createdFont") ? new com.ddobak.font.entity.QFont(forProperty("createdFont"), inits.get("createdFont")) : null;
+        this.creator = inits.isInitialized("creator") ? new com.ddobak.member.entity.QMember(forProperty("creator")) : null;
     }
 
 }
