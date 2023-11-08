@@ -110,7 +110,9 @@ public class FontImageServiceImpl implements FontImageService {
     }
 
     private String getS3SortUrl(File imageFile) {// 8889  8786 http://163.239.223.171:8786/api/v1/image_align
-        String fastApiUrl = "http://163.239.223.171:8786/api/v1/image_align";
+        String fastapiServer = "http://163.239.223.171:8786/api/v1/image_align";
+        String myServer = "http://localhost:8000/sortUpload";
+        String fastApiUrl = myServer;
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -169,8 +171,10 @@ public class FontImageServiceImpl implements FontImageService {
         return new ResponseEntity<>(zip.getBody(), headers, HttpStatus.OK);
     }
 
-    public String getS3FontUrl(List<File> imageFiles) {
-        String fastApiUrl = "163.239.223.171:8786/api/v1/font_create/create_font";
+    public String getS3FontUrl(List<File> imageFiles) { // 163.239.223.171:8786/api/v1/font_create/create_font
+        String fastapiServer = "163.239.223.171:8786/api/v1/font_create/create_font";
+        String myServer = "http://localhost:8000/makeUpload";
+        String fastApiUrl = myServer;
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
