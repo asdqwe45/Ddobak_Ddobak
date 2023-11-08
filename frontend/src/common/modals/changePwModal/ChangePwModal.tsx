@@ -40,11 +40,12 @@ const ChangePwModal: React.FC = () => {
       };
       userChangePwAPI(data)
         .then(async (r) => {
+          console.log('회원가입');
           console.log(r);
           closeModal();
         })
         .catch((e) => {
-          console.log(e);
+          console.error(e);
           alert('비밀번호를 확인해주세요.');
         });
     }
