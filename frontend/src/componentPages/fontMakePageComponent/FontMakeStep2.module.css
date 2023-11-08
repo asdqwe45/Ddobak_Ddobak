@@ -59,7 +59,8 @@
 .upLoadFile img {
   margin-top: 30px;
   background-size: cover;
-  height: 200px;
+  max-height: 200px;
+  max-width: 350px;
 }
 
 .pdfPreview {

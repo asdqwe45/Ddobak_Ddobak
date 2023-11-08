@@ -11,9 +11,11 @@ import RangeSlider from 'common/fontRangeSlider/RangeSlider';
 import FontUserReview from './fontDetailPageComponent/FontUserReview';
 
 // icons
+// 빈찜, 찬찜
 import { FaRegBookmark, FaBookmark, FaRegCopy, FaPen } from 'react-icons/fa';
 
 import { axiosWithAuth } from 'https/http';
+import { axiosWithFormData } from 'https/http';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
 type Font = {
@@ -57,14 +59,59 @@ const FontDetail: React.FC = () => {
   };
 
   // 책갈피 찜하기
-  const [isClicked, setIsClicked] = useState(false);
+  const [dibCheck, setDibCheck] = useState<boolean>(false);
+  const [dibCount, setDibCount] = useState<number>(0);
 
-  const handleIconClick = () => {
-    setIsClicked(!isClicked);
+  // 컴포넌트가 마운트될 때 API에서 가져온 폰트 정보로 상태를 초기화합니다.
+  useEffect(() => {
+    if (fontDetail) {
+      setDibCheck(fontDetail.dibCheck);
+      setDibCount(parseInt(fontDetail.dibCount));
+    }
+  }, [fontDetail]);
+
+  // 찜 상태를 백엔드에 업데이트하는 비동기 함수
+  const updateDibStatus = async (newDibCheck: boolean, newDibCount: number) => {
+    try {
+      if (newDibCheck) {
+        // 찜 추가
+        const formData = new FormData();
+        formData.append('dibCheck', JSON.stringify(newDibCheck));
+        const response = await axiosWithFormData.post(`/favorite/${fontId}`, formData);
+        console.log('서버 응답:', response.data);
+      } else {
+        // 찜 제거
+        const response = await axiosWithAuth.delete(`/favorite/${fontId}`);
+        console.log('서버 응답:', response.data);
+      }
+    } catch (error) {
+      console.error('찜 처리 중 오류 발생:', error);
+    }
+  };
+
+  const handleIconClick = async () => {
+    const newDibCheck = !dibCheck; // 찜 상태 반전
+    const newDibCount = newDibCheck ? dibCount + 1 : dibCount - 1;
+  
+    // 로컬 상태를 먼저 업데이트
+    setDibCheck(newDibCheck);
+    setDibCount(newDibCount);
+
+    if (fontId) { // fontId가 존재하면
+      try {
+        // 백엔드에 찜 상태 업데이트 요청
+        await updateDibStatus(newDibCheck, newDibCount);
+        console.log('찜 상태 업데이트 성공');
+      } catch (error) {
+        console.error('찜 상태 업데이트 실패:', error);
+      }
+    } else {
+      console.error('fontId가 정의되지 않았습니다.');
+    }
   };
 
   // 웹 폰트 코드 넣기
-  const webFontCode = fontDetail ? fontDetail.fontFileUrl : '';
+  const webFontCode = "@font-face: {}"
 
   const copyToClipboard = async () => {
     try {
@@ -102,13 +149,11 @@ const FontDetail: React.FC = () => {
       <div className={classes.topContainer}>
         {/* 폰트 찜 책갈피 */}
         <div className={classes.dibContainer}>
-          <div className={classes.dibCount}>{fontDetail ? fontDetail.dibCount : ''}</div>
-          {isClicked ? (
+          <div className={classes.dibCount}>{dibCount}</div>
+          {dibCheck ? (
             <FaBookmark className={classes.bookIcon} onClick={handleIconClick} />
-
           ) : (
             <FaRegBookmark className={classes.bookIcon} onClick={handleIconClick} />
-            
           )}
         </div>
         {/* 폰트 이름 */}
@@ -206,9 +251,9 @@ const FontDetail: React.FC = () => {
       <div className={classes.intro}>
         <BoxTitle>또박또박 라이선스</BoxTitle>
         <div className={classes.introBox}>
-          <strong>저작권</strong> : 
+          <strong>저작권</strong> :
           '{fontDetail ? fontDetail.fontName : ''}' 폰트의 라이선스는 {fontDetail ? fontDetail.producerName : '제작자'}에게 있습니다.{'\n'}
-          '{fontDetail ? fontDetail.fontName : ''}' 는 개인 및 기업 사용자를 포함한 모든 사용자에게 무료로 제공되며 자유롭게 사용할 수 있고 상업적 이용이 가능합니다. 
+          '{fontDetail ? fontDetail.fontName : ''}' 는 개인 및 기업 사용자를 포함한 모든 사용자에게 무료로 제공되며 자유롭게 사용할 수 있고 상업적 이용이 가능합니다.
           본 서체는 글꼴 자체를 유료로 판매하거나 왜곡·변형할 수 없습니다.
         </div>
       </div>

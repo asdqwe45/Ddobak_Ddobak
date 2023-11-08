@@ -6,7 +6,7 @@ import guideLine from './fontMakePageAssets/guideline_ex.png';
 const handleDownload = async () => {
   try {
     const response = await fetch(
-      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/english_number_template.pdf',
+      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/template.pdf',
     );
     if (response.ok) {
       const blob = await response.blob();
@@ -15,7 +15,7 @@ const handleDownload = async () => {
       a.style.display = 'none';
       a.href = url;
       // 다운로드 시, 파일 이름
-      a.download = 'ddobak_english_number_template.pdf';
+      a.download = 'ddobak_template.pdf';
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
