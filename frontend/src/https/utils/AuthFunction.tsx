@@ -4,8 +4,13 @@ import {
   axiosWithoutFormData,
   axiosWithFormData,
 } from 'https/http';
-
+// 함수 실험
+import { genSaltSync, hashSync } from 'bcrypt-ts';
+// const salt = genSaltSync(10);
+// const hash = hashSync("B4c0//", salt);
+// const hash = hashSync("원하는 문자열", salt)
 // formData
+
 /*
 const aiDiagnosisRequest = {
       surveyResult: arrayString,
@@ -140,6 +145,14 @@ export async function userLogin(data: LoginType): Promise<any> {
       await localStorage.setItem('refreshToken', refreshToken);
       await localStorage.setItem('profileImgUrl', profileImgUrl);
       await localStorage.setItem('today', today.toISOString());
+
+      // 실험 시작
+      const salt = genSaltSync(10);
+      const hash = hashSync('1234', salt);
+      const newHash = await JSON.stringify(hash);
+      await localStorage.setItem('test', newHash);
+
+      // 실험 끝
       return r.data;
     })
     .catch((e) => {
@@ -191,9 +204,9 @@ export async function userChangePwAPI(data: userChangePwType): Promise<any> {
 // 프로필 이미지 변경 폼데이터
 export async function userChangeProfileAPI(profileImg: File | string): Promise<any> {
   const formData = new FormData();
-    if (profileImg) {
-      formData.append("profileImg", profileImg);
-    }
+  if (profileImg) {
+    formData.append('profileImg', profileImg);
+  }
   return axiosWithFormData
     .post('/member/profileImg', formData)
     .then((r) => {
