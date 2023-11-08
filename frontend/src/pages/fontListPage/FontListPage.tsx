@@ -3,10 +3,15 @@ import classes from './FontListPage.module.css';
 import { FaSistrix, FaAngleDown } from 'react-icons/fa';
 import { PageTitle } from 'common/titleComponents/TitleComponents';
 import FontBoxComponent from './fontListPageComponents/FontBoxComponent';
-import { axiosWithAuth } from 'https/http';
+import { axiosWithAuth, axiosWithoutAuth } from 'https/http';
+import { getData } from 'https/http';
 // import MiniManuscript from './fontListPageComponents/MiniManuscript';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
+// type FontList = {
+  //   fontCount: number;
+//   fontResponseList: Font[];
+// };
 type Font = {
   font_id: string;
   kor_font_name: string;
@@ -14,10 +19,6 @@ type Font = {
   font_file_url: string;
   dibCheck: boolean;
 };
-// type FontList = {
-//   fontResponseList: Font[];
-//   fontCount: number;
-// };
 
 const FontListPage: React.FC = () => {
   window.scrollTo({ left: 0, top: 0 });
@@ -29,7 +30,30 @@ const FontListPage: React.FC = () => {
 
   // 컴포넌트 마운트시 API 호출
   useEffect(() => {
-    fetchFonts();
+    const fetch = async () => {
+      const token = await getData('accessToken');
+      console.log(token)
+      if (!token) {
+        // 토큰 있음
+        try {
+          
+          const response = await axiosWithoutAuth.get('/font/list/NoAuth').then((r) => {
+            return r;
+          });
+          if (response.data) {
+            console.log('API로부터 받은 데이터:', response.data); // 데이터 로깅 추가
+            setFonts(response.data.fontResponseList); // 상태 업데이트
+          } else {
+            console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data); // 경고 로그 추가
+          }
+        } catch (error) {
+          console.error('API 호출 에러:', error); // 에러 로깅 개선
+        }
+      } else {
+        fetchFonts();
+      }
+    };
+    fetch();
   }, []);
 
   // 폰트 데이터를 가져오는 함수
@@ -39,7 +63,7 @@ const FontListPage: React.FC = () => {
         return r;
       });
       if (response.data) {
-        console.log("API로부터 받은 데이터:", response.data); // 데이터 로깅 추가
+        console.log('API로부터 받은 데이터:', response.data); // 데이터 로깅 추가
         setFonts(response.data.fontResponseList); // 상태 업데이트
       } else {
         console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data); // 경고 로그 추가
@@ -76,18 +100,7 @@ const FontListPage: React.FC = () => {
   //   );
   // };
 
-  const options = [
-    '단정한',
-    '가지런한',
-    '둥글둥글',
-    '네모네모',
-    '삐뚤빼뚤',
-    '귀여운',
-    '문서체',
-    '어른같은',
-    '아이같은',
-    '자유로운',
-  ];
+  const options = ['단정한','가지런한','둥글둥글','네모네모','삐뚤빼뚤','귀여운','문서체','어른같은','아이같은','자유로운',];
 
   const renderFilterOptions = () => {
     return (
