@@ -2,15 +2,18 @@ server:
   port: 7077
 spring:
   datasource:
-    url: jdbc:mysql://mysql:3306/ddobak?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://mysql:3306/ddobak?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: ${SERVER_MYSQL_USERNAME}
     password: ${SERVER_MYSQL_PASSWORD}
+    dialect: com.mysql.cj.jdbc.Driver
   jpa:
-    open-in-view: false
-    generate-ddl: true
-    show-sql: true
     hibernate:
       ddl-auto: create
+    properties:
+      hibernate:
+        show-sql: true
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL5Dialect
   cache:
     type: redis
     redis:
