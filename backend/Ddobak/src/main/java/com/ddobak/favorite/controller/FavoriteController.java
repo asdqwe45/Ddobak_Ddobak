@@ -2,6 +2,8 @@ package com.ddobak.favorite.controller;
 
 import com.ddobak.favorite.entity.Favorite;
 import com.ddobak.favorite.service.FavoriteService;
+import com.ddobak.font.entity.Font;
+import com.ddobak.font.service.FontService;
 import com.ddobak.security.util.LoginInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,9 +19,8 @@ import java.util.List;
 @RequestMapping("/api/v1/favorite") // changed to plural form to be more RESTful
 public class FavoriteController {
 
+    private final FontService fontService;
     private final FavoriteService favoriteService;
-
-
     // 찜 확인
     @GetMapping("/check/{fontId}")
     public ResponseEntity<Boolean> checkDibExists(@PathVariable Long fontId,
@@ -55,9 +57,15 @@ public class FavoriteController {
 
     // 찜 목록 가져 오기
     @GetMapping("/list")
-    public ResponseEntity<List<Favorite>> getDibsByMember(@AuthenticationPrincipal LoginInfo loginInfo) {
+    public ResponseEntity<List<Font>> getDibsByMember(@AuthenticationPrincipal LoginInfo loginInfo) {
         Long memberId = loginInfo.id();
         List<Favorite> favorites = favoriteService.findByMemberId(memberId);
-        return ResponseEntity.ok(favorites);
+        ArrayList<Font> result = new ArrayList<>();
+
+        for (Favorite favorite : favorites) {
+            result.add(fontService.findByFontId(favorite.getId()));
+        }
+
+        return ResponseEntity.ok(result);
     }
 }
