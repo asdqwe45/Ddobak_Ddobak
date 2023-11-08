@@ -11,12 +11,12 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QFavorite is a Querydsl query type for Dib
+ * QFavorite is a Querydsl query type for Favorite
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QFavorite extends EntityPathBase<Favorite> {
 
-    private static final long serialVersionUID = 1626740103L;
+    private static final long serialVersionUID = -1757042247L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 

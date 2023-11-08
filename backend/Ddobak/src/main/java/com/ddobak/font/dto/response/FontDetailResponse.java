@@ -12,7 +12,7 @@ public record FontDetailResponse(
         String fontFileUrl,
         Long dibCount,
         String fontName
-) {
+    ) {
     public FontDetailResponse(Long fontId,
                             Boolean dibCheck,
                             String producerName,
@@ -21,7 +21,8 @@ public record FontDetailResponse(
                             String introduceContext,
                             String fontFileUrl,
                               Long dibCount,
-                            String fontName){
+                            String fontName
+                              ){
         this.fontId=fontId;
         this.dibCheck=dibCheck;
         this.producerName=producerName;
