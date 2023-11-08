@@ -90,6 +90,7 @@ import { goToBasketModalActions } from 'store/goToBasketModalSlice';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 import { checkToken } from 'https/utils/AuthFunction';
+import { changeNicknameModalActions } from 'store/changeNicknameSlice';
 
 const MyPage: React.FC = () => {
   const navigate = useNavigate();
@@ -130,6 +131,7 @@ const MyPage: React.FC = () => {
   const nicknameInputRef = useRef<HTMLInputElement>(null);
 
   const changeNickName = (selectedName: string) => {
+    dispatch(changeNicknameModalActions.toggle());
     if (selectedName === '수정') {
       const nowNickname = nicknameInputRef.current?.value;
       if (nowNickname) {
@@ -227,6 +229,20 @@ const MyPage: React.FC = () => {
   const [isPencilHovered, setIsPencilHovered] = useState(false);
   const [isWorkspaceHovered, setIsWorkspaceHovered] = useState(false);
 
+  const [screenWidth, setScreenWidth] = useState<number>(1510);
+  const handleResize = () => {
+    setScreenWidth(window.innerWidth);
+  };
+  // resize 이벤트에 대한 리스너를 설정합니다.
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너를 정리합니다.
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <div className={classes.container}>
       <div className={classes.header}>
@@ -277,14 +293,15 @@ const MyPage: React.FC = () => {
                       onMouseEnter={() => setIsWorkspaceHovered(true)}
                       onMouseLeave={() => setIsWorkspaceHovered(false)}
                     />
-                    {isPencilHovered ? (
+
+                    {screenWidth > 1500 && isPencilHovered ? (
                       <>
                         <p className={classes.changeNickName}>닉네임 수정하기</p>
                       </>
                     ) : (
                       <></>
                     )}
-                    {isWorkspaceHovered ? (
+                    {screenWidth > 1500 && isWorkspaceHovered ? (
                       <>
                         <p className={classes.changeNickName}>소개 페이지 이동하기</p>
                       </>

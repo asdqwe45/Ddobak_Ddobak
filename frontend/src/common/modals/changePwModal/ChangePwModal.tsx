@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { changePwModalActions } from 'store/changePwModalSlice';
 import { AiOutlineClose } from 'react-icons/ai';
 import { borderColor, mainRedColor, likeCountColor } from 'common/colors/CommonColors';
+import { userChangePwAPI } from 'https/utils/AuthFunction';
 
 interface ChangePwModalState {
   changePwModal: {
@@ -27,6 +28,26 @@ const ChangePwModal: React.FC = () => {
 
   const closeModal = () => {
     clickChangePwHandler();
+  };
+
+  const changePasswordFC = () => {
+    const prevLoginPassword = currentPwRef.current?.value;
+    const newLoginPassword = currentPwRef.current?.value;
+    if (prevLoginPassword && newLoginPassword) {
+      const data = {
+        prevLoginPassword: prevLoginPassword,
+        newLoginPassword: newLoginPassword,
+      };
+      userChangePwAPI(data)
+        .then(async (r) => {
+          console.log(r);
+          closeModal();
+        })
+        .catch((e) => {
+          console.log(e);
+          alert('비밀번호를 확인해주세요.');
+        });
+    }
   };
 
   // 연결
@@ -143,7 +164,7 @@ const ChangePwModal: React.FC = () => {
           <button
             className={classes.modalBtn}
             style={{ backgroundColor: mainRedColor }}
-            onClick={closeModal}
+            onClick={changePasswordFC}
           >
             변경하기
           </button>
