@@ -14,6 +14,9 @@ import javax.persistence.*;
 public class Review extends BaseEntity {
 
     @Column
+    private String context;
+
+    @Column
     private String image_url;
 
     public Review( String imageUrl, String context, Member member, Font font) {
@@ -23,8 +26,7 @@ public class Review extends BaseEntity {
         this.font = font;
     }
 
-    @Column
-    private String context;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mamber_id")

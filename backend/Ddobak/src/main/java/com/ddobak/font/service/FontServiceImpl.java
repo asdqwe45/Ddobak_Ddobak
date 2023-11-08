@@ -51,9 +51,6 @@ public class FontServiceImpl implements FontService {
                 () -> new EntityNotFoundException("Member not found with email: " + email)
         );
         Font newFont = Font.from(font_sort_url,member);
-        System.out.println("############");
-        System.out.println(newFont.getFont_sort_url());
-        System.out.println("############");
 
         fontRepository.save(newFont);
     }

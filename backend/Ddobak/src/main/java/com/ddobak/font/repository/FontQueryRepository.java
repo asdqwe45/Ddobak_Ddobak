@@ -60,7 +60,6 @@ public class FontQueryRepository {
         if (keywords != null && !keywords.isEmpty()) {
             BooleanExpression keywordExpressions = null;
             for (String keywordStr : keywords) {
-                System.out.println("#############keywordStr : " + keywordStr);
                 BooleanExpression keywordExpression = font.keywords.any().keyword.eq(keywordStr);
                 if (keywordExpressions == null) {
                     keywordExpressions = keywordExpression;
@@ -111,7 +110,6 @@ public class FontQueryRepository {
         if (keywords != null && !keywords.isEmpty()) {
             BooleanExpression keywordExpressions = null;
             for (String keywordStr : keywords) {
-                System.out.println("#############keywordStr : " + keywordStr);
                 BooleanExpression keywordExpression = font.keywords.any().keyword.eq(keywordStr);
                 if (keywordExpressions == null) {
                     keywordExpressions = keywordExpression;
