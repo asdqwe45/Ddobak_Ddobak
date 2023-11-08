@@ -195,6 +195,10 @@ public class MemberService {
         return memberRepository.findById(id).orElseThrow(() -> new MemberException(ErrorCode.SELLER_NOT_FOUND));
     }
 
+    public Member findMemberById(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(() -> new MemberException(ErrorCode.USER_NOT_FOUND));
+    }
+
     private String createCode() {
         int length = 6;
         try {

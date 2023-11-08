@@ -2,6 +2,7 @@ package com.ddobak.transaction.service;
 
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.service.FontService;
+import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.repository.MemberRepository;
 import com.ddobak.member.service.MemberService;
@@ -18,6 +19,7 @@ import com.ddobak.transaction.entity.Creation;
 import com.ddobak.transaction.entity.PurchaseOrder;
 import com.ddobak.transaction.entity.Transaction;
 import com.ddobak.transaction.entity.Withdrawal;
+import com.ddobak.transaction.exception.TransactionException;
 import com.ddobak.transaction.repository.ChargeRepository;
 import com.ddobak.transaction.repository.CreationRepository;
 import com.ddobak.transaction.repository.PurchaseOrderRepository;
@@ -100,6 +102,8 @@ public class TransactionService {
         Member member = memberService.findByEmail(loginInfo.email());
 
         // 포인트 계산
+        checkEnoughPoint(member.getId(), withdrawRequest.amount());
+
         int afterWithdrawMAmount = member.withdrawPoint(withdrawRequest.amount());
         LocalDateTime now = LocalDateTime.now();
         Withdrawal withdrawal = Withdrawal.builder()
@@ -454,5 +458,14 @@ public class TransactionService {
 
         return transactionResponseList;
 
+    }
+
+
+    private void checkEnoughPoint(Long memberId, int amount) {
+        Member member = memberService.findMemberById(memberId);
+
+        if(member.getPoint() < amount) {
+            throw new TransactionException(ErrorCode.POINT_NOT_ENOUGH);
+        }
     }
 }
