@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import classes from './FontMakeStep3.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { pointPayModalActions } from 'store/pointPayModalSlice';
-import RedPencil from './fontDetailPageAssets/red_pencil.png';
+import RedPencil from './fontMakePageAssets/red_pencil.png';
 
 interface pointPayModalState {
   pointModal: {

@@ -37,6 +37,10 @@ type FontList = {
   fontResponseList: Font[];
   fontCount: number;
 };
+// type FontList = {
+//   fontResponseList: Font[];
+//   fontCount: number;
+// };
 
 const MainPageFontList: React.FC = () => {
   const swiperRef = useRef<SwiperCore>();
