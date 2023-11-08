@@ -62,15 +62,16 @@ public class FavoriteController {
     public ResponseEntity<List<Font>> getDibsByMember(@AuthenticationPrincipal LoginInfo loginInfo) {
         Long memberId = loginInfo.id();
         List<Favorite> favorites = favoriteService.findByMemberId(memberId);
-        ArrayList<Font> result = new ArrayList<>();
 
-        for (Favorite favorite : favorites) {
-            result.add(fontService.findByFontId(favorite.getId()));
-        }
-
-        if (result.isEmpty()){
+        if (favorites.isEmpty()) {
             return ResponseEntity.noContent().build();
+        } else {
+            ArrayList<Font> result = new ArrayList<>();
+            for (Favorite favorite : favorites) {
+                result.add(fontService.findByFontId(favorite.getId()));
+            }
+            return ResponseEntity.ok(result);
         }
-        return ResponseEntity.ok(result);
+
     }
 }
