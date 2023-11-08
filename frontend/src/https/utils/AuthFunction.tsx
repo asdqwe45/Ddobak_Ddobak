@@ -27,7 +27,7 @@ export async function userEmailVerifyRequest(email: string): Promise<any> {
   return axiosWithoutAuth
     .post('/member/email/verify-request', data)
     .then((r) => {
-      return r;
+      return r.data;
     })
     .catch((e) => {
       throw e;
@@ -50,7 +50,7 @@ export async function userEmailVerifyAPI(data: EmailCheckData): Promise<any> {
   return axiosWithoutAuth
     .post('/member/email/verify', data)
     .then((r) => {
-      return r;
+      return r.data;
     })
     .catch((e) => {
       throw e;
@@ -73,21 +73,19 @@ export async function userSignup(data: SignupData, profileImg: File | string): P
   // 이미지 파일을 추가합니다.
   if (profileImg) {
     await formData.append('profileImg', profileImg);
-    console.log(formData);
     return axiosWithoutFormData
       .post('/member/signup', formData)
       .then((r) => {
-        return r;
+        return r.data;
       })
       .catch((e) => {
         throw e;
       });
   } else {
-    console.log(json);
     return axiosWithoutFormData
       .post('/member/signup', formData)
       .then((r) => {
-        return r;
+        return r.data;
       })
       .catch((e) => {
         throw e;
@@ -209,7 +207,7 @@ interface userChnageNicknameType {
 
 export async function userChangeNicknameAPI(data: userChnageNicknameType): Promise<any> {
   return axiosWithAuth
-    .post('/member/nickname')
+    .post('/member/nickname', data)
     .then((r) => {
       return r.data;
     })

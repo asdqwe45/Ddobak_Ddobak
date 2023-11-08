@@ -37,10 +37,6 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
   const clickPayHandler = async () => {
     dispatch(pointPayModalActions.payThePrice({ howMuch: 50000, boughtSometing: '폰트제작' }));
     dispatch(pointPayModalActions.toggle());
-    if (step && setStep) {
-      const nextStep = step + 1;
-      setStep(nextStep);
-    }
   };
 
   return (

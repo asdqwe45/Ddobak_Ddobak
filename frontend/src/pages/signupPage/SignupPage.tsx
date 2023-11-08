@@ -41,7 +41,7 @@ const Circle = styled.div`
   }
 `;
 
-const NewAuthInput = styled(AuthInput)`
+export const NewAuthInput = styled(AuthInput)`
   margin-top: 8.5px;
   margin-bottom: 8.5px;
   font-size: 14px;

@@ -20,5 +20,5 @@ const changeNicknameModalSlice = createSlice({
   },
 });
 
-export const changeNicknameModalActions = changeNicknameModalSlice.actions;
 export default changeNicknameModalSlice;
+export const changeNicknameModalActions = changeNicknameModalSlice.actions;

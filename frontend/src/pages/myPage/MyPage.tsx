@@ -131,7 +131,6 @@ const MyPage: React.FC = () => {
   const nicknameInputRef = useRef<HTMLInputElement>(null);
 
   const changeNickName = (selectedName: string) => {
-    dispatch(changeNicknameModalActions.toggle());
     if (selectedName === '수정') {
       const nowNickname = nicknameInputRef.current?.value;
       if (nowNickname) {
@@ -235,6 +234,7 @@ const MyPage: React.FC = () => {
   };
   // resize 이벤트에 대한 리스너를 설정합니다.
   useEffect(() => {
+    handleResize();
     window.addEventListener('resize', handleResize);
 
     // 컴포넌트가 언마운트될 때 이벤트 리스너를 정리합니다.
@@ -276,6 +276,7 @@ const MyPage: React.FC = () => {
                       size={30}
                       style={{ cursor: 'pointer' }}
                       onClick={() => {
+                        dispatch(changeNicknameModalActions.toggle());
                         setIsClickedChange(true);
                         setIsPencilHovered(false);
                       }}

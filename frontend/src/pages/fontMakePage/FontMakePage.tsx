@@ -1,16 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import classes from './FontMakePage.module.css';
 import FontMakeStep1 from 'componentPages/fontMakePageComponent/FontMakeStep1';
 import FontMakeStep2 from 'componentPages/fontMakePageComponent/FontMakeStep2';
 import FontMakeStep3 from 'componentPages/fontMakePageComponent/FontMakeStep3';
 import FontOptionPage from 'componentPages/fontMakePageComponent/FontOptionPage';
 import { resultModalActions } from 'store/resultModalSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { checkToken } from 'https/utils/AuthFunction';
 import { useNavigate } from 'react-router-dom';
 
+interface ResultModalState {
+  resultModal: {
+    resultIsVisible: boolean;
+    step: number;
+  };
+}
+
 const FontMakePage: React.FC = () => {
-  const [step, setStep] = useState(1);
+  // const [step, setStep] = useState(1);
+  const step = useSelector((state: ResultModalState) => state.resultModal.step);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -28,7 +36,7 @@ const FontMakePage: React.FC = () => {
   }, [navigate]);
   const handleNext = () => {
     if (step < 4) {
-      setStep((prevStep) => prevStep + 1);
+      dispatch(resultModalActions.nextStep());
       if (step === 2) {
         showPreviewHandler();
       }
@@ -60,7 +68,7 @@ const FontMakePage: React.FC = () => {
       <div className={classes.contentContainer}>
         {step === 1 && <FontMakeStep1 />}
         {step === 2 && <FontMakeStep2 />}
-        {step === 3 && <FontOptionPage setStep={setStep} step={step} />}
+        {step === 3 && <FontOptionPage step={step} />}
         {step === 4 && <FontMakeStep3 />}
       </div>
       <div className={classes.btnContainer}>
