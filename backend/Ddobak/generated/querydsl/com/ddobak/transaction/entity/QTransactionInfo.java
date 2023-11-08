@@ -34,7 +34,7 @@ public class QTransactionInfo extends EntityPathBase<TransactionInfo> {
 
     public final NumberPath<Integer> transactionAmount = createNumber("transactionAmount", Integer.class);
 
-    public final DateTimePath<java.util.Date> transactionDate = createDateTime("transactionDate", java.util.Date.class);
+    public final DateTimePath<java.time.LocalDateTime> transactionDate = createDateTime("transactionDate", java.time.LocalDateTime.class);
 
     public QTransactionInfo(String variable) {
         super(TransactionInfo.class, forVariable(variable));

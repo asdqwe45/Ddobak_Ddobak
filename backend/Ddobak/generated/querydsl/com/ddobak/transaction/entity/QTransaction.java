@@ -35,6 +35,8 @@ public class QTransaction extends EntityPathBase<Transaction> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
+    public final QOrder order;
+
     public final com.ddobak.member.entity.QMember seller;
 
     //inherited
@@ -44,7 +46,7 @@ public class QTransaction extends EntityPathBase<Transaction> {
     public final NumberPath<Integer> transactionAmount = _super.transactionAmount;
 
     //inherited
-    public final DateTimePath<java.util.Date> transactionDate = _super.transactionDate;
+    public final DateTimePath<java.time.LocalDateTime> transactionDate = _super.transactionDate;
 
     public final com.ddobak.font.entity.QFont transactionFont;
 
@@ -67,6 +69,7 @@ public class QTransaction extends EntityPathBase<Transaction> {
     public QTransaction(Class<? extends Transaction> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.buyer = inits.isInitialized("buyer") ? new com.ddobak.member.entity.QMember(forProperty("buyer")) : null;
+        this.order = inits.isInitialized("order") ? new QOrder(forProperty("order"), inits.get("order")) : null;
         this.seller = inits.isInitialized("seller") ? new com.ddobak.member.entity.QMember(forProperty("seller")) : null;
         this.transactionFont = inits.isInitialized("transactionFont") ? new com.ddobak.font.entity.QFont(forProperty("transactionFont"), inits.get("transactionFont")) : null;
     }

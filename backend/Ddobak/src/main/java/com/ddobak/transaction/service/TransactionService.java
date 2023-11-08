@@ -257,7 +257,7 @@ public class TransactionService {
             Creation creation = Creation.builder()
                 .createdFont(createdFont)
                 .creator(creator)
-                .transactionAmount(50000)
+                .transactionAmount(0)
                 .transactionAfterAmount(creator.getPoint())
                 .transactionDate(now)
                 .build();

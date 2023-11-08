@@ -100,6 +100,15 @@ public class TransactionController {
         return ResponseEntity.ok().body(transactionResponseList);
     }
 
+    // 판매 내역 반환
+//    @GetMapping("/sell/list/{memberId}")
+//    public ResponseEntity<List<TransactionResponse>> requestSellList(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long memberId) {
+//        log.info("{} wants to show sellList",loginInfo.email());
+//
+//        List<TransactionResponse> transactionResponseList;
+//        return ResponseEntity.ok().body(transactionResponseList);
+//    }
+
     // 전체 거래 내역 반환
     @GetMapping("/list/{memberId}")
     public ResponseEntity<List<TransactionResponse>> requestAllList(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long memberId) {

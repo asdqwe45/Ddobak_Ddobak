@@ -42,9 +42,6 @@ jwt:
   token:
     secret: ${JWT_SECRET_KEY}
 
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
 
 servers:
   - url: https://ddobak.com/
