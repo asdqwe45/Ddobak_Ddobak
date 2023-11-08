@@ -73,39 +73,45 @@ const FontDetail: React.FC = () => {
   // 찜 상태를 백엔드에 업데이트하는 비동기 함수
   const updateDibStatus = async (newDibCheck: boolean, newDibCount: number) => {
     try {
-      if (!newDibCheck) {
-      const response = await axiosWithAuth.delete(`/favorite/${fontId}`);
-      console.log('서버 응답:', response.data);
-    } else {
-      // 찜 상태를 설정하는 경우에는 POST 메소드를 그대로 사용합니다.
-      const formData = new FormData();
-      formData.append('dibCheck', JSON.stringify(newDibCheck));
-      const response = await axiosWithFormData.post(`/favorite/${fontId}`, formData);
-      console.log('서버 응답:', response.data);
+      if (newDibCheck) {
+        // 찜 추가
+        const formData = new FormData();
+        formData.append('dibCheck', JSON.stringify(newDibCheck));
+        const response = await axiosWithFormData.post(`/favorite/${fontId}`, formData);
+        console.log('서버 응답:', response.data);
+      } else {
+        // 찜 제거
+        const response = await axiosWithAuth.delete(`/favorite/${fontId}`);
+        console.log('서버 응답:', response.data);
+      }
+    } catch (error) {
+      console.error('찜 처리 중 오류 발생:', error);
     }
-  } catch (error) {
-    console.error('찜 처리 중 오류 발생:', error);
-  }
-};
-
+  };
 
   const handleIconClick = async () => {
-    const newDibCheck = !dibCheck;
+    const newDibCheck = !dibCheck; // 찜 상태 반전
     const newDibCount = newDibCheck ? dibCount + 1 : dibCount - 1;
   
     // 로컬 상태를 먼저 업데이트
     setDibCheck(newDibCheck);
     setDibCount(newDibCount);
 
-    // if (fontId !== undefined) {
-    //   // 백엔드에 상태 반영
-    //   await updateDibStatus(fontId, newDibCheck); // fontId가 string으로 보장됩니다.
-    // } else {
-    //   console.error('fontId가 정의되지 않았습니다.');
-    // }
+    if (fontId) { // fontId가 존재하면
+      try {
+        // 백엔드에 찜 상태 업데이트 요청
+        await updateDibStatus(newDibCheck, newDibCount);
+        console.log('찜 상태 업데이트 성공');
+      } catch (error) {
+        console.error('찜 상태 업데이트 실패:', error);
+      }
+    } else {
+      console.error('fontId가 정의되지 않았습니다.');
+    }
   };
+
   // 웹 폰트 코드 넣기
-  const webFontCode = fontDetail ? fontDetail.fontFileUrl : '';
+  const webFontCode = "@font-face: {}"
 
   const copyToClipboard = async () => {
     try {
