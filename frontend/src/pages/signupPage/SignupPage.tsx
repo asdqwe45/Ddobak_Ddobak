@@ -12,7 +12,7 @@ import { ImCamera } from 'react-icons/im';
 import styled from '@emotion/styled';
 
 import { NotValid, TimerText, EmailCheckBox } from './signupPageComponents/SignupPageComponents';
-
+import AlertCustomModal from 'common/modals/alertCustomModal/AlertCustomModal';
 //  ===================
 //  ===    axios    ===
 //  ===================
@@ -147,16 +147,16 @@ const SignupPage: React.FC = () => {
 
   const startTimer = () => {
     setIsActive(true);
-    setTimer(1800); // 5분 = 300초
+    setTimer(300); // 5분 = 300초
   };
   const clickCheckBtn = async () => {
-    signupLoaderHandler();
-    // 타이머 실행
-    // 인증번호 재발송 버튼 활성화
-    // 인증번호 유효한지 확인
     const email = emailInputRef.current?.value;
     console.log(email);
-    if (email) {
+    if (email && validateEmail(email)) {
+      signupLoaderHandler();
+      // 타이머 실행
+      // 인증번호 재발송 버튼 활성화
+      // 인증번호 유효한지 확인
       await userEmailVerifyRequest(email)
         .then((r) => {
           console.log(r);
@@ -166,8 +166,10 @@ const SignupPage: React.FC = () => {
           console.error(e);
           signupLoaderHandler();
         });
+      await startTimer();
+    } else {
+      handleAlertEmailModal()
     }
-    await startTimer();
   };
 
   const changeEmail = () => {
@@ -198,6 +200,8 @@ const SignupPage: React.FC = () => {
           console.error(e);
           setIsValidCheckNumber(false);
         });
+    } else {
+      handleAlertCodeModal();
     }
   };
 
@@ -219,7 +223,7 @@ const SignupPage: React.FC = () => {
   const signupHandler = async () => {
     // console.log(isValidCheckNumber);
     // 회원가입 실행
-    signupLoaderHandler();
+    // signupLoaderHandler();
     const email = emailInputRef.current?.value;
     const nickname = nickNameRef.current?.value;
     const loginPassword = passwordInputRef.current?.value;
@@ -259,6 +263,8 @@ const SignupPage: React.FC = () => {
             signupLoaderHandler();
           });
       }
+    } else {
+      handleAlertInformationModal();
     }
   };
   // 닉네임==================================================
@@ -282,6 +288,8 @@ const SignupPage: React.FC = () => {
           setNicknameUseState(true);
           setIsDuplicated(true);
         });
+    } else {
+      handleAlertNicknameModal();
     }
   };
 
@@ -312,6 +320,27 @@ const SignupPage: React.FC = () => {
     } else {
       setCheckIsValid(false);
     }
+  };
+
+// 경고 모달 설정
+  const [modalContent, setModalContent] = useState("");
+  const [showAlertModal, setShowAlertModal] = useState(false);
+
+  const handleAlertEmailModal = () => {
+    setModalContent('이메일을 입력해주세요.')
+    setShowAlertModal(true);
+  };
+  const handleAlertCodeModal = () => {
+    setModalContent('인증번호를 입력해주세요.');
+    setShowAlertModal(true);
+  };
+  const handleAlertNicknameModal = () => {
+    setModalContent('닉네임을 입력해주세요.');
+    setShowAlertModal(true);
+  };
+  const handleAlertInformationModal = () => {
+    setModalContent('정보를 모두 입력해주세요.');
+    setShowAlertModal(true);
   };
 
   return (
@@ -346,8 +375,8 @@ const SignupPage: React.FC = () => {
             disabledBtn || !emailInputRef.current?.value
               ? classes.notValidEmail
               : isValidEmail
-              ? classes.emailCheckBtn
-              : classes.notValidEmail
+                ? classes.emailCheckBtn
+                : classes.notValidEmail
           }
           disabled={!isValidEmail}
           onClick={clickCheckBtn}
@@ -446,6 +475,13 @@ const SignupPage: React.FC = () => {
       <NavLink className={classes.navigator} to={'/login'}>
         로그인 하러 가기
       </NavLink>
+      <AlertCustomModal
+        show={showAlertModal}
+        onHide={() => setShowAlertModal(false)}
+        message1={modalContent}
+        message2=""
+        btnName="확인"
+      />
     </div>
   );
 };
