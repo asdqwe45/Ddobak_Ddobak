@@ -1,4 +1,4 @@
-import { createSlice, type PayloadAction, configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 
 import resultModalSlice from './resultModalSlice';
 import pointModalSlice from './pointPayModalSlice';
@@ -10,31 +10,7 @@ import changeProfileImgModalSlice from './changeProfileImgModalSlice';
 import goToBasketModalSlice from './goToBasketModalSlice';
 import signupLoaderSlice from './signupLoaderSlice';
 import failAuthModalSlice from './failAuthModalSlice';
-
-const initialState = { value: 0, showCounter: true, showModal: false };
-
-interface IncreaseAction {
-  amount: number;
-}
-
-const counterSlice = createSlice({
-  name: 'counter',
-  initialState,
-  reducers: {
-    increment(state) {
-      state.value++;
-    },
-    decrement(state) {
-      state.value--;
-    },
-    increase(state, action: PayloadAction<IncreaseAction>) {
-      state.value = state.value + action.payload.amount;
-    },
-    toggleCounter(state) {
-      state.showCounter = !state.showCounter;
-    },
-  },
-});
+import changeNicknameModalSlice from './changeNicknameSlice';
 
 const store = configureStore({
   reducer: {
@@ -48,8 +24,8 @@ const store = configureStore({
     goToBasket: goToBasketModalSlice.reducer,
     signupLoader: signupLoaderSlice.reducer,
     failAuth: failAuthModalSlice.reducer,
+    changeNickname: changeNicknameModalSlice.reducer,
   },
 });
 
-export const counterActions = counterSlice.actions;
 export default store;

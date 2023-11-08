@@ -12,10 +12,11 @@ import ChangeProfileImgModal from 'common/modals/changeProfileImgModal/ChangePro
 import GoToBasketModal from 'common/modals/goToBasketModal/GoToBasketModal';
 import SignupLoaderModal from 'common/modals/signupLoaderModal/SignupLoaderModal';
 import FailAuthModal from 'common/modals/failAuthModal/FailAuthModal';
-
+import ChangeNicknameModal from 'common/modals/changeNicknameModal/ChangeNicknameModal';
 const RootLayout: React.FC = () => {
   return (
     <div>
+      <ChangeNicknameModal />
       <FailAuthModal />
       <SignupLoaderModal />
       <GoToBasketModal />

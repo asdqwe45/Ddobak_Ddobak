@@ -97,19 +97,25 @@ const NavBar: React.FC = () => {
   return (
     <div className={classes.header}>
       <div className={classes.list}>
-        <div className={classes.leftBox}>
+        <div className={haveToken ? classes.leftBox : classes.leftNoTokenBox}>
           <div className={classes.logoBox}>
             <NavLink to="/">
               <img src={NavLogo} alt="NavLogo" className={classes.navImage} />
             </NavLink>
           </div>
           <div className={classes.smallBox}>
-            <NavLink
-              to="/fontMake"
-              className={({ isActive }) => (isActive ? classes.active : undefined)}
-            >
-              제작하기
-            </NavLink>
+            {haveToken ? (
+              <>
+                <NavLink
+                  to="/fontMake"
+                  className={({ isActive }) => (isActive ? classes.active : undefined)}
+                >
+                  제작하기
+                </NavLink>
+              </>
+            ) : (
+              <></>
+            )}
           </div>
           <div className={classes.smallBox}>
             <NavLink
