@@ -12,6 +12,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -66,6 +68,9 @@ public class FavoriteController {
             result.add(fontService.findByFontId(favorite.getId()));
         }
 
+        if (result.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok(result);
     }
 }
