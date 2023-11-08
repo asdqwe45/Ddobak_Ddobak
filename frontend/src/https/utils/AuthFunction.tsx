@@ -190,8 +190,12 @@ export async function userChangePwAPI(data: userChangePwType): Promise<any> {
 
 // 프로필 이미지 변경 폼데이터
 export async function userChangeProfileAPI(profileImg: File | string): Promise<any> {
+  const formData = new FormData();
+    if (profileImg) {
+      formData.append("profileImg", profileImg);
+    }
   return axiosWithFormData
-    .post('/member/profileImg')
+    .post('/member/profileImg', formData)
     .then((r) => {
       return r.data;
     })

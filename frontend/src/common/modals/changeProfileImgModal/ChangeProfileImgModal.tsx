@@ -9,6 +9,8 @@ import { changeProfileImgModalActions } from 'store/changeProfileImgModalSlice';
 import { AiOutlineClose, AiFillCloseCircle } from 'react-icons/ai';
 import { borderColor, mainRedColor } from 'common/colors/CommonColors';
 
+import { userChangeProfileAPI } from 'https/utils/AuthFunction';
+
 interface ChangeProfileImgModalState {
   changeProfileImg: {
     changeProfileImg: boolean;
@@ -29,7 +31,24 @@ const ChangeProfileImgModal: React.FC = () => {
   const closeModal = () => {
     clickChangeImgHandler();
   };
+
+  const changeMyProfileFC = () => {
+    if (sendFile) {
+      userChangeProfileAPI(sendFile)
+        .then(async (r) => {
+          console.log(r);
+          closeModal();
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+      return;
+    }
+    return alert('이미지를 확인해주세요.');
+  };
+
   //   이미지
+  const [sendFile, setSendFile] = useState<File | null>(null);
   const [profileImg, setProfileImg] = useState<string | null>(null);
   const [profileImgName, setProfileImgName] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -42,6 +61,7 @@ const ChangeProfileImgModal: React.FC = () => {
         setProfileImgName(file.name); // 파일 이름 설정
       };
       reader.readAsDataURL(file);
+      setSendFile(file);
     } else {
       setProfileImg(null);
       setProfileImgName(null);
@@ -107,7 +127,7 @@ const ChangeProfileImgModal: React.FC = () => {
           <button
             className={classes.modalBtn}
             style={{ backgroundColor: mainRedColor }}
-            onClick={closeModal}
+            onClick={changeMyProfileFC}
           >
             등록하기
           </button>

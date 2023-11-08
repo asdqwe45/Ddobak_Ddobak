@@ -42,6 +42,12 @@
 .ImgStyle {
   width: 100%;
   height: 100%;
+  border-radius: 100%;
+  box-sizing: border-box;
+  &:hover {
+    border: #d71718 5px solid;
+    cursor: pointer;
+  }
 }
 
 .settingIcon {

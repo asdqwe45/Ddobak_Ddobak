@@ -23,10 +23,6 @@ export const ProfilImgBox = styled.div`
   aspect-ratio: 1;
   padding: 20px;
   box-sizing: border-box; /* 이 줄을 추가합니다. */
-  &:hover {
-    opacity: 0.7;
-    cursor: pointer;
-  }
 `;
 
 export const ProfileContent = styled.div`
