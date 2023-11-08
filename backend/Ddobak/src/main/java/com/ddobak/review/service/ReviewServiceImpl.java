@@ -6,6 +6,7 @@ import com.ddobak.global.service.S3Service;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.repository.MemberRepository;
 import com.ddobak.review.dto.request.ReviewRegisterRequest;
+import com.ddobak.review.dto.response.ReviewResponse;
 import com.ddobak.review.entity.Review;
 import com.ddobak.review.repository.ReviewRepository;
 import com.ddobak.security.util.LoginInfo;
@@ -15,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -64,5 +67,9 @@ public class ReviewServiceImpl implements ReviewService{
         }else{
             throw new RuntimeException("You are not authorized to delete this review.");
         }
+    }
+
+    public List<ReviewResponse> findReviewByFontId(Long fontId){
+        return reviewRepository.findAllByFontId(fontId);
     }
 }
