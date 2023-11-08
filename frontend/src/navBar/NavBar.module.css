@@ -66,6 +66,14 @@
   height: 100%;
 }
 
+.leftNoTokenBox {
+  display: flex;
+  flex-direction: row;
+  width: 390px;
+  justify-content: space-between;
+  height: 100%;
+}
+
 .smallBox a {
   display: flex;
   justify-content: center;

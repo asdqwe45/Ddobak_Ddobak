@@ -12,6 +12,7 @@ export const IngredientContent = styled.div`
   border: 2px solid ${borderColor};
   border-radius: 10px;
   display: flex;
+  min-width: 380px;
 `;
 // profile
 export const ProfileBox = styled(IngredientBox)`
@@ -22,10 +23,6 @@ export const ProfilImgBox = styled.div`
   aspect-ratio: 1;
   padding: 20px;
   box-sizing: border-box; /* 이 줄을 추가합니다. */
-  &:hover {
-    opacity: 0.7;
-    cursor: pointer;
-  }
 `;
 
 export const ProfileContent = styled.div`
@@ -143,10 +140,12 @@ export const MyPageContent = styled.div`
   border-radius: 10px;
   border: 2px solid ${borderColor};
   display: flex;
+  min-width: 807px;
 `;
 // 선택 상자
 export const SelectBox = styled.div`
   min-height: 370px;
+  min-width: 214px;
   width: 28%;
   height: 100%;
   box-sizing: border-box;

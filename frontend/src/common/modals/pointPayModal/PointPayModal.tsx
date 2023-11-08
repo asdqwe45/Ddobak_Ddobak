@@ -9,6 +9,7 @@ import { chargePointModalActions } from 'store/chargePointModalSlice';
 
 import { AiOutlineClose } from 'react-icons/ai';
 import { borderColor, mainRedColor, likeCountColor } from 'common/colors/CommonColors';
+import { resultModalActions } from 'store/resultModalSlice';
 
 interface PointModalState {
   pointModal: {
@@ -38,6 +39,8 @@ const PointPayModal: React.FC = () => {
     // 결제가 완료되면 순차적으로 실행
     dispatch(pointPayModalActions.paidSomething());
     clickPayHandler();
+    // 다음 페이지로 이동
+    dispatch(resultModalActions.nextStep());
   };
   function formatNumberWithCommas(x: number) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');

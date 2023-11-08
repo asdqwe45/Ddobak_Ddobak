@@ -7,8 +7,6 @@ import {
   ProfileContent,
   ProfilNameBox,
   ProfileName,
-  ChangeProfileName,
-  NicknameChangeBtn,
   ChangePassword,
   PointIngredient,
   PointHeader,
@@ -53,7 +51,7 @@ import Noncommercial from './myPageAssets/Noncommercial.png';
 // 아이콘
 import { FaCircleUser } from 'react-icons/fa6';
 import { FaPencilAlt } from 'react-icons/fa';
-import { borderColor, mainRedColor, likeCountColor } from 'common/colors/CommonColors';
+import { borderColor } from 'common/colors/CommonColors';
 import { FaBookmark, FaRegCheckSquare, FaRegSquare } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
 import { BsPersonWorkspace } from 'react-icons/bs';
@@ -90,6 +88,7 @@ import { goToBasketModalActions } from 'store/goToBasketModalSlice';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 import { checkToken } from 'https/utils/AuthFunction';
+import { changeNicknameModalActions } from 'store/changeNicknameSlice';
 
 const MyPage: React.FC = () => {
   const navigate = useNavigate();
@@ -125,19 +124,6 @@ const MyPage: React.FC = () => {
     fetch();
     // navigate를 의존성 배열에 추가합니다.
   }, [navigate]);
-  const [isClickedChange, setIsClickedChange] = useState<boolean>(false);
-  const [nickname, setNickname] = useState<string>('김싸피');
-  const nicknameInputRef = useRef<HTMLInputElement>(null);
-
-  const changeNickName = (selectedName: string) => {
-    if (selectedName === '수정') {
-      const nowNickname = nicknameInputRef.current?.value;
-      if (nowNickname) {
-        setNickname(nowNickname);
-      }
-    }
-    setIsClickedChange(false);
-  };
 
   const [pageLocation, setPageLocation] = useState({
     productsState: true,
@@ -227,6 +213,21 @@ const MyPage: React.FC = () => {
   const [isPencilHovered, setIsPencilHovered] = useState(false);
   const [isWorkspaceHovered, setIsWorkspaceHovered] = useState(false);
 
+  const [screenWidth, setScreenWidth] = useState<number>(1510);
+  const handleResize = () => {
+    setScreenWidth(window.innerWidth);
+  };
+  // resize 이벤트에 대한 리스너를 설정합니다.
+  useEffect(() => {
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너를 정리합니다.
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <div className={classes.container}>
       <div className={classes.header}>
@@ -237,61 +238,42 @@ const MyPage: React.FC = () => {
             </ProfilImgBox>
             <ProfileContent>
               <ProfilNameBox>
-                {isClickedChange ? (
+                <ProfileName>김싸피</ProfileName>
+                <FaPencilAlt
+                  size={30}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    dispatch(changeNicknameModalActions.toggle());
+                    setIsPencilHovered(false);
+                  }}
+                  className={classes.pencilBtn}
+                  onMouseEnter={() => setIsPencilHovered(true)}
+                  onMouseLeave={() => setIsPencilHovered(false)}
+                />
+                <BsPersonWorkspace
+                  size={30}
+                  onClick={() => {
+                    clickMyWorkspaceHandler();
+                    setIsWorkspaceHovered(false);
+                  }}
+                  className={classes.workspaceBtn}
+                  onMouseEnter={() => setIsWorkspaceHovered(true)}
+                  onMouseLeave={() => setIsWorkspaceHovered(false)}
+                />
+
+                {screenWidth > 1500 && isPencilHovered ? (
                   <>
-                    <ChangeProfileName type="text" placeholder="새 닉네임" ref={nicknameInputRef} />
-                    <NicknameChangeBtn
-                      onClick={() => changeNickName('수정')}
-                      style={{ backgroundColor: mainRedColor }}
-                    >
-                      수정
-                    </NicknameChangeBtn>
-                    <NicknameChangeBtn
-                      onClick={() => changeNickName('취소')}
-                      style={{ backgroundColor: likeCountColor }}
-                    >
-                      취소
-                    </NicknameChangeBtn>
+                    <p className={classes.changeNickName}>닉네임 수정하기</p>
                   </>
                 ) : (
+                  <></>
+                )}
+                {screenWidth > 1500 && isWorkspaceHovered ? (
                   <>
-                    <ProfileName>{nickname}</ProfileName>
-                    <FaPencilAlt
-                      size={30}
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => {
-                        setIsClickedChange(true);
-                        setIsPencilHovered(false);
-                      }}
-                      className={classes.pencilBtn}
-                      onMouseEnter={() => setIsPencilHovered(true)}
-                      onMouseLeave={() => setIsPencilHovered(false)}
-                    />
-                    <BsPersonWorkspace
-                      size={30}
-                      onClick={() => {
-                        clickMyWorkspaceHandler();
-                        setIsWorkspaceHovered(false);
-                      }}
-                      className={classes.workspaceBtn}
-                      onMouseEnter={() => setIsWorkspaceHovered(true)}
-                      onMouseLeave={() => setIsWorkspaceHovered(false)}
-                    />
-                    {isPencilHovered ? (
-                      <>
-                        <p className={classes.changeNickName}>닉네임 수정하기</p>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                    {isWorkspaceHovered ? (
-                      <>
-                        <p className={classes.changeNickName}>소개 페이지 이동하기</p>
-                      </>
-                    ) : (
-                      <></>
-                    )}
+                    <p className={classes.changeNickName}>소개 페이지 이동하기</p>
                   </>
+                ) : (
+                  <></>
                 )}
               </ProfilNameBox>
               <ChangePassword onClick={clickChangePwHandler}>비밀번호 변경</ChangePassword>

@@ -6,17 +6,19 @@ import { useNavigate } from 'react-router-dom';
 const WrongPage: React.FC = () => {
   const navigate = useNavigate();
 
-  // 컴포넌트가 마운트될 때 body의 overflow를 hidden으로 설정
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
+    // 세로 스크롤 막기, 가로 스크롤 허용
+    document.body.style.overflowY = 'hidden';
+    document.body.style.overflowX = 'auto'; // 또는 'scroll'
 
     // 컴포넌트가 언마운트될 때 원래 상태로 복구
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflowY = 'auto';
+      document.body.style.overflowX = 'auto'; // 원래의 스크롤 설정으로 복구
     };
-  }, []); // 빈 의존성 배열로 마운트와 언마운트 시점에만 실행
+  }, []);
   return (
-    <div className={classes.container}>
+    <div id={'scroll'} className={classes.container}>
       <div className={classes.warningBox}>
         <h1 style={{ marginBottom: 5 }}>Something went wrong</h1>
         <div>
