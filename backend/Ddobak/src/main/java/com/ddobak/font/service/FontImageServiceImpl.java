@@ -171,10 +171,8 @@ public class FontImageServiceImpl implements FontImageService {
         return new ResponseEntity<>(zip.getBody(), headers, HttpStatus.OK);
     }
 
-    public String getS3FontUrl(List<File> imageFiles) { // 163.239.223.171:8786/api/v1/font_create/create_font
-        String fastapiServer = "163.239.223.171:8786/api/v1/font_create/create_font";
-        String myServer = "http://localhost:8000/makeUpload";
-        String fastApiUrl = myServer;
+    public String getS3FontUrl(List<File> imageFiles) {
+        String fastApiUrl = "163.239.223.171:8786/api/v1/font_create/create_font";
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);

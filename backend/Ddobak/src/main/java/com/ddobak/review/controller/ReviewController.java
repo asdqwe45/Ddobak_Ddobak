@@ -1,6 +1,7 @@
 package com.ddobak.review.controller;
 
 import com.ddobak.review.dto.request.ReviewRegisterRequest;
+import com.ddobak.review.dto.response.ReviewListResponse;
 import com.ddobak.review.dto.response.ReviewResponse;
 import com.ddobak.review.service.ReviewService;
 import com.ddobak.security.util.LoginInfo;
@@ -23,7 +24,6 @@ public class ReviewController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerReview(@RequestPart("data") ReviewRegisterRequest req, @RequestPart(value = "file", required = false) MultipartFile image, @AuthenticationPrincipal LoginInfo loginInfo) {
-        System.out.println(req.fontId());
         reviewService.registerReview(req, image, loginInfo);
         return ResponseEntity.ok("success");
     }
@@ -37,6 +37,7 @@ public class ReviewController {
     @GetMapping("/list/{fontId}")
     public ResponseEntity<?> findReviewList(@PathVariable Long fontId) {
         List<ReviewResponse> reviewResponseList = reviewService.findReviewByFontId(fontId);
-        return ResponseEntity.ok(reviewResponseList);
+        ReviewListResponse result = new ReviewListResponse(reviewResponseList.stream().count(),reviewResponseList);
+        return ResponseEntity.ok(result);
     }
 }

@@ -78,7 +78,8 @@ public class FontQueryRepository {
                         font.font_file_url,
                         select(favorite.id.count())
                                 .from(favorite)
-                                .where(favorite.member.id.eq(member_id))
+                                .where(favorite.member.id.eq(member_id),
+                                        favorite.font.id.eq(font.id))
                                 .gt(0L)
                 ))
                 .from(font)
