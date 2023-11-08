@@ -42,7 +42,7 @@ public class QCharge extends EntityPathBase<Charge> {
     public final NumberPath<Integer> transactionAmount = _super.transactionAmount;
 
     //inherited
-    public final DateTimePath<java.util.Date> transactionDate = _super.transactionDate;
+    public final DateTimePath<java.time.LocalDateTime> transactionDate = _super.transactionDate;
 
     public QCharge(String variable) {
         this(Charge.class, forVariable(variable), INITS);

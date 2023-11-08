@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -45,6 +46,10 @@ public class QMember extends EntityPathBase<Member> {
     public final BooleanPath productionStatus = createBoolean("productionStatus");
 
     public final StringPath profileImg = createString("profileImg");
+
+    public final ListPath<com.ddobak.transaction.entity.Transaction, com.ddobak.transaction.entity.QTransaction> purchases = this.<com.ddobak.transaction.entity.Transaction, com.ddobak.transaction.entity.QTransaction>createList("purchases", com.ddobak.transaction.entity.Transaction.class, com.ddobak.transaction.entity.QTransaction.class, PathInits.DIRECT2);
+
+    public final ListPath<com.ddobak.transaction.entity.Transaction, com.ddobak.transaction.entity.QTransaction> sales = this.<com.ddobak.transaction.entity.Transaction, com.ddobak.transaction.entity.QTransaction>createList("sales", com.ddobak.transaction.entity.Transaction.class, com.ddobak.transaction.entity.QTransaction.class, PathInits.DIRECT2);
 
     public final EnumPath<SignUpType> signUpType = createEnum("signUpType", SignUpType.class);
 
