@@ -8,10 +8,16 @@ import { axiosWithAuth } from 'https/http';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
 type Font = {
-  font_id: bigint;
+  font_id: string;
   kor_font_name: string;
   producer_name: string;
+  font_file_url: string;
+  dibCheck: boolean;
 };
+// type FontList = {
+//   fontResponseList: Font[];
+//   fontCount: number;
+// };
 
 const FontListPage: React.FC = () => {
   window.scrollTo({ left: 0, top: 0 });
@@ -33,8 +39,8 @@ const FontListPage: React.FC = () => {
         return r;
       });
       if (response.data) {
-        console.log('API로부터 받은 데이터:', response.data); // 데이터 로깅 추가
-        setFonts(response.data); // 상태 업데이트
+        console.log("API로부터 받은 데이터:", response.data); // 데이터 로깅 추가
+        setFonts(response.data.fontResponseList); // 상태 업데이트
       } else {
         console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data); // 경고 로그 추가
       }
@@ -48,9 +54,10 @@ const FontListPage: React.FC = () => {
     return fonts.map((font) => (
       <FontBoxComponent
         key={font.font_id.toString()}
-        id={font.font_id}
+        id={font.font_id.toString()}
         title={font.kor_font_name}
         maker={font.producer_name}
+        // dib={font.dibCheck}
       />
     ));
   };

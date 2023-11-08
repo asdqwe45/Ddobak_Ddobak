@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
 
 interface FontBoxProps {
-  id: bigint;
+  id: string;
   title: string;
   maker: string;
 }

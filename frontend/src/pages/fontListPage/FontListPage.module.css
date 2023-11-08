@@ -99,7 +99,7 @@
 }
 
 .fontBoxContainer > * {
-  flex: 0 0 calc(25% - 10px); /* 가로 한 줄에 4개씩, margin 고려 */
+  flex: 0 0 calc(24% - 10px); /* 가로 한 줄에 4개씩, margin 고려 */
   height: 280px; /* 항목의 높이 */
   margin: 5px; /* 항목 사이의 마진 */
 }
