@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import classes from './FontUserReview.module.css';
+// import { axiosWithAuth } from 'https/http';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -38,6 +39,16 @@ const FontBoxSwiper = () => {
 };
 const FontUserReview: React.FC = () => {
   const swiperRef = useRef<SwiperCore>();
+
+  // FontUserReview.js 예시
+  // const fetchReviews = async () => {
+  //   try {
+  //     const response = await axios.get('/api/review');
+  //     // 상태에 리뷰 데이터 저장
+  //   } catch (error) {
+  //     // 에러 핸들링
+  //   }
+  // };
 
   return (
     <>

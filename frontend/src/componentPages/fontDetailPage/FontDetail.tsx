@@ -11,7 +11,6 @@ import RangeSlider from 'common/fontRangeSlider/RangeSlider';
 import FontUserReview from './fontDetailPageComponent/FontUserReview';
 
 // icons
-// 빈찜, 찬찜
 import { FaRegBookmark, FaBookmark, FaRegCopy, FaPen } from 'react-icons/fa';
 
 import { axiosWithAuth } from 'https/http';
@@ -31,7 +30,7 @@ type Font = {
 };
 
 const FontDetail: React.FC = () => {
-  const { fontId } = useParams<{ fontId: string }>();
+  const { fontId } = useParams();
   const [fontDetail, setFontDetail] = useState<Font | null>(null);
 
   // 컴포넌트 마운트시 API 호출
@@ -55,7 +54,7 @@ const FontDetail: React.FC = () => {
         console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
       }
     } catch (error) {
-      console.error('API 호출 에러:', error); // 에러 로깅 개선
+      console.error('API 호출 에러:', error);
     }
   };
 
@@ -120,7 +119,6 @@ const FontDetail: React.FC = () => {
       await navigator.clipboard.writeText(webFontCode);
       console.log('클립보드에 복사되었습니다!');
     } catch (err) {
-      console.error('Failed to copy text: ', err);
       console.log('복사에 실패했습니다.');
     }
   };
@@ -158,14 +156,12 @@ const FontDetail: React.FC = () => {
             <FaRegBookmark className={classes.bookIcon} onClick={handleIconClick} />
           )}
         </div>
-        {/* 폰트 이름 */}
         <div className={classes.title}>{fontDetail ? fontDetail.fontName : ''}</div>
       </div>
       <div className={classes.subContainer}>
         <div className={classes.makerContainer}>
           <p>
-            <strong>제작 </strong>
-            {fontDetail ? fontDetail.producerName : ''}
+            <strong>제작 </strong> {fontDetail ? fontDetail.producerName : ''}
           </p>
           <p>
             <>
@@ -178,24 +174,8 @@ const FontDetail: React.FC = () => {
         </div>
 
         <div className={classes.buyContainer}>
-          <div
-            className={classes.buyBtn}
-            style={{
-              backgroundColor: '#D71718',
-              border: '2px solid #D71718',
-              color: '#FFFFFF',
-            }}
-          >
-            장바구니
-          </div>
-          <div
-            className={classes.buyBtn}
-            style={{
-              border: '2px solid #D71718',
-            }}
-          >
-            바로 구매
-          </div>
+          <div className={classes.cartBtn}>장바구니</div>
+          <div className={classes.buyBtn}>바로 구매</div>
         </div>
       </div>
 
@@ -239,9 +219,8 @@ const FontDetail: React.FC = () => {
           <RangeSlider value={fontSize} onChange={handleFontSizeChange} />
         </div>
         <div
+          className={classes.fontTest}
           style={{
-            marginLeft: '50px',
-            marginBottom: '50px',
             fontSize: `${fontSize}px`,
             color: inputText ? 'black' : 'lightGray',
           }}
@@ -253,9 +232,9 @@ const FontDetail: React.FC = () => {
       <div className={classes.intro}>
         <BoxTitle>또박또박 라이선스</BoxTitle>
         <div className={classes.introBox}>
-          <strong>저작권</strong> : '{fontDetail ? fontDetail.fontName : ''}' 폰트의 라이선스는{' '}
-          {fontDetail ? fontDetail.producerName : '제작자'}에게 있습니다.{'\n'}'
-          {fontDetail ? fontDetail.fontName : ''}' 는 개인 및 기업 사용자를 포함한 모든 사용자에게
+          <strong>저작권</strong> : "{fontDetail ? fontDetail.fontName : ''}" 폰트의 라이선스는 "
+          {fontDetail ? fontDetail.producerName : '제작자'}"에게 있습니다.{'\n'}"
+          {fontDetail ? fontDetail.fontName : ''}" 는 개인 및 기업 사용자를 포함한 모든 사용자에게
           무료로 제공되며 자유롭게 사용할 수 있고 상업적 이용이 가능합니다. 본 서체는 글꼴 자체를
           유료로 판매하거나 왜곡·변형할 수 없습니다.
         </div>
@@ -264,15 +243,7 @@ const FontDetail: React.FC = () => {
       <br />
       <div className={classes.titleContainer}>
         <BoxTitle>폰트 활용 후기</BoxTitle>
-        <div
-          className={classes.buyBtn}
-          style={{
-            backgroundColor: '#484848',
-            border: '2px solid #484848',
-            color: '#FFFFFF',
-          }}
-          onClick={openReviewModal}
-        >
+        <div className={classes.reviewBtn} onClick={openReviewModal}>
           후기 등록
         </div>
       </div>
