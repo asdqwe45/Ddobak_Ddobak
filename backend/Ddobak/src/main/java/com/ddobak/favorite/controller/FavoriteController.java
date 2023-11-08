@@ -62,10 +62,9 @@ public class FavoriteController {
         List<Favorite> favorites = favoriteService.findByMemberId(memberId);
         ArrayList<Font> result = new ArrayList<>();
 
-        for (Favorite favorite : favorites) {
-            result.add(fontService.findByFontId(favorite.getId()));
+        for (int i=0; i<favorites.size(); i++){
+            result.add(fontService.findByFontId(favorites.get(i).getId()));
         }
-
         return ResponseEntity.ok(result);
     }
 }
