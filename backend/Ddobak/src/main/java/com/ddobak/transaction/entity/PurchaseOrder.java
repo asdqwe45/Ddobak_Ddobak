@@ -1,16 +1,12 @@
 package com.ddobak.transaction.entity;
 
-import com.ddobak.font.entity.Font;
 import com.ddobak.global.entity.BaseEntity;
 import com.ddobak.member.entity.Member;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +17,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order extends BaseEntity {
+public class PurchaseOrder extends BaseEntity {
 
     // 구매자 ID
     @ManyToOne(fetch = FetchType.LAZY)
