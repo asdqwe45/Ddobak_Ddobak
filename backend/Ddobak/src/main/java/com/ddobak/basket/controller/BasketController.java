@@ -19,7 +19,7 @@ public class BasketController {
 
     @GetMapping("/list")
     public ResponseEntity<?> getBasketList(@AuthenticationPrincipal LoginInfo loginInfo){
-
+        
 
 
         return ResponseEntity.ok(null);
