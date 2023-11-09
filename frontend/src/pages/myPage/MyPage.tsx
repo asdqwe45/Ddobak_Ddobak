@@ -223,11 +223,17 @@ const MyPage: React.FC = () => {
     fontName: string;
     producerName: string;
   }
-
-  const clickBookmarkButton = (dib: DibType) => {
-    console.log('click');
-    dibRemoveAPI(dib.fontId.toString());
-  };
+  
+  const clickBookmarkButton = (dib : DibType) => {
+    console.log("click");
+    dibRemoveAPI(dib.fontId.toString()).then(() =>{
+      dibListAPI().then((response) => {
+        console.log(response);
+        setDibList(response);
+      });
+    })
+    
+  }
 
   // 닉네임 수정하기 마우스 호버시
   const [isPencilHovered, setIsPencilHovered] = useState(false);
