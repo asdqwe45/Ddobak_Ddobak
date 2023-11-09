@@ -1,5 +1,7 @@
 package com.ddobak.member.service;
 
+import com.ddobak.font.entity.Font;
+import com.ddobak.font.service.FontService;
 import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.global.service.S3Service;
 import com.ddobak.member.dto.request.MemberLoginRequest;
@@ -8,6 +10,7 @@ import com.ddobak.member.dto.request.ModifyLoginPasswordRequest;
 import com.ddobak.member.dto.request.ModifyNicknameRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
 import com.ddobak.member.dto.response.LoginResponse;
+import com.ddobak.member.dto.response.MyPageResponse;
 import com.ddobak.member.dto.response.RefreshTokenResponse;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.entity.SignUpType;
@@ -21,7 +24,6 @@ import java.security.SecureRandom;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,6 +45,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final EmailService emailService;
     private final S3Service s3Service;
+
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
@@ -182,6 +185,12 @@ public class MemberService {
 
     }
 
+    @Transactional
+    public MyPageResponse getMyPage(LoginInfo loginInfo) {
+        Member member = findByEmail(loginInfo.email());
+        return new MyPageResponse(member.getProfileImg(), member.getNickname(), member.getPoint());
+    }
+
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email).orElseThrow(() -> new MemberException(ErrorCode.USER_NOT_FOUND));
     }
@@ -193,6 +202,10 @@ public class MemberService {
 
     public Member findSellerById(Long id) {
         return memberRepository.findById(id).orElseThrow(() -> new MemberException(ErrorCode.SELLER_NOT_FOUND));
+    }
+
+    public Member findMemberById(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(() -> new MemberException(ErrorCode.USER_NOT_FOUND));
     }
 
     private String createCode() {

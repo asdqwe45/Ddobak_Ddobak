@@ -2,6 +2,7 @@ package com.ddobak.transaction.service;
 
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.service.FontService;
+import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.repository.MemberRepository;
 import com.ddobak.member.service.MemberService;
@@ -18,6 +19,7 @@ import com.ddobak.transaction.entity.Creation;
 import com.ddobak.transaction.entity.PurchaseOrder;
 import com.ddobak.transaction.entity.Transaction;
 import com.ddobak.transaction.entity.Withdrawal;
+import com.ddobak.transaction.exception.TransactionException;
 import com.ddobak.transaction.repository.ChargeRepository;
 import com.ddobak.transaction.repository.CreationRepository;
 import com.ddobak.transaction.repository.PurchaseOrderRepository;
@@ -153,6 +155,8 @@ public class TransactionService {
             // 해당 폰트 정보 가져오기
             Font purchaseFont = fontService.findByFontId(purchaseRequestList.get(0).fontId());
             Member seller = memberService.findSellerById(purchaseRequestList.get(0).sellerId());
+
+            // 포인트 부족 확인
 
             // 폰트 가격만큼 계산
             purchaseAfterAmount = buyer.withdrawPoint(purchaseFont.getPrice());
@@ -454,5 +458,10 @@ public class TransactionService {
 
         return transactionResponseList;
 
+    }
+
+
+    public List<Transaction> gettransactionList(Long memberId) {
+        return transactionRepository.findTransactionBySeller(memberId);
     }
 }
