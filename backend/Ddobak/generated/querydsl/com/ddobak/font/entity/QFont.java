@@ -24,11 +24,13 @@ public class QFont extends EntityPathBase<Font> {
 
     public final com.ddobak.global.entity.QBaseEntity _super = new com.ddobak.global.entity.QBaseEntity(this);
 
+    public final com.ddobak.basket.entity.QBasket basket;
+
     public final BooleanPath commerce_status = createBoolean("commerce_status");
 
-    public final StringPath copyrigher = createString("copyrigher");
-
     public final BooleanPath copyright_notice = createBoolean("copyright_notice");
+
+    public final StringPath copyrighter = createString("copyrighter");
 
     public final DateTimePath<java.time.LocalDateTime> create_datetime = createDateTime("create_datetime", java.time.LocalDateTime.class);
 
@@ -38,6 +40,8 @@ public class QFont extends EntityPathBase<Font> {
     public final com.ddobak.transaction.entity.QCreation creation;
 
     public final StringPath eng_font_name = createString("eng_font_name");
+
+    public final ListPath<com.ddobak.favorite.entity.Favorite, com.ddobak.favorite.entity.QFavorite> favorite = this.<com.ddobak.favorite.entity.Favorite, com.ddobak.favorite.entity.QFavorite>createList("favorite", com.ddobak.favorite.entity.Favorite.class, com.ddobak.favorite.entity.QFavorite.class, PathInits.DIRECT2);
 
     public final StringPath font_file_url = createString("font_file_url");
 
@@ -53,6 +57,8 @@ public class QFont extends EntityPathBase<Font> {
     public final ListPath<Keyword, QKeyword> keywords = this.<Keyword, QKeyword>createList("keywords", Keyword.class, QKeyword.class, PathInits.DIRECT2);
 
     public final StringPath kor_font_name = createString("kor_font_name");
+
+    public final EnumPath<FontStatusType> makeStatus = createEnum("makeStatus", FontStatusType.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
@@ -85,6 +91,7 @@ public class QFont extends EntityPathBase<Font> {
 
     public QFont(Class<? extends Font> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.basket = inits.isInitialized("basket") ? new com.ddobak.basket.entity.QBasket(forProperty("basket"), inits.get("basket")) : null;
         this.creation = inits.isInitialized("creation") ? new com.ddobak.transaction.entity.QCreation(forProperty("creation"), inits.get("creation")) : null;
         this.producer = inits.isInitialized("producer") ? new com.ddobak.member.entity.QMember(forProperty("producer")) : null;
     }
