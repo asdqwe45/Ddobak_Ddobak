@@ -41,7 +41,7 @@ public class FontQueryRepository {
     }
 
 
-    public List<FontResponse> getFontList(Long member_id, Pageable pageable, String search, List<String> keywords, Boolean free) {
+    public FontListResponse getFontList(Long member_id, Pageable pageable, String search, List<String> keywords, Boolean free) {
         QFont font = QFont.font;
         QFavorite favorite = QFavorite.favorite;
         BooleanBuilder whereClause = new BooleanBuilder();
@@ -71,7 +71,13 @@ public class FontQueryRepository {
             whereClause.and(keywordExpressions);
         }
 
-        List<FontResponse> fonts = jpaQueryFactory
+        long fontCount = jpaQueryFactory
+                .select(font.count())
+                .from(font)
+                .where(whereClause)
+                .fetchOne();
+
+        List<FontResponse> fontList = jpaQueryFactory
                 .select(constructor(FontResponse.class,
                         font.id,
                         font.kor_font_name,
@@ -90,7 +96,9 @@ public class FontQueryRepository {
                 .orderBy(font.id.desc())
                 .fetch();
 
-        return fonts;
+        FontListResponse response = new FontListResponse(fontCount,fontList);
+
+        return response;
     }
 
     public FontListResponse getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free) {

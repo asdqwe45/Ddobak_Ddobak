@@ -10,5 +10,7 @@ import java.util.List;
 public interface BasketService {
     void addBasket(Long fontId, LoginInfo loginInfo);
 
+    List<FontBasketResponse> getBasketFontList(LoginInfo loginInfo);
+
     //List<FontBasketResponse> getBasketList(LoginInfo loginInfo);
 }

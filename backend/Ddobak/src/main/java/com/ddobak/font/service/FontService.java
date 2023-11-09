@@ -19,7 +19,7 @@ public interface FontService {
 
     Font makeFont(MakeFontRequest req, LoginInfo loginInfo, String fontUrl);
 
-    List<FontResponse> getFontList(LoginInfo loginInfo, Pageable pageable, String search, List<String> keywords, Boolean free);
+    FontListResponse getFontList(LoginInfo loginInfo, Pageable pageable, String search, List<String> keywords, Boolean free);
 
     FontListResponse getFontListNoAuth(Pageable pageable, String search, List<String> keywords, Boolean free);
 
