@@ -366,14 +366,14 @@ const MyPage: React.FC = () => {
               </SelectBtn>
             )}
             {pageLocation.likeProducers ? (
-              <SelectDisabled>찜한 제작자</SelectDisabled>
+              <SelectDisabled>팔로우</SelectDisabled>
             ) : (
               <SelectBtn
                 onClick={() => {
                   pageClickHandle('likeProducers');
                 }}
               >
-                찜한 제작자
+                팔로우
               </SelectBtn>
             )}
           </SelectBox>
