@@ -1,6 +1,7 @@
 package com.ddobak.font.dto.request;
 
 public record MakeFontRequest(
+        Long fontId,
         String fontSortUrl,
         String korFontName,
         String engFontName,

@@ -2,6 +2,7 @@ package com.ddobak.font.controller;
 
 import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.font.dto.response.FontDetailResponse;
+import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.dto.response.FontListWithCountResponse;
 import com.ddobak.font.dto.response.FontResponse;
 import com.ddobak.font.entity.Font;
@@ -84,10 +85,10 @@ public class FontController {
     @PostMapping(value = "/goSetting")
     @Operation(summary = "폰트 세팅으로 이동", description = "초기 세팅하는 api 입니다.")
     @ApiResponse(responseCode = "200", description = "리턴 값으로 success를 반환합니다.")
-    public ResponseEntity<String> createFont(@RequestParam("sortUrl") String font_sort_url,
+    public ResponseEntity<Long> createFont(@RequestParam("sortUrl") String font_sort_url,
                                            @AuthenticationPrincipal LoginInfo loginInfo) {
-        fontService.createFont(font_sort_url,loginInfo);
-        return ResponseEntity.ok("success");
+        Long fontId = fontService.createFont(font_sort_url,loginInfo);
+        return ResponseEntity.ok(fontId);
     }
 
     @PostMapping(value = "/make")
@@ -110,7 +111,7 @@ public class FontController {
     @GetMapping(value = "/list")
     @Operation(summary = "폰트 목록", description = "폰트 목록 조회하는 api입니다.")
     @ApiResponse(responseCode = "200", description = "리턴값으로 폰트목록에 필요한 값 리턴합니다.")
-    public ResponseEntity<FontListWithCountResponse> getFontList(@AuthenticationPrincipal LoginInfo loginInfo,@PageableDefault(size=12) Pageable pageable,@RequestPart(required = false) String search, @RequestPart(required = false) List<String> keywords, @RequestPart(required = false) String freeCheck){
+    public ResponseEntity<FontListWithCountResponse> getFontList(@AuthenticationPrincipal LoginInfo loginInfo,@PageableDefault(size=12) Pageable pageable,@RequestParam(required = false) String search, @RequestParam(required = false) List<String> keywords, @RequestParam(required = false) String freeCheck){
 
         Boolean free = null;
         if(freeCheck != null){
@@ -130,7 +131,7 @@ public class FontController {
     @GetMapping(value = "/list/NoAuth")
     @Operation(summary = "폰트 목록", description = "폰트 목록 조회하는 api입니다.")
     @ApiResponse(responseCode = "200", description = "리턴값으로 폰트목록에 필요한 값 리턴합니다.")
-    public ResponseEntity<FontListWithCountResponse> getFontList(@PageableDefault(size=12) Pageable pageable,@RequestPart(required = false) String search, @RequestPart(required = false) List<String> keywords, @RequestPart(required = false) String freeCheck){
+    public ResponseEntity<FontListResponse> getFontList(@PageableDefault(size=12) Pageable pageable,@RequestParam(required = false) String search, @RequestParam(required = false) List<String> keywords, @RequestParam(required = false) String freeCheck){
 
         Boolean free = null;
         if(freeCheck != null){
@@ -142,8 +143,7 @@ public class FontController {
             }
         }
 
-        List<FontResponse> fontList = fontService.getFontListNoAuth(pageable,search,keywords,free);
-        FontListWithCountResponse result = new FontListWithCountResponse(fontList.stream().count(),fontList);
+        FontListResponse result = fontService.getFontListNoAuth(pageable,search,keywords,free);
         return ResponseEntity.ok(result);
     }
 

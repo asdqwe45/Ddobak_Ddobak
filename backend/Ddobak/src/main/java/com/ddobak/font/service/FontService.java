@@ -2,6 +2,7 @@ package com.ddobak.font.service;
 
 import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.font.dto.response.FontDetailResponse;
+import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.dto.response.FontResponse;
 
 import com.ddobak.font.entity.Font;
@@ -14,13 +15,13 @@ import java.util.List;
 public interface FontService {
 
 
-    void createFont(String font_sort_url, LoginInfo loginInfo);
+    Long createFont(String font_sort_url, LoginInfo loginInfo);
 
     Font makeFont(MakeFontRequest req, LoginInfo loginInfo, String fontUrl);
 
     List<FontResponse> getFontList(LoginInfo loginInfo, Pageable pageable, String search, List<String> keywords, Boolean free);
 
-    List<FontResponse> getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free);
+    FontListResponse getFontListNoAuth(Pageable pageable, String search, List<String> keywords, Boolean free);
 
     FontDetailResponse getFontDetail(Long fontId, LoginInfo loginInfo);
 

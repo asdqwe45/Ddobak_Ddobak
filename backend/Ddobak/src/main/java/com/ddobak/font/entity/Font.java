@@ -1,7 +1,9 @@
 package com.ddobak.font.entity;
 
 import com.ddobak.basket.entity.Basket;
+import com.ddobak.favorite.entity.Favorite;
 import com.ddobak.font.dto.request.MakeFontRequest;
+import com.ddobak.font.service.FontService;
 import com.ddobak.global.entity.BaseEntity;
 
 import com.ddobak.transaction.entity.Creation;
@@ -57,20 +59,23 @@ public class Font extends BaseEntity{
     @Column
     private LocalDateTime create_datetime;
 
-    @Column
+    @Column(columnDefinition = "BOOLEAN default false")
     private Boolean copyright_notice;
 
-    @Column
+    @Column(columnDefinition = "BOOLEAN default false")
     private Boolean same_person_check;
 
-    @Column
-    private String copyrigher;
+    @Column(columnDefinition = "varchar(255) default 'copyrighterDefault'")
+    private String copyrighter;
 
-    @Column
+    @Column(columnDefinition = "int default 0")
     private Integer viewCount;
 
     @OneToOne(mappedBy = "createdFont")
     private Creation creation;
+
+    @Column(columnDefinition = "varchar(255) default 'makeStatusDefault'")
+    private FontStatusType makeStatus;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -80,14 +85,21 @@ public class Font extends BaseEntity{
     )
     private List<Keyword> keywords;
 
-    public static Font from(String font_sort_url, Member producer) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="basketId")
+    private Basket basket;
+
+    @OneToMany(mappedBy = "font")
+    private List<Favorite> favorite;
+
+    public static Font from(String font_sort_url, Member producer, FontStatusType makeStatus) {
         return Font.builder()
                 .producer(producer)
                 .font_sort_url(font_sort_url)
+                .makeStatus(makeStatus)
                 .build();
     }
-    public void makeDetail(MakeFontRequest req, String fontUrl){
-        this.font_file_url=fontUrl;
+    public void makeDetail(MakeFontRequest req){
         this.kor_font_name = req.korFontName();
         this.eng_font_name = req.engFontName();
         this.open_status = req.openStatus();
@@ -97,9 +109,15 @@ public class Font extends BaseEntity{
         this.introduce_text = req.introduceText();
         this.copyright_notice=req.copyrightNotice();
         this.same_person_check = req.samePersonCheck();
-        this.copyrigher=req.copyrighter();
+        this.copyrighter=req.copyrighter();
         this.create_datetime= LocalDateTime.now();
         this.viewCount=0;
+        this.makeStatus=FontStatusType.MAKING;
+    }
+
+    public void finalMakeFont(String fontUrl){
+        this.font_file_url=fontUrl;
+        this.create_datetime=LocalDateTime.now();
     }
     public void plusViewCount() {
         this.viewCount = this.viewCount + 1;
