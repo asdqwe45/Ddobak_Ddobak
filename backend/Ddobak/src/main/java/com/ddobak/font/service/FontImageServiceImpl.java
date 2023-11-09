@@ -112,7 +112,7 @@ public class FontImageServiceImpl implements FontImageService {
     private String getS3SortUrl(File imageFile) {// 8889  8786 http://163.239.223.171:8786/api/v1/image_align
         String fastapiServer = "http://163.239.223.171:8786/api/v1/image_align";
         String myServer = "http://localhost:8000/sortUpload";
-        String fastApiUrl = myServer;
+        String fastApiUrl = fastapiServer;
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
