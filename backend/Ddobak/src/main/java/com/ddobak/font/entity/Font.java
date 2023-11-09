@@ -74,7 +74,7 @@ public class Font extends BaseEntity{
     @OneToOne(mappedBy = "createdFont")
     private Creation creation;
 
-    @Column(columnDefinition = "varchar(255) default 'makeStatusDefault'")
+    @Column
     private FontStatusType makeStatus;
 
     @ManyToMany(fetch = FetchType.LAZY)
