@@ -102,8 +102,6 @@ public class TransactionService {
         Member member = memberService.findByEmail(loginInfo.email());
 
         // 포인트 계산
-        checkEnoughPoint(member.getId(), withdrawRequest.amount());
-
         int afterWithdrawMAmount = member.withdrawPoint(withdrawRequest.amount());
         LocalDateTime now = LocalDateTime.now();
         Withdrawal withdrawal = Withdrawal.builder()
@@ -157,6 +155,8 @@ public class TransactionService {
             // 해당 폰트 정보 가져오기
             Font purchaseFont = fontService.findByFontId(purchaseRequestList.get(0).fontId());
             Member seller = memberService.findSellerById(purchaseRequestList.get(0).sellerId());
+
+            // 포인트 부족 확인
 
             // 폰트 가격만큼 계산
             purchaseAfterAmount = buyer.withdrawPoint(purchaseFont.getPrice());
@@ -461,11 +461,7 @@ public class TransactionService {
     }
 
 
-    private void checkEnoughPoint(Long memberId, int amount) {
-        Member member = memberService.findMemberById(memberId);
-
-        if(member.getPoint() < amount) {
-            throw new TransactionException(ErrorCode.POINT_NOT_ENOUGH);
-        }
+    public List<Transaction> gettransactionList(Long memberId) {
+        return transactionRepository.findTransactionBySeller(memberId);
     }
 }
