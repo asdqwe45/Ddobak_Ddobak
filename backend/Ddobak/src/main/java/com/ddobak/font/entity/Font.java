@@ -85,8 +85,8 @@ public class Font extends BaseEntity{
     @JoinColumn(name="basketId")
     private Basket basket;
 
-    @OneToOne(mappedBy = "font")
-    private Favorite favorite;
+    @OneToMany(mappedBy = "font")
+    private List<Favorite> favorite;
 
     public static Font from(String font_sort_url, Member producer) {
         return Font.builder()

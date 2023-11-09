@@ -36,14 +36,8 @@ public class BasketServiceImpl implements BasketService {
             basketRepository.save(new Basket(member.get(), fontList));
             basket = basketRepository.findByMemberId(loginInfo.id());
         }
-        System.out.println("###############");
-
         Optional<Font> font = fontRepository.findById(fontId);
-        System.out.println("###############");
-
         basket.getFontList().add(font.get());
-        System.out.println("###############");
-
         basketRepository.save(basket);
     }
 //    public List<FontBasketResponse> getBasketList(LoginInfo loginInfo){
