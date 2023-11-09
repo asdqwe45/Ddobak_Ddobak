@@ -27,7 +27,7 @@ export async function dibAddAPI(fontId: string): Promise<any> {
 }
 
 // 찜 삭제하기
-export async function dibRemoveAPI(fontId: number): Promise<any> {
+export async function dibRemoveAPI(fontId: string): Promise<any> {
   return axiosWithAuth
     .delete(BASE_URL + `/${fontId}`)
     .then((r) => {

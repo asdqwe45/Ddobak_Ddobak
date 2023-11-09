@@ -40,6 +40,7 @@ const LoginPage: React.FC = () => {
       .then((r) => {
         navigate('/');
         window.location.reload();
+        console.log(r);
       })
       .catch(
         (e) => {

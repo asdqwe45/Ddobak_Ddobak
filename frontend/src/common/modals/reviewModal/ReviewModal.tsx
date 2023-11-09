@@ -3,19 +3,21 @@ import ReactModal from 'react-modal';
 
 import classes from './ReviewModal.module.css';
 
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { reviewModalActions } from 'store/reviewModalSlice';
 import { AiOutlineClose } from 'react-icons/ai';
 import { mainRedColor } from 'common/colors/CommonColors';
+import { reviewRegisterAPI } from 'https/utils/ReviewFunction';
 
 interface ReviewModalState {
   reviewModal: {
     reviewVisible: boolean;
+    fontId: string;
   };
 }
 
 const ReviewModal: React.FC = () => {
+  const fontId = useSelector((state: ReviewModalState) => state.reviewModal.fontId);
   useEffect(() => {
     ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
   }, []);
@@ -31,9 +33,12 @@ const ReviewModal: React.FC = () => {
   const [reviewImg, setReviewImg] = useState<string | null>(null);
   const [reviewImgName, setReviewImgName] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const contextRef = useRef<HTMLInputElement>(null);
+  const [imgFile, setImgFile] = useState<File | string>();
   const handleImgChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     if (file) {
+      setImgFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setReviewImg(reader.result as string);
@@ -45,6 +50,28 @@ const ReviewModal: React.FC = () => {
       setReviewImgName(null);
     }
   };
+  const registerReviewFC = () => {
+    const context = contextRef.current?.value;
+    const newFontId = Number(fontId);
+    if (context && imgFile) {
+      const data = {
+        fontId: newFontId,
+        context: context,
+      };
+      reviewRegisterAPI(data, imgFile)
+        .then(async (r) => {
+          console.log(r);
+          closeModal();
+          window.location.reload();
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    } else {
+      return alert('이미지, 한줄 평 모두 작성해주세요.');
+    }
+  };
+
   return (
     <ReactModal
       isOpen={showReview}
@@ -71,7 +98,7 @@ const ReviewModal: React.FC = () => {
             <p className={classes.innerText}>한줄 리뷰 작성하기</p>
           </div>
           <div>
-            <input type="text" className={classes.inputText} />
+            <input type="text" className={classes.inputText} ref={contextRef} />
           </div>
           <div className={classes.innerMiddleBox}>
             <p className={classes.innerText}>이미지 첨부</p>
@@ -110,7 +137,7 @@ const ReviewModal: React.FC = () => {
           <button
             className={classes.modalBtn}
             style={{ backgroundColor: mainRedColor }}
-            onClick={closeModal}
+            onClick={registerReviewFC}
           >
             등록하기
           </button>

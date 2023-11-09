@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classes from './FontUserReview.module.css';
 // import { axiosWithAuth } from 'https/http';
 
@@ -19,27 +19,38 @@ import { Swiper as SwiperCore } from 'swiper/types';
 import { FaCircleChevronLeft, FaCircleChevronRight } from 'react-icons/fa6';
 
 // 테스트 이미지
-import MinuGuide from '../fontDetailPageAssets/review_ex.png';
+// import MinuGuide from '../fontDetailPageAssets/review_ex.png';
+import { reviewListAPI } from 'https/utils/ReviewFunction';
 
-const NUMBER_OF_SWIPERSLID = 200;
-const FontBoxSwiper = () => {
+interface ReviewListType {
+  reviewer: string;
+  reviewContext: string;
+  reviewUrl: string;
+}
+
+const FontBoxSwiper = (data: ReviewListType[]) => {
   let boxes = [];
-  for (let i = 0; i < NUMBER_OF_SWIPERSLID; i++) {
+  for (let i = 0; i < data.length; i++) {
     boxes.push(
-      <SwiperSlide key={i + 'f'} className={classes.swiperSlid}>
+      <SwiperSlide key={i + 'fff'} className={classes.swiperSlid}>
         <div className={classes.imgContainer}>
-          <img src={MinuGuide} alt="MinuGuide" />
+          <img src={data[i].reviewUrl} alt="MinuGuide" />
         </div>
-        <div className={classes.reviewText}>한줄 리뷰</div>
+        <div className={classes.reviewText}>{data[i].reviewContext}</div>
       </SwiperSlide>,
     );
   }
 
   return boxes;
 };
-const FontUserReview: React.FC = () => {
-  const swiperRef = useRef<SwiperCore>();
 
+interface FontUserReviewType {
+  fontId: string;
+}
+
+const FontUserReview: React.FC<FontUserReviewType> = ({ fontId }) => {
+  const swiperRef = useRef<SwiperCore>();
+  const [reviewList, setReviewList] = useState<ReviewListType[]>([]);
   // FontUserReview.js 예시
   // const fetchReviews = async () => {
   //   try {
@@ -49,6 +60,20 @@ const FontUserReview: React.FC = () => {
   //     // 에러 핸들링
   //   }
   // };
+  useEffect(() => {
+    async function fetch() {
+      const data = await reviewListAPI(fontId)
+        .then((r) => {
+          console.log(r);
+          return r.reviewResponseList;
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+      await setReviewList(data);
+    }
+    fetch();
+  }, [fontId]);
 
   return (
     <>
@@ -74,7 +99,7 @@ const FontUserReview: React.FC = () => {
             modules={[Autoplay, Navigation]}
             className={classes.swiper}
           >
-            {FontBoxSwiper()}
+            {FontBoxSwiper(reviewList)}
           </Swiper>
           <FaCircleChevronRight
             size={40}
