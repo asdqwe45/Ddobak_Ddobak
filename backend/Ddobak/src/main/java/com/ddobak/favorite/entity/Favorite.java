@@ -22,7 +22,7 @@ public class Favorite extends BaseEntity {
     private Member member;
 
     @Getter
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "font_id", nullable = false)
     private Font font;
 
