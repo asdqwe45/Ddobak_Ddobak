@@ -33,7 +33,7 @@ const FontListPage: React.FC = () => {
     const fetch = async () => {
       const token = await getData('accessToken');
       if (!token) {
-        // 토큰 있음
+        // 토큰 없음
         try {
           const response = await axiosWithoutAuth.get('/font/list/NoAuth').then((r) => {
             return r;
@@ -73,15 +73,18 @@ const FontListPage: React.FC = () => {
 
   // 현재 페이지의 폰트 목록을 렌더링
   const renderFontBoxes = () => {
-    return fonts.map((font) => (
-      <FontBoxComponent
-        key={font.font_id.toString()}
-        id={font.font_id.toString()}
-        title={font.kor_font_name}
-        maker={font.producer_name}
-        dib={font.dibCheck}
-      />
-    ));
+    console.log(fonts)
+    if (fonts) {
+      return fonts.map((font) => (
+        <FontBoxComponent
+          key={font.font_id.toString()}
+          id={font.font_id.toString()}
+          title={font.kor_font_name}
+          maker={font.producer_name}
+          dib={font.dibCheck}
+        />
+      ));
+    }
   };
 
   // // 페이지 번호 생성 함수
