@@ -223,11 +223,11 @@ const MyPage: React.FC = () => {
     fontName: string;
     producerName: string;
   }
-  
-  const clickBookmarkButton = (dib : DibType) => {
-    console.log("click");
+
+  const clickBookmarkButton = (dib: DibType) => {
+    console.log('click');
     dibRemoveAPI(dib.fontId);
-  }
+  };
 
   // 닉네임 수정하기 마우스 호버시
   const [isPencilHovered, setIsPencilHovered] = useState(false);
@@ -408,32 +408,38 @@ const MyPage: React.FC = () => {
               {/* 찜 목록 */}
               {/* ======== */}
               <ContentLargeBox>
-              {dibList.length > 0 ? dibList.map((dib) => {
-                console.log(dib)
-                return (
-                    <ContentIngredient key={dib['fontId']}>
-                      <ContentInnerLeft>
-                        <ContentIconsBox onClick={() => {clickBookmarkButton(dib)}}>
-                          <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
-                        </ContentIconsBox>
-                        <ContentInnerTextBox>
-                          <ContentHeader>
-                            <ContentInnerHeaderText>{dib['fontName']}</ContentInnerHeaderText>
-                            <ContentProducerName>| {dib['producerName']}</ContentProducerName>
-                          </ContentHeader>
-                          <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                        </ContentInnerTextBox>
-                      </ContentInnerLeft>
-                      <ContentInnerRight>
-                        <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
-                      </ContentInnerRight>
-                    </ContentIngredient>
-                );
-              }): 
-              <div className={classes.noContent}>
-                    "찜한 폰트가 없습니다."
-              </div>
-                }
+                {dibList.length > 0 ? (
+                  dibList.map((dib) => {
+                    console.log(dib);
+                    return (
+                      <ContentIngredient key={dib['fontId']}>
+                        <ContentInnerLeft>
+                          <ContentIconsBox
+                            onClick={() => {
+                              clickBookmarkButton(dib);
+                            }}
+                          >
+                            <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
+                          </ContentIconsBox>
+                          <ContentInnerTextBox>
+                            <ContentHeader>
+                              <ContentInnerHeaderText>{dib['fontName']}</ContentInnerHeaderText>
+                              <ContentProducerName>| {dib['producerName']}</ContentProducerName>
+                            </ContentHeader>
+                            <ContentInnerContentText>
+                              다람쥐 헌 쳇바퀴 타고파
+                            </ContentInnerContentText>
+                          </ContentInnerTextBox>
+                        </ContentInnerLeft>
+                        <ContentInnerRight>
+                          <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
+                        </ContentInnerRight>
+                      </ContentIngredient>
+                    );
+                  })
+                ) : (
+                  <div className={classes.noContent}>"찜한 폰트가 없습니다."</div>
+                )}
               </ContentLargeBox>
             </>
           ) : pageLocation.fontBasket ? (

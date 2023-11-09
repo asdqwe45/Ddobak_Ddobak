@@ -3,7 +3,7 @@ import classes from './MainFontBox.module.css';
 import { useNavigate } from 'react-router-dom';
 
 // icons
-import { FaRegBookmark } from 'react-icons/fa';
+import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
 
 import { getData } from 'https/http';
 
@@ -57,7 +57,11 @@ const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
           <div className={classes.title} onClick={handleTitleClick}>
             <span> {title} </span>
           </div>
-          <FaRegBookmark className={classes.bookIcon} />
+          {dib ? (
+            <FaBookmark className={classes.bookIcon} />
+          ) : (
+            <FaRegBookmark className={classes.bookIcon} />
+          )}
         </div>
         <div className={classes.fontMaker} onClick={handleMakerClick}>
           <span> {maker} </span>

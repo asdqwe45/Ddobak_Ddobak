@@ -24,7 +24,7 @@ import { mainRedColor } from 'common/colors/CommonColors';
 import DdobakLogo from '../../../common/commonAssets/ddobak_logo.png';
 
 // API 호출
-import { axiosWithoutAuth } from 'https/http';
+import { axiosWithAuth, axiosWithoutAuth, getData } from 'https/http';
 
 type Font = {
   font_id: bigint;
@@ -49,14 +49,29 @@ const MainPageFontList: React.FC = () => {
   // 폰트 데이터를 가져오는 함수
   useEffect(() => {
     const fetchFonts = async () => {
-      try {
-        const response: FontList = await axiosWithoutAuth.get('/font/list/NoAuth').then((r) => {
-          return r.data;
-        }); // API 경로는 예시입니다
-        console.log(response);
-        setFonts(response.fontResponseList); // 폰트 데이터 상태 업데이트
-      } catch (error) {
-        console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
+      const token = await getData('accessToken');
+      if (token) {
+        try {
+          const response: FontList = await axiosWithAuth.get('/font/list').then((r) => {
+            return r.data;
+          }); // API 경로는 예시입니다
+          console.log('로그인 한 상태에서 데이터 가져오기');
+          console.log(response);
+          setFonts(response.fontResponseList); // 폰트 데이터 상태 업데이트
+        } catch (error) {
+          console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
+        }
+      } else {
+        try {
+          const response: FontList = await axiosWithoutAuth.get('/font/list/NoAuth').then((r) => {
+            return r.data;
+          }); // API 경로는 예시입니다
+          console.log('비회원 한 상태에서 데이터 가져오기');
+          console.log(response);
+          setFonts(response.fontResponseList); // 폰트 데이터 상태 업데이트
+        } catch (error) {
+          console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
+        }
       }
     };
     fetchFonts();
