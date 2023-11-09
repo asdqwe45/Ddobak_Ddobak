@@ -67,7 +67,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Override
     public DibbedFontInfo getDibbedFontInfo(Font font) {
         Long fontId = font.getId(); // 폰트 ID
-        String producerName = font.getProducer().getUsername(); // 제조사 이름
+        String producerName = font.getProducer().getNickname(); // 제조사 이름
         String fontFileUrl = font.getFont_file_url(); // 폰트 파일 URL
         String fontName = font.getKor_font_name(); // 폰트 이름
 
