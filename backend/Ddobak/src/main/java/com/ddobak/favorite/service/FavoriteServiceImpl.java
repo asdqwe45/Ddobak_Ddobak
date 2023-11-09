@@ -2,6 +2,7 @@ package com.ddobak.favorite.service;
 
 import com.ddobak.favorite.entity.Favorite;
 import com.ddobak.favorite.repository.FavoriteRepository;
+import com.ddobak.font.dto.response.DibbedFontInfo;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.repository.FontRepository;
 import com.ddobak.member.entity.Member;
@@ -61,5 +62,22 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Override
     public boolean existsByMemberIDAndFontID(Long memberId, Long fontId) {
         return favoriteRepository.existsByMemberIdAndFontId(memberId, fontId);
+    }
+
+    @Override
+    public DibbedFontInfo getDibbedFontInfo(Font font) {
+        Long fontId = font.getId(); // 폰트 ID
+        String producerName = font.getProducer().getUsername(); // 제조사 이름
+        String fontFileUrl = font.getFont_file_url(); // 폰트 파일 URL
+        String fontName = font.getKor_font_name(); // 폰트 이름
+
+        // 여기서 dibCheck는 즐겨찾기 여부를 나타내는데, 이미 즐겨찾기 목록에서 가져오고 있으므로 항상 true입니다.
+        return new DibbedFontInfo(
+                fontId,
+                true, // 즐겨찾기된 아이템으로 가정
+                producerName,
+                fontFileUrl,
+                fontName
+        );
     }
 }
