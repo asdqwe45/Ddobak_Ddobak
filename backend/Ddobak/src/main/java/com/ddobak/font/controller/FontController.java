@@ -130,7 +130,7 @@ public class FontController {
     @GetMapping(value = "/list/NoAuth")
     @Operation(summary = "폰트 목록", description = "폰트 목록 조회하는 api입니다.")
     @ApiResponse(responseCode = "200", description = "리턴값으로 폰트목록에 필요한 값 리턴합니다.")
-    public ResponseEntity<FontListWithCountResponse> getFontList(@PageableDefault(size=12) Pageable pageable,@RequestPart(required = false) String search, @RequestPart(required = false) List<String> keywords, @RequestPart(required = false) String freeCheck){
+    public ResponseEntity<FontListWithCountResponse> getFontList(@PageableDefault(size=12) Pageable pageable,@RequestParam(required = false) String search, @RequestParam(required = false) List<String> keywords, @RequestParam(required = false) String freeCheck){
 
         Boolean free = null;
         if(freeCheck != null){

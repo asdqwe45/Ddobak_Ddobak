@@ -1,6 +1,7 @@
 package com.ddobak.font.entity;
 
 import com.ddobak.basket.entity.Basket;
+import com.ddobak.favorite.entity.Favorite;
 import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.global.entity.BaseEntity;
 
@@ -83,6 +84,9 @@ public class Font extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="basketId")
     private Basket basket;
+
+    @OneToOne(mappedBy = "font")
+    private Favorite favorite;
 
     public static Font from(String font_sort_url, Member producer) {
         return Font.builder()
