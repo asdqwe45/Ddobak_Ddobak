@@ -14,6 +14,7 @@ public record FontDetailResponse(
         String fontFileUrl,
         Long dibCount,
         String fontName,
+        Integer fontPrice,
         Long reviewCount,
         List<ReviewResponse> reviewResponseList
     ) {
@@ -26,6 +27,7 @@ public record FontDetailResponse(
                             String fontFileUrl,
                               Long dibCount,
                             String fontName,
+                              Integer fontPrice,
                               Long reviewCount,
                               List<ReviewResponse> reviewResponseList
                               ){
@@ -38,6 +40,7 @@ public record FontDetailResponse(
         this.fontFileUrl=fontFileUrl;
         this.dibCount = dibCount;
         this.fontName=fontName;
+        this.fontPrice=fontPrice;
         this.reviewCount=reviewCount;
         this.reviewResponseList=reviewResponseList;
     }

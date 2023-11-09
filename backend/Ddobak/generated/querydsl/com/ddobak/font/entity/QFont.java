@@ -30,7 +30,7 @@ public class QFont extends EntityPathBase<Font> {
 
     public final BooleanPath copyright_notice = createBoolean("copyright_notice");
 
-    public final DatePath<java.time.LocalDate> create_date = createDate("create_date", java.time.LocalDate.class);
+    public final DateTimePath<java.time.LocalDateTime> create_datetime = createDateTime("create_datetime", java.time.LocalDateTime.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
