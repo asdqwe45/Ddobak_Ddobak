@@ -1,5 +1,6 @@
 package com.ddobak.basket.controller;
 
+import com.ddobak.basket.dto.request.AddBasketRequest;
 import com.ddobak.basket.dto.response.FontBasketResponse;
 import com.ddobak.basket.service.BasketService;
 import com.ddobak.security.util.LoginInfo;
@@ -20,18 +21,18 @@ public class BasketController {
 
     private final BasketService basketService;
 
-//    @GetMapping("/list")
-//    public ResponseEntity<?> getBasketList(@AuthenticationPrincipal LoginInfo loginInfo){
-//
-//        List<FontBasketResponse> basketResponseList = basketService.getBasketList(loginInfo);
-//
-//        return ResponseEntity.ok(null);
-//    }
+    @GetMapping("/list")
+    public ResponseEntity<List<FontBasketResponse>> getBasketList(@AuthenticationPrincipal LoginInfo loginInfo){
+
+        List<FontBasketResponse> basketResponseList = basketService.getBasketFontList(loginInfo);
+
+        return ResponseEntity.ok(basketResponseList);
+    }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addBasket(@RequestBody Long fontId, @AuthenticationPrincipal LoginInfo loginInfo){
+    public ResponseEntity<?> addBasket(@RequestBody AddBasketRequest req, @AuthenticationPrincipal LoginInfo loginInfo){
         System.out.println("??");
-        basketService.addBasket(fontId,loginInfo);
+        basketService.addBasket(req.fontId(),loginInfo);
 
         return ResponseEntity.ok("success");
     }
