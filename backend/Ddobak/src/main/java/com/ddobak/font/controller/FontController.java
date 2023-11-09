@@ -63,7 +63,7 @@ public class FontController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed ㅠㅠ");
         }
     }
-//    @CrossOrigin(origins = "http://localhost:3000") // React 앱의 URL을 허용합니다.
+
     @PostMapping(value = "/watch")
     @Operation(summary = "미리보기", description = "미리보기 api 입니다.")
     @ApiResponse(responseCode = "200", description = "리턴 값으로 zip파일을 반환합니다.")
