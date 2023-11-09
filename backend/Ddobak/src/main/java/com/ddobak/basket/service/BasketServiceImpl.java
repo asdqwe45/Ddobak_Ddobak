@@ -1,5 +1,6 @@
 package com.ddobak.basket.service;
 
+import com.ddobak.basket.dto.response.FontBasketResponse;
 import com.ddobak.basket.entity.Basket;
 import com.ddobak.basket.repository.BasketRepository;
 import com.ddobak.font.entity.Font;
@@ -45,5 +46,10 @@ public class BasketServiceImpl implements BasketService {
 
         basketRepository.save(basket);
     }
+//    public List<FontBasketResponse> getBasketList(LoginInfo loginInfo){
+//        List<FontBasketResponse> result = fontRepository.findAllByMemberId(loginInfo.id());
+//
+//        return result;
+//    }
 
 }
