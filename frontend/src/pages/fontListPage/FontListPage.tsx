@@ -40,7 +40,7 @@ const FontListPage: React.FC = () => {
           });
           if (response.data) {
             console.log('API로부터 받은 데이터:', response.data); // 데이터 로깅 추가
-            setFonts(response.data.fontResponseList); // 상태 업데이트
+            setFonts(response.data.fontListResponse); // 상태 업데이트
           } else {
             console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data); // 경고 로그 추가
           }
@@ -62,7 +62,7 @@ const FontListPage: React.FC = () => {
       });
       if (response.data) {
         console.log('API로부터 받은 데이터:', response.data); // 데이터 로깅 추가
-        setFonts(response.data.fontResponseList); // 상태 업데이트
+        setFonts(response.data.fontListResponse); // 상태 업데이트
       } else {
         console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data); // 경고 로그 추가
       }
