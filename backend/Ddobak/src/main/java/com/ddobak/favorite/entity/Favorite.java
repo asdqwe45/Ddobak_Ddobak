@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "favorite")
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Favorite extends BaseEntity {
@@ -21,8 +22,7 @@ public class Favorite extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Getter
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "font_id", nullable = false)
     private Font font;
 
