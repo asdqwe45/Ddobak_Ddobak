@@ -1,9 +1,10 @@
 import React from 'react';
 import classes from './MainFontBox.module.css';
 import { useNavigate } from 'react-router-dom';
+import { dibAddAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
 
 // icons
-import { FaRegBookmark } from 'react-icons/fa';
+import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
 
 import { getData } from 'https/http';
 
@@ -16,6 +17,28 @@ interface FontBoxProps {
 
 const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
   const navigate = useNavigate();
+
+  const dibToggle = async (dib: boolean, fontId: string) => {
+    if (dib) {
+      dibRemoveAPI(fontId)
+        .then(async (r) => {
+          window.location.reload();
+          console.log(r);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    } else {
+      dibAddAPI(fontId)
+        .then((r) => {
+          window.location.reload();
+          console.log(r);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+  };
 
   const handleTitleClick = async () => {
     const token = await getData('accessToken');
@@ -57,7 +80,21 @@ const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
           <div className={classes.title} onClick={handleTitleClick}>
             <span> {title} </span>
           </div>
-          <FaRegBookmark className={classes.bookIcon} />
+          {dib ? (
+            <FaBookmark
+              className={classes.bookIcon}
+              onClick={() => {
+                dibToggle(dib, id);
+              }}
+            />
+          ) : (
+            <FaRegBookmark
+              className={classes.bookIcon}
+              onClick={() => {
+                dibToggle(dib, id);
+              }}
+            />
+          )}
         </div>
         <div className={classes.fontMaker} onClick={handleMakerClick}>
           <span> {maker} </span>
