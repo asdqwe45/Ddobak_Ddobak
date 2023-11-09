@@ -2,6 +2,7 @@ package com.ddobak.font.repository;
 
 import com.ddobak.favorite.entity.QFavorite;
 import com.ddobak.favorite.repository.FavoriteRepository;
+import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.dto.response.FontResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.entity.QFont;
@@ -91,9 +92,9 @@ public class FontQueryRepository {
 
         return fonts;
     }
-    public List<FontResponse> getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free) {
+
+    public FontListResponse getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free) {
         QFont font = QFont.font;
-        QFavorite favorite = QFavorite.favorite;
         BooleanBuilder whereClause = new BooleanBuilder();
 
         whereClause.and(font.open_status.isTrue());
@@ -120,8 +121,14 @@ public class FontQueryRepository {
             }
             whereClause.and(keywordExpressions);
         }
+        long fontCount = jpaQueryFactory
+                .select(font.count())
+                .from(font)
+                .where(whereClause)
+                .fetchOne();
 
-        List<FontResponse> fonts = jpaQueryFactory
+
+        List<FontResponse> fontList = jpaQueryFactory
                 .select(constructor(FontResponse.class,
                         font.id,
                         font.kor_font_name,
@@ -135,8 +142,9 @@ public class FontQueryRepository {
                 .limit(pageable.getPageSize())
                 .orderBy(font.id.desc())
                 .fetch();
+        FontListResponse response = new FontListResponse(fontCount,fontList);
 
-        return fonts;
+        return response;
     }
     public Font getFontWithKeywords(Long fontId) {
         return em.createQuery(

@@ -29,7 +29,7 @@ public class BasketController {
 //    }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addBasket(@RequestParam Long fontId, @AuthenticationPrincipal LoginInfo loginInfo){
+    public ResponseEntity<?> addBasket(@RequestBody Long fontId, @AuthenticationPrincipal LoginInfo loginInfo){
         System.out.println("??");
         basketService.addBasket(fontId,loginInfo);
 
