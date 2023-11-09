@@ -64,8 +64,8 @@ public class FavoriteController {
             List<DibbedFontInfo> result = new ArrayList<>();
             for (Favorite favorite : favorites) {
                 Font font = favorite.getFont(); // 즐겨찾기된 폰트 엔티티를 가져오는 메소드
-                    DibbedFontInfo dibbedFontInfo = favoriteService.getDibbedFontInfo(font);
-                    result.add(dibbedFontInfo);
+                DibbedFontInfo dibbedFontInfo = favoriteService.getDibbedFontInfo(font);
+                result.add(dibbedFontInfo);
             }
             return ResponseEntity.ok(result);
         }
