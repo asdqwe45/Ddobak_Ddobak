@@ -64,30 +64,11 @@ public class FavoriteController {
             List<DibbedFontInfo> result = new ArrayList<>();
             for (Favorite favorite : favorites) {
                 Font font = favorite.getFont(); // 즐겨찾기된 폰트 엔티티를 가져오는 메소드
-                if (font != null) {
-                    DibbedFontInfo dibbedFontInfo = getDibbedFontInfo(font);
+                    DibbedFontInfo dibbedFontInfo = favoriteService.getDibbedFontInfo(font);
                     result.add(dibbedFontInfo);
-                }
             }
             return ResponseEntity.ok(result);
         }
     }
-
-    private static DibbedFontInfo getDibbedFontInfo(Font font) {
-        Long fontId = font.getId(); // 폰트 ID
-        String producerName = font.getProducer().getUsername(); // 제조사 이름
-        String fontFileUrl = font.getFont_file_url(); // 폰트 파일 URL
-        String fontName = font.getKor_font_name(); // 폰트 이름
-
-        // 여기서 dibCheck는 즐겨찾기 여부를 나타내는데, 이미 즐겨찾기 목록에서 가져오고 있으므로 항상 true입니다.
-        return new DibbedFontInfo(
-                fontId,
-                true, // 즐겨찾기된 아이템으로 가정
-                producerName,
-                fontFileUrl,
-                fontName
-        );
-    }
-
 
 }
