@@ -90,6 +90,8 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { checkToken } from 'https/utils/AuthFunction';
 import { changeNicknameModalActions } from 'store/changeNicknameSlice';
 
+import { dibListAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
+
 const MyPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -132,6 +134,7 @@ const MyPage: React.FC = () => {
     boughtFonts: false,
     likeProducers: false,
   });
+  const [dibList, setDibList] = useState([]);
   // 스와이퍼 참조
   const swiperRef = useRef<SwiperCore>();
   const pageClickHandle = (pageName: string) => {
@@ -144,6 +147,10 @@ const MyPage: React.FC = () => {
         likeProducers: false,
       });
     } else if (pageName === 'likeList') {
+      dibListAPI().then((response) => {
+        console.log(response);
+        setDibList(response);
+      });
       setPageLocation({
         productsState: false,
         likeList: true,
@@ -208,6 +215,19 @@ const MyPage: React.FC = () => {
     navigate('/maker/');
     // 실제로 내 페이지로 가려면 id나 뭐가 필요하겠지
   };
+
+  interface DibType {
+    dibcheck: boolean;
+    fontFileUrl: string;
+    fontId: number;
+    fontName: string;
+    producerName: string;
+  }
+  
+  const clickBookmarkButton = (dib : DibType) => {
+    console.log("click");
+    dibRemoveAPI(dib.fontId);
+  }
 
   // 닉네임 수정하기 마우스 호버시
   const [isPencilHovered, setIsPencilHovered] = useState(false);
@@ -380,77 +400,6 @@ const MyPage: React.FC = () => {
                   </ContentInnerRight>
                 </ContentIngredient>
                 {/* 이게 한 콘텐트 */}
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <ContentGrayDisabled>결제완료</ContentGrayDisabled>
-                    <ContentRedBtn>다운로드</ContentRedBtn>
-                  </ContentInnerRight>
-                </ContentIngredient>
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <ContentGrayDisabled>진행중</ContentGrayDisabled>
-                  </ContentInnerRight>
-                </ContentIngredient>
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <ContentGrayDisabled>진행중</ContentGrayDisabled>
-                  </ContentInnerRight>
-                </ContentIngredient>
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <ContentGrayDisabled>진행중</ContentGrayDisabled>
-                  </ContentInnerRight>
-                </ContentIngredient>
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <ContentGrayDisabled>진행중</ContentGrayDisabled>
-                  </ContentInnerRight>
-                </ContentIngredient>
               </ContentLargeBox>
             </>
           ) : pageLocation.likeList ? (
@@ -459,108 +408,32 @@ const MyPage: React.FC = () => {
               {/* 찜 목록 */}
               {/* ======== */}
               <ContentLargeBox>
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentIconsBox>
-                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
-                    </ContentIconsBox>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
-                  </ContentInnerRight>
-                </ContentIngredient>
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentIconsBox>
-                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
-                    </ContentIconsBox>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
-                  </ContentInnerRight>
-                </ContentIngredient>
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentIconsBox>
-                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
-                    </ContentIconsBox>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
-                  </ContentInnerRight>
-                </ContentIngredient>
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentIconsBox>
-                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
-                    </ContentIconsBox>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
-                  </ContentInnerRight>
-                </ContentIngredient>
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentIconsBox>
-                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
-                    </ContentIconsBox>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
-                  </ContentInnerRight>
-                </ContentIngredient>
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentIconsBox>
-                      <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
-                    </ContentIconsBox>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
-                  </ContentInnerRight>
-                </ContentIngredient>
+              {dibList.length > 0 ? dibList.map((dib) => {
+                console.log(dib)
+                return (
+                    <ContentIngredient key={dib['fontId']}>
+                      <ContentInnerLeft>
+                        <ContentIconsBox onClick={() => {clickBookmarkButton(dib)}}>
+                          <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
+                        </ContentIconsBox>
+                        <ContentInnerTextBox>
+                          <ContentHeader>
+                            <ContentInnerHeaderText>{dib['fontName']}</ContentInnerHeaderText>
+                            <ContentProducerName>| {dib['producerName']}</ContentProducerName>
+                          </ContentHeader>
+                          <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
+                        </ContentInnerTextBox>
+                      </ContentInnerLeft>
+                      <ContentInnerRight>
+                        <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
+                      </ContentInnerRight>
+                    </ContentIngredient>
+                );
+              }): 
+              <div className={classes.noContent}>
+                    "찜한 폰트가 없습니다."
+              </div>
+                }
               </ContentLargeBox>
             </>
           ) : pageLocation.fontBasket ? (
