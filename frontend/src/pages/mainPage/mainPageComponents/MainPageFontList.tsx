@@ -34,7 +34,7 @@ type Font = {
   dibCheck: boolean;
 };
 type FontList = {
-  fontResponseList: Font[];
+  fontListResponse: Font[];
   fontCount: number;
 };
 // type FontList = {
@@ -57,7 +57,7 @@ const MainPageFontList: React.FC = () => {
           }); // API 경로는 예시입니다
           console.log('로그인 한 상태에서 데이터 가져오기');
           console.log(response);
-          setFonts(response.fontResponseList); // 폰트 데이터 상태 업데이트
+          setFonts(response.fontListResponse); // 폰트 데이터 상태 업데이트
         } catch (error) {
           console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
         }
@@ -68,7 +68,7 @@ const MainPageFontList: React.FC = () => {
           }); // API 경로는 예시입니다
           console.log('비회원 한 상태에서 데이터 가져오기');
           console.log(response);
-          setFonts(response.fontResponseList); // 폰트 데이터 상태 업데이트
+          setFonts(response.fontListResponse); // 폰트 데이터 상태 업데이트
         } catch (error) {
           console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
         }
@@ -148,7 +148,7 @@ const MainPageFontList: React.FC = () => {
           onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
           slidesPerView={getNumber}
           spaceBetween={gapSize}
-          loop={fonts.length > 3}
+          loop={fonts && fonts.length > 3}
           autoplay={{
             delay: 2500,
             disableOnInteraction: false,
@@ -157,7 +157,7 @@ const MainPageFontList: React.FC = () => {
           className={classes.swiper}
         >
           {/* {FontBoxSwiper()} */}
-          {fonts.length > 0 ? renderFontBoxes() : <div>로딩 중...</div>}
+          {fonts && fonts.length > 0 ? renderFontBoxes() : <div>로딩 중...</div>}
         </Swiper>
         <FaCircleChevronRight
           size={50}
