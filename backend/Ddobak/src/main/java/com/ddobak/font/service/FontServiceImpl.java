@@ -3,8 +3,10 @@ package com.ddobak.font.service;
 import com.ddobak.favorite.repository.FavoriteRepository;
 import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.font.dto.response.FontDetailResponse;
+import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.dto.response.FontResponse;
 import com.ddobak.font.entity.Font;
+import com.ddobak.font.entity.FontStatusType;
 import com.ddobak.font.entity.Keyword;
 import com.ddobak.font.exception.FontException;
 import com.ddobak.font.repository.FontQueryRepository;
@@ -46,15 +48,17 @@ public class FontServiceImpl implements FontService {
     private final ReviewService reviewService;
 
     @Override
-    public void createFont(String font_sort_url, LoginInfo loginInfo){
+    public Long createFont(String font_sort_url, LoginInfo loginInfo){
         String email = loginInfo.email();
 
         Member member = memberRepository.findByEmail(email).orElseThrow(
                 () -> new EntityNotFoundException("Member not found with email: " + email)
         );
-        Font newFont = Font.from(font_sort_url,member);
+        Font newFont = Font.from(font_sort_url,member, FontStatusType.FAIL);
 
         fontRepository.save(newFont);
+
+        return newFont.getId();
     }
 
     @Override
@@ -63,10 +67,10 @@ public class FontServiceImpl implements FontService {
         Member member = memberRepository.findById(loginInfo.id())
                 .orElseThrow(() -> new EntityNotFoundException("Member not found with email: " + loginInfo.id()));
 
-        Font font = fontRepository.findByFontSortUrl(req.fontSortUrl())
-                .orElseThrow(() -> new EntityNotFoundException("Font not found with URL: " + req.fontSortUrl()));
+        Font font = fontRepository.findById(req.fontId())
+                .orElseThrow(() -> new EntityNotFoundException("Font not found with Id: " + req.fontId()));
 
-        font.makeDetail(req, fontUrl);
+        font.makeDetail(req);
 
         addKeywordToFont(req.keyword1(), font);
         Optional.ofNullable(req.keyword2()).ifPresent(keyword -> addKeywordToFont(keyword, font));
@@ -99,9 +103,9 @@ public class FontServiceImpl implements FontService {
     }
 
     @Override
-    public List<FontResponse> getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free){
+    public FontListResponse getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free){
         //Integer fontCount = fontRepository.countAll();
-        List<FontResponse> resultList = fontQueryRepository.getFontListNoAuth(pageable,search, keywords,free);
+        FontListResponse resultList = fontQueryRepository.getFontListNoAuth(pageable,search, keywords,free);
 
         return resultList;
     }
