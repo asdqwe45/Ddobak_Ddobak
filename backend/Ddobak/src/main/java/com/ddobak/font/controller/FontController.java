@@ -111,7 +111,7 @@ public class FontController {
     @GetMapping(value = "/list")
     @Operation(summary = "폰트 목록", description = "폰트 목록 조회하는 api입니다.")
     @ApiResponse(responseCode = "200", description = "리턴값으로 폰트목록에 필요한 값 리턴합니다.")
-    public ResponseEntity<FontListWithCountResponse> getFontList(@AuthenticationPrincipal LoginInfo loginInfo,@PageableDefault(size=12) Pageable pageable,@RequestParam(required = false) String search, @RequestParam(required = false) List<String> keywords, @RequestParam(required = false) String freeCheck){
+    public ResponseEntity<FontListResponse> getFontList(@AuthenticationPrincipal LoginInfo loginInfo,@PageableDefault(size=12) Pageable pageable,@RequestParam(required = false) String search, @RequestParam(required = false) List<String> keywords, @RequestParam(required = false) String freeCheck){
 
         Boolean free = null;
         if(freeCheck != null){
@@ -123,8 +123,8 @@ public class FontController {
             }
         }
 
-        List<FontResponse> fontList = fontService.getFontList(loginInfo,pageable,search,keywords,free);
-        FontListWithCountResponse result = new FontListWithCountResponse(fontList.stream().count(),fontList);
+        FontListResponse result = fontService.getFontList(loginInfo,pageable,search,keywords,free);
+
         return ResponseEntity.ok(result);
     }
 
