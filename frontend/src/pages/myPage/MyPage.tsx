@@ -226,7 +226,7 @@ const MyPage: React.FC = () => {
 
   const clickBookmarkButton = (dib: DibType) => {
     console.log('click');
-    dibRemoveAPI(dib.fontId);
+    dibRemoveAPI(dib.fontId.toString());
   };
 
   // 닉네임 수정하기 마우스 호버시
