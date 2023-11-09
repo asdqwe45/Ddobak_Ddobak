@@ -80,6 +80,10 @@ public class Font extends BaseEntity{
     )
     private List<Keyword> keywords;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="basketId")
+    private Basket basket;
+
     public static Font from(String font_sort_url, Member producer) {
         return Font.builder()
                 .producer(producer)

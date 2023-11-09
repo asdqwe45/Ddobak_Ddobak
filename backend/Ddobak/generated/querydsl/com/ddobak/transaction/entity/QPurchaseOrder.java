@@ -11,16 +11,16 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QOrder is a Querydsl query type for Order
+ * QPurchaseOrder is a Querydsl query type for PurchaseOrder
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QOrder extends EntityPathBase<PurchaseOrder> {
+public class QPurchaseOrder extends EntityPathBase<PurchaseOrder> {
 
-    private static final long serialVersionUID = -1834749673L;
+    private static final long serialVersionUID = 1170873238L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QOrder order = new QOrder("order1");
+    public static final QPurchaseOrder purchaseOrder = new QPurchaseOrder("purchaseOrder");
 
     public final com.ddobak.global.entity.QBaseEntity _super = new com.ddobak.global.entity.QBaseEntity(this);
 
@@ -47,23 +47,23 @@ public class QOrder extends EntityPathBase<PurchaseOrder> {
 
     public final NumberPath<Integer> totalAmount = createNumber("totalAmount", Integer.class);
 
-    public QOrder(String variable) {
+    public QPurchaseOrder(String variable) {
         this(PurchaseOrder.class, forVariable(variable), INITS);
     }
 
-    public QOrder(Path<? extends PurchaseOrder> path) {
+    public QPurchaseOrder(Path<? extends PurchaseOrder> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QOrder(PathMetadata metadata) {
+    public QPurchaseOrder(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QOrder(PathMetadata metadata, PathInits inits) {
+    public QPurchaseOrder(PathMetadata metadata, PathInits inits) {
         this(PurchaseOrder.class, metadata, inits);
     }
 
-    public QOrder(Class<? extends PurchaseOrder> type, PathMetadata metadata, PathInits inits) {
+    public QPurchaseOrder(Class<? extends PurchaseOrder> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.buyer = inits.isInitialized("buyer") ? new com.ddobak.member.entity.QMember(forProperty("buyer")) : null;
     }
