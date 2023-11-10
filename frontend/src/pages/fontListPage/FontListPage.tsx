@@ -153,23 +153,23 @@ const FontListPage: React.FC = () => {
   }, [currentPage, searchTerm, checkedOptions]);
 
   // 페이지 번호 변경 핸들러
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
+  // const handlePageChange = (newPage: number) => {
+  //   setCurrentPage(newPage);
+  // };
 
  // 페이지 번호 버튼 렌더링 함수
-const renderPaginationButtons = () => {
-  const pages = Array.from({ length: totalPages }, (_, index) => index);
-  return pages.map((pageNumber) => (
-    <button
-      key={pageNumber}
-      onClick={() => handlePageChange(pageNumber)}
-      className={pageNumber === currentPage ? classes.active : ''}
-    >
-      {pageNumber + 1}
-    </button>
-  ));
-};
+// const renderPaginationButtons = () => {
+//   const pages = Array.from({ length: totalPages }, (_, index) => index);
+//   return pages.map((pageNumber) => (
+//     <button
+//       key={pageNumber}
+//       onClick={() => handlePageChange(pageNumber)}
+//       className={pageNumber === currentPage ? classes.active : ''}
+//     >
+//       {pageNumber + 1}
+//     </button>
+//   ));
+// };
 
   // 검색어나 옵션 변경 시 필터링된 데이터 요청
   useEffect(() => {
@@ -215,7 +215,7 @@ const renderPaginationButtons = () => {
         <div className={classes.fontBoxContainer}>{renderFontBoxes()}</div>
         <div className={classes.paginationContainer}>
           {/* 페이지네이션 자리 */}
-          {renderPaginationButtons()}
+          {/* {renderPaginationButtons()} */}
         </div>
       </div>
     </>

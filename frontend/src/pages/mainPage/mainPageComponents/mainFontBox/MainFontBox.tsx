@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classes from './MainFontBox.module.css';
 import { useNavigate } from 'react-router-dom';
 import { dibAddAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
@@ -7,6 +7,7 @@ import { dibAddAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
 
 import { getData } from 'https/http';
+import AlertCustomModal from 'common/modals/alertCustomModal/AlertCustomModal';
 
 interface FontBoxProps {
   id: string;
@@ -17,7 +18,11 @@ interface FontBoxProps {
 
 const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
   const navigate = useNavigate();
+  const [showAlertModal, setShowAlertModal] = useState(false);
 
+  const handleLoginAlert = () => {
+    setShowAlertModal(true); //
+  };
   const dibToggle = async (dib: boolean, fontId: string) => {
     if (dib) {
       dibRemoveAPI(fontId)
@@ -53,7 +58,7 @@ const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
         },
       });
     } else {
-      alert('로그인 해주세요');
+      handleLoginAlert();
     }
   };
 
@@ -69,7 +74,7 @@ const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
         },
       });
     } else {
-      alert('로그인 해주세요');
+      handleLoginAlert();
     }
   };
 
@@ -106,6 +111,13 @@ const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
           <span>다람쥐 헌 쳇바퀴에 타고파</span>
         </div>
       </div>
+      <AlertCustomModal
+        show={showAlertModal}
+        onHide={() => setShowAlertModal(false)}
+        message1="로그인이 필요한 서비스입니다."
+        message2=""
+        btnName="확인"
+      />
     </>
   );
 };
