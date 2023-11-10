@@ -203,7 +203,7 @@ const FontResultModal: React.FC = () => {
               <div className={modalClasses.baseFonts}>
                 {BaseFonts.map((font) => {
                   return (
-                    <div className={modalClasses.baseFont}>
+                    <div key={font.value} className={modalClasses.baseFont}>
                       <div className={modalClasses.label}>
                         <input
                           onChange={(e) => {
