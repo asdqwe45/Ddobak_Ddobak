@@ -2,6 +2,7 @@ package com.ddobak.font.controller;
 
 import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.font.dto.response.FontDetailResponse;
+import com.ddobak.font.dto.response.FontIdResponse;
 import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.exception.InvalidFileFormatException;
@@ -9,6 +10,7 @@ import com.ddobak.font.service.FontImageService;
 import com.ddobak.font.service.FontService;
 import com.ddobak.security.util.LoginInfo;
 import com.ddobak.transaction.service.TransactionService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -71,18 +73,17 @@ public class FontController {
 
     @PostMapping(value = "/goSetting")
     public ResponseEntity<FontIdResponse> createFont(@RequestParam("sortUrl") String font_sort_url,
-                                           @AuthenticationPrincipal LoginInfo loginInfo) {
-        Long fontId = fontService.createFont(font_sort_url,loginInfo);
-        return ResponseEntity.ok(fontId);
+        @AuthenticationPrincipal LoginInfo loginInfo) {
+        FontIdResponse fontIdResponse = fontService.createFont(font_sort_url,loginInfo);
+        return ResponseEntity.ok(fontIdResponse);
     }
 
     @PutMapping(value = "/make/request")
     public ResponseEntity<String> makeFont(@RequestBody MakeFontRequest req,
-                                           @AuthenticationPrincipal LoginInfo loginInfo) throws IOException {
+        @AuthenticationPrincipal LoginInfo loginInfo) throws IOException {
         try {
-
-            String fontUrl = fontImageService.createFont(req, loginInfo);
-            Font makedFont = fontService.makeFont(req,loginInfo,fontUrl);
+            Font makedFont = fontService.makeFont(req,loginInfo);
+            fontImageService.createFont(req);
             transactionService.requestFontTransaction(makedFont, loginInfo.id(),makedFont.getPrice());
             return ResponseEntity.ok("success");
         } catch (IOException e) {
