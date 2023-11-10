@@ -456,9 +456,10 @@ const SignupPage: React.FC = () => {
       <div>
         <NewAuthInput
           ref={nickNameRef}
-          placeholder="닉네임"
+          placeholder="닉네임 : 9자 이내"
           disabled={validNickname}
           onChange={handleNicknameChange}
+          maxLength={9}
         ></NewAuthInput>
         <button
           className={validNickname ? classes.notValidEmail : classes.emailCheckBtn}
