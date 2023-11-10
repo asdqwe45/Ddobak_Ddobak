@@ -3,6 +3,7 @@ package com.ddobak.cart.controller;
 
 
 import com.ddobak.cart.dto.request.AddCartRequest;
+import com.ddobak.cart.dto.request.FontDeleteRequest;
 import com.ddobak.cart.dto.response.FontCartResponse;
 import com.ddobak.cart.service.CartService;
 import com.ddobak.font.dto.response.FontIdResponse;
@@ -29,7 +30,6 @@ public class CartController {
     @PostMapping("/add/{fontId}")
     public ResponseEntity<String> addFontToCart(@PathVariable Long fontId, @AuthenticationPrincipal LoginInfo loginInfo){
         cartService.addFontToCart(fontId,loginInfo);
-
         return ResponseEntity.ok("success");
     }
 
@@ -37,5 +37,11 @@ public class CartController {
     public ResponseEntity<List<FontCartResponse>> getCart(@AuthenticationPrincipal LoginInfo loginInfo){
         List<FontCartResponse> result = cartService.getCart(loginInfo);
         return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteCartFont(@RequestParam List<Long> fontList, @AuthenticationPrincipal LoginInfo loginInfo){
+        cartService.deleteFontList(fontList,loginInfo);
+        return ResponseEntity.ok("success");
     }
 }
