@@ -317,17 +317,22 @@ const MyPage: React.FC = () => {
                   onMouseEnter={() => setIsWorkspaceHovered(true)}
                   onMouseLeave={() => setIsWorkspaceHovered(false)}
                 />
-
-                {screenWidth > 1500 && isPencilHovered ? (
+                {myNickname.length <= 5 ? (
                   <>
-                    <p className={classes.changeNickName}>닉네임 수정</p>
-                  </>
-                ) : (
-                  <></>
-                )}
-                {screenWidth > 1500 && isWorkspaceHovered ? (
-                  <>
-                    <p className={classes.changeNickName}>메이커 페이지</p>
+                    {screenWidth > 1500 && isPencilHovered ? (
+                      <>
+                        <p className={classes.changeNickName}>닉네임 수정</p>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                    {screenWidth > 1500 && isWorkspaceHovered ? (
+                      <>
+                        <p className={classes.changeNickName}>메이커 페이지</p>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </>
                 ) : (
                   <></>

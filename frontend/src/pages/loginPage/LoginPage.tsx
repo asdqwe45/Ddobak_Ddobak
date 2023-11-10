@@ -89,6 +89,11 @@ const LoginPage: React.FC = () => {
           placeholder="비밀번호"
           ref={passwordInputRef}
           type={wantSee ? undefined : 'password'}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              clickLoginHandle();
+            }
+          }}
         ></AuthInput>
         <div
           className={classes.passwordIcon}

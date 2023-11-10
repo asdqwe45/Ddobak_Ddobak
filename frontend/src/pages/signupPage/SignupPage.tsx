@@ -98,9 +98,13 @@ const SignupPage: React.FC = () => {
   // 이메일 형식을 확인하는 함수
   const [isValidEmail, setIsValidEmail] = useState<boolean>(true);
 
-  const validateEmail = (email: string) => {
-    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    return regex.test(email);
+  const validateEmail = (email: string | undefined) => {
+    if (email) {
+      const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      return regex.test(email);
+    } else {
+      return false;
+    }
   };
 
   // 이메일 input의 onChange 이벤트 핸들러
@@ -149,24 +153,25 @@ const SignupPage: React.FC = () => {
     setIsActive(true);
     setTimer(300); // 5분 = 300초
   };
+  const [disabledCheck, setDisabledCheck] = useState<boolean>(false);
   const clickCheckBtn = async () => {
     const email = emailInputRef.current?.value;
-    console.log(email);
     if (email && validateEmail(email)) {
       signupLoaderHandler();
       // 타이머 실행
       // 인증번호 재발송 버튼 활성화
       // 인증번호 유효한지 확인
       await userEmailVerifyRequest(email)
-        .then((r) => {
+        .then(async (r) => {
           console.log(r);
           signupLoaderHandler();
+          setDisabledCheck(true);
+          startTimer();
         })
         .catch((e) => {
           console.error(e);
           signupLoaderHandler();
         });
-      await startTimer();
     } else {
       handleAlertEmailModal();
     }
@@ -199,6 +204,7 @@ const SignupPage: React.FC = () => {
         .catch((e) => {
           console.error(e);
           setIsValidCheckNumber(false);
+          handleAlertModalFC('인증번호가 틀렸습니다.');
         });
     } else {
       handleAlertCodeModal();
@@ -228,6 +234,32 @@ const SignupPage: React.FC = () => {
     const nickname = nickNameRef.current?.value;
     const loginPassword = passwordInputRef.current?.value;
     const profileImg = fileInputRef.current?.files?.[0];
+    const checkPassword = checkPWInputRef.current?.value;
+    if (!email) {
+      handleAlertModalFC('이메일을 입력해주세요.');
+      return;
+    }
+    if (!disabledBtn) {
+      handleAlertModalFC('이메일 인증을 해주세요.');
+      return;
+    }
+    if (!validNickname) {
+      handleAlertModalFC('닉네임을 확인해주세요.');
+      return;
+    }
+    if (!loginPassword) {
+      handleAlertModalFC('비밀번호를 입력해주세요.');
+      return;
+    }
+    if (loginPassword.length < 7) {
+      handleAlertModalFC('비밀번호는 8자 이상입니다.');
+      return;
+    }
+    if (loginPassword !== checkPassword) {
+      handleAlertModalFC('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+
     if (email && nickname && loginPassword) {
       const data = {
         email: email,
@@ -326,6 +358,11 @@ const SignupPage: React.FC = () => {
   const [modalContent, setModalContent] = useState('');
   const [showAlertModal, setShowAlertModal] = useState(false);
 
+  const handleAlertModalFC = (str: string) => {
+    setModalContent(str);
+    setShowAlertModal(true);
+  };
+
   const handleAlertEmailModal = () => {
     setModalContent('이메일을 입력해주세요.');
     setShowAlertModal(true);
@@ -378,7 +415,8 @@ const SignupPage: React.FC = () => {
               ? classes.emailCheckBtn
               : classes.notValidEmail
           }
-          disabled={!isValidEmail}
+          // 인증 완료하면 비활성화
+          disabled={disabledCheck || !validateEmail(emailInputRef.current?.value)}
           onClick={clickCheckBtn}
         >
           {timer !== null ? '재인증' : '인증'}
@@ -409,6 +447,7 @@ const SignupPage: React.FC = () => {
         <button
           className={disabledBtn ? classes.notValidEmail : classes.emailCheckBtn}
           onClick={checkNumberHandler}
+          disabled={disabledBtn}
         >
           확인
         </button>
@@ -417,13 +456,15 @@ const SignupPage: React.FC = () => {
       <div>
         <NewAuthInput
           ref={nickNameRef}
-          placeholder="닉네임"
+          placeholder="닉네임 : 9자 이내"
           disabled={validNickname}
           onChange={handleNicknameChange}
+          maxLength={9}
         ></NewAuthInput>
         <button
           className={validNickname ? classes.notValidEmail : classes.emailCheckBtn}
           onClick={checkNickname}
+          disabled={validNickname}
         >
           {validNickname ? '사용 가능' : '중복 확인'}
         </button>
