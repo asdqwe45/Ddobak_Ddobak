@@ -121,18 +121,18 @@ const FontListPage: React.FC = () => {
     );
   };
 
-  const [totalPages, setTotalPages] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
+  // const [totalPages, setTotalPages] = useState(0);
+  // const [currentPage, setCurrentPage] = useState(0);
   // 폰트 필터링
   const fetchFilteredFonts = useCallback(async () => {
     // console.log('선택된 필터 옵션:', checkedOptions);
     // console.log('입력한 검색어:', searchTerm);
     // console.log('전체 폰트 수:', totalFonts);
-    console.log('페이지 인덱스 번호:', currentPage);
-    console.log('현재 페이지 번호:', currentPage + 1);
+    // console.log('페이지 인덱스 번호:', currentPage);
+    // console.log('현재 페이지 번호:', currentPage + 1);
     try {
       const params = {
-        page: currentPage,
+        // page: currentPage,
         search: searchTerm,
         keywords: checkedOptions.length > 0
           ? checkedOptions.join(',')  // 선택된 옵션이 있을 경우, 쉼표로 구분된 문자열로 전송
@@ -143,14 +143,14 @@ const FontListPage: React.FC = () => {
         console.log('필터링 된 폰트 목록:', response.data);
         console.log('폰트 개수:', response.data.fontCount);
         setFonts(response.data.fontListResponse);
-        const totalFonts = response.data.fontCount; // 서버로부터 받은 전체 폰트 수
-        const newTotalPages = Math.ceil(totalFonts / response.data.fontListResponse.length); // 전체 페이지 수 계산
-        setTotalPages(newTotalPages); // 상태 업데이트
+        // const totalFonts = response.data.fontCount; // 서버로부터 받은 전체 폰트 수
+        // const newTotalPages = Math.ceil(totalFonts / response.data.fontListResponse.length); // 전체 페이지 수 계산
+        // setTotalPages(newTotalPages); // 상태 업데이트
       }
     } catch (error) {
       console.error('폰트 목록을 가져오는데 실패했습니다:', error);
     }
-  }, [currentPage, searchTerm, checkedOptions]);
+  }, [searchTerm, checkedOptions]);
 
   // 페이지 번호 변경 핸들러
   // const handlePageChange = (newPage: number) => {
@@ -178,7 +178,7 @@ const FontListPage: React.FC = () => {
     }, 500); // 타이핑을 멈춘 후 500ms 뒤 검색 수행
 
     return () => clearTimeout(timer); // 클린업 함수로 타이머를 제거
-  }, [currentPage, searchTerm, checkedOptions, fetchFilteredFonts]); // 의존성 배열 추가
+  }, [searchTerm, checkedOptions, fetchFilteredFonts]); // 의존성 배열 추가
 
   return (
     <>
