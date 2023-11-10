@@ -44,6 +44,8 @@ import {
 import { getData } from 'https/http';
 import { useNavigate } from 'react-router-dom';
 
+import { userMypageAPI } from 'https/utils/AuthFunction';
+
 interface TransactionResponse {
   transactionDate: Date;
   transactionType: string;
@@ -62,6 +64,18 @@ const MyPagePointPage: React.FC = () => {
   const [chargeData, setChargeData] = useState<TransactionResponse[]>([]);
   const [exchangeData, setExchangeData] = useState<TransactionResponse[]>([]);
   const [makeData, setMakeData] = useState<TransactionResponse[]>([]);
+  const [myPoint, setMyPoint] = useState<number>(0);
+  const [nickname, setNickname] = useState<string>('');
+  userMypageAPI()
+    .then(async (r) => {
+      const point = r.point;
+      const nickname = r.nickname;
+      await setMyPoint(point);
+      await setNickname(nickname);
+    })
+    .catch((e) => {
+      console.error(e);
+    });
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -196,7 +210,8 @@ const MyPagePointPage: React.FC = () => {
   };
 
   const dispatch = useDispatch();
-  const clickChargeHandler = () => {
+  const clickChargeHandler = async () => {
+    dispatch(chargePointModalActions.currentMyState({ myPoint: myPoint, nickname: nickname }));
     dispatch(chargePointModalActions.toggle());
   };
   const clickExchangeHandler = () => {
@@ -207,7 +222,7 @@ const MyPagePointPage: React.FC = () => {
       <MyPagePointHeader>
         <MyPagePointBox>
           <MyPagePointHeaderText style={{ paddingRight: 40 }}>보유한 포인트</MyPagePointHeaderText>
-          <MyPagePointHeaderText>10,000 P</MyPagePointHeaderText>
+          <MyPagePointHeaderText>{myPoint} P</MyPagePointHeaderText>
         </MyPagePointBox>
         <MyPagePointBox style={{ justifyContent: 'flex-end' }}>
           <PointExchangeBtn onClick={clickChargeHandler}>충전하기</PointExchangeBtn>

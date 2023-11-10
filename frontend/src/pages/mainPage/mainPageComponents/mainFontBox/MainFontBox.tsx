@@ -27,7 +27,7 @@ const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
     const token = await getData('accessToken');
     if (!token) {
       handleLoginAlert();
-      return 
+      return;
     }
     if (dib) {
       dibRemoveAPI(fontId)

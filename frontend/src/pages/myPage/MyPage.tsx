@@ -277,6 +277,8 @@ const MyPage: React.FC = () => {
     };
   }, []);
 
+  const movePointPage = true;
+
   return (
     <div className={classes.container}>
       <div className={classes.header}>
@@ -350,7 +352,7 @@ const MyPage: React.FC = () => {
                 <PointHeaderText>{myPoint} P</PointHeaderText>
               </PointHeader>
               <PointBtnBox>
-                <NavLink to={'/point'} state={myPoint}>
+                <NavLink to={'/point'} state={{ myPoint, movePointPage }}>
                   <PointTransactionBtn>거래내역</PointTransactionBtn>
                 </NavLink>
                 <PointExchangeBtn onClick={exchangeHandler}>인출하기</PointExchangeBtn>

@@ -309,7 +309,7 @@ const FontMakeStep2: React.FC = () => {
             이미지 반듯하게
           </button>
         )}
-        {koreanFiles.length > 0 && englishFiles.length > 0 && isImageStraightened &&  (
+        {koreanFiles.length > 0 && englishFiles.length > 0 && isImageStraightened && (
           <button className={classes.nextBtn} onClick={showPreviewHandler}>
             다음
           </button>
