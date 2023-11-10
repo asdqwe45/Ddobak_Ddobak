@@ -81,6 +81,10 @@ const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
       handleLoginAlert();
     }
   };
+  
+  const navigateToLogin = () => {
+    navigate('/login');
+  };
 
   return (
     <>
@@ -118,9 +122,10 @@ const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
       <AlertCustomModal
         show={showAlertModal}
         onHide={() => setShowAlertModal(false)}
+        onMove={navigateToLogin} 
         message1="로그인이 필요한 서비스입니다."
         message2=""
-        btnName="확인"
+        btnName="로그인 하러가기"
       />
     </>
   );

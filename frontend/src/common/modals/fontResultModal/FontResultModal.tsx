@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import classes from '../../../pages/mainPage/mainPageComponents/MainPageLargeManuscript.module.css';
 import modalClasses from './FontResultModal.module.css';
 import ReactModal from 'react-modal';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { resultModalActions } from 'store/resultModalSlice';
 import { RotatingLines } from 'react-loader-spinner';
 
@@ -70,6 +69,12 @@ const FontResultModal: React.FC = () => {
   // 제작 취소
   const cancleHandler = async () => {
     window.location.reload();
+  };
+
+  // 폰트 정보 입력페이지 이동
+  const goToFontOptionStep = () => {
+    dispatch(resultModalActions.setStep(3));
+    dispatch(resultModalActions.toggle());
   };
 
   return (
@@ -229,7 +234,7 @@ const FontResultModal: React.FC = () => {
                 <button
                   className={modalClasses.modalBtn}
                   style={{ backgroundColor: 'white', fontWeight: 'bold' }}
-                  onClick={clickResultHandler}
+                  onClick={goToFontOptionStep}
                 >
                   정보입력
                 </button>

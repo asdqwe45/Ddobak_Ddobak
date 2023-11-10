@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import classes from './FontBoxComponent.module.css';
 import { useNavigate } from 'react-router-dom';
-import { axiosWithAuth } from 'https/http';
-import { axiosWithFormData } from 'https/http';
-import { getData } from 'https/http';
+import { axiosWithAuth, axiosWithFormData, getData } from 'https/http';
+
 // icons
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
 
@@ -59,6 +58,10 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => 
     } else {
       handleLoginAlert();
     }
+  };
+
+  const navigateToLogin = () => {
+    navigate('/login');
   };
 
   const [fontDetail, setFontDetail] = useState<Font | null>(null);
@@ -178,9 +181,10 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => 
       <AlertCustomModal
         show={showAlertModal}
         onHide={() => setShowAlertModal(false)}
+        onMove={navigateToLogin} 
         message1="로그인이 필요한 서비스입니다."
         message2=""
-        btnName="확인"
+        btnName="로그인 하러가기"
       />
     </>
   );
