@@ -156,11 +156,7 @@ const FontListPage: React.FC = () => {
       setCurrentPage(newPage);
     }
   }
-  // 1번 버튼 클릭 핸들러
-  // const handleFirstPage = () => {
-  //   setCurrentPage(0);
-  // }
-
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       if (searchTerm && currentPage !== 0) {
@@ -220,8 +216,6 @@ const FontListPage: React.FC = () => {
           totalPages={totalPages}
           onPageChange={handlePagination}
         />
-          {/* <button onClick={handleFirstPage}>1</button> */}
-          {/* <button onClick={() => handlePagination(currentPage + 1)}>2</button> */}
         </div>
     </>
   );
