@@ -87,12 +87,16 @@ import { goToBasketModalActions } from 'store/goToBasketModalSlice';
 // navigation
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
-import { checkToken } from 'https/utils/AuthFunction';
+import { checkToken, userMypageAPI } from 'https/utils/AuthFunction';
 import { changeNicknameModalActions } from 'store/changeNicknameSlice';
 
 import { dibListAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
 
 const MyPage: React.FC = () => {
+  const [myNickname, setMyNickname] = useState<string>('');
+  const [myPoint, setMyPoint] = useState<number>(0);
+  const [myProfileImage, setMyProfileImage] = useState<string>('');
+
   const navigate = useNavigate();
   const location = useLocation();
   const myValue = location.state?.pageValue;
@@ -118,6 +122,21 @@ const MyPage: React.FC = () => {
       const token = await checkToken();
       if (token) {
         console.log('have Token');
+        // 마이페이지 불러오기
+        userMypageAPI()
+          .then(async (r) => {
+            const nickname = r.nickname;
+            const point = r.point;
+            const profileImg = r.profileImg;
+            await setMyNickname(nickname);
+            await setMyPoint(point);
+            await setMyProfileImage(
+              'https://ddobak-profile-image.s3.ap-northeast-2.amazonaws.com/' + profileImg,
+            );
+          })
+          .catch((e) => {
+            console.error(e);
+          });
       } else {
         console.log('잘못된 접근입니다.');
         navigate('/wrong');
@@ -212,7 +231,12 @@ const MyPage: React.FC = () => {
   };
 
   const clickMyWorkspaceHandler = () => {
-    navigate('/maker/');
+    navigate(`/maker/${myNickname}`, {
+      state: {
+        myNickname: myNickname,
+        myEnter: true,
+      },
+    });
     // 실제로 내 페이지로 가려면 id나 뭐가 필요하겠지
   };
 
@@ -223,17 +247,16 @@ const MyPage: React.FC = () => {
     fontName: string;
     producerName: string;
   }
-  
-  const clickBookmarkButton = (dib : DibType) => {
-    console.log("click");
-    dibRemoveAPI(dib.fontId.toString()).then(() =>{
+
+  const clickBookmarkButton = (dib: DibType) => {
+    console.log('click');
+    dibRemoveAPI(dib.fontId.toString()).then(() => {
       dibListAPI().then((response) => {
         console.log(response);
         setDibList(response);
       });
-    })
-    
-  }
+    });
+  };
 
   // 닉네임 수정하기 마우스 호버시
   const [isPencilHovered, setIsPencilHovered] = useState(false);
@@ -260,11 +283,19 @@ const MyPage: React.FC = () => {
         <ProfileBox>
           <IngredientContent>
             <ProfilImgBox onClick={clickProfileImgHandler}>
-              <FaCircleUser color={borderColor} className={classes.ImgStyle} />
+              {myProfileImage ? (
+                <>
+                  <img src={myProfileImage} alt="프로필 이미지" className={classes.ImgStyle} />
+                </>
+              ) : (
+                <>
+                  <FaCircleUser color={borderColor} className={classes.ImgStyle} />
+                </>
+              )}
             </ProfilImgBox>
             <ProfileContent>
               <ProfilNameBox>
-                <ProfileName>김싸피</ProfileName>
+                <ProfileName>{myNickname}</ProfileName>
                 <FaPencilAlt
                   size={30}
                   style={{ cursor: 'pointer' }}
@@ -289,14 +320,14 @@ const MyPage: React.FC = () => {
 
                 {screenWidth > 1500 && isPencilHovered ? (
                   <>
-                    <p className={classes.changeNickName}>닉네임 수정하기</p>
+                    <p className={classes.changeNickName}>닉네임 수정</p>
                   </>
                 ) : (
                   <></>
                 )}
                 {screenWidth > 1500 && isWorkspaceHovered ? (
                   <>
-                    <p className={classes.changeNickName}>소개 페이지 이동하기</p>
+                    <p className={classes.changeNickName}>메이커 페이지</p>
                   </>
                 ) : (
                   <></>
@@ -311,10 +342,10 @@ const MyPage: React.FC = () => {
             <PointIngredient>
               <PointHeader>
                 <PointHeaderText>보유포인트</PointHeaderText>
-                <PointHeaderText>10,000P</PointHeaderText>
+                <PointHeaderText>{myPoint} P</PointHeaderText>
               </PointHeader>
               <PointBtnBox>
-                <NavLink to={'/point'}>
+                <NavLink to={'/point'} state={myPoint}>
                   <PointTransactionBtn>거래내역</PointTransactionBtn>
                 </NavLink>
                 <PointExchangeBtn onClick={exchangeHandler}>인출하기</PointExchangeBtn>
