@@ -94,6 +94,7 @@ const FontMakeStep2: React.FC = () => {
   // 파일 삭제
   const removeKoreanFile = (index: number) => {
     setKoreanFiles((prev) => prev.filter((_, i) => i !== index));
+    setIsImageStraightened(false);
     if (koreanFileInputRef.current) {
       koreanFileInputRef.current.value = ''; // input 초기화 (재업로드 가능하도록)
     }
@@ -101,6 +102,7 @@ const FontMakeStep2: React.FC = () => {
 
   const removeEnglishFile = (index: number) => {
     setEnglishFiles((prev) => prev.filter((_, i) => i !== index));
+    setIsImageStraightened(false);
     if (englishFileInputRef.current) {
       englishFileInputRef.current.value = '';
     }
@@ -302,16 +304,16 @@ const FontMakeStep2: React.FC = () => {
         </div>
       </div>
       <div className={classes.btnContainer}>
-        {koreanFiles.length > 0 && englishFiles.length > 0 && !isImageStraightened ? (
+        {koreanFiles.length > 0 && englishFiles.length > 0 && !isImageStraightened && (
           <button className={classes.cropBtn} onClick={straightenImage}>
             이미지 반듯하게
           </button>
-        ) : null}
-        {koreanFiles.length > 0 && englishFiles.length > 0 && isImageStraightened ? (
+        )}
+        {koreanFiles.length > 0 && englishFiles.length > 0 && isImageStraightened &&  (
           <button className={classes.nextBtn} onClick={showPreviewHandler}>
             다음
           </button>
-        ) : null}
+        )}
       </div>
       <AlertCustomModal
         show={showAlertModal}
