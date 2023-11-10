@@ -1,4 +1,4 @@
-.container {
+.fontListContainer {
   margin-bottom: 50px;
 }
 
@@ -106,7 +106,7 @@
 
 @media (max-width: 1200px) {
   .fontBoxContainer > * {
-    flex-basis: calc(50% - 10px);
+    flex-basis: calc(40% - 10px);
   }
 }
 
@@ -118,7 +118,7 @@
 
 @media (max-width: 600px) {
   .fontBoxContainer > * {
-    flex-basis: 90%;
+    flex-basis: 80%;
   }
 }
 

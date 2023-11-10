@@ -9,12 +9,8 @@ import TermsAgreement from 'common/checkButton/TermsAgreement';
 import { useDispatch } from 'react-redux';
 import { pointPayModalActions } from 'store/pointPayModalSlice';
 
-interface FontOptionPageProps {
-  step?: number;
-  setStep?: (step: number) => void;
-}
 
-const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
+const FontOptionPage: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
 
   // input 변경 핸들러 함수
