@@ -7,6 +7,8 @@ import { getData } from 'https/http';
 // icons
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
 
+import AlertCustomModal from 'common/modals/alertCustomModal/AlertCustomModal';
+
 type Font = {
   dibCheck: boolean;
 };
@@ -20,6 +22,11 @@ interface FontBoxProps {
 
 const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
   const navigate = useNavigate();
+  const [showAlertModal, setShowAlertModal] = useState(false);
+
+  const handleLoginAlert = () => {
+    setShowAlertModal(true); //
+  };
 
   const handleTitleClick = async () => {
     const token = await getData('accessToken');
@@ -34,7 +41,7 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => 
         },
       });
     } else {
-      alert('로그인 해주세요');
+      handleLoginAlert();
     }
   };
 
@@ -50,7 +57,7 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => 
         },
       });
     } else {
-      alert('로그인 해주세요');
+      handleLoginAlert();
     }
   };
 
@@ -168,6 +175,13 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => 
           <span>다람쥐 헌 쳇바퀴에 타고파</span>
         </div>
       </div>
+      <AlertCustomModal
+        show={showAlertModal}
+        onHide={() => setShowAlertModal(false)}
+        message1="로그인이 필요한 서비스입니다."
+        message2=""
+        btnName="확인"
+      />
     </>
   );
 };
