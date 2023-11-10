@@ -11,12 +11,12 @@ import java.io.IOException;
 @Service
 public interface FontImageService {
 
-    String getS3FontUrl(List<File> imageFiles);
+    String getS3FontUrl(List<File> imageFiles, Long fontId);
 
     String processAndUploadImages(List<MultipartFile> files) throws IOException;
 
     byte[] createZipFromUrls(String reqUrl) throws IOException;
 
-    String createFont(MakeFontRequest req, LoginInfo loginInfo) throws IOException;
+    String createFont(MakeFontRequest req) throws IOException;
 }
 

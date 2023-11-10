@@ -1,9 +1,8 @@
 package com.ddobak.font.entity;
 
-import com.ddobak.basket.entity.Basket;
+import com.ddobak.cart.entity.Cart;
 import com.ddobak.favorite.entity.Favorite;
 import com.ddobak.font.dto.request.MakeFontRequest;
-import com.ddobak.font.service.FontService;
 import com.ddobak.global.entity.BaseEntity;
 
 import com.ddobak.transaction.entity.Creation;
@@ -71,13 +70,14 @@ public class Font extends BaseEntity{
     @Column(columnDefinition = "int default 0")
     private Integer viewCount;
 
-    @OneToOne(mappedBy = "createdFont")
-    private Creation creation;
-
+    @Enumerated(EnumType.STRING)
     @Column
     private FontStatusType makeStatus;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "createdFont")
+    private Creation creation;
+
+    @ManyToMany()
     @JoinTable(
             name = "font_keyword",
             joinColumns = @JoinColumn(name = "font_id"),
@@ -85,9 +85,8 @@ public class Font extends BaseEntity{
     )
     private List<Keyword> keywords;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="basketId")
-    private Basket basket;
+    @OneToMany(mappedBy = "font")
+    private List<Cart> carts;
 
     @OneToMany(mappedBy = "font")
     private List<Favorite> favorite;
@@ -118,6 +117,7 @@ public class Font extends BaseEntity{
     public void finalMakeFont(String fontUrl){
         this.font_file_url=fontUrl;
         this.create_datetime=LocalDateTime.now();
+        this.makeStatus=FontStatusType.COMPLETE;
     }
     public void plusViewCount() {
         this.viewCount = this.viewCount + 1;

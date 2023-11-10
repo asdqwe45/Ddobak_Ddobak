@@ -5,6 +5,7 @@ import com.ddobak.favorite.repository.FavoriteRepository;
 import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.dto.response.FontResponse;
 import com.ddobak.font.entity.Font;
+import com.ddobak.font.entity.FontStatusType;
 import com.ddobak.font.entity.QFont;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -47,6 +48,7 @@ public class FontQueryRepository {
         BooleanBuilder whereClause = new BooleanBuilder();
 
         whereClause.and(font.open_status.isTrue());
+        whereClause.and(font.makeStatus.eq(FontStatusType.COMPLETE));
 
         if (search != null && !search.isEmpty()) {
             whereClause.and(font.producer.nickname.contains(search)
@@ -106,6 +108,7 @@ public class FontQueryRepository {
         BooleanBuilder whereClause = new BooleanBuilder();
 
         whereClause.and(font.open_status.isTrue());
+        whereClause.and(font.makeStatus.eq(FontStatusType.COMPLETE));
 
         if (search != null && !search.isEmpty()) {
             whereClause.and(font.producer.nickname.contains(search)
