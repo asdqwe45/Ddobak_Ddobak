@@ -24,7 +24,6 @@ public interface FontService {
 
     FontListResponse getFontListNoAuth(Pageable pageable, String search, List<String> keywords, Boolean free);
 
-
     FontDetailResponse getFontDetail(Long fontId, LoginInfo loginInfo);
 
     Font findByFontId(Long id);
