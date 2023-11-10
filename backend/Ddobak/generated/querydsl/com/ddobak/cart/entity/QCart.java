@@ -1,4 +1,4 @@
-package com.ddobak.basket.entity;
+package com.ddobak.cart.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -11,23 +11,23 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QBasket is a Querydsl query type for Basket
+ * QCart is a Querydsl query type for Cart
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QBasket extends EntityPathBase<Basket> {
+public class QCart extends EntityPathBase<Cart> {
 
-    private static final long serialVersionUID = -111282995L;
+    private static final long serialVersionUID = 1653960513L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QBasket basket = new QBasket("basket");
+    public static final QCart cart = new QCart("cart");
 
     public final com.ddobak.global.entity.QBaseEntity _super = new com.ddobak.global.entity.QBaseEntity(this);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final ListPath<com.ddobak.font.entity.Font, com.ddobak.font.entity.QFont> fontList = this.<com.ddobak.font.entity.Font, com.ddobak.font.entity.QFont>createList("fontList", com.ddobak.font.entity.Font.class, com.ddobak.font.entity.QFont.class, PathInits.DIRECT2);
+    public final com.ddobak.font.entity.QFont font;
 
     //inherited
     public final NumberPath<Long> id = _super.id;
@@ -37,24 +37,25 @@ public class QBasket extends EntityPathBase<Basket> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
-    public QBasket(String variable) {
-        this(Basket.class, forVariable(variable), INITS);
+    public QCart(String variable) {
+        this(Cart.class, forVariable(variable), INITS);
     }
 
-    public QBasket(Path<? extends Basket> path) {
+    public QCart(Path<? extends Cart> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QBasket(PathMetadata metadata) {
+    public QCart(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QBasket(PathMetadata metadata, PathInits inits) {
-        this(Basket.class, metadata, inits);
+    public QCart(PathMetadata metadata, PathInits inits) {
+        this(Cart.class, metadata, inits);
     }
 
-    public QBasket(Class<? extends Basket> type, PathMetadata metadata, PathInits inits) {
+    public QCart(Class<? extends Cart> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.font = inits.isInitialized("font") ? new com.ddobak.font.entity.QFont(forProperty("font"), inits.get("font")) : null;
         this.member = inits.isInitialized("member") ? new com.ddobak.member.entity.QMember(forProperty("member")) : null;
     }
 

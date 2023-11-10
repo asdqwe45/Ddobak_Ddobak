@@ -5,6 +5,7 @@ import com.ddobak.favorite.repository.FavoriteRepository;
 import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.dto.response.FontResponse;
 import com.ddobak.font.entity.Font;
+import com.ddobak.font.entity.FontStatusType;
 import com.ddobak.font.entity.QFont;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -47,6 +48,7 @@ public class FontQueryRepository {
         BooleanBuilder whereClause = new BooleanBuilder();
 
         whereClause.and(font.open_status.isTrue());
+        whereClause.and(font.makeStatus.eq(FontStatusType.COMPLETE));
 
         if (search != null && !search.isEmpty()) {
             whereClause.and(font.producer.nickname.contains(search)
@@ -87,7 +89,8 @@ public class FontQueryRepository {
                                 .from(favorite)
                                 .where(favorite.member.id.eq(member_id),
                                         favorite.font.id.eq(font.id))
-                                .gt(0L)
+                                .gt(0L),
+                        font.producer.id
                 ))
                 .from(font)
                 .where(whereClause)
@@ -106,6 +109,7 @@ public class FontQueryRepository {
         BooleanBuilder whereClause = new BooleanBuilder();
 
         whereClause.and(font.open_status.isTrue());
+        whereClause.and(font.makeStatus.eq(FontStatusType.COMPLETE));
 
         if (search != null && !search.isEmpty()) {
             whereClause.and(font.producer.nickname.contains(search)
@@ -142,7 +146,8 @@ public class FontQueryRepository {
                         font.kor_font_name,
                         font.producer.nickname,
                         font.font_file_url,
-                        Expressions.as(Expressions.constant(false), "favoriteCheck")
+                        Expressions.as(Expressions.constant(false), "favoriteCheck"),
+                        font.producer.id
                 ))
                 .from(font)
                 .where(whereClause)
