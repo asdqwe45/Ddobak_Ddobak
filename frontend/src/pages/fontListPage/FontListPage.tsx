@@ -5,7 +5,7 @@ import { PageTitle } from 'common/titleComponents/TitleComponents';
 import FontBoxComponent from './fontListPageComponents/FontBoxComponent';
 import { axiosWithAuth, axiosWithoutAuth } from 'https/http';
 import { getData } from 'https/http';
-// import PageMiniManuscript from './fontListPageComponents/PageMiniManuscript';
+import PageMiniManuscript from './fontListPageComponents/PageMiniManuscript';
 
 // API로부터 받아올 데이터 타입 정의
 // type FontList = {
@@ -121,19 +121,18 @@ const FontListPage: React.FC = () => {
       </div>
     );
   };
-
-  // const [totalPages, setTotalPages] = useState(0);
-  // const [currentPage, setCurrentPage] = useState(0);
+  const [totalFonts, setTotalFonts] = useState(0);
+  const totalPages = Math.ceil(totalFonts / 12);
+  const [currentPage, setCurrentPage] = useState(0);
   // 폰트 필터링
   const fetchFilteredFonts = useCallback(async () => {
     // console.log('선택된 필터 옵션:', checkedOptions);
     // console.log('입력한 검색어:', searchTerm);
-    // console.log('전체 폰트 수:', totalFonts);
-    // console.log('페이지 인덱스 번호:', currentPage);
-    // console.log('현재 페이지 번호:', currentPage + 1);
     try {
       const params = {
-        // page: currentPage,
+        fontCount: totalFonts,
+        page: currentPage,
+        size: 12,
         search: searchTerm,
         keywords:
           checkedOptions.length > 0
@@ -143,44 +142,41 @@ const FontListPage: React.FC = () => {
       const response = await axiosWithoutAuth.get('/font/list/NoAuth', { params });
       if (response.data) {
         console.log('필터링 된 폰트 목록:', response.data);
-        console.log('폰트 개수:', response.data.fontCount);
         setFonts(response.data.fontListResponse);
-        // const totalFonts = response.data.fontCount; // 서버로부터 받은 전체 폰트 수
-        // const newTotalPages = Math.ceil(totalFonts / response.data.fontListResponse.length); // 전체 페이지 수 계산
-        // setTotalPages(newTotalPages); // 상태 업데이트
+        console.log('폰트 개수:', response.data.fontCount);
+        setTotalFonts(response.data.fontCount);
       }
     } catch (error) {
       console.error('폰트 목록을 가져오는데 실패했습니다:', error);
     }
-  }, [searchTerm, checkedOptions]);
+  }, [totalFonts, currentPage, searchTerm, checkedOptions]);
 
-  // 페이지 번호 변경 핸들러
-  // const handlePageChange = (newPage: number) => {
-  //   setCurrentPage(newPage);
-  // };
+  const handlePagination = (newPage: number) => {
+    if (newPage < totalPages) {
+      setCurrentPage(newPage);
+    }
+  }
+  // 1번 버튼 클릭 핸들러
+  const handleFirstPage = () => {
+    setCurrentPage(0);
+  }
 
-  // 페이지 번호 버튼 렌더링 함수
-  // const renderPaginationButtons = () => {
-  //   const pages = Array.from({ length: totalPages }, (_, index) => index);
-  //   return pages.map((pageNumber) => (
-  //     <button
-  //       key={pageNumber}
-  //       onClick={() => handlePageChange(pageNumber)}
-  //       className={pageNumber === currentPage ? classes.active : ''}
-  //     >
-  //       {pageNumber + 1}
-  //     </button>
-  //   ));
-  // };
-
-  // 검색어나 옵션 변경 시 필터링된 데이터 요청
   useEffect(() => {
     const timer = setTimeout(() => {
-      fetchFilteredFonts();
-    }, 500); // 타이핑을 멈춘 후 500ms 뒤 검색 수행
+      if (searchTerm && currentPage !== 0) {
+        setCurrentPage(0); // 첫 페이지로 재설정
+      } else {
+        fetchFilteredFonts();
+      }
+    }, 300); // 타이핑을 멈춘 후 300ms 뒤 검색 수행
 
     return () => clearTimeout(timer); // 클린업 함수로 타이머를 제거
-  }, [searchTerm, checkedOptions, fetchFilteredFonts]); // 의존성 배열 추가
+  }, [currentPage, searchTerm, fetchFilteredFonts]);
+
+  // 변경될 때마다 데이터를 가져옵니다.
+  useEffect(() => {
+    fetchFilteredFonts();
+  }, [currentPage, checkedOptions, fetchFilteredFonts]);
 
   return (
     <>
@@ -208,9 +204,8 @@ const FontListPage: React.FC = () => {
                 size={22}
                 color="gray"
                 style={{ marginLeft: '4px' }}
-                className={`${classes.filterIcon} ${
-                  showFilterOptions ? classes.filterIconActive : ''
-                }`}
+                className={`${classes.filterIcon} ${showFilterOptions ? classes.filterIconActive : ''
+                  }`}
               />
             </div>
             {showFilterOptions && renderFilterOptions()}
@@ -219,7 +214,10 @@ const FontListPage: React.FC = () => {
         <div className={classes.fontBoxContainer}>{renderFontBoxes()}</div>
         <div className={classes.paginationContainer}>
           {/* 페이지네이션 자리 */}
+          <PageMiniManuscript />
           {/* {renderPaginationButtons()} */}
+          <button onClick={handleFirstPage}>1</button>
+          <button onClick={() => handlePagination(currentPage + 1)}>2</button>
         </div>
       </div>
     </>
