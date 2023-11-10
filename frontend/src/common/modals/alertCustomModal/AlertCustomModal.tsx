@@ -9,9 +9,10 @@ import { mainRedColor } from 'common/colors/CommonColors';
 interface AlertCustomModalProps {
   show: boolean; // 모달 표시 여부
   onHide: () => void; // 모달 숨김 함수
-  message1: string; // 모달 메시지
-  message2: string; // 모달 메시지
-  btnName: string; // 확인 버튼 텍스트
+  message1: string; // 모달 메시지1
+  message2: string; // 모달 메시지2
+  btnName: string; // 버튼 텍스트
+  onMove?: () => void; // 페이지 이동 함수 (선택)
 }
 
 const AlertCustomModal: React.FC<AlertCustomModalProps> = ({
@@ -20,10 +21,19 @@ const AlertCustomModal: React.FC<AlertCustomModalProps> = ({
   message1,
   message2,
   btnName,
+  onMove,
 }) => {
   useEffect(() => {
     ReactModal.setAppElement('body'); // 앱의 루트 엘리먼트 설정
   }, []);
+
+  const handleButton = () => {
+    if (onMove) {
+      onMove(); // onConfirm 함수가 제공되었다면, 호출
+    } else {
+      onHide(); // onConfirm 함수가 없다면, onHide 함수를 호출하여 모달을 닫음
+    }
+  };
 
   return (
     <ReactModal
@@ -55,7 +65,7 @@ const AlertCustomModal: React.FC<AlertCustomModalProps> = ({
           <button
             className={classes.modalBtn}
             style={{ backgroundColor: mainRedColor }}
-            onClick={onHide}
+            onClick={handleButton}
           >
             {btnName}
           </button>
