@@ -131,7 +131,7 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => 
   const handleIconClick = async () => {
     const token = await getData('accessToken');
     if (!token) {
-      return alert('로그인 해주세요.');
+      return handleLoginAlert();
     }
     const newDibCheck = !dibCheck; // 찜 상태 반전
 
