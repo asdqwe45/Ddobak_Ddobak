@@ -75,6 +75,7 @@ const ChangeNicknameModal: React.FC = () => {
           setIsDuplicated(false);
           setValidNickname(false);
           closeModal();
+          window.location.reload();
         })
         .catch((e) => {
           console.error(e);
@@ -110,9 +111,10 @@ const ChangeNicknameModal: React.FC = () => {
           <div>
             <NewAuthInput
               ref={nickNameRef}
-              placeholder="닉네임"
+              placeholder="9자 이내로 입력해주세요."
               disabled={validNickname}
               onChange={handleNicknameChange}
+              maxLength={9}
             ></NewAuthInput>
             <button
               className={validNickname ? classes.notValidEmail : classes.emailCheckBtn}
