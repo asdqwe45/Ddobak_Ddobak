@@ -2,6 +2,7 @@ package com.ddobak.cart.service;
 
 
 import com.ddobak.cart.dto.request.AddCartRequest;
+import com.ddobak.cart.dto.request.FontDeleteRequest;
 import com.ddobak.cart.dto.response.FontCartResponse;
 import com.ddobak.cart.entity.Cart;
 import com.ddobak.cart.repository.CartRepository;
@@ -70,6 +71,11 @@ public class CartServiceImpl implements com.ddobak.cart.service.CartService {
         }
 
         return result;
+    }
+
+    @Override
+    public void deleteFontList(List<Long> fontList, LoginInfo loginInfo){
+            cartRepository.deleteFontsFromCart(loginInfo.id(),fontList);
     }
 
 }
