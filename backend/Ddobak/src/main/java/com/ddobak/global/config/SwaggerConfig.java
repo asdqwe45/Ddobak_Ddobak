@@ -1,66 +1,69 @@
 package com.ddobak.global.config;
 
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.*;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
-
+import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
-@EnableWebMvc
-public class SwaggerConfig extends WebMvcConfigurationSupport {
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 
-    private static final String REFERENCE = "Authorization 헤더 값";
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.ModelRef;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Parameter;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+@Configuration
+@EnableSwagger2
+public class SwaggerConfig {
+
+    private static final String API_NAME = "Study API";
+    private static final String API_VERSION = "0.0.1";
+    private static final String API_DESCRIPTION = "Study API 명세서";
+
+//    @Bean
+//    public Docket api() {
+//        Parameter parameterBuilder = new ParameterBuilder()
+//            .name(HttpHeaders.AUTHORIZATION)
+//            .description("Access Tocken")
+//            .modelRef(new ModelRef("string"))
+//            .parameterType("header")
+//            .required(false)
+//            .build();
+//
+//        List<Parameter> globalParamters = new ArrayList<>();
+//        globalParamters.add(parameterBuilder);
+//
+//        return new Docket(DocumentationType.SWAGGER_2)
+//            .globalOperationParameters(globalParamters)
+//            .apiInfo(apiInfo())
+//            .select()
+//            .apis(RequestHandlerSelectors.basePackage("com.ddobak"))
+//            .paths(PathSelectors.any())
+//            .build();
+//    }
 
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.OAS_30)
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
-                .build()
-                .apiInfo(apiInfo())
-                .securityContexts(List.of(securityContext()))
-                .securitySchemes(List.of(bearerAuthSecurityScheme()));
+        return new Docket(DocumentationType.SWAGGER_2)
+            .select()
+            .apis(RequestHandlerSelectors.any())
+            .paths(PathSelectors.any())
+            .build()
+            .apiInfo(apiInfo());
     }
 
-
-    private ApiInfo apiInfo() {
+    public ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Swagger 문서 제목")
-                .description("Swagger 문서 설명")
-                .version("1.0")
-                .build();
-    }
-
-
-    private SecurityContext securityContext() {
-        return springfox.documentation
-                .spi.service.contexts
-                .SecurityContext
-                .builder()
-                .securityReferences(defaultAuth())
-                .operationSelector(operationContext -> true)
-                .build();
-    }
-    private List<SecurityReference> defaultAuth() {
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = new AuthorizationScope("global", "accessEverything");
-        return List.of(new SecurityReference(REFERENCE, authorizationScopes));
-    }
-    private HttpAuthenticationScheme bearerAuthSecurityScheme(){
-        return HttpAuthenticationScheme.JWT_BEARER_BUILDER
-                .name(REFERENCE).build();
+            .title(API_NAME)
+            .version(API_VERSION)
+            .description(API_DESCRIPTION)
+            .build();
     }
 }
-
-

@@ -151,4 +151,10 @@ public class MemberController {
         MyPageResponse myPageResponse = memberService.getMyPage(loginInfo);
         return ResponseEntity.ok().body(myPageResponse);
     }
+
+    @GetMapping("/test")
+    public ResponseEntity<Void> testException(@AuthenticationPrincipal LoginInfo loginInfo) {
+            memberService.test();
+            return null;
+    }
 }

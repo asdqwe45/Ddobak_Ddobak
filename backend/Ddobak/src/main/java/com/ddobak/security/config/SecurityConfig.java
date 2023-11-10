@@ -28,7 +28,7 @@ public class SecurityConfig {
             .csrf().disable()
             .cors()
             .and()
-            .headers()
+            .headers().frameOptions().disable()
             .and()
             .sessionManagement()
             .sessionCreationPolicy(
@@ -38,7 +38,8 @@ public class SecurityConfig {
 
             // URL 별 권환 확인
             .authorizeRequests()
-            .antMatchers("/api/v1/member/email/**","/docs/**", "/api/v1/member/signup/**", "/api/v1/member/login/**", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html","/swagger-ui/**", "/api/v1/member/nickname/duplicate/**","/api/v1/font/list/NoAuth/**").permitAll()
+            .antMatchers("/api/v1/member/email/**","/docs/**", "/api/v1/member/signup/**", "/api/v1/member/login/**", "/api/v1/member/nickname/duplicate/**","/api/v1/font/list/NoAuth/**").permitAll()
+            .antMatchers("/api/v2/**","/health","/swagger-ui.html","/swagger/**","/swagger-resources/**","/webjars/**","/v2/api-docs").permitAll()
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
