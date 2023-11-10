@@ -91,6 +91,7 @@ import { checkToken, userMypageAPI } from 'https/utils/AuthFunction';
 import { changeNicknameModalActions } from 'store/changeNicknameSlice';
 
 import { dibListAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
+import { chargePointModalActions } from 'store/chargePointModalSlice';
 
 const MyPage: React.FC = () => {
   const [myNickname, setMyNickname] = useState<string>('');
@@ -220,6 +221,7 @@ const MyPage: React.FC = () => {
     dispatch(reviewModalActions.toggle());
   };
   const exchangeHandler = () => {
+    dispatch(chargePointModalActions.currentMyState({ myPoint: myPoint, nickname: myNickname }));
     dispatch(exchangeModalActions.toggle());
   };
   const clickProfileImgHandler = () => {

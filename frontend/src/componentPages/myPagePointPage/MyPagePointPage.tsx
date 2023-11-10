@@ -214,7 +214,8 @@ const MyPagePointPage: React.FC = () => {
     dispatch(chargePointModalActions.currentMyState({ myPoint: myPoint, nickname: nickname }));
     dispatch(chargePointModalActions.toggle());
   };
-  const clickExchangeHandler = () => {
+  const clickExchangeHandler = async () => {
+    dispatch(chargePointModalActions.currentMyState({ myPoint: myPoint, nickname: nickname }));
     dispatch(exchangeModalActions.toggle());
   };
   return (
