@@ -10,9 +10,12 @@ import com.ddobak.member.dto.request.ModifyNicknameRequest;
 import com.ddobak.member.dto.request.RefreshTokenRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
 import com.ddobak.member.dto.response.LoginResponse;
+import com.ddobak.member.dto.response.MyOwnFontResponse;
+import com.ddobak.member.dto.response.MyPageResponse;
 import com.ddobak.member.dto.response.RefreshTokenResponse;
 import com.ddobak.member.service.MemberService;
 import com.ddobak.security.util.LoginInfo;
+import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -139,5 +142,19 @@ public class MemberController {
 
         memberService.modifyProfileImg(loginInfo, profileImg);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/mypage")
+    public ResponseEntity<MyPageResponse> requestMyPage(@AuthenticationPrincipal LoginInfo loginInfo) {
+        log.info("{} mypage", loginInfo.email());
+
+        MyPageResponse myPageResponse = memberService.getMyPage(loginInfo);
+        return ResponseEntity.ok().body(myPageResponse);
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<Void> testException(@AuthenticationPrincipal LoginInfo loginInfo) {
+            memberService.test();
+            return null;
     }
 }

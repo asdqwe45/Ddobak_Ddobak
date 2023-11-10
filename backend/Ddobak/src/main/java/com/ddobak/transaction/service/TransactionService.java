@@ -2,6 +2,7 @@ package com.ddobak.transaction.service;
 
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.service.FontService;
+import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.repository.MemberRepository;
 import com.ddobak.member.service.MemberService;
@@ -10,6 +11,7 @@ import com.ddobak.transaction.dto.request.ChargeRequest;
 import com.ddobak.transaction.dto.request.PurchaseRequest;
 import com.ddobak.transaction.dto.request.WithdrawRequest;
 import com.ddobak.transaction.dto.response.ChargeResponse;
+import com.ddobak.transaction.dto.response.MyFontResponse;
 import com.ddobak.transaction.dto.response.PurchaseResponse;
 import com.ddobak.transaction.dto.response.TransactionResponse;
 import com.ddobak.transaction.dto.response.WithdrawResponse;
@@ -18,6 +20,7 @@ import com.ddobak.transaction.entity.Creation;
 import com.ddobak.transaction.entity.PurchaseOrder;
 import com.ddobak.transaction.entity.Transaction;
 import com.ddobak.transaction.entity.Withdrawal;
+import com.ddobak.transaction.exception.TransactionException;
 import com.ddobak.transaction.repository.ChargeRepository;
 import com.ddobak.transaction.repository.CreationRepository;
 import com.ddobak.transaction.repository.PurchaseOrderRepository;
@@ -153,6 +156,8 @@ public class TransactionService {
             // 해당 폰트 정보 가져오기
             Font purchaseFont = fontService.findByFontId(purchaseRequestList.get(0).fontId());
             Member seller = memberService.findSellerById(purchaseRequestList.get(0).sellerId());
+
+            // 포인트 부족 확인
 
             // 폰트 가격만큼 계산
             purchaseAfterAmount = buyer.withdrawPoint(purchaseFont.getPrice());
@@ -454,5 +459,32 @@ public class TransactionService {
 
         return transactionResponseList;
 
+    }
+
+    // 내 폰트 조회
+    public List<MyFontResponse> getMyFontList(LoginInfo loginInfo) {
+        List<MyFontResponse> fontResponseList = new ArrayList<>();
+        Member member = memberService.findByEmail(loginInfo.email());
+        // 제작 내역
+        List<Creation> creationList = creationRepository.findCreationsByCreator(member.getId());
+        // 구매 내역
+        List<Transaction> purchaseList = transactionRepository.findTransactionBuyer(member.getId());
+
+        for(int i=0;i<creationList.size();i++) {
+            MyFontResponse myFontResponse = new MyFontResponse(
+                creationList.get(i).getCreatedFont().getId(),
+                "제작"
+            );
+            fontResponseList.add(myFontResponse);
+        }
+        for(int i=0;i<purchaseList.size();i++) {
+            MyFontResponse myFontResponse = new MyFontResponse(
+                purchaseList.get(i).getTransactionFont().getId(),
+                "구매"
+            );
+            fontResponseList.add(myFontResponse);
+        }
+
+        return fontResponseList;
     }
 }
