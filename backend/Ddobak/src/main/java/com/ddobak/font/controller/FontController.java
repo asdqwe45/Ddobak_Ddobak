@@ -70,13 +70,13 @@ public class FontController {
     }
 
     @PostMapping(value = "/goSetting")
-    public ResponseEntity<Long> createFont(@RequestParam("sortUrl") String font_sort_url,
+    public ResponseEntity<FontIdResponse> createFont(@RequestParam("sortUrl") String font_sort_url,
                                            @AuthenticationPrincipal LoginInfo loginInfo) {
         Long fontId = fontService.createFont(font_sort_url,loginInfo);
         return ResponseEntity.ok(fontId);
     }
 
-    @PostMapping(value = "/make")
+    @PutMapping(value = "/make/request")
     public ResponseEntity<String> makeFont(@RequestBody MakeFontRequest req,
                                            @AuthenticationPrincipal LoginInfo loginInfo) throws IOException {
         try {
