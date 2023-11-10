@@ -230,4 +230,8 @@ public class MemberService {
             throw new MemberException(ErrorCode.EMAIL_DUPLICATED);
         }
     }
+
+    public void test() {
+        throw new MemberException(ErrorCode.EMAIL_SEND_ERROR);
+    }
 }
