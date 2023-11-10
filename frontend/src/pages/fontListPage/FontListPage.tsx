@@ -157,9 +157,9 @@ const FontListPage: React.FC = () => {
     }
   }
   // 1번 버튼 클릭 핸들러
-  const handleFirstPage = () => {
-    setCurrentPage(0);
-  }
+  // const handleFirstPage = () => {
+  //   setCurrentPage(0);
+  // }
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -212,14 +212,17 @@ const FontListPage: React.FC = () => {
           </div>
         </div>
         <div className={classes.fontBoxContainer}>{renderFontBoxes()}</div>
+      </div>
         <div className={classes.paginationContainer}>
           {/* 페이지네이션 자리 */}
-          <PageMiniManuscript />
-          {/* {renderPaginationButtons()} */}
-          <button onClick={handleFirstPage}>1</button>
-          <button onClick={() => handlePagination(currentPage + 1)}>2</button>
+          <PageMiniManuscript
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePagination}
+        />
+          {/* <button onClick={handleFirstPage}>1</button> */}
+          {/* <button onClick={() => handlePagination(currentPage + 1)}>2</button> */}
         </div>
-      </div>
     </>
   );
 };
