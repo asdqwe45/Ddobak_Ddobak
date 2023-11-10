@@ -1,9 +1,12 @@
 package com.ddobak.review.service;
 
 import com.ddobak.font.entity.Font;
+import com.ddobak.font.exception.FontException;
 import com.ddobak.font.repository.FontRepository;
+import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.global.service.S3Service;
 import com.ddobak.member.entity.Member;
+import com.ddobak.member.exception.MemberException;
 import com.ddobak.member.repository.MemberRepository;
 import com.ddobak.review.dto.request.ReviewRegisterRequest;
 import com.ddobak.review.dto.response.ReviewResponse;
@@ -33,10 +36,10 @@ public class ReviewServiceImpl implements ReviewService{
     public void registerReview(ReviewRegisterRequest req, MultipartFile image, LoginInfo loginInfo){
 
         Member member = memberRepository.findById(loginInfo.id())
-                .orElseThrow(() -> new RuntimeException("Member Not Found"));
+                .orElseThrow(() -> new MemberException(ErrorCode.USER_NOT_FOUND));
 
         Font font = fontRepository.findById(req.fontId())
-                .orElseThrow(() -> new RuntimeException("Font Not Found"));
+                .orElseThrow(() -> new FontException(ErrorCode.FONT_NOT_FOUND));
         byte[] fileData;
         try {
             fileData = image.getBytes();

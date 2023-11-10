@@ -71,9 +71,9 @@ public class FontImageServiceImpl implements FontImageService {
         return zipResponse.getBody();
     }
 
-    public String createFont(MakeFontRequest req, LoginInfo loginInfo) throws IOException {
+    public String createFont(MakeFontRequest req) throws IOException {
         List<File> tempFile = urlToFile(req.fontSortUrl());
-        String fontUrl = getS3FontUrl(tempFile);
+        String fontUrl = getS3FontUrl(tempFile,req.fontId());
         return fontUrl;
     }
 
@@ -171,14 +171,18 @@ public class FontImageServiceImpl implements FontImageService {
         return new ResponseEntity<>(zip.getBody(), headers, HttpStatus.OK);
     }
 
-    public String getS3FontUrl(List<File> imageFiles) {
-        String fastApiUrl = "163.239.223.171:8786/api/v1/font_create/create_font";
+    public String getS3FontUrl(List<File> imageFiles, Long fontId) {
+        String fastapiServer = "163.239.223.171:8786/api/v1/font_create/create_font";
+        String myServer = "http://localhost:8000/makeUpload";
+        String fastApiUrl = myServer;
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+
+        body.add("fontId", fontId.toString());
 
         int fileIndex = 1;
         for (File imageFile : imageFiles) {
@@ -189,13 +193,13 @@ public class FontImageServiceImpl implements FontImageService {
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-        ResponseEntity<String> s3FontUrl = restTemplate.exchange(
+        ResponseEntity<String> result = restTemplate.exchange(
                 fastApiUrl,
                 HttpMethod.POST,
                 requestEntity,
                 String.class
         );
-        String responseBody = s3FontUrl.getBody();
+        String responseBody = result.getBody();
         if (responseBody != null) {
             responseBody = responseBody.replaceAll("^\"|\"$", "");
         }
