@@ -24,7 +24,7 @@ public class QFont extends EntityPathBase<Font> {
 
     public final com.ddobak.global.entity.QBaseEntity _super = new com.ddobak.global.entity.QBaseEntity(this);
 
-    public final com.ddobak.basket.entity.QBasket basket;
+    public final ListPath<com.ddobak.cart.entity.Cart, com.ddobak.cart.entity.QCart> carts = this.<com.ddobak.cart.entity.Cart, com.ddobak.cart.entity.QCart>createList("carts", com.ddobak.cart.entity.Cart.class, com.ddobak.cart.entity.QCart.class, PathInits.DIRECT2);
 
     public final BooleanPath commerce_status = createBoolean("commerce_status");
 
@@ -91,7 +91,6 @@ public class QFont extends EntityPathBase<Font> {
 
     public QFont(Class<? extends Font> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.basket = inits.isInitialized("basket") ? new com.ddobak.basket.entity.QBasket(forProperty("basket"), inits.get("basket")) : null;
         this.creation = inits.isInitialized("creation") ? new com.ddobak.transaction.entity.QCreation(forProperty("creation"), inits.get("creation")) : null;
         this.producer = inits.isInitialized("producer") ? new com.ddobak.member.entity.QMember(forProperty("producer")) : null;
     }

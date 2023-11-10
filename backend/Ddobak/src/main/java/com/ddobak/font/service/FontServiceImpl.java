@@ -3,6 +3,7 @@ package com.ddobak.font.service;
 import com.ddobak.favorite.repository.FavoriteRepository;
 import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.font.dto.response.FontDetailResponse;
+import com.ddobak.font.dto.response.FontIdResponse;
 import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.dto.response.FontResponse;
 import com.ddobak.font.entity.Font;
@@ -30,7 +31,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 
 @Service
@@ -48,7 +51,7 @@ public class FontServiceImpl implements FontService {
     private final ReviewService reviewService;
 
     @Override
-    public Long createFont(String font_sort_url, LoginInfo loginInfo){
+    public FontIdResponse createFont(String font_sort_url, LoginInfo loginInfo){
         String email = loginInfo.email();
 
         Member member = memberRepository.findByEmail(email).orElseThrow(
@@ -58,26 +61,42 @@ public class FontServiceImpl implements FontService {
 
         fontRepository.save(newFont);
 
-        return newFont.getId();
+        FontIdResponse result = new FontIdResponse(newFont.getId());
+
+        return result;
     }
 
     @Override
-    public Font makeFont(MakeFontRequest req, LoginInfo loginInfo, String fontUrl) {
-        String email = loginInfo.email();
-        Member member = memberRepository.findById(loginInfo.id())
-                .orElseThrow(() -> new EntityNotFoundException("Member not found with email: " + loginInfo.id()));
-
+    public Font makeFont(MakeFontRequest req, LoginInfo loginInfo) {
         Font font = fontRepository.findById(req.fontId())
-                .orElseThrow(() -> new EntityNotFoundException("Font not found with Id: " + req.fontId()));
+                .orElseThrow(() -> {
+                    log.error("Font not found with Id: {}", req.fontId());
+                    return new FontException(ErrorCode.FONT_NOT_FOUND);
+                });
+        if(!font.getMakeStatus().equals(FontStatusType.FAIL)){
+            log.error("Font already making : {}", req.fontId());
+            throw new EntityNotFoundException("폰트가 제작 중이거나 제작완료 상태입니다.");
+        }
+        Member member = memberRepository.findById(loginInfo.id())
+                .orElseThrow(() -> {
+                    log.error("Member not found with Id: {}", loginInfo.id());
+                    return new MemberException(ErrorCode.USER_NOT_FOUND);
+                });
+
+
+        if (!font.getProducer().getId().equals(loginInfo.id())) {
+            log.error("Unauthorized attempt to make font by user with Id: {}",loginInfo.id());
+            throw new EntityNotFoundException("폰트에 접근 권한이 업습니다.");
+        }
 
         font.makeDetail(req);
-
-        addKeywordToFont(req.keyword1(), font);
-        Optional.ofNullable(req.keyword2()).ifPresent(keyword -> addKeywordToFont(keyword, font));
-        Optional.ofNullable(req.keyword3()).ifPresent(keyword -> addKeywordToFont(keyword, font));
+        Stream.of(req.keyword1(), req.keyword2(), req.keyword3())
+                .filter(Objects::nonNull)
+                .forEach(keyword -> addKeywordToFont(keyword, font));
 
         fontRepository.save(font);
 
+        log.info("Font details made for font Id: {}", font.getId());
         return font;
     }
 
@@ -106,7 +125,6 @@ public class FontServiceImpl implements FontService {
     public FontListResponse getFontListNoAuth(Pageable pageable,String search, List<String> keywords, Boolean free){
         //Integer fontCount = fontRepository.countAll();
         FontListResponse resultList = fontQueryRepository.getFontListNoAuth(pageable,search, keywords,free);
-
         return resultList;
     }
 
@@ -142,6 +160,7 @@ public class FontServiceImpl implements FontService {
         return result;
     }
 
+    @Override
     public Font findByFontId(Long id) {
         return fontRepository.findAllById(id).orElseThrow(() -> new FontException(ErrorCode.FONT_NOT_FOUND));
     }

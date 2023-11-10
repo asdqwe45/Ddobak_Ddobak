@@ -1,14 +1,13 @@
 package com.ddobak.font.controller;
 
 import com.ddobak.font.dto.request.MakeFontRequest;
-import com.ddobak.font.dto.response.FontDetailResponse;
-import com.ddobak.font.dto.response.FontListResponse;
-import com.ddobak.font.dto.response.FontListWithCountResponse;
-import com.ddobak.font.dto.response.FontResponse;
+import com.ddobak.font.dto.response.*;
 import com.ddobak.font.entity.Font;
+import com.ddobak.font.exception.FontException;
 import com.ddobak.font.exception.InvalidFileFormatException;
 import com.ddobak.font.service.FontImageService;
 import com.ddobak.font.service.FontService;
+import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.security.util.LoginInfo;
 import com.ddobak.transaction.service.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,6 +21,8 @@ import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.persistence.EntityNotFoundException;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +41,8 @@ public class FontController {
     @Operation(summary = "테스트", description = "테스트하는 api 입니다.")
     @ApiResponse(responseCode = "200", description = "리턴 값으로 test를 반환합니다.")
     public ResponseEntity<String> test(@AuthenticationPrincipal LoginInfo loginInfo){
-        return ResponseEntity.ok("test");
+        throw new FontException(ErrorCode.FONT_NOT_FOUND);
+//        return ResponseEntity.ok("tet");
     }
 
     @PostMapping(value = "/sort",
@@ -85,21 +87,20 @@ public class FontController {
     @PostMapping(value = "/goSetting")
     @Operation(summary = "폰트 세팅으로 이동", description = "초기 세팅하는 api 입니다.")
     @ApiResponse(responseCode = "200", description = "리턴 값으로 success를 반환합니다.")
-    public ResponseEntity<Long> createFont(@RequestParam("sortUrl") String font_sort_url,
+    public ResponseEntity<FontIdResponse> createFont(@RequestParam("sortUrl") String font_sort_url,
                                            @AuthenticationPrincipal LoginInfo loginInfo) {
-        Long fontId = fontService.createFont(font_sort_url,loginInfo);
-        return ResponseEntity.ok(fontId);
+        FontIdResponse fontIdResponse = fontService.createFont(font_sort_url,loginInfo);
+        return ResponseEntity.ok(fontIdResponse);
     }
 
-    @PostMapping(value = "/make")
+    @PutMapping(value = "/make/request")
     @Operation(summary = "폰트 제작", description = "폰트 제작하는 api 입니다.")
     @ApiResponse(responseCode = "200", description = "리턴 값으로 success를 반환합니다.")
     public ResponseEntity<String> makeFont(@RequestBody MakeFontRequest req,
                                            @AuthenticationPrincipal LoginInfo loginInfo) throws IOException {
         try {
-
-            String fontUrl = fontImageService.createFont(req, loginInfo);
-            Font makedFont = fontService.makeFont(req,loginInfo,fontUrl);
+            Font makedFont = fontService.makeFont(req,loginInfo);
+            fontImageService.createFont(req);
             transactionService.requestFontTransaction(makedFont, loginInfo.id(),makedFont.getPrice());
             return ResponseEntity.ok("success");
         } catch (IOException e) {
@@ -107,6 +108,8 @@ public class FontController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Font creation failed due to an internal error.");
         }
     }
+
+    @PutMapping(value = "/make/final")
 
     @GetMapping(value = "/list")
     @Operation(summary = "폰트 목록", description = "폰트 목록 조회하는 api입니다.")
@@ -129,7 +132,7 @@ public class FontController {
     }
 
     @GetMapping(value = "/list/NoAuth")
-    @Operation(summary = "폰트 목록", description = "폰트 목록 조회하는 api입니다.")
+    @Operation(summary = "폰트 목록(NoAuth)", description = "로그인없이 폰트 목록 조회하는 api입니다.")
     @ApiResponse(responseCode = "200", description = "리턴값으로 폰트목록에 필요한 값 리턴합니다.")
     public ResponseEntity<FontListResponse> getFontList(@PageableDefault(size=12) Pageable pageable,@RequestParam(required = false) String search, @RequestParam(required = false) List<String> keywords, @RequestParam(required = false) String freeCheck){
 
