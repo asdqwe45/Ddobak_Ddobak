@@ -11,6 +11,7 @@ import com.ddobak.transaction.dto.request.ChargeRequest;
 import com.ddobak.transaction.dto.request.PurchaseRequest;
 import com.ddobak.transaction.dto.request.WithdrawRequest;
 import com.ddobak.transaction.dto.response.ChargeResponse;
+import com.ddobak.transaction.dto.response.MyFontResponse;
 import com.ddobak.transaction.dto.response.PurchaseResponse;
 import com.ddobak.transaction.dto.response.TransactionResponse;
 import com.ddobak.transaction.dto.response.WithdrawResponse;
@@ -460,8 +461,30 @@ public class TransactionService {
 
     }
 
+    // 내 폰트 조회
+    public List<MyFontResponse> getMyFontList(LoginInfo loginInfo) {
+        List<MyFontResponse> fontResponseList = new ArrayList<>();
+        Member member = memberService.findByEmail(loginInfo.email());
+        // 제작 내역
+        List<Creation> creationList = creationRepository.findCreationsByCreator(member.getId());
+        // 구매 내역
+        List<Transaction> purchaseList = transactionRepository.findTransactionBuyer(member.getId());
 
-    public List<Transaction> gettransactionList(Long memberId) {
-        return transactionRepository.findTransactionBySeller(memberId);
+        for(int i=0;i<creationList.size();i++) {
+            MyFontResponse myFontResponse = new MyFontResponse(
+                creationList.get(i).getCreatedFont().getId(),
+                "제작"
+            );
+            fontResponseList.add(myFontResponse);
+        }
+        for(int i=0;i<purchaseList.size();i++) {
+            MyFontResponse myFontResponse = new MyFontResponse(
+                purchaseList.get(i).getTransactionFont().getId(),
+                "구매"
+            );
+            fontResponseList.add(myFontResponse);
+        }
+
+        return fontResponseList;
     }
 }
