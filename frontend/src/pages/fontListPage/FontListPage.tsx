@@ -30,8 +30,9 @@ const FontListPage: React.FC = () => {
       const token = await getData('accessToken');
       if (!token) {
         try {
-          const response = await axiosWithoutAuth.get('/font/list/NoAuth')
-            .then((r) => { return r; });
+          const response = await axiosWithoutAuth.get('/font/list/NoAuth').then((r) => {
+            return r;
+          });
           if (response.data) {
             console.log('API로부터 받은 데이터:', response.data); // 데이터 로깅 추가
             setFonts(response.data.fontListResponse); // 상태 업데이트
@@ -57,7 +58,6 @@ const FontListPage: React.FC = () => {
       if (response.data) {
         console.log('API로부터 받은 폰트 목록:', response.data);
         setFonts(response.data.fontListResponse); // 상태 업데이트
-
       } else {
         console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
       }
@@ -68,17 +68,18 @@ const FontListPage: React.FC = () => {
 
   // 폰트보기 페이지의 폰트 목록 렌더링
   const renderFontBoxes = () => {
-    console.log(fonts)
-    if (fonts)
-    {return fonts.map((font) => (
-      <FontBoxComponent
-        key={font.font_id.toString()}
-        id={font.font_id.toString()}
-        title={font.kor_font_name}
-        maker={font.producer_name}
-        dib={font.dibCheck}
-      />
-    ));}
+    console.log(fonts);
+    if (fonts) {
+      return fonts.map((font) => (
+        <FontBoxComponent
+          key={font.font_id.toString()}
+          id={font.font_id.toString()}
+          title={font.kor_font_name}
+          maker={font.producer_name}
+          dib={font.dibCheck}
+        />
+      ));
+    }
   };
 
   const options = [
@@ -134,10 +135,11 @@ const FontListPage: React.FC = () => {
       const params = {
         // page: currentPage,
         search: searchTerm,
-        keywords: checkedOptions.length > 0
-          ? checkedOptions.join(',')  // 선택된 옵션이 있을 경우, 쉼표로 구분된 문자열로 전송
-          : {}  // 옵션 체크 해제 시, params 비워서 모든 데이터 요청
-      }
+        keywords:
+          checkedOptions.length > 0
+            ? checkedOptions.join(',') // 선택된 옵션이 있을 경우, 쉼표로 구분된 문자열로 전송
+            : {}, // 옵션 체크 해제 시, params 비워서 모든 데이터 요청
+      };
       const response = await axiosWithoutAuth.get('/font/list/NoAuth', { params });
       if (response.data) {
         console.log('필터링 된 폰트 목록:', response.data);
@@ -157,19 +159,19 @@ const FontListPage: React.FC = () => {
   //   setCurrentPage(newPage);
   // };
 
- // 페이지 번호 버튼 렌더링 함수
-// const renderPaginationButtons = () => {
-//   const pages = Array.from({ length: totalPages }, (_, index) => index);
-//   return pages.map((pageNumber) => (
-//     <button
-//       key={pageNumber}
-//       onClick={() => handlePageChange(pageNumber)}
-//       className={pageNumber === currentPage ? classes.active : ''}
-//     >
-//       {pageNumber + 1}
-//     </button>
-//   ));
-// };
+  // 페이지 번호 버튼 렌더링 함수
+  // const renderPaginationButtons = () => {
+  //   const pages = Array.from({ length: totalPages }, (_, index) => index);
+  //   return pages.map((pageNumber) => (
+  //     <button
+  //       key={pageNumber}
+  //       onClick={() => handlePageChange(pageNumber)}
+  //       className={pageNumber === currentPage ? classes.active : ''}
+  //     >
+  //       {pageNumber + 1}
+  //     </button>
+  //   ));
+  // };
 
   // 검색어나 옵션 변경 시 필터링된 데이터 요청
   useEffect(() => {
@@ -206,7 +208,9 @@ const FontListPage: React.FC = () => {
                 size={22}
                 color="gray"
                 style={{ marginLeft: '4px' }}
-                className={`${classes.filterIcon} ${showFilterOptions ? classes.filterIconActive : ''}`}
+                className={`${classes.filterIcon} ${
+                  showFilterOptions ? classes.filterIconActive : ''
+                }`}
               />
             </div>
             {showFilterOptions && renderFilterOptions()}
