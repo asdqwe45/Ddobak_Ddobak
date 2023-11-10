@@ -25,14 +25,14 @@ const FontMakeStep2: React.FC = () => {
 
   // 파일 형식 검증 함수
   const isValidFileType = (file: File) => {
-    const validExtensions = ['png', 'pdf', 'jpg', 'jpeg']; // 허용되는 파일 확장자 목록
+    const validExtensions = ['png', 'pdf', 'jpg', 'jpeg'];
     const fileExtension = file.name.split('.').pop()?.toLowerCase();
     return validExtensions.includes(fileExtension || '');
   };
   const handleKoreanFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
     if (fileList) {
-      const file = fileList[0]; // 첫 번째 파일만 선택합니다.
+      const file = fileList[0]; // 첫 번째 파일 선택
       if (isValidFileType(file)) {
         setKorFileData(file);
         const reader = new FileReader();
@@ -49,7 +49,7 @@ const FontMakeStep2: React.FC = () => {
   const handleEnglishFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
     if (fileList) {
-      const file = fileList[0]; // 첫 번째 파일만 선택합니다.
+      const file = fileList[0]; // 첫 번째 파일 선택
       if (isValidFileType(file)) {
         setEngFileData(file);
 
@@ -66,14 +66,14 @@ const FontMakeStep2: React.FC = () => {
 
   // 파일 darg & drop
   const onDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault(); // 기본 이벤트를 막습니다.
+    event.preventDefault(); // 기본 이벤트 막기
   };
 
   const onDrop = (event: React.DragEvent<HTMLDivElement>, type: 'korean' | 'english') => {
     event.preventDefault();
     const files = event.dataTransfer.files;
     if (files.length > 0) {
-      const file = files[0]; // 첫 번째 파일을 사용합니다.
+      const file = files[0]; // 첫 번째 파일 사용
       if (isValidFileType(file)) {
         const reader = new FileReader();
         reader.onload = () => {
