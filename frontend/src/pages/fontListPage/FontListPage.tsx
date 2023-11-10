@@ -73,7 +73,7 @@ const FontListPage: React.FC = () => {
 
   // 현재 페이지의 폰트 목록을 렌더링
   const renderFontBoxes = () => {
-    console.log(fonts)
+    console.log(fonts);
     if (fonts) {
       return fonts.map((font) => (
         <FontBoxComponent

@@ -44,6 +44,7 @@
   height: 100%;
   border-radius: 100%;
   box-sizing: border-box;
+  border: 1px solid #b6b6b6;
   &:hover {
     border: #d71718 5px solid;
     cursor: pointer;

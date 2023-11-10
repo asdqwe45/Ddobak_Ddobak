@@ -38,6 +38,7 @@ const ChangeProfileImgModal: React.FC = () => {
         .then(async (r) => {
           console.log(r);
           closeModal();
+          window.location.reload();
         })
         .catch((e) => {
           console.error(e);

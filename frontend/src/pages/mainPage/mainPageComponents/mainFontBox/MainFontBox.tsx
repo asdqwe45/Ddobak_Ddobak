@@ -19,6 +19,10 @@ const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
   const navigate = useNavigate();
 
   const dibToggle = async (dib: boolean, fontId: string) => {
+    const token = getData('accessToken');
+    if (!token) {
+      return alert('로그인 해주세요.');
+    }
     if (dib) {
       dibRemoveAPI(fontId)
         .then(async (r) => {

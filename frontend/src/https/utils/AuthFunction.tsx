@@ -263,3 +263,15 @@ export async function userAccessTokenAPI(data: userAccessTokenType): Promise<any
       throw e;
     });
 }
+
+// 마이페이지
+export async function userMypageAPI(): Promise<any> {
+  return axiosWithAuth
+    .get('/member/mypage')
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
