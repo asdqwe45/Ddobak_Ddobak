@@ -109,7 +109,7 @@ public class FontController {
         }
     }
 
-    @PutMapping(value = "/make/final")
+    //@PutMapping(value = "/make/final")
 
     @GetMapping(value = "/list")
     @Operation(summary = "폰트 목록", description = "폰트 목록 조회하는 api입니다.")
