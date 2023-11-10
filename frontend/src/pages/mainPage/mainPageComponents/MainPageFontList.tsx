@@ -27,8 +27,9 @@ import DdobakLogo from '../../../common/commonAssets/ddobak_logo.png';
 import { axiosWithAuth, axiosWithoutAuth, getData } from 'https/http';
 
 type Font = {
-  font_id: bigint;
+  font_id: string;
   kor_font_name: string;
+  producer_id: string;
   producer_name: string;
   font_file_url: string;
   dibCheck: boolean;
@@ -77,8 +78,9 @@ const MainPageFontList: React.FC = () => {
     return fonts.map((font) => (
       <SwiperSlide key={font.font_id} className={classes.swiperSlid}>
         <MainFontBox
-          id={font.font_id.toString()}
+          font_id={font.font_id.toString()}
           title={font.kor_font_name}
+          producer_id={font.producer_id.toString()}
           maker={font.producer_name}
           dib={font.dibCheck}
         />

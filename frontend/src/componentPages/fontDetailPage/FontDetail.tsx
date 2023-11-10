@@ -13,8 +13,7 @@ import FontUserReview from './fontDetailPageComponent/FontUserReview';
 // icons
 import { FaRegBookmark, FaBookmark, FaRegCopy, FaPen } from 'react-icons/fa';
 
-import { axiosWithAuth } from 'https/http';
-import { axiosWithFormData } from 'https/http';
+import { axiosWithAuth, axiosWithFormData } from 'https/http';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
 type Font = {
