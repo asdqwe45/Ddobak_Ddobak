@@ -85,8 +85,6 @@ public class FontController {
     }
 
     @PostMapping(value = "/goSetting")
-    @Operation(summary = "폰트 세팅으로 이동", description = "초기 세팅하는 api 입니다.")
-    @ApiResponse(responseCode = "200", description = "리턴 값으로 success를 반환합니다.")
     public ResponseEntity<FontIdResponse> createFont(@RequestParam("sortUrl") String font_sort_url,
                                            @AuthenticationPrincipal LoginInfo loginInfo) {
         FontIdResponse fontIdResponse = fontService.createFont(font_sort_url,loginInfo);
@@ -94,8 +92,6 @@ public class FontController {
     }
 
     @PutMapping(value = "/make/request")
-    @Operation(summary = "폰트 제작", description = "폰트 제작하는 api 입니다.")
-    @ApiResponse(responseCode = "200", description = "리턴 값으로 success를 반환합니다.")
     public ResponseEntity<String> makeFont(@RequestBody MakeFontRequest req,
                                            @AuthenticationPrincipal LoginInfo loginInfo) throws IOException {
         try {
