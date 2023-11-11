@@ -69,7 +69,7 @@ public class FavoriteServiceImpl implements FavoriteService {
         Long fontId = font.getId(); // 폰트 ID
         String producerName = font.getProducer().getNickname(); // 제조사 이름
         String fontFileUrl = font.getFont_file_url(); // 폰트 파일 URL
-        String fontName = font.getKor_font_name(); // 폰트 이름
+        String fontName = font.getKorFontName(); // 폰트 이름
 
         // 여기서 dibCheck는 즐겨찾기 여부를 나타내는데, 이미 즐겨찾기 목록에서 가져오고 있으므로 항상 true입니다.
         return new DibbedFontInfo(

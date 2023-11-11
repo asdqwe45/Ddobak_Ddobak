@@ -14,5 +14,8 @@ public interface FontRepository extends JpaRepository<Font,Long> {
 
     Optional<Font> findAllById(Long font_id);
 
+    Boolean existsByKorFontName(String korFontName);
+
+    Boolean existsByEngFontName(String eng_font_name);
 }
 

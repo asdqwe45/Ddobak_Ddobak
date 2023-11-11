@@ -123,16 +123,18 @@ public class FontController {
                 free = false;
             }
         }
-
         FontListResponse result = fontService.getFontListNoAuth(pageable,search,keywords,free);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/detail/{fontId}")
     public ResponseEntity<FontDetailResponse> getFontDetail(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long fontId){
-        System.out.println("######## 되나?");
         FontDetailResponse result = fontService.getFontDetail(fontId, loginInfo);
         return ResponseEntity.ok(result);
     }
-
+    @GetMapping(value = "/name/check")
+    public ResponseEntity<Boolean> checkFontName(@RequestParam(required = false) String korFontName, @RequestParam(required = false) String engFontName ,@AuthenticationPrincipal LoginInfo loginInfo){
+        Boolean result = fontService.checkNameDuplicate(korFontName, engFontName);
+        return ResponseEntity.ok(result);
+    }
 }

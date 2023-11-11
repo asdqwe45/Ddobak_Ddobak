@@ -39,7 +39,7 @@ public class QFont extends EntityPathBase<Font> {
 
     public final com.ddobak.transaction.entity.QCreation creation;
 
-    public final StringPath eng_font_name = createString("eng_font_name");
+    public final StringPath engFontName = createString("engFontName");
 
     public final ListPath<com.ddobak.favorite.entity.Favorite, com.ddobak.favorite.entity.QFavorite> favorite = this.<com.ddobak.favorite.entity.Favorite, com.ddobak.favorite.entity.QFavorite>createList("favorite", com.ddobak.favorite.entity.Favorite.class, com.ddobak.favorite.entity.QFavorite.class, PathInits.DIRECT2);
 
@@ -56,7 +56,7 @@ public class QFont extends EntityPathBase<Font> {
 
     public final ListPath<Keyword, QKeyword> keywords = this.<Keyword, QKeyword>createList("keywords", Keyword.class, QKeyword.class, PathInits.DIRECT2);
 
-    public final StringPath kor_font_name = createString("kor_font_name");
+    public final StringPath korFontName = createString("korFontName");
 
     public final EnumPath<FontStatusType> makeStatus = createEnum("makeStatus", FontStatusType.class);
 
