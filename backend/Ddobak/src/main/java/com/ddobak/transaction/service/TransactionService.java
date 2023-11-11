@@ -1,5 +1,7 @@
 package com.ddobak.transaction.service;
 
+import com.ddobak.favorite.repository.FavoriteRepository;
+import com.ddobak.follow.repository.FollowRepository;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.service.FontService;
 import com.ddobak.global.exception.ErrorCode;
@@ -12,6 +14,7 @@ import com.ddobak.transaction.dto.request.PurchaseRequest;
 import com.ddobak.transaction.dto.request.WithdrawRequest;
 import com.ddobak.transaction.dto.response.ChargeResponse;
 import com.ddobak.transaction.dto.response.MyFontResponse;
+import com.ddobak.transaction.dto.response.ProducerResponse;
 import com.ddobak.transaction.dto.response.PurchaseResponse;
 import com.ddobak.transaction.dto.response.TransactionResponse;
 import com.ddobak.transaction.dto.response.WithdrawResponse;
@@ -47,6 +50,8 @@ public class TransactionService {
     private final WithdrawalRepository withdrawalRepository;
     private final PurchaseOrderRepository purchaseOrderRepository;
     private final CreationRepository creationRepository;
+    private final FavoriteRepository favoriteRepository;
+    private final FollowRepository followRepository;
 
     private final MemberService memberService;
     private final FontService fontService;
@@ -486,5 +491,41 @@ public class TransactionService {
         }
 
         return fontResponseList;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public List<ProducerResponse> getProducerInfo(LoginInfo loginInfo, Long producerId) {
+        List<ProducerResponse> producerResponseList = new ArrayList<>();
+
+        // Producer 폰트 리스트
+        List<Creation> creationList = creationRepository.findCreationsByCreator(producerId);
+        for(int i=0;i<creationList.size();i++) {
+            ProducerResponse producerResponse = new ProducerResponse(
+                creationList.get(i).getCreatedFont().getId(),
+                creationList.get(i).getCreatedFont().getKor_font_name(),
+                favoriteRepository.existsByMemberIdAndFontId(loginInfo.id(), creationList.get(i).getCreatedFont().getId()),
+                followRepository.existsByFollowerIdAndFollowingId(loginInfo.id(), producerId)
+            );
+            producerResponseList.add(producerResponse);
+        }
+
+        return producerResponseList;
     }
 }
