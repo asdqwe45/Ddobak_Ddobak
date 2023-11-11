@@ -50,4 +50,11 @@ public class FollowController {
         boolean exists = followService.existsByFollowerIdAndFollowingId(followerId, followingId);
         return ResponseEntity.ok(exists);
     }
+
+    @GetMapping("/count/{followingId}")
+    public ResponseEntity<Integer> countByFollowingId(@PathVariable Long followingId,
+                                                      @AuthenticationPrincipal LoginInfo loginInfo) {
+        int followingNum = followService.countByFollowingId(followingId);
+        return ResponseEntity.ok(followingNum);
+    }
 }

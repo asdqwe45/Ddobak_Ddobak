@@ -13,6 +13,8 @@ import com.ddobak.transaction.dto.request.ChargeRequest;
 import com.ddobak.transaction.dto.request.PurchaseRequest;
 import com.ddobak.transaction.dto.request.WithdrawRequest;
 import com.ddobak.transaction.dto.response.ChargeResponse;
+import com.ddobak.transaction.dto.response.FontDetailResponse;
+import com.ddobak.transaction.dto.response.FontResponse;
 import com.ddobak.transaction.dto.response.MyFontResponse;
 import com.ddobak.transaction.dto.response.ProducerResponse;
 import com.ddobak.transaction.dto.response.PurchaseResponse;
@@ -495,6 +497,52 @@ public class TransactionService {
         return fontResponseList;
     }
 
+    // 해당 제작자 폰트 조회
+    public List<FontResponse> getFontList(LoginInfo loginInfo, Long producerId) {
+        List<FontResponse> fontResponseList = new ArrayList<>();
+        List<Creation> creationList = creationRepository.findCreationsByCreator(producerId);
+        log.info("{}",creationList.size());
+        for(int i=0;i<creationList.size();i++) {
+            FontResponse fontResponse = new FontResponse(
+                creationList.get(i).getCreatedFont().getId(),
+                creationList.get(i).getCreatedFont().getKorFontName(),
+                creationList.get(i).getCreatedFont().getFont_file_url()
+            );
+            fontResponseList.add(fontResponse);
+        }
+        return fontResponseList;
+    }
+
+    // 제작, 구매한 폰트 디테일 정보 조회
+    public List<FontDetailResponse> getFontDetailList(LoginInfo loginInfo) {
+        List<FontDetailResponse> fontDetailResponseList = new ArrayList<>();
+        Member member = memberService.findByEmail(loginInfo.email());
+        // 제작 내역
+        List<Creation> creationList = creationRepository.findCreationsByCreator(member.getId());
+        // 구매 내역
+        List<Transaction> purchaseList = transactionRepository.findTransactionBuyer(member.getId());
+        for(int i=0;i<creationList.size();i++) {
+            FontDetailResponse fontDetailResponse = new FontDetailResponse(
+                creationList.get(i).getCreatedFont().getId(),
+                creationList.get(i).getCreatedFont().getKorFontName(),
+                creationList.get(i).getCreatedFont().getFont_file_url(),
+                creationList.get(i).getCreatedFont().getProducer().getNickname()
+            );
+            fontDetailResponseList.add(fontDetailResponse);
+        }
+        for(int i=0;i<purchaseList.size();i++) {
+            FontDetailResponse fontDetailResponse = new FontDetailResponse(
+                purchaseList.get(i).getTransactionFont().getId(),
+                purchaseList.get(i).getTransactionFont().getKorFontName(),
+                purchaseList.get(i).getTransactionFont().getFont_file_url()
+                ,purchaseList.get(i).getTransactionFont().getProducer().getNickname()
+            );
+            fontDetailResponseList.add(fontDetailResponse);
+        }
+
+        return fontDetailResponseList;
+    }
+
     public Boolean ableToPurchase(LoginInfo loginInfo, int price){
         Member member = memberRepository.findById(loginInfo.id()).orElseThrow(
                 () -> new EntityNotFoundException("Member not found with id: " + loginInfo.id())
@@ -506,23 +554,6 @@ public class TransactionService {
             return true;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public List<ProducerResponse> getProducerInfo(LoginInfo loginInfo, Long producerId) {

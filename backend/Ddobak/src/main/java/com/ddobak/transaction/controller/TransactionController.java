@@ -5,6 +5,8 @@ import com.ddobak.transaction.dto.request.ChargeRequest;
 import com.ddobak.transaction.dto.request.PurchaseRequest;
 import com.ddobak.transaction.dto.request.WithdrawRequest;
 import com.ddobak.transaction.dto.response.ChargeResponse;
+import com.ddobak.transaction.dto.response.FontDetailResponse;
+import com.ddobak.transaction.dto.response.FontResponse;
 import com.ddobak.transaction.dto.response.MyFontResponse;
 import com.ddobak.transaction.dto.response.ProducerResponse;
 import com.ddobak.transaction.dto.response.PurchaseResponse;
@@ -129,11 +131,29 @@ public class TransactionController {
         return ResponseEntity.ok().body(myFontResponseList);
     }
 
+    // 제작 폰트 조회
+    @GetMapping("/font/{producerId}")
+    public ResponseEntity<List<FontResponse>> requestFontList(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long producerId) {
+        log.info("request {}' fontList",producerId);
+
+        List<FontResponse> fontResponseList = transactionService.getFontList(loginInfo, producerId);
+        return ResponseEntity.ok().body(fontResponseList);
+    }
+
     // 제작자 정보 조회
     @GetMapping("/producer/{producerId}")
     public ResponseEntity<List<ProducerResponse>> requestProducerInfo(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long producerId) {
         log.info("{}' Info", producerId);
         List<ProducerResponse> producerResponseList = transactionService.getProducerInfo(loginInfo, producerId);
         return ResponseEntity.ok().body(producerResponseList);
+    }
+
+    // 제작 및 구매 폰트 디테일 조회
+    @GetMapping("/font/detail")
+    public ResponseEntity<List<FontDetailResponse>> requestFontDetail(@AuthenticationPrincipal LoginInfo loginInfo) {
+        log.info("{}'s font detail info");
+
+        List<FontDetailResponse> fontDetailResponseList = transactionService.getFontDetailList(loginInfo);
+        return ResponseEntity.ok().body(fontDetailResponseList);
     }
 }
