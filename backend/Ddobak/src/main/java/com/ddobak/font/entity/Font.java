@@ -104,11 +104,7 @@ public class Font extends BaseEntity{
         this.open_status = req.openStatus();
         this.free_status = req.freeStatus();
         this.price=req.price();
-        this.commerce_status = req.commerceStatus();
         this.introduce_text = req.introduceText();
-        this.copyright_notice=req.copyrightNotice();
-        this.same_person_check = req.samePersonCheck();
-        this.copyrighter=req.copyrighter();
         this.create_datetime= LocalDateTime.now();
         this.viewCount=0;
         this.makeStatus=FontStatusType.MAKING;
