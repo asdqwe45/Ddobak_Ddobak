@@ -5,6 +5,7 @@ import com.ddobak.transaction.dto.request.ChargeRequest;
 import com.ddobak.transaction.dto.request.PurchaseRequest;
 import com.ddobak.transaction.dto.request.WithdrawRequest;
 import com.ddobak.transaction.dto.response.ChargeResponse;
+import com.ddobak.transaction.dto.response.FontResponse;
 import com.ddobak.transaction.dto.response.MyFontResponse;
 import com.ddobak.transaction.dto.response.ProducerResponse;
 import com.ddobak.transaction.dto.response.PurchaseResponse;
@@ -127,6 +128,15 @@ public class TransactionController {
 
         List<MyFontResponse> myFontResponseList = transactionService.getMyFontList(loginInfo);
         return ResponseEntity.ok().body(myFontResponseList);
+    }
+
+    // 제작 폰트 조회
+    @GetMapping("/font/{producerId}")
+    public ResponseEntity<List<FontResponse>> requestFontList(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long producerId) {
+        log.info("request {}' fontList",producerId);
+
+        List<FontResponse> fontResponseList = transactionService.getFontList(loginInfo, producerId);
+        return ResponseEntity.ok().body(fontResponseList);
     }
 
     // 제작자 정보 조회
