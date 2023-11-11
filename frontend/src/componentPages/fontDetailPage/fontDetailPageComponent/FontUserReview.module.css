@@ -1,14 +1,13 @@
 .container {
-  /* width: 100%;
-    height: 100%;
-    position: relative; */
+  margin-top: 20px;
   margin-bottom: 30px;
 }
 
 .imgContainer {
   width: 23vw;
   height: 40vh;
-  background-size: cover; /* 또는 contain */
+  background-size: cover;
+  /* 또는 contain */
   background-position: center;
   box-shadow:
     5px 10px 20px rgba(0, 0, 0, 0.2),
@@ -19,7 +18,8 @@
   width: 100%;
   height: 102%;
   /* 이미지 비율 */
-  object-fit: cover; /* 또는 contain */
+  object-fit: cover;
+  /* 또는 contain */
 }
 
 .reviewText {
@@ -64,4 +64,9 @@
 .customBtn:hover {
   opacity: 0.7;
   cursor: pointer;
+}
+
+.noReviewsMessage {
+  font-size: 19px;
+  margin-left: 20px;
 }

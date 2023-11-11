@@ -13,13 +13,14 @@ type Font = {
 };
 
 interface FontBoxProps {
-  id: string;
+  font_id: string;
   title: string;
+  producer_id: string;
   maker: string;
   dib: boolean;
 }
 
-const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
+const FontBoxComponent: React.FC<FontBoxProps> = ({ font_id, title, producer_id, maker, dib }) => {
   const navigate = useNavigate();
   const [showAlertModal, setShowAlertModal] = useState(false);
 
@@ -30,10 +31,10 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => 
   const handleTitleClick = async () => {
     const token = await getData('accessToken');
     if (token) {
-      navigate(`/font/${id}`, {
+      navigate(`/font/${font_id}`, {
         // state 객체 전달
         state: {
-          id,
+          font_id,
           title,
           maker,
           dib,
@@ -47,10 +48,10 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => 
   const handleMakerClick = async () => {
     const token = await getData('accessToken');
     if (token) {
-      navigate(`/maker/${maker}`, {
+      navigate(`/maker/${producer_id}`, {
         // state 객체 전달
         state: {
-          id,
+          producer_id,
           title,
           maker,
         },
@@ -70,19 +71,19 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => 
     const fetchNoAuth = async () => {
       const token = await getData('accessToken');
       if (token) {
-        if (id) {
-          fetchFontDetails(id); // 폰트 ID로 폰트 정보를 불러오는 함수 호출
+        if (font_id) {
+          fetchFontDetails(font_id); // 폰트 ID로 폰트 정보를 불러오는 함수 호출
         }
       }
     };
 
     fetchNoAuth();
-  }, [id]);
+  }, [font_id]);
 
   // 폰트 데이터를 가져오는 함수
-  const fetchFontDetails = async (id: string) => {
+  const fetchFontDetails = async (font_id: string) => {
     try {
-      const response = await axiosWithAuth.get(`/font/detail/${id}`).then((r) => {
+      const response = await axiosWithAuth.get(`/font/detail/${font_id}`).then((r) => {
         return r;
       });
       if (response.data) {
@@ -119,11 +120,11 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => 
         // 찜 추가
         const formData = new FormData();
         formData.append('dibCheck', JSON.stringify(newDibCheck));
-        const response = await axiosWithFormData.post(`/favorite/${id}`, formData);
+        const response = await axiosWithFormData.post(`/favorite/${font_id}`, formData);
         console.log('서버 응답:', response.data);
       } else {
         // 찜 제거
-        const response = await axiosWithAuth.delete(`/favorite/${id}`);
+        const response = await axiosWithAuth.delete(`/favorite/${font_id}`);
         console.log('서버 응답:', response.data);
       }
     } catch (error) {
@@ -141,7 +142,7 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => 
     // 로컬 상태를 먼저 업데이트
     setDibCheck(newDibCheck);
 
-    if (id) {
+    if (font_id) {
       // fontId가 존재하면
       try {
         // 백엔드에 찜 상태 업데이트 요청

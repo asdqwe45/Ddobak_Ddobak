@@ -13,9 +13,7 @@ import FontUserReview from './fontDetailPageComponent/FontUserReview';
 // icons
 import { FaRegBookmark, FaBookmark, FaRegCopy, FaPen } from 'react-icons/fa';
 
-import { axiosWithAuth } from 'https/http';
-import { axiosWithFormData } from 'https/http';
-// import { transactionPurchaseAPI } from 'https/utils/TransactionFunction';
+import { axiosWithAuth, axiosWithFormData } from 'https/http';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
 type Font = {
@@ -160,6 +158,7 @@ const FontDetail: React.FC = () => {
 
   return (
     <>
+      <div className={classes.container}>
       <div className={classes.topContainer}>
         {/* 폰트 찜 책갈피 */}
         <div className={classes.dibContainer}>
@@ -265,6 +264,7 @@ const FontDetail: React.FC = () => {
       <hr />
       <br />
       {fontId ? <FontUserReview fontId={fontId} /> : <></>}
+      </div>
     </>
   );
 };

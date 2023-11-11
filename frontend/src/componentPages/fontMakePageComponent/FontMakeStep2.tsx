@@ -1,12 +1,13 @@
 import React, { useState, useRef } from 'react';
 import classes from './FontMakeStep2.module.css';
+import AlertCustomModal from 'common/modals/alertCustomModal/AlertCustomModal';
+
+import { useDispatch } from 'react-redux';
+import { resultModalActions, setSortUrl } from 'store/resultModalSlice';
+import { axiosWithFormData } from 'https/http';
+
 import UploadFile from './fontMakePageAssets/upload_file.png';
 import { FaRegTimesCircle } from 'react-icons/fa';
-import { resultModalActions } from 'store/resultModalSlice';
-import { useDispatch } from 'react-redux';
-import AlertCustomModal from 'common/modals/alertCustomModal/AlertCustomModal';
-// import axios from 'axios';
-import { axiosWithFormData } from 'https/http';
 
 const FontMakeStep2: React.FC = () => {
   const [koreanFiles, setKoreanFiles] = useState<{ src: string; name: string }[]>([]);
@@ -178,10 +179,11 @@ const FontMakeStep2: React.FC = () => {
           // const imageUrls = (await response).data.body
           // console.log(imageUrls)
 
+          dispatch(setSortUrl(imageUrls));
+
           // 첫 번째 이미지로 한국어 파일 미리보기 업데이트
           if (imageUrls.length > 0) {
             setKoreanFiles([{ ...koreanFiles[0], src: imageUrls[0] }]);
-            // 미리보기 생성 가능
             createFilePreview({ src: imageUrls[0], name: 'kor_file.png' }); // 파일 이름은 예시임
           }
 
@@ -192,6 +194,7 @@ const FontMakeStep2: React.FC = () => {
           }
 
           setIsImageStraightened(true);
+
         } else {
           alert('이미지를 처리하는데 실패했다.');
         }
