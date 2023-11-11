@@ -26,6 +26,7 @@ type Font = {
   producerName: string;
   viewCount: bigint;
   fontName: string;
+  producerId: string;
 };
 
 const FontDetail: React.FC = () => {
@@ -144,6 +145,14 @@ const FontDetail: React.FC = () => {
       dispatch(reviewModalActions.register({ fontId: fontId }));
     }
   };
+
+  // // 바로 구매하기
+  // async function handlePayFC() {
+  //   const fontId = fontDetail?.fontId
+  // }
+
+  // // 장바구니
+  // async function handleCartFC() {}
 
   window.scrollTo({ left: 0, top: 0 });
 
