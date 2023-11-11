@@ -82,41 +82,43 @@ const FontUserReview: React.FC<FontUserReviewType> = ({ fontId }) => {
     <>
       <div className={classes.container}>
         {reviewList.length > 1 && (
-        <div className={classes.swiperLargeBox}>
-          <FaCircleChevronLeft
-            size={40}
-            color="gray"
-            onClick={() => {
-              swiperRef.current?.slidePrev(); // swiper의 slidePrev 실행
-            }}
-            className={classes.customBtn}
-          />
-          <Swiper
-            onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
-            slidesPerView={3}
-            spaceBetween={0}
-            loop={shouldLoop}
-            // autoplay={{
-            //   delay: 2500,
-            //   disableOnInteraction: false,
-            // }}
-            modules={[Autoplay, Navigation]}
-            className={classes.swiper}
-          >
-            {FontBoxSwiper(reviewList)}
-          </Swiper>
-          <FaCircleChevronRight
-            size={40}
-            color="gray"
-            onClick={() => {
-              swiperRef.current?.slideNext(); // swiper의 slideNext 실행
-            }}
-            className={classes.customBtn}
-          />
-        </div>
+          <div className={classes.swiperLargeBox}>
+            <FaCircleChevronLeft
+              size={40}
+              color="gray"
+              onClick={() => {
+                swiperRef.current?.slidePrev(); // swiper의 slidePrev 실행
+              }}
+              className={classes.customBtn}
+            />
+            <Swiper
+              onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
+              slidesPerView={3}
+              spaceBetween={0}
+              loop={shouldLoop}
+              // autoplay={{
+              //   delay: 2500,
+              //   disableOnInteraction: false,
+              // }}
+              modules={[Autoplay, Navigation]}
+              className={classes.swiper}
+            >
+              {FontBoxSwiper(reviewList)}
+            </Swiper>
+            <FaCircleChevronRight
+              size={40}
+              color="gray"
+              onClick={() => {
+                swiperRef.current?.slideNext(); // swiper의 slideNext 실행
+              }}
+              className={classes.customBtn}
+            />
+          </div>
         )}
-         {!hasReviews && ( // 후기가 없다면 안내 메시지 표시
-          <p className={classes.noReviewsMessage}>후기가 아직 없어요.😅 활용 후기를 남겨주세요.📝</p>
+        {!hasReviews && ( // 후기가 없다면 안내 메시지 표시
+          <p className={classes.noReviewsMessage}>
+            후기가 아직 없어요.😅 활용 후기를 남겨주세요.📝
+          </p>
         )}
       </div>
     </>

@@ -79,14 +79,13 @@
   align-items: center;
 }
 
-.baseFont{
+.baseFont {
   flex-direction: row;
   align-items: center;
   display: flex;
   font-size: 40px;
   justify-content: space-around;
 }
-
 
 :root {
   accent-color: red;
@@ -98,7 +97,7 @@ input[type='radio'] {
   border: 1px;
 }
 
-.baseFonts{
+.baseFonts {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

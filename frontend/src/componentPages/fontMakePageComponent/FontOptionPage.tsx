@@ -9,7 +9,6 @@ import TermsAgreement from 'common/checkButton/TermsAgreement';
 import { useDispatch } from 'react-redux';
 import { pointPayModalActions } from 'store/pointPayModalSlice';
 
-
 const FontOptionPage: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
 

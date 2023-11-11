@@ -6,7 +6,6 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { mainRedColor } from 'common/colors/CommonColors';
 // import { userChangeInfoAPI } from 'https/utils/AuthFunction';
 
-
 interface ChangeMakerIntroType {
   changeMakerIntro: {
     wantChange: boolean;
@@ -20,9 +19,9 @@ const ChangeMakerIntroModal: React.FC = () => {
     dispatch(changeMakerIntroModalActions.toggle());
   };
 
-//   const changeMakerIntro = () => {
-//     userChangeInfoAPI
-//   }
+  //   const changeMakerIntro = () => {
+  //     userChangeInfoAPI
+  //   }
 
   const showMakerIntroModal = useSelector(
     (state: ChangeMakerIntroType) => state.changeMakerIntro.wantChange,

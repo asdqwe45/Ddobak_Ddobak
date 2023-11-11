@@ -72,30 +72,30 @@ const FontResultModal: React.FC = () => {
   const cancleHandler = async () => {
     window.location.reload();
   };
-  
+
   const sortUrl = useSelector((state: RootState) => state.resultModal.sortUrl);
-  
+
   const postFontInformation = async () => {
     try {
       const formData = new FormData();
       // Redux 스토어에서 이미지 URL을 가져옴
       formData.append('sortUrl', sortUrl);
-      const response = await axiosWithFormData
-      .post('/font/goSetting', formData)
-      .then((r) => { return r; })
+      const response = await axiosWithFormData.post('/font/goSetting', formData).then((r) => {
+        return r;
+      });
       console.log(response.data);
       goToFontOptionStep();
     } catch (error) {
       console.error('정보를 보내는데 실패했습니다.', error);
     }
   };
-  
+
   // 폰트 정보 입력페이지 이동
   const goToFontOptionStep = () => {
     dispatch(resultModalActions.setStep(3));
     dispatch(resultModalActions.toggle());
   };
-    
+
   return (
     <ReactModal
       isOpen={showResultModal}
