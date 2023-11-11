@@ -193,8 +193,8 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public InfoTextResponse getInfoText(LoginInfo loginInfo) {
-        Member member = findByEmail(loginInfo.email());
+    public InfoTextResponse getInfoText(Long producerId) {
+        Member member = findMemberById(producerId);
         return new InfoTextResponse(member.getIntroduceText());
     }
 
