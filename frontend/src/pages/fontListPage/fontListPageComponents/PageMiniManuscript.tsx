@@ -1,4 +1,4 @@
-import classes from './PageMiniManuscript.module.css'
+import classes from './PageMiniManuscript.module.css';
 
 interface PageMiniManuscriptProps {
   currentPage: number;
@@ -6,7 +6,11 @@ interface PageMiniManuscriptProps {
   onPageChange: (page: number) => void;
 }
 
-const PageMiniManuscript: React.FC<PageMiniManuscriptProps> = ({ currentPage, totalPages, onPageChange }) => {
+const PageMiniManuscript: React.FC<PageMiniManuscriptProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+}) => {
   // 페이지 번호 생성 로직
   const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
 
@@ -22,10 +26,16 @@ const PageMiniManuscript: React.FC<PageMiniManuscriptProps> = ({ currentPage, to
           {pageNumbers.map((number) => (
             <div
               key={number}
-              className={`${classes.manuscriptSmallBox} ${currentPage === number ? classes.active : ''}`}
+              className={`${classes.manuscriptSmallBox} ${
+                currentPage === number ? classes.active : ''
+              }`}
               onClick={() => onPageChange(number - 1)} // 페이지 번호를 인덱스로 변환하여 호출
             >
-              <p className={`${classes.manuscriptText} ${currentPage + 1 === number ? classes.manuscriptTextActive : ''}`}>
+              <p
+                className={`${classes.manuscriptText} ${
+                  currentPage + 1 === number ? classes.manuscriptTextActive : ''
+                }`}
+              >
                 {number}
               </p>
             </div>

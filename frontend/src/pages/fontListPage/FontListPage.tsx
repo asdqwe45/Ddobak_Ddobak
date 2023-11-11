@@ -157,8 +157,8 @@ const FontListPage: React.FC = () => {
     if (newPage < totalPages) {
       setCurrentPage(newPage);
     }
-  }
-  
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => {
       if (searchTerm && currentPage !== 0) {
@@ -202,8 +202,9 @@ const FontListPage: React.FC = () => {
                 size={22}
                 color="gray"
                 style={{ marginLeft: '4px' }}
-                className={`${classes.filterIcon} ${showFilterOptions ? classes.filterIconActive : ''
-                  }`}
+                className={`${classes.filterIcon} ${
+                  showFilterOptions ? classes.filterIconActive : ''
+                }`}
               />
             </div>
             {showFilterOptions && renderFilterOptions()}
@@ -211,14 +212,14 @@ const FontListPage: React.FC = () => {
         </div>
         <div className={classes.fontBoxContainer}>{renderFontBoxes()}</div>
       </div>
-        <div className={classes.paginationContainer}>
-          {/* 페이지네이션 자리 */}
-          <PageMiniManuscript
+      <div className={classes.paginationContainer}>
+        {/* 페이지네이션 자리 */}
+        <PageMiniManuscript
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePagination}
         />
-        </div>
+      </div>
     </>
   );
 };

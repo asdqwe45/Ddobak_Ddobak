@@ -26,7 +26,7 @@ const store = configureStore({
     signupLoader: signupLoaderSlice.reducer,
     failAuth: failAuthModalSlice.reducer,
     changeNickname: changeNicknameModalSlice.reducer,
-    changeMakerIntro : changeMakerIntroModalSlice.reducer,
+    changeMakerIntro: changeMakerIntroModalSlice.reducer,
   },
 });
 

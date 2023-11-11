@@ -159,111 +159,111 @@ const FontDetail: React.FC = () => {
   return (
     <>
       <div className={classes.container}>
-      <div className={classes.topContainer}>
-        {/* 폰트 찜 책갈피 */}
-        <div className={classes.dibContainer}>
-          <div className={classes.dibCount}>{dibCount}</div>
-          {dibCheck ? (
-            <FaBookmark className={classes.bookIcon} onClick={handleIconClick} />
-          ) : (
-            <FaRegBookmark className={classes.bookIcon} onClick={handleIconClick} />
-          )}
+        <div className={classes.topContainer}>
+          {/* 폰트 찜 책갈피 */}
+          <div className={classes.dibContainer}>
+            <div className={classes.dibCount}>{dibCount}</div>
+            {dibCheck ? (
+              <FaBookmark className={classes.bookIcon} onClick={handleIconClick} />
+            ) : (
+              <FaRegBookmark className={classes.bookIcon} onClick={handleIconClick} />
+            )}
+          </div>
+          <div className={classes.title}>{fontDetail ? fontDetail.fontName : ''}</div>
         </div>
-        <div className={classes.title}>{fontDetail ? fontDetail.fontName : ''}</div>
-      </div>
-      <div className={classes.subContainer}>
-        <div className={classes.makerContainer}>
-          <p>
-            <strong>제작 </strong> {fontDetail ? fontDetail.producerName : ''}
-          </p>
-          <p>
-            <>
-              <strong>조회수 </strong> {fontDetail ? fontDetail.viewCount : ''}
-            </>
-          </p>
-          <p>
-            <strong>형태 </strong> {fontDetail ? fontDetail.keywords.join(' | ') : ' | '}
-          </p>
-        </div>
+        <div className={classes.subContainer}>
+          <div className={classes.makerContainer}>
+            <p>
+              <strong>제작 </strong> {fontDetail ? fontDetail.producerName : ''}
+            </p>
+            <p>
+              <>
+                <strong>조회수 </strong> {fontDetail ? fontDetail.viewCount : ''}
+              </>
+            </p>
+            <p>
+              <strong>형태 </strong> {fontDetail ? fontDetail.keywords.join(' | ') : ' | '}
+            </p>
+          </div>
 
-        <div className={classes.buyContainer}>
-          <div className={classes.cartBtn}>장바구니</div>
-          <div className={classes.buyBtn}>바로 구매</div>
-        </div>
-      </div>
-
-      <div className={classes.boxContainer}>
-        <div className={classes.intro}>
-          <BoxTitle>폰트 소개</BoxTitle>
-          <div className={classes.introBox} style={{ width: '35vw' }}>
-            {fontDetail ? fontDetail.introduceContext : '안녕하세요. 제작자입니다.'}
+          <div className={classes.buyContainer}>
+            <div className={classes.cartBtn}>장바구니</div>
+            <div className={classes.buyBtn}>바로 구매</div>
           </div>
         </div>
-        <div>
-          <div className={classes.titleContainer}>
-            <BoxTitle>웹 폰트로 사용하기</BoxTitle>
-            <div className={classes.copyIconContainer} onClick={copyToClipboard}>
-              <FaRegCopy size={25} color="#484848" />
-              복사하기
+
+        <div className={classes.boxContainer}>
+          <div className={classes.intro}>
+            <BoxTitle>폰트 소개</BoxTitle>
+            <div className={classes.introBox} style={{ width: '35vw' }}>
+              {fontDetail ? fontDetail.introduceContext : '안녕하세요. 제작자입니다.'}
             </div>
           </div>
+          <div>
+            <div className={classes.titleContainer}>
+              <BoxTitle>웹 폰트로 사용하기</BoxTitle>
+              <div className={classes.copyIconContainer} onClick={copyToClipboard}>
+                <FaRegCopy size={25} color="#484848" />
+                복사하기
+              </div>
+            </div>
 
-          <div className={classes.introBox} style={{ width: '40vw' }}>
-            {webFontCode}
+            <div className={classes.introBox} style={{ width: '40vw' }}>
+              {webFontCode}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className={classes.fontContainer}>
+        <div className={classes.fontContainer}>
+          <div className={classes.intro}>
+            <BoxTitle>폰트 미리보기</BoxTitle>
+            <hr />
+          </div>
+          <div className={classes.testContainer}>
+            <div className={classes.typingBar}>
+              <input
+                placeholder="예시 문구 적기"
+                value={inputText}
+                onChange={handleInputChange}
+              ></input>
+              <FaPen />
+            </div>
+            {/* 폰트 크기 조절 바 */}
+            <RangeSlider value={fontSize} onChange={handleFontSizeChange} />
+          </div>
+          <div
+            className={classes.fontTest}
+            style={{
+              fontSize: `${fontSize}px`,
+              color: inputText ? 'black' : 'lightGray',
+            }}
+          >
+            {inputText || '다람쥐 헌 쳇바퀴에 타고파'}
+          </div>
+        </div>
+
         <div className={classes.intro}>
-          <BoxTitle>폰트 미리보기</BoxTitle>
-          <hr />
-        </div>
-        <div className={classes.testContainer}>
-          <div className={classes.typingBar}>
-            <input
-              placeholder="예시 문구 적기"
-              value={inputText}
-              onChange={handleInputChange}
-            ></input>
-            <FaPen />
+          <BoxTitle>또박또박 라이선스</BoxTitle>
+          <div className={classes.introBox}>
+            <strong>저작권</strong> : "{fontDetail ? fontDetail.fontName : ''}" 폰트의 라이선스는 "
+            {fontDetail ? fontDetail.producerName : '제작자'}"에게 있습니다.{'\n'}"
+            {fontDetail ? fontDetail.fontName : ''}" 는 개인 및 기업 사용자를 포함한 모든 사용자에게
+            무료로 제공되며 자유롭게 사용할 수 있고 상업적 이용이 가능합니다. 본 서체는 글꼴 자체를
+            유료로 판매하거나 왜곡·변형할 수 없습니다.
           </div>
-          {/* 폰트 크기 조절 바 */}
-          <RangeSlider value={fontSize} onChange={handleFontSizeChange} />
         </div>
-        <div
-          className={classes.fontTest}
-          style={{
-            fontSize: `${fontSize}px`,
-            color: inputText ? 'black' : 'lightGray',
-          }}
-        >
-          {inputText || '다람쥐 헌 쳇바퀴에 타고파'}
+        <br />
+        <br />
+        <div className={classes.titleContainer}>
+          <BoxTitle>폰트 활용 후기</BoxTitle>
+          <div className={classes.reviewBtn} onClick={openReviewModal}>
+            후기 등록
+          </div>
         </div>
-      </div>
-
-      <div className={classes.intro}>
-        <BoxTitle>또박또박 라이선스</BoxTitle>
-        <div className={classes.introBox}>
-          <strong>저작권</strong> : "{fontDetail ? fontDetail.fontName : ''}" 폰트의 라이선스는 "
-          {fontDetail ? fontDetail.producerName : '제작자'}"에게 있습니다.{'\n'}"
-          {fontDetail ? fontDetail.fontName : ''}" 는 개인 및 기업 사용자를 포함한 모든 사용자에게
-          무료로 제공되며 자유롭게 사용할 수 있고 상업적 이용이 가능합니다. 본 서체는 글꼴 자체를
-          유료로 판매하거나 왜곡·변형할 수 없습니다.
-        </div>
-      </div>
-      <br />
-      <br />
-      <div className={classes.titleContainer}>
-        <BoxTitle>폰트 활용 후기</BoxTitle>
-        <div className={classes.reviewBtn} onClick={openReviewModal}>
-          후기 등록
-        </div>
-      </div>
-      <ReviewModal />
-      <hr />
-      <br />
-      {fontId ? <FontUserReview fontId={fontId} /> : <></>}
+        <ReviewModal />
+        <hr />
+        <br />
+        {fontId ? <FontUserReview fontId={fontId} /> : <></>}
       </div>
     </>
   );

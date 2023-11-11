@@ -29,7 +29,7 @@ const RootLayout: React.FC = () => {
       <FontResultModal />
       <ReviewModal />
       <NavBar />
-      <ChangeMakerIntroModal/>
+      <ChangeMakerIntroModal />
       <div className={classes.container}>
         <Outlet />
       </div>

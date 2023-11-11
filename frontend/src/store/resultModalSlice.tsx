@@ -3,9 +3,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const resultModalSlice = createSlice({
   name: 'resultModal',
   initialState: {
-    resultIsVisible: false, 
+    resultIsVisible: false,
     step: 1,
-    sortUrl: ''
+    sortUrl: '',
   },
   reducers: {
     toggle(state) {
@@ -19,7 +19,7 @@ const resultModalSlice = createSlice({
     },
     setSortUrl(state, action: PayloadAction<string>) {
       state.sortUrl = action.payload;
-    }
+    },
   },
 });
 
