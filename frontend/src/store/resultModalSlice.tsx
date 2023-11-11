@@ -6,6 +6,7 @@ const resultModalSlice = createSlice({
     resultIsVisible: false,
     step: 1,
     sortUrl: '',
+    fontId: null,
   },
   reducers: {
     toggle(state) {
@@ -20,9 +21,12 @@ const resultModalSlice = createSlice({
     setSortUrl(state, action: PayloadAction<string>) {
       state.sortUrl = action.payload;
     },
+    setFontId(state, action) {
+      state.fontId = action.payload;
+    },
   },
 });
 
-export const { toggle, nextStep, setStep, setSortUrl } = resultModalSlice.actions;
+export const { toggle, nextStep, setStep, setSortUrl, setFontId } = resultModalSlice.actions;
 export const resultModalActions = resultModalSlice.actions;
 export default resultModalSlice;

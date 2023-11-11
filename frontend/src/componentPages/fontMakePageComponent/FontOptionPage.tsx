@@ -7,12 +7,16 @@ import RadioBtn from 'common/checkButton/RadioBtn';
 import KeywordBtn from 'common/keywordButton/KeywordBtn';
 
 import TermsAgreement from 'common/checkButton/TermsAgreement';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { pointPayModalActions } from 'store/pointPayModalSlice';
 import { axiosWithAuth } from 'https/http';
+import type { RootState } from 'store';
 
 const FontOptionPage: React.FC = () => {
-  const [korFontName, setKorFontName] = useState('');
+  const fontId = useSelector((state: RootState) => state.resultModal.fontId);
+  const fontSortUrl = useSelector((state: RootState) => state.resultModal.sortUrl);
+
+  const [korFontName, setKorFontName] = useState<string>('');
   const [isKorNameAvailable, setIsKorNameAvailable] = useState(false);
   // 폰트명 입력 핸들러 함수
   const handleKorNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +43,7 @@ const FontOptionPage: React.FC = () => {
     }
   };
 
-  const [engFontName, setEngFontName] = useState('');
+  const [engFontName, setEngFontName] = useState<string>('');
   const [isEngNameAvailable, setIsEngNameAvailable] = useState(false);
   // 파일명(영문) 입력 핸들러 함수
   const handleEngNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +77,7 @@ const FontOptionPage: React.FC = () => {
     }
   };
 
-  const [inputFontIntro, setInputFontIntro] = useState('');
+  const [inputFontIntro, setInputFontIntro] = useState<string>('');
 
   // 폰트 소개글 핸들러 함수
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -81,23 +85,23 @@ const FontOptionPage: React.FC = () => {
   };
 
   // 라디오 버튼 선택 핸들러 함수
-  const [openOption, setOptionOpen] = useState('');
+  const [openOption, setOptionOpen] = useState<boolean>(true);
   // 공개|비공개 선택
-  const handleOpenChange = (openOption: string) => {
-    setOptionOpen(openOption);
+  const handleOpenChange = (option: string) => {
+    setOptionOpen(option === '공개');
   };
-  const [saleOption, setSaleOption] = useState('유료');
-  // 유료|무료 선택
-  const handleSaleChange = (saleOption: string) => {
-    setSaleOption(saleOption);
+  const [saleOption, setSaleOption] = useState<boolean>(true);
+  // 무료|유료 선택
+  const handleSaleChange = (option: string) => {
+    setSaleOption(option === '무료');
   };
 
-  const [priceValue, setPriceValue] = useState('');
+  const [priceValue, setPriceValue] = useState<number | null>(null);
   // 가격 입력 핸들러 함수
   const handlePriceValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     if (/^\d*$/.test(value)) {
-      setPriceValue(value);
+      setPriceValue(Number(value));
     } else {
       alert('숫자만 입력할 수 있습니다.');
     }
@@ -124,29 +128,57 @@ const FontOptionPage: React.FC = () => {
   };
 
   const isReadyToPay = () => {
-    const isPriceValid = saleOption === '유료' ? priceValue.trim() !== '' : true;
+    // 유료일 때는 금액이 입력되어야하고, 무료일 때는 항상 유효함
+    const isPriceValid = !saleOption ? priceValue !== null : true;
     return (
       korFontName.trim() !== '' &&
       isKorNameAvailable &&
       engFontName.trim() !== '' &&
       isEngNameAvailable &&
       inputFontIntro.trim() !== '' &&
-      openOption !== '' &&
-      saleOption !== '' &&
+      openOption !== undefined &&
+      saleOption !== undefined &&
       isPriceValid &&
       selectedKeywords.length > 0 &&
       agreed
     );
   };
 
+  // 폰트 정보 API 연결
+  const fontOptionAPI = async () => {
+    try {
+      const requestBody = {
+        fontId: fontId,
+        fontSortUrl: fontSortUrl,
+        korFontName: korFontName,
+        engFontName: engFontName,
+        introduceText: inputFontIntro,
+        openStatus: openOption,
+        freeStatus: saleOption,
+        price: !saleOption && priceValue !== null ? priceValue : 0,
+        keywords: selectedKeywords.join(','), // 쉼표로 구분된 문자열로 전송
+      }
+      const response = await axiosWithAuth.put('/font/make/request', requestBody);
+      if (response.data) {
+        console.log(response.data)
+      } else {
+        console.error('Unexpected response:', response);
+      }
+    } catch (error) {
+      console.error('폰트 정보 업데이트 중 오류 발생:', error);
+    }
+  };
+
   // 결제하기 버튼의 핸들러 함수
   const handlePaymentClick = async () => {
     if (isReadyToPay()) {
-      await clickPayHandler(); // 모든 조건이 충족되면 결제 처리 함수 실행
+      await clickPayHandler(); // 모든 조건 충족
+      await fontOptionAPI(); // 폰트 정보 API 호출
     } else {
-      alert("모든 정보를 입력해주세요."); // 조건이 충족되지 않으면 경고창 표시
+      alert("모든 정보를 입력해주세요.");
     }
   };
+
   const dispatch = useDispatch();
 
   const clickPayHandler = async () => {
@@ -225,10 +257,12 @@ const FontOptionPage: React.FC = () => {
               name="charge"
               onChange={handleSaleChange}
             />
-            {saleOption === '유료' && ( // 유료 선택 시 금액 설정
+            {!saleOption && ( // 유료 선택 시 금액 설정
               <>
                 <InputTitle style={{ marginLeft: '100px' }}>판매 금액 설정</InputTitle>
-                <input type="text" value={priceValue} onChange={handlePriceValue}
+                <input type="text"
+                  value={priceValue !== null ? priceValue.toString() : ''}
+                  onChange={handlePriceValue}
                   style={{ width: '15vw', height: '50px' }} />
                 <InputTitle>원</InputTitle>
               </>
