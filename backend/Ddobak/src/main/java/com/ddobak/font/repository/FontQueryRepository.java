@@ -52,7 +52,7 @@ public class FontQueryRepository {
 
         if (search != null && !search.isEmpty()) {
             whereClause.and(font.producer.nickname.contains(search)
-                    .or(font.kor_font_name.contains(search)));
+                    .or(font.korFontName.contains(search)));
         }
 
 
@@ -82,7 +82,7 @@ public class FontQueryRepository {
         List<FontResponse> fontList = jpaQueryFactory
                 .select(constructor(FontResponse.class,
                         font.id,
-                        font.kor_font_name,
+                        font.korFontName,
                         font.producer.nickname,
                         font.font_file_url,
                         select(favorite.id.count())
@@ -113,7 +113,7 @@ public class FontQueryRepository {
 
         if (search != null && !search.isEmpty()) {
             whereClause.and(font.producer.nickname.contains(search)
-                    .or(font.kor_font_name.contains(search)));
+                    .or(font.korFontName.contains(search)));
         }
 
 
@@ -143,7 +143,7 @@ public class FontQueryRepository {
         List<FontResponse> fontList = jpaQueryFactory
                 .select(constructor(FontResponse.class,
                         font.id,
-                        font.kor_font_name,
+                        font.korFontName,
                         font.producer.nickname,
                         font.font_file_url,
                         Expressions.as(Expressions.constant(false), "favoriteCheck"),
