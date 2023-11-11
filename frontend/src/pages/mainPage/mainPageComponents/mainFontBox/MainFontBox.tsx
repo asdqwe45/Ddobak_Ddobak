@@ -10,13 +10,14 @@ import { getData } from 'https/http';
 import AlertCustomModal from 'common/modals/alertCustomModal/AlertCustomModal';
 
 interface FontBoxProps {
-  id: string;
+  font_id: string;
   title: string;
+  producer_id: string;
   maker: string;
   dib: boolean;
 }
 
-const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
+const MainFontBox: React.FC<FontBoxProps> = ({ font_id, title, producer_id, maker, dib }) => {
   const navigate = useNavigate();
   const [showAlertModal, setShowAlertModal] = useState(false);
 
@@ -52,10 +53,10 @@ const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
   const handleTitleClick = async () => {
     const token = await getData('accessToken');
     if (token) {
-      navigate(`/font/${id}`, {
+      navigate(`/font/${font_id}`, {
         // state 객체 전달
         state: {
-          id,
+          font_id,
           title,
           maker,
           dib,
@@ -69,10 +70,10 @@ const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
   const handleMakerClick = async () => {
     const token = await getData('accessToken');
     if (token) {
-      navigate(`/maker/${maker}`, {
+      navigate(`/maker/${producer_id}`, {
         // state 객체 전달
         state: {
-          id,
+          producer_id,
           title,
           maker,
         },
@@ -97,14 +98,14 @@ const MainFontBox: React.FC<FontBoxProps> = ({ id, title, maker, dib }) => {
             <FaBookmark
               className={classes.bookIcon}
               onClick={() => {
-                dibToggle(dib, id);
+                dibToggle(dib, font_id);
               }}
             />
           ) : (
             <FaRegBookmark
               className={classes.bookIcon}
               onClick={() => {
-                dibToggle(dib, id);
+                dibToggle(dib, font_id);
               }}
             />
           )}

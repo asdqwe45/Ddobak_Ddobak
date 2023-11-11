@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
-import classes from '../../../pages/mainPage/mainPageComponents/MainPageLargeManuscript.module.css';
 import modalClasses from './FontResultModal.module.css';
+import classes from 'pages/mainPage/mainPageComponents/MainPageLargeManuscript.module.css';
 import ReactModal from 'react-modal';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { resultModalActions } from 'store/resultModalSlice';
-import { RotatingLines } from 'react-loader-spinner';
-
-import { mainRedColor } from 'common/colors/CommonColors';
-import { AiOutlineClose } from 'react-icons/ai';
+import type { RootState } from 'store';
+import { axiosWithFormData } from 'https/http';
 
 import GaImg from './fontResultModalAssets/가.png';
+import { AiOutlineClose } from 'react-icons/ai';
+import { RotatingLines } from 'react-loader-spinner';
+import { mainRedColor } from 'common/colors/CommonColors';
 
 interface ResultModalState {
   resultModal: {
@@ -70,13 +72,30 @@ const FontResultModal: React.FC = () => {
   const cancleHandler = async () => {
     window.location.reload();
   };
-
+  
+  const sortUrl = useSelector((state: RootState) => state.resultModal.sortUrl);
+  
+  const postFontInformation = async () => {
+    try {
+      const formData = new FormData();
+      // Redux 스토어에서 이미지 URL을 가져옴
+      formData.append('sortUrl', sortUrl);
+      const response = await axiosWithFormData
+      .post('/font/goSetting', formData)
+      .then((r) => { return r; })
+      console.log(response.data);
+      goToFontOptionStep();
+    } catch (error) {
+      console.error('정보를 보내는데 실패했습니다.', error);
+    }
+  };
+  
   // 폰트 정보 입력페이지 이동
   const goToFontOptionStep = () => {
     dispatch(resultModalActions.setStep(3));
     dispatch(resultModalActions.toggle());
   };
-
+    
   return (
     <ReactModal
       isOpen={showResultModal}
@@ -234,7 +253,7 @@ const FontResultModal: React.FC = () => {
                 <button
                   className={modalClasses.modalBtn}
                   style={{ backgroundColor: 'white', fontWeight: 'bold' }}
-                  onClick={goToFontOptionStep}
+                  onClick={postFontInformation}
                 >
                   정보입력
                 </button>

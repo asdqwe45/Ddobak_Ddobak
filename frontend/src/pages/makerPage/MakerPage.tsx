@@ -19,10 +19,23 @@ import { FaPencil } from 'react-icons/fa6';
 // 빈 하트 FaRegHeart
 import { FaCircleUser } from 'react-icons/fa6';
 import { borderColor } from 'common/colors/CommonColors';
-import { useEffect, useState } from 'react';
 import { getData } from 'https/http';
 import { useDispatch } from 'react-redux';
 import { changeMakerIntroModalActions } from 'store/changeMakerIntroSlice';
+
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { axiosWithAuth } from 'https/http';
+
+// API로부터 받아올 폰트 데이터의 타입을 정의
+// type Font = {
+//   fontFileUrl: string;
+//   fontId: string;
+//   introduceContext: string;
+//   keywords: string[];
+//   producerName: string;
+//   fontName: string;
+// };
 
 const MakerPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -36,6 +49,33 @@ const MakerPage: React.FC = () => {
 
     fetch();
   });
+  const { producerId } = useParams();
+  // const [fontMaker, setFontMaker] = useState<Font | null>(null);
+
+  // 컴포넌트 마운트시 API 호출
+  useEffect(() => {
+    // 라우트에서 폰트 ID 가져오기
+    if (producerId) {
+      fetchFontMaker(producerId); // 폰트 ID로 폰트 정보를 불러오는 함수 호출
+    }
+  }, [producerId]);
+
+  // 폰트 데이터를 가져오는 함수
+  const fetchFontMaker = async (producerId: string) => {
+    try {
+      const response = await axiosWithAuth.get(`/font/maker/${producerId}`).then((r) => {
+        return r;
+      });
+      if (response.data) {
+        console.log('API로부터 받은 데이터:', response.data);
+        // setFontMaker(response.data); // 받아온 폰트 정보로 상태 업데이트
+      } else {
+        console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
+      }
+    } catch (error) {
+      console.error('API 호출 에러:', error);
+    }
+  };
 
   return (
     <div className={classes.container}>
