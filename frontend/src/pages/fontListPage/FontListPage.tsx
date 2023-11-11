@@ -15,6 +15,7 @@ import PageMiniManuscript from './fontListPageComponents/PageMiniManuscript';
 type Font = {
   font_id: string;
   kor_font_name: string;
+  producer_id: string;
   producer_name: string;
   font_file_url: string;
   dibCheck: boolean;
@@ -73,8 +74,9 @@ const FontListPage: React.FC = () => {
       return fonts.map((font) => (
         <FontBoxComponent
           key={font.font_id.toString()}
-          id={font.font_id.toString()}
+          font_id={font.font_id.toString()}
           title={font.kor_font_name}
+          producer_id={font.producer_id.toString()}
           maker={font.producer_name}
           dib={font.dibCheck}
         />
