@@ -8,4 +8,5 @@ public interface FollowService {
     void unfollow(Long followerId, Long followingId);
     List<Member> getFollowingsByFollower(Long followerId);
     boolean existsByFollowerIdAndFollowingId(Long followerId, Long followingId);
+    int countByFollowingId(Long followingId);
 }
