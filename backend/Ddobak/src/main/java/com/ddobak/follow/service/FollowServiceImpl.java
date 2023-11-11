@@ -64,4 +64,9 @@ public class FollowServiceImpl implements FollowService {
     public boolean existsByFollowerIdAndFollowingId(Long followerId, Long followingId) {
         return followRepository.existsByFollowerIdAndFollowingId(followerId, followingId);
     }
+
+    @Override
+    public int countByFollowingId(Long followingId) {
+        return followRepository.findAllByFollowingId(followingId).size();
+    }
 }
