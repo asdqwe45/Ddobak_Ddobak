@@ -13,6 +13,7 @@ import GoToBasketModal from 'common/modals/goToBasketModal/GoToBasketModal';
 import SignupLoaderModal from 'common/modals/signupLoaderModal/SignupLoaderModal';
 import FailAuthModal from 'common/modals/failAuthModal/FailAuthModal';
 import ChangeNicknameModal from 'common/modals/changeNicknameModal/ChangeNicknameModal';
+import ChangeMakerIntroModal from 'common/modals/changeMakerIntroModal/ChangeMakerIntroModal';
 const RootLayout: React.FC = () => {
   return (
     <div>
@@ -28,6 +29,7 @@ const RootLayout: React.FC = () => {
       <FontResultModal />
       <ReviewModal />
       <NavBar />
+      <ChangeMakerIntroModal/>
       <div className={classes.container}>
         <Outlet />
       </div>
