@@ -281,7 +281,9 @@ const MyPage: React.FC = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
+  function formatNumberWithCommas(x: number) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
   const movePointPage = true;
 
   return (
@@ -354,7 +356,7 @@ const MyPage: React.FC = () => {
             <PointIngredient>
               <PointHeader>
                 <PointHeaderText>보유포인트</PointHeaderText>
-                <PointHeaderText>{myPoint} P</PointHeaderText>
+                <PointHeaderText>{formatNumberWithCommas(myPoint)} P</PointHeaderText>
               </PointHeader>
               <PointBtnBox>
                 <NavLink to={'/point'} state={{ myPoint, movePointPage }}>
