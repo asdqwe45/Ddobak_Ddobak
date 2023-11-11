@@ -25,7 +25,13 @@ import { changeMakerIntroModalActions } from 'store/changeMakerIntroSlice';
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { axiosWithAuth } from 'https/http';
+import { makerIntroRequest } from 'https/utils/FontFunction';
+import {
+  followCheckAPI,
+  followCreateAPI,
+  followDeleteAPI,
+  getCountFollowing,
+} from 'https/utils/FollowFunction';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
 // type Font = {
@@ -39,43 +45,58 @@ import { axiosWithAuth } from 'https/http';
 
 const MakerPage: React.FC = () => {
   const dispatch = useDispatch();
-  const [myToken, setMyToken] = useState<string>('');
+  const { makerName, makerId } = useParams();
+
+  const [myId, setMyId] = useState<string>('');
+  const [makerIntro, setMakerIntro] = useState<string>('');
+  const [followingStatus, setFollowingStatus] = useState<boolean>();
+  const [followingCount, setFollowingCount] = useState<number>();
+
+  const handleHeartClick = async () => {
+    let newFollowingStatus = !followingStatus; // 상태를 토글합니다.
+  
+    // 팔로우 상태를 변경합니다.
+    if (followingStatus) {
+      await followDeleteAPI(makerId || '');
+    } else {
+      await followCreateAPI(makerId || '');
+    }
+  
+    // 새로운 팔로잉 수를 가져옵니다.
+    const newFollowingCount = await getCountFollowing(makerId || "");
+  
+    // 상태를 업데이트합니다.
+    setFollowingStatus(newFollowingStatus);
+    setFollowingCount(newFollowingCount);
+  };  
+  
 
   useEffect(() => {
     async function fetch() {
-      const currentToken = await getData('accessToken');
-      setMyToken(currentToken);
+      const currentId = await getData('id');
+      setMyId(currentId);
     }
 
     fetch();
-  });
-  const { producerId } = useParams();
-  // const [fontMaker, setFontMaker] = useState<Font | null>(null);
+  }, []);
 
-  // 컴포넌트 마운트시 API 호출
   useEffect(() => {
-    // 라우트에서 폰트 ID 가져오기
-    if (producerId) {
-      fetchFontMaker(producerId); // 폰트 ID로 폰트 정보를 불러오는 함수 호출
-    }
-  }, [producerId]);
-
-  // 폰트 데이터를 가져오는 함수
-  const fetchFontMaker = async (producerId: string) => {
-    try {
-      const response = await axiosWithAuth.get(`/font/maker/${producerId}`).then((r) => {
-        return r;
+    // 팔로우 상태 가져오기
+    if (makerId) {
+      followCheckAPI(makerId).then(async (r) => {
+        setFollowingStatus(r);
       });
-      if (response.data) {
-        console.log('API로부터 받은 데이터:', response.data);
-        // setFontMaker(response.data); // 받아온 폰트 정보로 상태 업데이트
-      } else {
-        console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
-      }
-    } catch (error) {
-      console.error('API 호출 에러:', error);
+
+      getCountFollowing(makerId).then(async (r) => {
+        setFollowingCount(r);
+      });
+
+      // 제작자 소개글 가져오기
+      makerIntroRequest(makerId).then(async (r) => {
+        setMakerIntro(r.infoText);
+      });
     }
-  };
+  }, [makerId]);
 
   return (
     <div className={classes.container}>
@@ -83,9 +104,9 @@ const MakerPage: React.FC = () => {
         <MakerSmallBox>
           <FaCircleUser size={80} color={borderColor} />
           <div className={classes.pr}>
-            <MakerName>김싸피</MakerName>
-            <div className={classes.pencil}>
-              {myToken ? (
+            <MakerName>{makerName}</MakerName>
+            {myId.toString() === makerId ? (
+              <div className={classes.pencil}>
                 <FaPencil
                   className={classes.pencilText}
                   size={30}
@@ -94,24 +115,28 @@ const MakerPage: React.FC = () => {
                     dispatch(changeMakerIntroModalActions.toggle());
                   }}
                 />
-              ) : null}
-            </div>
+              </div>
+            ) : null}
           </div>
         </MakerSmallBox>
         <div className={classes.prCentered}>
           <MakerSmallBox>
-            <MakerComment>안녕하세요. 김싸피입니다.</MakerComment>
+            <MakerComment>{makerIntro}</MakerComment>
           </MakerSmallBox>
         </div>
         <MakerSmallBox>
-          <FaHeart size={40} color={'#d71718'} />
-          <MakerLikeCount>10</MakerLikeCount>
+          {followingStatus ? (
+            <FaHeart size={40} color={'#d71718'} onClick={handleHeartClick} />
+          ) : (
+            <FaHeart size={40} color={'#b6b6b6'} onClick={handleHeartClick} />
+          )}
+          <MakerLikeCount>{followingCount}</MakerLikeCount>
         </MakerSmallBox>
       </MakerTopBox>
       {/* 상하 구분 */}
       <MakerBottomBox>
         <MakerBottomHeaderBox>
-          <MakerBottomHeaderText>김싸피 님이 만든 폰트</MakerBottomHeaderText>
+          <MakerBottomHeaderText>{makerName} 님이 만든 폰트</MakerBottomHeaderText>
         </MakerBottomHeaderBox>
         <MakerFontLargeBox>
           <MakerFontSmallBox>
@@ -119,19 +144,6 @@ const MakerPage: React.FC = () => {
               <MakerFontNameText>또박또박_테스트체</MakerFontNameText>
             </MakerCommemtBox>
 
-            <MakerFontCommentText>다람쥐 헌 쳇바퀴 타고파</MakerFontCommentText>
-          </MakerFontSmallBox>
-          {/* small box */}
-          <MakerFontSmallBox>
-            <MakerCommemtBox>
-              <MakerFontNameText>또박또박_테스트체</MakerFontNameText>
-            </MakerCommemtBox>
-            <MakerFontCommentText>다람쥐 헌 쳇바퀴 타고파</MakerFontCommentText>
-          </MakerFontSmallBox>
-          <MakerFontSmallBox>
-            <MakerCommemtBox>
-              <MakerFontNameText>또박또박_테스트체</MakerFontNameText>
-            </MakerCommemtBox>
             <MakerFontCommentText>다람쥐 헌 쳇바퀴 타고파</MakerFontCommentText>
           </MakerFontSmallBox>
         </MakerFontLargeBox>
