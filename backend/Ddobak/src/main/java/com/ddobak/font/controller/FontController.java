@@ -1,6 +1,7 @@
 package com.ddobak.font.controller;
 
 import com.ddobak.font.dto.request.MakeFontRequest;
+import com.ddobak.font.dto.request.finalMakeRequeset;
 import com.ddobak.font.dto.response.FontDetailResponse;
 import com.ddobak.font.dto.response.FontIdResponse;
 import com.ddobak.font.dto.response.FontListResponse;
@@ -81,18 +82,21 @@ public class FontController {
     @PutMapping(value = "/make/request")
     public ResponseEntity<String> makeFont(@RequestBody MakeFontRequest req,
         @AuthenticationPrincipal LoginInfo loginInfo) throws IOException {
-        try {
+//        try {
             Font makedFont = fontService.makeFont(req,loginInfo);
-            fontImageService.createFont(req);
+//            fontImageService.createFont(req);
             transactionService.requestFontTransaction(makedFont, loginInfo.id(),makedFont.getPrice());
             return ResponseEntity.ok("success");
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Font creation failed due to an internal error.");
-        }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Font creation failed due to an internal error.");
+//        }
     }
-//    @PutMapping(value = "/make/final")
-//    public ResponseEntity<?> makeFinalFont(@Re)
+    @PutMapping(value = "/make/final")
+    public ResponseEntity<String> makeFinalFont(@RequestBody finalMakeRequeset req, @AuthenticationPrincipal LoginInfo loginInfo){
+        fontService.finalMakeFont(req,loginInfo);
+        return ResponseEntity.ok("success");
+    }
     @GetMapping(value = "/list")
     public ResponseEntity<FontListResponse> getFontList(@AuthenticationPrincipal LoginInfo loginInfo,@PageableDefault(size=12) Pageable pageable,@RequestParam(required = false) String search, @RequestParam(required = false) List<String> keywords, @RequestParam(required = false) String freeCheck){
 
