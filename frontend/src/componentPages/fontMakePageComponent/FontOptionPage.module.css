@@ -19,6 +19,12 @@
   align-items: center;
 }
 
+/* .fontName {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
+} */
+
 .rowContainer input,
 .nameInput input {
   margin-left: 20px;
@@ -42,6 +48,10 @@
   align-items: center;
   cursor: pointer;
 }
+
+.nameInput button:hover {
+  opacity: 0.8;
+} 
 
 .fontInfoContainer textarea {
   margin: 20px 35px;
