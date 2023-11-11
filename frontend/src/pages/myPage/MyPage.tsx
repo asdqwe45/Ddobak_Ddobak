@@ -91,12 +91,14 @@ import { checkToken, userMypageAPI } from 'https/utils/AuthFunction';
 import { changeNicknameModalActions } from 'store/changeNicknameSlice';
 
 import { dibListAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
+import { chargePointModalActions } from 'store/chargePointModalSlice';
+import { getData } from 'https/http';
 
 const MyPage: React.FC = () => {
   const [myNickname, setMyNickname] = useState<string>('');
   const [myPoint, setMyPoint] = useState<number>(0);
   const [myProfileImage, setMyProfileImage] = useState<string>('');
-
+  const [myId, setMyId] = useState<string>('');
   const navigate = useNavigate();
   const location = useLocation();
   const myValue = location.state?.pageValue;
@@ -120,6 +122,8 @@ const MyPage: React.FC = () => {
   useEffect(() => {
     async function fetch() {
       const token = await checkToken();
+      const id = await getData('id');
+      setMyId(id);
       if (token) {
         console.log('have Token');
         // 마이페이지 불러오기
@@ -220,6 +224,7 @@ const MyPage: React.FC = () => {
     dispatch(reviewModalActions.toggle());
   };
   const exchangeHandler = () => {
+    dispatch(chargePointModalActions.currentMyState({ myPoint: myPoint, nickname: myNickname }));
     dispatch(exchangeModalActions.toggle());
   };
   const clickProfileImgHandler = () => {
@@ -231,7 +236,7 @@ const MyPage: React.FC = () => {
   };
 
   const clickMyWorkspaceHandler = () => {
-    navigate(`/maker/${myNickname}`, {
+    navigate(`/maker/${myNickname}/${myId}`, {
       state: {
         myNickname: myNickname,
         myEnter: true,
@@ -276,6 +281,8 @@ const MyPage: React.FC = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  const movePointPage = true;
 
   return (
     <div className={classes.container}>
@@ -350,7 +357,7 @@ const MyPage: React.FC = () => {
                 <PointHeaderText>{myPoint} P</PointHeaderText>
               </PointHeader>
               <PointBtnBox>
-                <NavLink to={'/point'} state={myPoint}>
+                <NavLink to={'/point'} state={{ myPoint, movePointPage }}>
                   <PointTransactionBtn>거래내역</PointTransactionBtn>
                 </NavLink>
                 <PointExchangeBtn onClick={exchangeHandler}>인출하기</PointExchangeBtn>

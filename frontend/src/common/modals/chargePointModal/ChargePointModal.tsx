@@ -8,18 +8,19 @@ import { useDispatch } from 'react-redux';
 import { chargePointModalActions } from 'store/chargePointModalSlice';
 import { AiOutlineClose, AiFillCloseCircle } from 'react-icons/ai';
 import { borderColor } from 'common/colors/CommonColors';
+import { transactionChargeAPI } from 'https/utils/TransactionFunction';
 
 interface ChargeModalState {
   chargePoint: {
     chargePointVisible: boolean;
+    myPoint: number;
+    nickname: string;
   };
 }
 
 const ChargePointModal: React.FC = () => {
   useEffect(() => {
     ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
-
-    setCurrentPoint(45000);
   }, []);
   const dispatch = useDispatch();
   const clickChargeHandler = () => {
@@ -30,9 +31,13 @@ const ChargePointModal: React.FC = () => {
     clickChargeHandler();
   };
 
-  const [currentPoint, setCurrentPoint] = useState<number>(0);
+  const nickname = useSelector((state: ChargeModalState) => state.chargePoint.nickname);
+  const currentPoint = useSelector((state: ChargeModalState) => state.chargePoint.myPoint);
   const [chargePoint, setChargePoint] = useState<number>(0);
   const [totalPoint, setTotalPoint] = useState<number>(0);
+  useEffect(() => {
+    setTotalPoint(currentPoint);
+  }, [currentPoint]);
   const howMuchCharge = (value: number) => {
     setChargePoint(chargePoint + value);
     setTotalPoint(totalPoint + value);
@@ -42,14 +47,23 @@ const ChargePointModal: React.FC = () => {
     setTotalPoint(currentPoint);
   };
   // 포인트 상태 관리
-  const [points, setPoints] = useState(10000);
 
   // 포트원 결제 창 결제 결과 로직
   const handlePaymentSuccess = (response: any) => {
     console.log('Payment Success:', response);
     // 결제 성공 시 필요한 로직을 실행
-    console.log(points);
-    setPoints((prev) => prev + response.paid_amount); // 결제 금액만큼 포인트 증가
+    transactionChargeAPI(chargePoint)
+      .then(async (r) => {
+        console.log(r);
+        // DB에 API를 실행하고
+        // 충전이 완료되었다는 모달이 필요한가.
+        // 결제창이 닫힌다
+        closeModal();
+        window.location.reload();
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   const handlePaymentFailure = (error: any) => {
@@ -153,6 +167,7 @@ const ChargePointModal: React.FC = () => {
         <div className={classes.bottomBox}>
           {/* 포트원 결제 창 */}
           <PaymentComponent
+            nickname={nickname}
             amount={chargePoint}
             onPaymentSuccess={handlePaymentSuccess}
             onPaymentFailure={handlePaymentFailure}

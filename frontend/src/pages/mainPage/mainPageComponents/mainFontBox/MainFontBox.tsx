@@ -25,9 +25,10 @@ const MainFontBox: React.FC<FontBoxProps> = ({ font_id, title, producer_id, make
     setShowAlertModal(true); //
   };
   const dibToggle = async (dib: boolean, fontId: string) => {
-    const token = getData('accessToken');
+    const token = await getData('accessToken');
     if (!token) {
-      return alert('로그인 해주세요.');
+      handleLoginAlert();
+      return;
     }
     if (dib) {
       dibRemoveAPI(fontId)
