@@ -35,10 +35,10 @@ public class Font extends BaseEntity{
     private String font_file_url;
 
     @Column(columnDefinition = "varchar(255) default 'koNameDefault'")
-    private String kor_font_name;
+    private String korFontName;
 
     @Column(columnDefinition = "varchar(255) default 'enNameDefault'")
-    private String eng_font_name;
+    private String engFontName;
 
     @Column(columnDefinition = "BOOLEAN default false")
     private Boolean open_status;
@@ -99,8 +99,8 @@ public class Font extends BaseEntity{
                 .build();
     }
     public void makeDetail(MakeFontRequest req){
-        this.kor_font_name = req.korFontName();
-        this.eng_font_name = req.engFontName();
+        this.korFontName = req.korFontName().trim();
+        this.engFontName = req.engFontName().trim();
         this.open_status = req.openStatus();
         this.free_status = req.freeStatus();
         this.price=req.price();

@@ -27,5 +27,7 @@ public interface FontService {
     FontDetailResponse getFontDetail(Long fontId, LoginInfo loginInfo);
 
     Font findByFontId(Long id);
+
+    Boolean checkNameDuplicate(String korFontName, String engFontName);
 }
 

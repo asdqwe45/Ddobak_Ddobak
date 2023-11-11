@@ -154,7 +154,7 @@ public class FontServiceImpl implements FontService {
 
         Long dibCount = favoriteRepository.countByFontId(fontId);
 
-        FontDetailResponse result = new FontDetailResponse(fontId,dibCheck,font.getProducer().getId(),font.getProducer().getNickname(), font.getViewCount(),fontKeywords,font.getIntroduce_text(),font.getFont_file_url(),dibCount, font.getKor_font_name(),font.getPrice(),reviewCount, reviewResponseList);
+        FontDetailResponse result = new FontDetailResponse(fontId,dibCheck,font.getProducer().getId(),font.getProducer().getNickname(), font.getViewCount(),fontKeywords,font.getIntroduce_text(),font.getFont_file_url(),dibCount, font.getKorFontName(),font.getPrice(),reviewCount, reviewResponseList);
 
 
         return result;
@@ -164,5 +164,21 @@ public class FontServiceImpl implements FontService {
     public Font findByFontId(Long id) {
         return fontRepository.findAllById(id).orElseThrow(() -> new FontException(ErrorCode.FONT_NOT_FOUND));
     }
+
+    @Override
+    public Boolean checkNameDuplicate(String korFontName, String engFontName){
+        Boolean result = false;
+
+        if (korFontName != null && !korFontName.trim().isEmpty()) {
+            result = fontRepository.existsByKorFontName(korFontName.trim());
+        } else if (engFontName != null && !engFontName.trim().isEmpty()) {
+            result = fontRepository.existsByEngFontName(engFontName.trim());
+        }
+
+
+        return result;
+    }
+
+
 }
 

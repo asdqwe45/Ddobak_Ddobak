@@ -177,7 +177,7 @@ public class TransactionService {
 
             PurchaseOrder purchaseOrder = PurchaseOrder.builder()
                                                        .buyer(buyer)
-                                                       .mainFont(purchaseFont.getKor_font_name())
+                                                       .mainFont(purchaseFont.getKorFontName())
                                                        .fontId(purchaseFont.getId())
                                                        .orderCount(1)
                                                        .totalAmount(purchaseFont.getPrice())
@@ -205,7 +205,7 @@ public class TransactionService {
             PurchaseOrder purchaseOrder = PurchaseOrder.builder()
                                                        .buyer(buyer)
                 .orderDate(now)
-                                                       .mainFont(firstFont.getKor_font_name())
+                                                       .mainFont(firstFont.getKorFontName())
                                                        .fontId(firstFont.getId())
                                                        .orderCount(purchaseRequestList.size())
                                                        .totalAmount(totalAmount)
@@ -291,7 +291,7 @@ public class TransactionService {
             TransactionResponse transactionResponse = new TransactionResponse(
                 transactionList.get(i).getTransactionDate(),
                 "폰트 판매",
-                transactionList.get(i).getTransactionFont().getKor_font_name(),
+                transactionList.get(i).getTransactionFont().getKorFontName(),
                 transactionList.get(i).getSeller().getNickname(),
                 transactionList.get(i).getTransactionFont().getPrice(),
                 transactionList.get(i).getSellerAfterAmount(),
@@ -308,7 +308,7 @@ public class TransactionService {
     // 제작 요청
     @Transactional
     public void requestFontTransaction(Font createdFont, Long memberId, int fontPrice) {
-        log.info("{} create font:{}", memberId, createdFont.getKor_font_name());
+        log.info("{} create font:{}", memberId, createdFont.getKorFontName());
         Member creator = memberService.findSellerById(memberId);
 
         LocalDateTime now = LocalDateTime.now();
@@ -352,7 +352,7 @@ public class TransactionService {
             TransactionResponse transactionResponse = new TransactionResponse(
                 creationList.get(i).getTransactionDate(),
                 "제작",
-                creationList.get(i).getCreatedFont().getKor_font_name(),
+                creationList.get(i).getCreatedFont().getKorFontName(),
                 creationList.get(i).getCreatedFont().getProducer().getNickname(),
                 creationList.get(i).getTransactionAmount(),
                 creationList.get(i).getTransactionAfterAmount(),
@@ -408,7 +408,7 @@ public class TransactionService {
             TransactionResponse transactionResponse = new TransactionResponse(
                 creationList.get(i).getTransactionDate(),
                 "제작",
-                creationList.get(i).getCreatedFont().getKor_font_name(),
+                creationList.get(i).getCreatedFont().getKorFontName(),
                 creationList.get(i).getCreatedFont().getProducer().getNickname(),
                 creationList.get(i).getTransactionAmount(),
                 creationList.get(i).getTransactionAfterAmount(),
@@ -434,7 +434,7 @@ public class TransactionService {
             TransactionResponse transactionResponse = new TransactionResponse(
                 purchaseOrderList.get(i).getOrderDate(),
                 "폰트 구매",
-                purchasedFont.getKor_font_name(),
+                purchasedFont.getKorFontName(),
                 purchasedFont.getProducer().getNickname(),
                 purchaseOrderList.get(i).getTotalAmount(),
                 purchaseOrderList.get(i).getTotalAfterAmount(),
@@ -450,7 +450,7 @@ public class TransactionService {
             TransactionResponse transactionResponse = new TransactionResponse(
                 transactionList.get(i).getTransactionDate(),
                 "폰트 판매",
-                transactionList.get(i).getTransactionFont().getKor_font_name(),
+                transactionList.get(i).getTransactionFont().getKorFontName(),
                 transactionList.get(i).getSeller().getNickname(),
                 transactionList.get(i).getTransactionAmount(),
                 transactionList.get(i).getTransactionAfterAmount(),
@@ -533,7 +533,7 @@ public class TransactionService {
         for(int i=0;i<creationList.size();i++) {
             ProducerResponse producerResponse = new ProducerResponse(
                 creationList.get(i).getCreatedFont().getId(),
-                creationList.get(i).getCreatedFont().getKor_font_name(),
+                creationList.get(i).getCreatedFont().getKorFontName(),
                 favoriteRepository.existsByMemberIdAndFontId(loginInfo.id(), creationList.get(i).getCreatedFont().getId()),
                 followRepository.existsByFollowerIdAndFollowingId(loginInfo.id(), producerId)
             );
