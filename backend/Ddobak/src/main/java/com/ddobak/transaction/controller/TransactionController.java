@@ -6,6 +6,7 @@ import com.ddobak.transaction.dto.request.PurchaseRequest;
 import com.ddobak.transaction.dto.request.WithdrawRequest;
 import com.ddobak.transaction.dto.response.ChargeResponse;
 import com.ddobak.transaction.dto.response.MyFontResponse;
+import com.ddobak.transaction.dto.response.ProducerResponse;
 import com.ddobak.transaction.dto.response.PurchaseResponse;
 import com.ddobak.transaction.dto.response.TransactionResponse;
 import com.ddobak.transaction.dto.response.WithdrawResponse;
@@ -13,6 +14,7 @@ import com.ddobak.transaction.entity.Withdrawal;
 import com.ddobak.transaction.service.TransactionService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -125,5 +127,13 @@ public class TransactionController {
 
         List<MyFontResponse> myFontResponseList = transactionService.getMyFontList(loginInfo);
         return ResponseEntity.ok().body(myFontResponseList);
+    }
+
+    // 제작자 정보 조회
+    @GetMapping("/producer/{producerId}")
+    public ResponseEntity<List<ProducerResponse>> requestProducerInfo(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long producerId) {
+        log.info("{}' Info", producerId);
+        List<ProducerResponse> producerResponseList = transactionService.getProducerInfo(loginInfo, producerId);
+        return ResponseEntity.ok().body(producerResponseList);
     }
 }
