@@ -92,12 +92,13 @@ import { changeNicknameModalActions } from 'store/changeNicknameSlice';
 
 import { dibListAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
 import { chargePointModalActions } from 'store/chargePointModalSlice';
+import { getData } from 'https/http';
 
 const MyPage: React.FC = () => {
   const [myNickname, setMyNickname] = useState<string>('');
   const [myPoint, setMyPoint] = useState<number>(0);
   const [myProfileImage, setMyProfileImage] = useState<string>('');
-
+  const [myId, setMyId] = useState<string>('');
   const navigate = useNavigate();
   const location = useLocation();
   const myValue = location.state?.pageValue;
@@ -121,6 +122,8 @@ const MyPage: React.FC = () => {
   useEffect(() => {
     async function fetch() {
       const token = await checkToken();
+      const id = await getData('id');
+      setMyId(id);
       if (token) {
         console.log('have Token');
         // 마이페이지 불러오기
@@ -233,7 +236,7 @@ const MyPage: React.FC = () => {
   };
 
   const clickMyWorkspaceHandler = () => {
-    navigate(`/maker/${myNickname}`, {
+    navigate(`/maker/${myNickname}/${myId}`, {
       state: {
         myNickname: myNickname,
         myEnter: true,

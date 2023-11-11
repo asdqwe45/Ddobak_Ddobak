@@ -15,6 +15,7 @@ import { FaRegBookmark, FaBookmark, FaRegCopy, FaPen } from 'react-icons/fa';
 
 import { axiosWithAuth } from 'https/http';
 import { axiosWithFormData } from 'https/http';
+// import { transactionPurchaseAPI } from 'https/utils/TransactionFunction';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
 type Font = {
@@ -27,6 +28,7 @@ type Font = {
   producerName: string;
   viewCount: bigint;
   fontName: string;
+  producerId: string;
 };
 
 const FontDetail: React.FC = () => {
@@ -145,6 +147,14 @@ const FontDetail: React.FC = () => {
       dispatch(reviewModalActions.register({ fontId: fontId }));
     }
   };
+
+  // // 바로 구매하기
+  // async function handlePayFC() {
+  //   const fontId = fontDetail?.fontId
+  // }
+
+  // // 장바구니
+  // async function handleCartFC() {}
 
   window.scrollTo({ left: 0, top: 0 });
 

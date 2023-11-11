@@ -241,6 +241,21 @@ const MyPagePointPage: React.FC = () => {
     dispatch(chargePointModalActions.currentMyState({ myPoint: myPoint, nickname: nickname }));
     dispatch(exchangeModalActions.toggle());
   };
+
+  useEffect(() => {
+    async function fetch() {
+      transactionListAllAPI()
+        .then(async (r) => {
+          console.log(r);
+          setAllData(r);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+    fetch();
+  }, []);
+
   return (
     <div className={classes.container}>
       <MyPagePointHeader>
