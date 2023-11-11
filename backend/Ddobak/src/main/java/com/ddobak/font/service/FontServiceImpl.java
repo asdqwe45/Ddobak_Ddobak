@@ -154,7 +154,7 @@ public class FontServiceImpl implements FontService {
 
         Long dibCount = favoriteRepository.countByFontId(fontId);
 
-        FontDetailResponse result = new FontDetailResponse(fontId,dibCheck,font.getProducer().getNickname(), font.getViewCount(),fontKeywords,font.getIntroduce_text(),font.getFont_file_url(),dibCount, font.getKor_font_name(),font.getPrice(),reviewCount, reviewResponseList);
+        FontDetailResponse result = new FontDetailResponse(fontId,dibCheck,font.getProducer().getId(),font.getProducer().getNickname(), font.getViewCount(),fontKeywords,font.getIntroduce_text(),font.getFont_file_url(),dibCount, font.getKor_font_name(),font.getPrice(),reviewCount, reviewResponseList);
 
 
         return result;
