@@ -149,6 +149,7 @@ const FontDetail: React.FC = () => {
 
   return (
     <>
+      <div className={classes.container}>
       <div className={classes.topContainer}>
         {/* 폰트 찜 책갈피 */}
         <div className={classes.dibContainer}>
@@ -254,6 +255,7 @@ const FontDetail: React.FC = () => {
       <hr />
       <br />
       {fontId ? <FontUserReview fontId={fontId} /> : <></>}
+      </div>
     </>
   );
 };
