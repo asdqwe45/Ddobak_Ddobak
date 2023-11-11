@@ -4,7 +4,7 @@ import { changeMakerIntroModalActions } from 'store/changeMakerIntroSlice';
 import classes from './ChangeMakerIntroModal.module.css';
 import { AiOutlineClose } from 'react-icons/ai';
 import { mainRedColor } from 'common/colors/CommonColors';
-import { userChangeInfoAPI } from 'https/utils/AuthFunction';
+// import { userChangeInfoAPI } from 'https/utils/AuthFunction';
 
 
 interface ChangeMakerIntroType {
