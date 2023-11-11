@@ -20,7 +20,7 @@ import { FaPencil } from 'react-icons/fa6';
 import { FaCircleUser } from 'react-icons/fa6';
 import { borderColor } from 'common/colors/CommonColors';
 import { getData } from 'https/http';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changeMakerIntroModalActions } from 'store/changeMakerIntroSlice';
 
 import React, { useEffect, useState } from 'react';
@@ -43,6 +43,13 @@ import {
 //   fontName: string;
 // };
 
+interface ChangeMakerIntroType {
+  changeMakerIntro: {
+    wantChange: boolean;
+    makerIntro: string;
+  };
+}
+
 const MakerPage: React.FC = () => {
   const dispatch = useDispatch();
   const { makerName, makerId } = useParams();
@@ -51,6 +58,9 @@ const MakerPage: React.FC = () => {
   const [makerIntro, setMakerIntro] = useState<string>('');
   const [followingStatus, setFollowingStatus] = useState<boolean>();
   const [followingCount, setFollowingCount] = useState<number>();
+
+  const wantChange = useSelector((state: ChangeMakerIntroType) => state.changeMakerIntro.wantChange);
+  const storedMakerIntro = useSelector((state : ChangeMakerIntroType) => state.changeMakerIntro.makerIntro);
 
   const handleHeartClick = async () => {
     let newFollowingStatus = !followingStatus; // 상태를 토글합니다.
@@ -98,6 +108,10 @@ const MakerPage: React.FC = () => {
     }
   }, [makerId]);
 
+  useEffect(() => {
+    setMakerIntro(storedMakerIntro);
+  }, [wantChange, storedMakerIntro])
+
   return (
     <div className={classes.container}>
       <MakerTopBox>
@@ -112,6 +126,7 @@ const MakerPage: React.FC = () => {
                   size={30}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
+                    dispatch(changeMakerIntroModalActions.loadMakerIntro({changeMakerIntro : makerIntro}));
                     dispatch(changeMakerIntroModalActions.toggle());
                   }}
                 />

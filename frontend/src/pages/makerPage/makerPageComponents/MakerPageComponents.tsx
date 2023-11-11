@@ -44,7 +44,8 @@ export const MakerSmallBox = styled.div`
 export const MakerLikeCount = styled.p`
   font-size: 28px;
   font-weight: bold;
-  padding-left: 20px;
+  padding: 0px 20px;
+  width : 20px;
   color: ${likeCountColor};
 `;
 
