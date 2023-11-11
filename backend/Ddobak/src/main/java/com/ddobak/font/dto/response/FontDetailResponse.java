@@ -7,6 +7,7 @@ import java.util.List;
 public record FontDetailResponse(
         Long fontId,
         Boolean dibCheck,
+        Long producerId,
         String producerName,
         Integer viewCount,
         List<String> keywords,
@@ -16,10 +17,12 @@ public record FontDetailResponse(
         String fontName,
         Integer fontPrice,
         Long reviewCount,
+
         List<ReviewResponse> reviewResponseList
     ) {
     public FontDetailResponse(Long fontId,
                             Boolean dibCheck,
+                              Long producerId,
                             String producerName,
                             Integer viewCount,
                             List<String> keywords,
@@ -33,6 +36,7 @@ public record FontDetailResponse(
                               ){
         this.fontId=fontId;
         this.dibCheck=dibCheck;
+        this.producerId=producerId;
         this.producerName=producerName;
         this.viewCount=viewCount;
         this.keywords=keywords;
