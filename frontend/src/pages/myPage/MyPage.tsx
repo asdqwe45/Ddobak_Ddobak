@@ -93,6 +93,7 @@ import { changeNicknameModalActions } from 'store/changeNicknameSlice';
 import { dibListAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
 import { chargePointModalActions } from 'store/chargePointModalSlice';
 import { getData } from 'https/http';
+import { transactionMyAllAPI } from 'https/utils/TransactionFunction';
 
 const MyPage: React.FC = () => {
   const [myNickname, setMyNickname] = useState<string>('');
@@ -102,6 +103,7 @@ const MyPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const myValue = location.state?.pageValue;
+
   useEffect(() => {
     async function fetch() {
       if (myValue) {
@@ -160,7 +162,7 @@ const MyPage: React.FC = () => {
   const [dibList, setDibList] = useState([]);
   // 스와이퍼 참조
   const swiperRef = useRef<SwiperCore>();
-  const pageClickHandle = (pageName: string) => {
+  const pageClickHandle = async (pageName: string) => {
     if (pageName === 'productsState') {
       setPageLocation({
         productsState: true,
@@ -169,6 +171,13 @@ const MyPage: React.FC = () => {
         boughtFonts: false,
         likeProducers: false,
       });
+      transactionMyAllAPI()
+        .then((r) => {
+          console.log(r);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
     } else if (pageName === 'likeList') {
       dibListAPI().then((response) => {
         console.log(response);

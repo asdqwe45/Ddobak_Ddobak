@@ -10,7 +10,7 @@ import { chargePointModalActions } from 'store/chargePointModalSlice';
 import { AiOutlineClose } from 'react-icons/ai';
 import { borderColor, mainRedColor, likeCountColor } from 'common/colors/CommonColors';
 import { resultModalActions } from 'store/resultModalSlice';
-import { userMypageAPI } from 'https/utils/AuthFunction';
+import { checkToken, userMypageAPI } from 'https/utils/AuthFunction';
 import { transactionPurchaseAPI } from 'https/utils/TransactionFunction';
 
 interface PointModalState {
@@ -43,17 +43,19 @@ const PointPayModal: React.FC = () => {
     console.log(refresh);
     console.log('아무거나');
     async function fetch() {
-      userMypageAPI()
-        .then((r) => {
-          console.log(r);
-          setCurrentPoint(r.point);
-          dispatch(
-            chargePointModalActions.currentMyState({ myPoint: r.point, nickname: r.nickname }),
-          );
-        })
-        .catch((e) => {
-          console.error(e);
-        });
+      if (await checkToken()) {
+        userMypageAPI()
+          .then((r) => {
+            console.log(r);
+            setCurrentPoint(r.point);
+            dispatch(
+              chargePointModalActions.currentMyState({ myPoint: r.point, nickname: r.nickname }),
+            );
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      }
     }
     fetch();
   }, [refresh, dispatch]);

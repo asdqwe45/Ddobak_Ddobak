@@ -15,6 +15,8 @@ import { FaRegBookmark, FaBookmark, FaRegCopy, FaPen } from 'react-icons/fa';
 
 import { axiosWithAuth, axiosWithFormData } from 'https/http';
 import { pointPayModalActions } from 'store/pointPayModalSlice';
+import { goToBasketModalActions } from 'store/goToBasketModalSlice';
+import { CartAddAPI } from 'https/utils/CartFunction';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
 type Font = {
@@ -172,8 +174,19 @@ const FontDetail: React.FC = () => {
     }
   }
 
-  // // 장바구니
-  // async function handleCartFC() {}
+  // 장바구니
+  async function handleCartFC() {
+    if (fontId) {
+      CartAddAPI(fontId)
+        .then((r) => {
+          console.log(r);
+          dispatch(goToBasketModalActions.toggle());
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+  }
 
   window.scrollTo({ left: 0, top: 0 });
 
@@ -208,7 +221,9 @@ const FontDetail: React.FC = () => {
           </div>
 
           <div className={classes.buyContainer}>
-            <div className={classes.cartBtn}>장바구니</div>
+            <div className={classes.cartBtn} onClick={handleCartFC}>
+              장바구니
+            </div>
             <div className={classes.buyBtn} onClick={handlePayFC}>
               바로 구매
             </div>
