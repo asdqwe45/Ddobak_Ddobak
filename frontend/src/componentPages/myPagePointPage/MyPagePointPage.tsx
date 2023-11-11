@@ -40,12 +40,15 @@ import {
   transactionPurchaseListAPI,
   transactionSellList,
   transactionWithdrawListAPI,
+  transactionCreationListAPI,
 } from 'https/utils/TransactionFunction';
 import { getData } from 'https/http';
 import { useNavigate } from 'react-router-dom';
 
+import { userMypageAPI } from 'https/utils/AuthFunction';
+
 interface TransactionResponse {
-  transactionDate: Date;
+  transactionDate: string;
   transactionType: string;
   fontName: string;
   fontCreator: string;
@@ -62,6 +65,33 @@ const MyPagePointPage: React.FC = () => {
   const [chargeData, setChargeData] = useState<TransactionResponse[]>([]);
   const [exchangeData, setExchangeData] = useState<TransactionResponse[]>([]);
   const [makeData, setMakeData] = useState<TransactionResponse[]>([]);
+  const [myPoint, setMyPoint] = useState<number>(0);
+  const [nickname, setNickname] = useState<string>('');
+
+  function formatDateTime(dateTimeStr: string): string {
+    const date = new Date(dateTimeStr);
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: false,
+    };
+    return new Intl.DateTimeFormat('ko-KR', options).format(date);
+  }
+
+  userMypageAPI()
+    .then(async (r) => {
+      const point = r.point;
+      const nickname = r.nickname;
+      await setMyPoint(point);
+      await setNickname(nickname);
+    })
+    .catch((e) => {
+      console.error(e);
+    });
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -75,10 +105,9 @@ const MyPagePointPage: React.FC = () => {
   }, [navigate]);
 
   // 데이터 가공
-  const manufactureDate = (transactionDate: Date) => {
-    const offset = new Date().getTimezoneOffset() * 60000;
-    const nowDate = new Date(transactionDate.getTime() - offset);
-    return nowDate.toISOString();
+  const manufactureDate = (transactionDate: string, where: string) => {
+    const key = where + transactionDate;
+    return key;
   };
 
   const [selectContent, setSelectContent] = useState({
@@ -153,6 +182,14 @@ const MyPagePointPage: React.FC = () => {
       transactionChargeListAPI()
         .then(async (r) => {
           console.log(r);
+          console.log(r[0].transactionDate);
+          console.log(r[0].transactionType);
+          console.log(r[0].fontName);
+          console.log(r[0].fontCreator);
+          console.log(r[0].transactionAmount);
+          console.log(r[0].transactionAfterAmount);
+          console.log(r[0].isMultiple);
+          console.log(r[0].totalOrderCount);
           setChargeData(r);
         })
         .catch((e) => {
@@ -169,7 +206,7 @@ const MyPagePointPage: React.FC = () => {
       });
       transactionWithdrawListAPI()
         .then(async (r) => {
-          console.log(r);
+          console.log(r.transactionDate);
           setExchangeData(r);
         })
         .catch((e) => {
@@ -184,7 +221,7 @@ const MyPagePointPage: React.FC = () => {
         exchange: false,
         make: true,
       });
-      transactionListAllAPI()
+      transactionCreationListAPI()
         .then(async (r) => {
           console.log(r);
           setMakeData(r);
@@ -196,18 +233,35 @@ const MyPagePointPage: React.FC = () => {
   };
 
   const dispatch = useDispatch();
-  const clickChargeHandler = () => {
+  const clickChargeHandler = async () => {
+    dispatch(chargePointModalActions.currentMyState({ myPoint: myPoint, nickname: nickname }));
     dispatch(chargePointModalActions.toggle());
   };
-  const clickExchangeHandler = () => {
+  const clickExchangeHandler = async () => {
+    dispatch(chargePointModalActions.currentMyState({ myPoint: myPoint, nickname: nickname }));
     dispatch(exchangeModalActions.toggle());
   };
+
+  useEffect(() => {
+    async function fetch() {
+      transactionListAllAPI()
+        .then(async (r) => {
+          console.log(r);
+          setAllData(r);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+    fetch();
+  }, []);
+
   return (
     <div className={classes.container}>
       <MyPagePointHeader>
         <MyPagePointBox>
           <MyPagePointHeaderText style={{ paddingRight: 40 }}>보유한 포인트</MyPagePointHeaderText>
-          <MyPagePointHeaderText>10,000 P</MyPagePointHeaderText>
+          <MyPagePointHeaderText>{myPoint} P</MyPagePointHeaderText>
         </MyPagePointBox>
         <MyPagePointBox style={{ justifyContent: 'flex-end' }}>
           <PointExchangeBtn onClick={clickChargeHandler}>충전하기</PointExchangeBtn>
@@ -291,114 +345,141 @@ const MyPagePointPage: React.FC = () => {
               {allData.length ? (
                 <>
                   {allData.map((data) => {
+                    if (data.transactionType === '포인트 충전') {
+                      return (
+                        // 데이터 형식에 따라 다르게 적용
+                        <MyPagePointContentIngredient
+                          key={manufactureDate(data.transactionDate, 'all')}
+                        >
+                          <MyPagePointContentBox>
+                            <MyPagePointDateText>
+                              {formatDateTime(data.transactionDate)}
+                            </MyPagePointDateText>
+                            <MyPagePointContentText>{data.transactionType}</MyPagePointContentText>
+                          </MyPagePointContentBox>
+                          <MyPagePointContentPointBox>
+                            <MyPagePointContentText>
+                              + {data.transactionAmount}
+                            </MyPagePointContentText>
+                            <MyPagePointDateText style={{ color: likeCountColor }}>
+                              잔여 {data.transactionAfterAmount} P
+                            </MyPagePointDateText>
+                          </MyPagePointContentPointBox>
+                        </MyPagePointContentIngredient>
+                      );
+                    } else if (data.transactionType === '포인트 인출') {
+                      return (
+                        <>
+                          {/* 포인트 인출 */}
+                          <MyPagePointContentIngredient
+                            key={manufactureDate(data.transactionDate, 'all')}
+                          >
+                            <MyPagePointContentBox>
+                              <MyPagePointDateText>
+                                {formatDateTime(data.transactionDate)}
+                              </MyPagePointDateText>
+                              <MyPagePointContentText style={{ color: mainRedColor }}>
+                                포인트 인출
+                              </MyPagePointContentText>
+                            </MyPagePointContentBox>
+                            <MyPagePointContentPointBox>
+                              <MyPagePointContentText style={{ color: mainRedColor }}>
+                                - {data.transactionAmount}
+                              </MyPagePointContentText>
+                              <MyPagePointDateText style={{ color: likeCountColor }}>
+                                잔여 {data.transactionAfterAmount} P
+                              </MyPagePointDateText>
+                            </MyPagePointContentPointBox>
+                          </MyPagePointContentIngredient>
+                        </>
+                      );
+                    } else if (data.transactionType === '폰트 판매') {
+                      return (
+                        <>
+                          {/* 폰트 판매 */}
+                          <MyPagePointContentIngredient
+                            key={manufactureDate(data.transactionDate, 'all')}
+                          >
+                            <MyPagePointContentBox>
+                              <MyPagePointDateText>
+                                {formatDateTime(data.transactionDate)}
+                              </MyPagePointDateText>
+                              <MyPagePointContentText>폰트 판매</MyPagePointContentText>
+                              <MyPagePointContentText>{data.fontName}</MyPagePointContentText>
+                            </MyPagePointContentBox>
+                            <MyPagePointContentPointBox>
+                              <MyPagePointContentText>
+                                + {data.transactionAmount}
+                              </MyPagePointContentText>
+                              <MyPagePointDateText style={{ color: likeCountColor }}>
+                                잔여 {data.transactionAfterAmount} P
+                              </MyPagePointDateText>
+                            </MyPagePointContentPointBox>
+                          </MyPagePointContentIngredient>
+                        </>
+                      );
+                    } else if (data.transactionType === '폰트 제작') {
+                      return (
+                        <>
+                          {/* 폰트 제작 */}
+                          <MyPagePointContentIngredient
+                            key={manufactureDate(data.transactionDate, 'all')}
+                          >
+                            <MyPagePointContentBox>
+                              <MyPagePointDateText>
+                                {formatDateTime(data.transactionDate)}
+                              </MyPagePointDateText>
+                              <MyPagePointContentText style={{ color: mainRedColor }}>
+                                폰트 제작
+                              </MyPagePointContentText>
+                              <MyPagePointContentText>{data.fontName}</MyPagePointContentText>
+                            </MyPagePointContentBox>
+                            <MyPagePointContentPointBox>
+                              <MyPagePointContentText style={{ color: mainRedColor }}>
+                                - {data.transactionAmount}
+                              </MyPagePointContentText>
+                              <MyPagePointDateText style={{ color: likeCountColor }}>
+                                잔여 {data.transactionAfterAmount} P
+                              </MyPagePointDateText>
+                            </MyPagePointContentPointBox>
+                          </MyPagePointContentIngredient>
+                        </>
+                      );
+                    }
+                    // 폰트 구매
                     return (
-                      // 데이터 형식에 따라 다르게 적용
-                      <MyPagePointContentIngredient>
-                        <MyPagePointContentBox>
-                          <MyPagePointDateText>
-                            {manufactureDate(data.transactionDate)}
-                          </MyPagePointDateText>
-                          <MyPagePointContentText>{data.transactionType}</MyPagePointContentText>
-                        </MyPagePointContentBox>
-                        <MyPagePointContentPointBox>
-                          <MyPagePointContentText>{data.transactionAmount}</MyPagePointContentText>
-                          <MyPagePointDateText style={{ color: likeCountColor }}>
-                            {data.transactionAfterAmount}
-                          </MyPagePointDateText>
-                        </MyPagePointContentPointBox>
-                      </MyPagePointContentIngredient>
+                      <>
+                        {/* 폰트 구매 */}
+                        <MyPagePointContentIngredient
+                          key={manufactureDate(data.transactionDate, 'all')}
+                        >
+                          <MyPagePointContentBox>
+                            <MyPagePointDateText>
+                              {formatDateTime(data.transactionDate)}
+                            </MyPagePointDateText>
+                            <MyPagePointContentText style={{ color: mainRedColor }}>
+                              폰트 구매
+                            </MyPagePointContentText>
+                            <MyPagePointContentText>{data.fontName}</MyPagePointContentText>
+                            <MyPagePointMaker>|</MyPagePointMaker>
+                            <MyPagePointMaker>{data.fontCreator}</MyPagePointMaker>
+                          </MyPagePointContentBox>
+                          <MyPagePointContentPointBox>
+                            <MyPagePointContentText style={{ color: mainRedColor }}>
+                              - {data.transactionAmount}
+                            </MyPagePointContentText>
+                            <MyPagePointDateText style={{ color: likeCountColor }}>
+                              잔여 {data.transactionAfterAmount} P
+                            </MyPagePointDateText>
+                          </MyPagePointContentPointBox>
+                        </MyPagePointContentIngredient>
+                      </>
                     );
                   })}
                 </>
               ) : (
                 <></>
               )}
-              {/* 포인트 충전 */}
-              <MyPagePointContentIngredient>
-                <MyPagePointContentBox>
-                  <MyPagePointDateText>2023.09.10</MyPagePointDateText>
-                  <MyPagePointContentText>포인트 충전</MyPagePointContentText>
-                </MyPagePointContentBox>
-                <MyPagePointContentPointBox>
-                  <MyPagePointContentText>+ 5,000</MyPagePointContentText>
-                  <MyPagePointDateText style={{ color: likeCountColor }}>
-                    잔여 10,000P
-                  </MyPagePointDateText>
-                </MyPagePointContentPointBox>
-              </MyPagePointContentIngredient>
-
-              {/* 폰트 판매 */}
-              <MyPagePointContentIngredient>
-                <MyPagePointContentBox>
-                  <MyPagePointDateText>2023.09.10</MyPagePointDateText>
-                  <MyPagePointContentText>폰트 판매</MyPagePointContentText>
-                  <MyPagePointContentText>또박또박_테스트체</MyPagePointContentText>
-                </MyPagePointContentBox>
-                <MyPagePointContentPointBox>
-                  <MyPagePointContentText>+ 5,000</MyPagePointContentText>
-                  <MyPagePointDateText style={{ color: likeCountColor }}>
-                    잔여 5,000P
-                  </MyPagePointDateText>
-                </MyPagePointContentPointBox>
-              </MyPagePointContentIngredient>
-              {/* 포인트 인출 */}
-              <MyPagePointContentIngredient>
-                <MyPagePointContentBox>
-                  <MyPagePointDateText>2023.09.09</MyPagePointDateText>
-                  <MyPagePointContentText style={{ color: mainRedColor }}>
-                    포인트 인출
-                  </MyPagePointContentText>
-                </MyPagePointContentBox>
-                <MyPagePointContentPointBox>
-                  <MyPagePointContentText style={{ color: mainRedColor }}>
-                    - 5,000
-                  </MyPagePointContentText>
-                  <MyPagePointDateText style={{ color: likeCountColor }}>
-                    잔여 0P
-                  </MyPagePointDateText>
-                </MyPagePointContentPointBox>
-              </MyPagePointContentIngredient>
-              {/* 폰트 구매 */}
-              <MyPagePointContentIngredient>
-                <MyPagePointContentBox>
-                  <MyPagePointDateText>2023.09.09</MyPagePointDateText>
-                  <MyPagePointContentText style={{ color: mainRedColor }}>
-                    폰트 구매
-                  </MyPagePointContentText>
-                  <MyPagePointContentText>또박또박_테스트체</MyPagePointContentText>
-                  <MyPagePointMaker>|</MyPagePointMaker>
-                  <MyPagePointMaker>제작자</MyPagePointMaker>
-                </MyPagePointContentBox>
-                <MyPagePointContentPointBox>
-                  <MyPagePointContentText style={{ color: mainRedColor }}>
-                    - 5,000
-                  </MyPagePointContentText>
-                  <MyPagePointDateText style={{ color: likeCountColor }}>
-                    잔여 5,000P
-                  </MyPagePointDateText>
-                </MyPagePointContentPointBox>
-              </MyPagePointContentIngredient>
-              {/* 폰트 제작 */}
-              <MyPagePointContentIngredient>
-                <MyPagePointContentBox>
-                  <MyPagePointDateText>2023.09.09</MyPagePointDateText>
-                  <MyPagePointContentText style={{ color: mainRedColor }}>
-                    폰트 제작
-                  </MyPagePointContentText>
-                  <MyPagePointContentText>또박또박_테스트체</MyPagePointContentText>
-                </MyPagePointContentBox>
-                <MyPagePointContentPointBox>
-                  <MyPagePointContentText style={{ color: mainRedColor }}>
-                    - 50,000
-                  </MyPagePointContentText>
-                  <MyPagePointDateText style={{ color: likeCountColor }}>
-                    잔여 10,000P
-                  </MyPagePointDateText>
-                </MyPagePointContentPointBox>
-              </MyPagePointContentIngredient>
-              <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
-              <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
-              <MyPagePointContentIngredient>안녕</MyPagePointContentIngredient>
             </>
           ) : selectContent.buy ? (
             <>
@@ -406,24 +487,26 @@ const MyPagePointPage: React.FC = () => {
                 <>
                   {buyData.map((data) => {
                     return (
-                      <MyPagePointContentIngredient>
+                      <MyPagePointContentIngredient
+                        key={manufactureDate(data.transactionDate, 'buy')}
+                      >
                         <MyPagePointContentBox>
                           <MyPagePointDateText>
-                            {manufactureDate(data.transactionDate)}
+                            {formatDateTime(data.transactionDate)}
                           </MyPagePointDateText>
                           <MyPagePointContentText style={{ color: mainRedColor }}>
                             폰트 구매
                           </MyPagePointContentText>
-                          <MyPagePointContentText>또박또박_테스트체</MyPagePointContentText>
+                          <MyPagePointContentText>{data.fontName}</MyPagePointContentText>
                           <MyPagePointMaker>|</MyPagePointMaker>
-                          <MyPagePointMaker>제작자</MyPagePointMaker>
+                          <MyPagePointMaker>{data.fontCreator}</MyPagePointMaker>
                         </MyPagePointContentBox>
                         <MyPagePointContentPointBox>
                           <MyPagePointContentText style={{ color: mainRedColor }}>
-                            - 5,000
+                            - {data.transactionAmount}
                           </MyPagePointContentText>
                           <MyPagePointDateText style={{ color: likeCountColor }}>
-                            잔여 5,000P
+                            잔여 {data.transactionAfterAmount} P
                           </MyPagePointDateText>
                         </MyPagePointContentPointBox>
                       </MyPagePointContentIngredient>
@@ -440,10 +523,12 @@ const MyPagePointPage: React.FC = () => {
                 <>
                   {sellData.map((data) => {
                     return (
-                      <MyPagePointContentIngredient>
+                      <MyPagePointContentIngredient
+                        key={manufactureDate(data.transactionDate, 'sell')}
+                      >
                         <MyPagePointContentBox>
                           <MyPagePointDateText>
-                            {manufactureDate(data.transactionDate)}
+                            {formatDateTime(data.transactionDate)}
                           </MyPagePointDateText>
                           <MyPagePointContentText>폰트 판매</MyPagePointContentText>
                           <MyPagePointContentText>또박또박_테스트체</MyPagePointContentText>
@@ -459,10 +544,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <>
-                  {' '}
-                  <p>안녕하세요</p>{' '}
-                </>
+                <></>
               )}
             </>
           ) : selectContent.charge ? (
@@ -471,10 +553,12 @@ const MyPagePointPage: React.FC = () => {
                 <>
                   {chargeData.map((data) => {
                     return (
-                      <MyPagePointContentIngredient>
+                      <MyPagePointContentIngredient
+                        key={manufactureDate(data.transactionDate, 'charge')}
+                      >
                         <MyPagePointContentBox>
                           <MyPagePointDateText>
-                            {manufactureDate(data.transactionDate)}
+                            {formatDateTime(data.transactionDate)}
                           </MyPagePointDateText>
                           <MyPagePointContentText>포인트 충전</MyPagePointContentText>
                         </MyPagePointContentBox>
@@ -498,10 +582,12 @@ const MyPagePointPage: React.FC = () => {
                 <>
                   {exchangeData.map((data) => {
                     return (
-                      <MyPagePointContentIngredient>
+                      <MyPagePointContentIngredient
+                        key={manufactureDate(data.transactionDate, 'exchange')}
+                      >
                         <MyPagePointContentBox>
                           <MyPagePointDateText>
-                            {manufactureDate(data.transactionDate)}
+                            {formatDateTime(data.transactionDate)}
                           </MyPagePointDateText>
                           <MyPagePointContentText style={{ color: mainRedColor }}>
                             포인트 인출
@@ -529,21 +615,24 @@ const MyPagePointPage: React.FC = () => {
                 <>
                   {makeData.map((data) => {
                     return (
-                      <MyPagePointContentIngredient>
+                      <MyPagePointContentIngredient
+                        key={manufactureDate(data.transactionDate, 'make')}
+                      >
                         <MyPagePointContentBox>
                           <MyPagePointDateText>
-                            {manufactureDate(data.transactionDate)}
+                            {formatDateTime(data.transactionDate)}
                           </MyPagePointDateText>
                           <MyPagePointContentText style={{ color: mainRedColor }}>
-                            포인트 인출
+                            폰트 제작
                           </MyPagePointContentText>
+                          <MyPagePointContentText>또박또박_테스트체</MyPagePointContentText>
                         </MyPagePointContentBox>
                         <MyPagePointContentPointBox>
                           <MyPagePointContentText style={{ color: mainRedColor }}>
-                            - 5,000
+                            - 50,000
                           </MyPagePointContentText>
                           <MyPagePointDateText style={{ color: likeCountColor }}>
-                            잔여 0P
+                            잔여 10,000P
                           </MyPagePointDateText>
                         </MyPagePointContentPointBox>
                       </MyPagePointContentIngredient>
