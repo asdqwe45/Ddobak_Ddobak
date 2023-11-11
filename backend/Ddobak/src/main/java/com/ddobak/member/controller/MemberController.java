@@ -9,6 +9,7 @@ import com.ddobak.member.dto.request.ModifyLoginPasswordRequest;
 import com.ddobak.member.dto.request.ModifyNicknameRequest;
 import com.ddobak.member.dto.request.RefreshTokenRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
+import com.ddobak.member.dto.response.InfoTextResponse;
 import com.ddobak.member.dto.response.LoginResponse;
 import com.ddobak.member.dto.response.MyOwnFontResponse;
 import com.ddobak.member.dto.response.MyPageResponse;
@@ -150,6 +151,14 @@ public class MemberController {
 
         MyPageResponse myPageResponse = memberService.getMyPage(loginInfo);
         return ResponseEntity.ok().body(myPageResponse);
+    }
+
+    @GetMapping("/textinfo")
+    public ResponseEntity<InfoTextResponse> requestInfoText(@AuthenticationPrincipal LoginInfo loginInfo) {
+        log.info("{} wants InfoText", loginInfo.email());
+
+        InfoTextResponse infoTextResponse = memberService.getInfoText(loginInfo);
+        return ResponseEntity.ok().body(infoTextResponse);
     }
 
     @GetMapping("/test")

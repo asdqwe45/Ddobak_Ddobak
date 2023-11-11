@@ -9,6 +9,7 @@ import com.ddobak.member.dto.request.ModifyInfoTextRequest;
 import com.ddobak.member.dto.request.ModifyLoginPasswordRequest;
 import com.ddobak.member.dto.request.ModifyNicknameRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
+import com.ddobak.member.dto.response.InfoTextResponse;
 import com.ddobak.member.dto.response.LoginResponse;
 import com.ddobak.member.dto.response.MyPageResponse;
 import com.ddobak.member.dto.response.RefreshTokenResponse;
@@ -189,6 +190,12 @@ public class MemberService {
     public MyPageResponse getMyPage(LoginInfo loginInfo) {
         Member member = findByEmail(loginInfo.email());
         return new MyPageResponse(member.getProfileImg(), member.getNickname(), member.getPoint());
+    }
+
+    @Transactional(readOnly = true)
+    public InfoTextResponse getInfoText(LoginInfo loginInfo) {
+        Member member = findByEmail(loginInfo.email());
+        return new InfoTextResponse(member.getIntroduceText());
     }
 
     public Member findByEmail(String email) {
