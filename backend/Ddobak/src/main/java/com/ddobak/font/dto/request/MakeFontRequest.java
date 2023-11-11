@@ -1,5 +1,7 @@
 package com.ddobak.font.dto.request;
 
+import java.util.List;
+
 public record MakeFontRequest(
         Long fontId,
         String fontSortUrl,
@@ -13,9 +15,7 @@ public record MakeFontRequest(
         Boolean copyrightNotice,
         Boolean samePersonCheck,
         String copyrighter,
-        String keyword1,
-        String keyword2,
-        String keyword3
+        List<String> keywords
 ) {
 
 }
