@@ -9,6 +9,7 @@ import com.ddobak.member.dto.request.ModifyLoginPasswordRequest;
 import com.ddobak.member.dto.request.ModifyNicknameRequest;
 import com.ddobak.member.dto.request.RefreshTokenRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
+import com.ddobak.member.dto.response.InfoTextResponse;
 import com.ddobak.member.dto.response.LoginResponse;
 import com.ddobak.member.dto.response.MyOwnFontResponse;
 import com.ddobak.member.dto.response.MyPageResponse;
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -150,6 +152,14 @@ public class MemberController {
 
         MyPageResponse myPageResponse = memberService.getMyPage(loginInfo);
         return ResponseEntity.ok().body(myPageResponse);
+    }
+
+    @GetMapping("/textinfo/{producerId}")
+    public ResponseEntity<InfoTextResponse> requestInfoText(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long producerId) {
+        log.info("{} wants InfoText", loginInfo.email());
+
+        InfoTextResponse infoTextResponse = memberService.getInfoText(producerId);
+        return ResponseEntity.ok().body(infoTextResponse);
     }
 
     @GetMapping("/test")
