@@ -11,10 +11,9 @@ export const MakerTopBox = styled.div`
   align-items: center;
 `;
 
-export const MakerName = styled.p`
+export const MakerName = styled.div`
   font-size: 30px;
   font-weight: bold;
-  padding: 0px 40px;
 `;
 
 export const MakerCommemtBox = styled.div`
@@ -27,7 +26,14 @@ export const MakerCommemtBox = styled.div`
 export const MakerComment = styled.p`
   margin: 0px;
   font-size: 30px;
-  padding: 0px 20px;
+  padding: 0px 10px;
+  height: 150px;
+  width: 100%;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 export const MakerSmallBox = styled.div`
@@ -85,7 +91,8 @@ export const MakerFontNameText = styled.p`
   margin-right: 20px;
 `;
 
-export const MakerFontCommentText = styled(MakerComment)`
+export const MakerFontCommentText = styled.div`
   font-size: 40px;
   font-weight: 0;
+  padding-left: 20px;
 `;

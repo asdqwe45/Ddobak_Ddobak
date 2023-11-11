@@ -11,6 +11,7 @@ import goToBasketModalSlice from './goToBasketModalSlice';
 import signupLoaderSlice from './signupLoaderSlice';
 import failAuthModalSlice from './failAuthModalSlice';
 import changeNicknameModalSlice from './changeNicknameSlice';
+import changeMakerIntroModalSlice from './changeMakerIntroSlice';
 
 const store = configureStore({
   reducer: {
@@ -25,6 +26,7 @@ const store = configureStore({
     signupLoader: signupLoaderSlice.reducer,
     failAuth: failAuthModalSlice.reducer,
     changeNickname: changeNicknameModalSlice.reducer,
+    changeMakerIntro : changeMakerIntroModalSlice.reducer,
   },
 });
 
