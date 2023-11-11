@@ -73,7 +73,7 @@ public class FontImageServiceImpl implements FontImageService {
 
     public String createFont(MakeFontRequest req) throws IOException {
         List<File> tempFile = urlToFile(req.fontSortUrl());
-        String fontUrl = getS3FontUrl(tempFile,req.fontId());
+        String fontUrl = getS3FontUrl(tempFile,req.fontId(),req.engFontName());
         return fontUrl;
     }
 
@@ -171,7 +171,7 @@ public class FontImageServiceImpl implements FontImageService {
         return new ResponseEntity<>(zip.getBody(), headers, HttpStatus.OK);
     }
 
-    public String getS3FontUrl(List<File> imageFiles, Long fontId) {
+    private String getS3FontUrl(List<File> imageFiles, Long fontId, String engFontUrl) {
         String fastapiServer = "163.239.223.171:8786/api/v1/font_create/create_font";
         String myServer = "http://localhost:8000/makeUpload";
         String fastApiUrl = myServer;
@@ -183,6 +183,7 @@ public class FontImageServiceImpl implements FontImageService {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
         body.add("fontId", fontId.toString());
+        body.add("engFontName",engFontUrl);
 
         int fileIndex = 1;
         for (File imageFile : imageFiles) {
