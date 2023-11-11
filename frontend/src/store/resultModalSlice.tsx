@@ -1,18 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// interface ResultModalState {
-//   resultIsVisible: boolean;
-//   step: number;
-// }
-
-// const initialState: ResultModalState = {
-//   resultIsVisible: false,
-//   step: 1,
-// };
-
 const resultModalSlice = createSlice({
   name: 'resultModal',
-  initialState: { resultIsVisible: false, step: 1 },
+  initialState: {
+    resultIsVisible: false, 
+    step: 1,
+    sortUrl: ''
+  },
   reducers: {
     toggle(state) {
       state.resultIsVisible = !state.resultIsVisible;
@@ -23,9 +17,12 @@ const resultModalSlice = createSlice({
     setStep(state, action: PayloadAction<number>) {
       state.step = action.payload;
     },
+    setSortUrl(state, action: PayloadAction<string>) {
+      state.sortUrl = action.payload;
+    }
   },
 });
 
-export const { toggle, nextStep, setStep } = resultModalSlice.actions;
+export const { toggle, nextStep, setStep, setSortUrl } = resultModalSlice.actions;
 export const resultModalActions = resultModalSlice.actions;
 export default resultModalSlice;
