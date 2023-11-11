@@ -91,7 +91,8 @@ public class FontController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Font creation failed due to an internal error.");
         }
     }
-
+//    @PutMapping(value = "/make/final")
+//    public ResponseEntity<?> makeFinalFont(@Re)
     @GetMapping(value = "/list")
     public ResponseEntity<FontListResponse> getFontList(@AuthenticationPrincipal LoginInfo loginInfo,@PageableDefault(size=12) Pageable pageable,@RequestParam(required = false) String search, @RequestParam(required = false) List<String> keywords, @RequestParam(required = false) String freeCheck){
 
