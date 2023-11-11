@@ -13,6 +13,7 @@ import com.ddobak.transaction.dto.request.ChargeRequest;
 import com.ddobak.transaction.dto.request.PurchaseRequest;
 import com.ddobak.transaction.dto.request.WithdrawRequest;
 import com.ddobak.transaction.dto.response.ChargeResponse;
+import com.ddobak.transaction.dto.response.FontResponse;
 import com.ddobak.transaction.dto.response.MyFontResponse;
 import com.ddobak.transaction.dto.response.ProducerResponse;
 import com.ddobak.transaction.dto.response.PurchaseResponse;
@@ -492,6 +493,22 @@ public class TransactionService {
             fontResponseList.add(myFontResponse);
         }
 
+        return fontResponseList;
+    }
+
+    // 해당 제작자 폰트 조회
+    public List<FontResponse> getFontList(LoginInfo loginInfo, Long producerId) {
+        List<FontResponse> fontResponseList = new ArrayList<>();
+        List<Creation> creationList = creationRepository.findCreationsByCreator(producerId);
+        log.info("{}",creationList.size());
+        for(int i=0;i<creationList.size();i++) {
+            FontResponse fontResponse = new FontResponse(
+                creationList.get(i).getCreatedFont().getId(),
+                creationList.get(i).getCreatedFont().getKorFontName(),
+                creationList.get(i).getCreatedFont().getFont_file_url()
+            );
+            fontResponseList.add(fontResponse);
+        }
         return fontResponseList;
     }
 
