@@ -48,7 +48,7 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ font_id, title, producer_id,
   const handleMakerClick = async () => {
     const token = await getData('accessToken');
     if (token) {
-      navigate(`/maker/${producer_id}`, {
+      navigate(`/maker/${maker}/${producer_id}`, {
         // state 객체 전달
         state: {
           producer_id,
@@ -182,7 +182,7 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ font_id, title, producer_id,
       <AlertCustomModal
         show={showAlertModal}
         onHide={() => setShowAlertModal(false)}
-        onMove={navigateToLogin} 
+        onMove={navigateToLogin}
         message1="로그인이 필요한 서비스입니다."
         message2=""
         btnName="로그인 하러가기"

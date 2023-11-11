@@ -194,7 +194,6 @@ const FontMakeStep2: React.FC = () => {
           }
 
           setIsImageStraightened(true);
-
         } else {
           alert('이미지를 처리하는데 실패했다.');
         }
