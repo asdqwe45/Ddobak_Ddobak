@@ -48,7 +48,7 @@ import { useNavigate } from 'react-router-dom';
 import { userMypageAPI } from 'https/utils/AuthFunction';
 
 interface TransactionResponse {
-  transactionDate: number[];
+  transactionDate: string;
   transactionType: string;
   fontName: string;
   fontCreator: string;
@@ -67,6 +67,21 @@ const MyPagePointPage: React.FC = () => {
   const [makeData, setMakeData] = useState<TransactionResponse[]>([]);
   const [myPoint, setMyPoint] = useState<number>(0);
   const [nickname, setNickname] = useState<string>('');
+
+  function formatDateTime(dateTimeStr: string): string {
+    const date = new Date(dateTimeStr);
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: false,
+    };
+    return new Intl.DateTimeFormat('ko-KR', options).format(date);
+  }
+
   userMypageAPI()
     .then(async (r) => {
       const point = r.point;
@@ -90,8 +105,8 @@ const MyPagePointPage: React.FC = () => {
   }, [navigate]);
 
   // 데이터 가공
-  const manufactureDate = (transactionDate: number[], where: string) => {
-    const key = where + transactionDate
+  const manufactureDate = (transactionDate: string, where: string) => {
+    const key = where + transactionDate;
     return key;
   };
 
@@ -322,15 +337,17 @@ const MyPagePointPage: React.FC = () => {
                           key={manufactureDate(data.transactionDate, 'all')}
                         >
                           <MyPagePointContentBox>
-                            <MyPagePointDateText>{data.transactionDate}</MyPagePointDateText>
+                            <MyPagePointDateText>
+                              {formatDateTime(data.transactionDate)}
+                            </MyPagePointDateText>
                             <MyPagePointContentText>{data.transactionType}</MyPagePointContentText>
                           </MyPagePointContentBox>
                           <MyPagePointContentPointBox>
                             <MyPagePointContentText>
-                              {data.transactionAmount}
+                              + {data.transactionAmount}
                             </MyPagePointContentText>
                             <MyPagePointDateText style={{ color: likeCountColor }}>
-                              {data.transactionAfterAmount}
+                              잔여 {data.transactionAfterAmount} P
                             </MyPagePointDateText>
                           </MyPagePointContentPointBox>
                         </MyPagePointContentIngredient>
@@ -343,17 +360,19 @@ const MyPagePointPage: React.FC = () => {
                             key={manufactureDate(data.transactionDate, 'all')}
                           >
                             <MyPagePointContentBox>
-                              <MyPagePointDateText>2023.09.09</MyPagePointDateText>
+                              <MyPagePointDateText>
+                                {formatDateTime(data.transactionDate)}
+                              </MyPagePointDateText>
                               <MyPagePointContentText style={{ color: mainRedColor }}>
                                 포인트 인출
                               </MyPagePointContentText>
                             </MyPagePointContentBox>
                             <MyPagePointContentPointBox>
                               <MyPagePointContentText style={{ color: mainRedColor }}>
-                                - 5,000
+                                - {data.transactionAmount}
                               </MyPagePointContentText>
                               <MyPagePointDateText style={{ color: likeCountColor }}>
-                                잔여 0P
+                                잔여 {data.transactionAfterAmount} P
                               </MyPagePointDateText>
                             </MyPagePointContentPointBox>
                           </MyPagePointContentIngredient>
@@ -367,14 +386,18 @@ const MyPagePointPage: React.FC = () => {
                             key={manufactureDate(data.transactionDate, 'all')}
                           >
                             <MyPagePointContentBox>
-                              <MyPagePointDateText>2023.09.10</MyPagePointDateText>
+                              <MyPagePointDateText>
+                                {formatDateTime(data.transactionDate)}
+                              </MyPagePointDateText>
                               <MyPagePointContentText>폰트 판매</MyPagePointContentText>
-                              <MyPagePointContentText>또박또박_테스트체</MyPagePointContentText>
+                              <MyPagePointContentText>{data.fontName}</MyPagePointContentText>
                             </MyPagePointContentBox>
                             <MyPagePointContentPointBox>
-                              <MyPagePointContentText>+ 5,000</MyPagePointContentText>
+                              <MyPagePointContentText>
+                                + {data.transactionAmount}
+                              </MyPagePointContentText>
                               <MyPagePointDateText style={{ color: likeCountColor }}>
-                                잔여 5,000P
+                                잔여 {data.transactionAfterAmount} P
                               </MyPagePointDateText>
                             </MyPagePointContentPointBox>
                           </MyPagePointContentIngredient>
@@ -388,18 +411,20 @@ const MyPagePointPage: React.FC = () => {
                             key={manufactureDate(data.transactionDate, 'all')}
                           >
                             <MyPagePointContentBox>
-                              <MyPagePointDateText>2023.09.09</MyPagePointDateText>
+                              <MyPagePointDateText>
+                                {formatDateTime(data.transactionDate)}
+                              </MyPagePointDateText>
                               <MyPagePointContentText style={{ color: mainRedColor }}>
                                 폰트 제작
                               </MyPagePointContentText>
-                              <MyPagePointContentText>또박또박_테스트체</MyPagePointContentText>
+                              <MyPagePointContentText>{data.fontName}</MyPagePointContentText>
                             </MyPagePointContentBox>
                             <MyPagePointContentPointBox>
                               <MyPagePointContentText style={{ color: mainRedColor }}>
-                                - 50,000
+                                - {data.transactionAmount}
                               </MyPagePointContentText>
                               <MyPagePointDateText style={{ color: likeCountColor }}>
-                                잔여 10,000P
+                                잔여 {data.transactionAfterAmount} P
                               </MyPagePointDateText>
                             </MyPagePointContentPointBox>
                           </MyPagePointContentIngredient>
@@ -414,20 +439,22 @@ const MyPagePointPage: React.FC = () => {
                           key={manufactureDate(data.transactionDate, 'all')}
                         >
                           <MyPagePointContentBox>
-                            <MyPagePointDateText>2023.09.09</MyPagePointDateText>
+                            <MyPagePointDateText>
+                              {formatDateTime(data.transactionDate)}
+                            </MyPagePointDateText>
                             <MyPagePointContentText style={{ color: mainRedColor }}>
                               폰트 구매
                             </MyPagePointContentText>
-                            <MyPagePointContentText>또박또박_테스트체</MyPagePointContentText>
+                            <MyPagePointContentText>{data.fontName}</MyPagePointContentText>
                             <MyPagePointMaker>|</MyPagePointMaker>
-                            <MyPagePointMaker>제작자</MyPagePointMaker>
+                            <MyPagePointMaker>{data.fontCreator}</MyPagePointMaker>
                           </MyPagePointContentBox>
                           <MyPagePointContentPointBox>
                             <MyPagePointContentText style={{ color: mainRedColor }}>
-                              - 5,000
+                              - {data.transactionAmount}
                             </MyPagePointContentText>
                             <MyPagePointDateText style={{ color: likeCountColor }}>
-                              잔여 5,000P
+                              잔여 {data.transactionAfterAmount} P
                             </MyPagePointDateText>
                           </MyPagePointContentPointBox>
                         </MyPagePointContentIngredient>
@@ -449,20 +476,22 @@ const MyPagePointPage: React.FC = () => {
                         key={manufactureDate(data.transactionDate, 'buy')}
                       >
                         <MyPagePointContentBox>
-                          <MyPagePointDateText>{data.transactionDate}</MyPagePointDateText>
+                          <MyPagePointDateText>
+                            {formatDateTime(data.transactionDate)}
+                          </MyPagePointDateText>
                           <MyPagePointContentText style={{ color: mainRedColor }}>
                             폰트 구매
                           </MyPagePointContentText>
-                          <MyPagePointContentText>또박또박_테스트체</MyPagePointContentText>
+                          <MyPagePointContentText>{data.fontName}</MyPagePointContentText>
                           <MyPagePointMaker>|</MyPagePointMaker>
-                          <MyPagePointMaker>제작자</MyPagePointMaker>
+                          <MyPagePointMaker>{data.fontCreator}</MyPagePointMaker>
                         </MyPagePointContentBox>
                         <MyPagePointContentPointBox>
                           <MyPagePointContentText style={{ color: mainRedColor }}>
-                            - 5,000
+                            - {data.transactionAmount}
                           </MyPagePointContentText>
                           <MyPagePointDateText style={{ color: likeCountColor }}>
-                            잔여 5,000P
+                            잔여 {data.transactionAfterAmount} P
                           </MyPagePointDateText>
                         </MyPagePointContentPointBox>
                       </MyPagePointContentIngredient>
@@ -483,7 +512,9 @@ const MyPagePointPage: React.FC = () => {
                         key={manufactureDate(data.transactionDate, 'sell')}
                       >
                         <MyPagePointContentBox>
-                          <MyPagePointDateText>{data.transactionDate}</MyPagePointDateText>
+                          <MyPagePointDateText>
+                            {formatDateTime(data.transactionDate)}
+                          </MyPagePointDateText>
                           <MyPagePointContentText>폰트 판매</MyPagePointContentText>
                           <MyPagePointContentText>또박또박_테스트체</MyPagePointContentText>
                         </MyPagePointContentBox>
@@ -498,10 +529,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <>
-                  {' '}
-                  <p>안녕하세요</p>{' '}
-                </>
+                <></>
               )}
             </>
           ) : selectContent.charge ? (
@@ -509,13 +537,14 @@ const MyPagePointPage: React.FC = () => {
               {chargeData.length ? (
                 <>
                   {chargeData.map((data) => {
-                    console.log(data.transactionDate)
                     return (
                       <MyPagePointContentIngredient
                         key={manufactureDate(data.transactionDate, 'charge')}
                       >
                         <MyPagePointContentBox>
-                          <MyPagePointDateText>{data.transactionDate}</MyPagePointDateText>
+                          <MyPagePointDateText>
+                            {formatDateTime(data.transactionDate)}
+                          </MyPagePointDateText>
                           <MyPagePointContentText>포인트 충전</MyPagePointContentText>
                         </MyPagePointContentBox>
                         <MyPagePointContentPointBox>
@@ -542,7 +571,9 @@ const MyPagePointPage: React.FC = () => {
                         key={manufactureDate(data.transactionDate, 'exchange')}
                       >
                         <MyPagePointContentBox>
-                          <MyPagePointDateText>{data.transactionDate}</MyPagePointDateText>
+                          <MyPagePointDateText>
+                            {formatDateTime(data.transactionDate)}
+                          </MyPagePointDateText>
                           <MyPagePointContentText style={{ color: mainRedColor }}>
                             포인트 인출
                           </MyPagePointContentText>
@@ -573,7 +604,9 @@ const MyPagePointPage: React.FC = () => {
                         key={manufactureDate(data.transactionDate, 'make')}
                       >
                         <MyPagePointContentBox>
-                          <MyPagePointDateText>2023.09.09</MyPagePointDateText>
+                          <MyPagePointDateText>
+                            {formatDateTime(data.transactionDate)}
+                          </MyPagePointDateText>
                           <MyPagePointContentText style={{ color: mainRedColor }}>
                             폰트 제작
                           </MyPagePointContentText>
