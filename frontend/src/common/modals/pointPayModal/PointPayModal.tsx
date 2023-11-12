@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ReactModal from 'react-modal';
 import classes from './PointPayModal.module.css';
 
@@ -10,20 +10,59 @@ import { chargePointModalActions } from 'store/chargePointModalSlice';
 import { AiOutlineClose } from 'react-icons/ai';
 import { borderColor, mainRedColor, likeCountColor } from 'common/colors/CommonColors';
 import { resultModalActions } from 'store/resultModalSlice';
+import { checkToken, userMypageAPI } from 'https/utils/AuthFunction';
+import { transactionPurchaseAPI } from 'https/utils/TransactionFunction';
 
 interface PointModalState {
   pointModal: {
-    pointPayVisible: boolean;
+    pointPayVisible: false;
     howMuch: number;
     boughtSometing: string;
+    isPaid: false;
+    sellerId: number;
+    fontId: number;
+    buyAll: { sellerId: 0; fontId: 0 }[];
+  };
+}
+
+interface ChargePointType {
+  chargePoint: {
+    chargePointVisible: boolean;
+    myPoint: number;
+    nickname: string;
+    isModal: boolean;
+    chargeCount: number;
   };
 }
 
 const PointPayModal: React.FC = () => {
+  const [currentPoint, setCurrentPoint] = useState<number>(0);
+  const refresh = useSelector((state: ChargePointType) => state.chargePoint.chargeCount);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log(refresh);
+    console.log('아무거나');
+    async function fetch() {
+      if (await checkToken()) {
+        userMypageAPI()
+          .then((r) => {
+            console.log(r);
+            setCurrentPoint(r.point);
+            dispatch(
+              chargePointModalActions.currentMyState({ myPoint: r.point, nickname: r.nickname }),
+            );
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      }
+    }
+    fetch();
+  }, [refresh, dispatch]);
+
   useEffect(() => {
     ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
   }, []);
-  const dispatch = useDispatch();
   const clickPayHandler = () => {
     dispatch(pointPayModalActions.toggle());
   };
@@ -35,16 +74,48 @@ const PointPayModal: React.FC = () => {
   const clickChargeHandler = () => {
     dispatch(chargePointModalActions.toggle());
   };
+
+  const boughtSomething = useSelector((state: PointModalState) => state.pointModal.boughtSometing);
+  // const fontId = useSelector((state: PointModalState) => state.pointModal.fontId)
+  const buyAll = useSelector((state: PointModalState) => state.pointModal.buyAll);
   const payHandler = async () => {
     // 결제가 완료되면 순차적으로 실행
-    dispatch(pointPayModalActions.paidSomething());
-    clickPayHandler();
-    // 다음 페이지로 이동
-    dispatch(resultModalActions.nextStep());
+    transactionPurchaseAPI(buyAll)
+      .then(async (r) => {
+        console.log(r);
+        if (boughtSomething) {
+          dispatch(pointPayModalActions.paidSomething());
+          clickPayHandler();
+          // 다음 페이지로 이동
+          dispatch(resultModalActions.nextStep());
+          return;
+        } else {
+          closeModal();
+          dispatch(pointPayModalActions.resetState());
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
   function formatNumberWithCommas(x: number) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
+
+  const notEnoughPoint = () => {
+    if (currentPoint >= howMuch) {
+      return 0;
+    }
+    return formatNumberWithCommas(howMuch - currentPoint);
+  };
+
+  const restPoint = () => {
+    if (currentPoint >= howMuch) {
+      return formatNumberWithCommas(currentPoint - howMuch);
+    }
+    return 0;
+  };
+
   return (
     <ReactModal
       isOpen={showPayModal}
@@ -72,7 +143,7 @@ const PointPayModal: React.FC = () => {
             style={{ borderBottom: 2, borderColor: borderColor, borderBottomStyle: 'solid' }}
           >
             <p className={classes.innerText}>현재 포인트</p>
-            <p className={classes.innerText}>45,000 P</p>
+            <p className={classes.innerText}>{formatNumberWithCommas(currentPoint)} P</p>
           </div>
           <div className={classes.innerBox}>
             <p className={classes.innerText}>구매 포인트</p>
@@ -80,7 +151,7 @@ const PointPayModal: React.FC = () => {
           </div>
           <div className={classes.innerBox}>
             <p className={classes.innerText}>잔여 포인트</p>
-            <p className={classes.innerText}>0 P</p>
+            <p className={classes.innerText}>{restPoint()} P</p>
           </div>
           <div
             className={classes.innerBox}
@@ -90,7 +161,7 @@ const PointPayModal: React.FC = () => {
               부족 포인트
             </p>
             <p className={classes.innerText} style={{ color: mainRedColor }}>
-              5,000 P
+              {notEnoughPoint()} P
             </p>
           </div>
         </div>

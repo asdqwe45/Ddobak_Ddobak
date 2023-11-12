@@ -32,6 +32,7 @@ import {
   followDeleteAPI,
   getCountFollowing,
 } from 'https/utils/FollowFunction';
+import { getProfileImg } from 'https/utils/AuthFunction';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
 // type Font = {
@@ -58,28 +59,31 @@ const MakerPage: React.FC = () => {
   const [makerIntro, setMakerIntro] = useState<string>('');
   const [followingStatus, setFollowingStatus] = useState<boolean>();
   const [followingCount, setFollowingCount] = useState<number>();
+  const [makerProfileImg, setMakerProfileImg] = useState<string>('');
 
-  const wantChange = useSelector((state: ChangeMakerIntroType) => state.changeMakerIntro.wantChange);
-  const storedMakerIntro = useSelector((state : ChangeMakerIntroType) => state.changeMakerIntro.makerIntro);
+  const wantChange = useSelector(
+    (state: ChangeMakerIntroType) => state.changeMakerIntro.wantChange,
+  );
+  const storedMakerIntro = useSelector(
+    (state: ChangeMakerIntroType) => state.changeMakerIntro.makerIntro,
+  );
 
   const handleHeartClick = async () => {
-    let newFollowingStatus = !followingStatus; // 상태를 토글합니다.
-  
+
     // 팔로우 상태를 변경합니다.
     if (followingStatus) {
       await followDeleteAPI(makerId || '');
     } else {
       await followCreateAPI(makerId || '');
     }
-  
+
     // 새로운 팔로잉 수를 가져옵니다.
-    const newFollowingCount = await getCountFollowing(makerId || "");
-  
+    const newFollowingCount = await getCountFollowing(makerId || '');
+
     // 상태를 업데이트합니다.
-    setFollowingStatus(newFollowingStatus);
+    setFollowingStatus(!followingStatus);
     setFollowingCount(newFollowingCount);
-  };  
-  
+  };
 
   useEffect(() => {
     async function fetch() {
@@ -89,14 +93,14 @@ const MakerPage: React.FC = () => {
 
     fetch();
   }, []);
-
+  
   useEffect(() => {
     // 팔로우 상태 가져오기
     if (makerId) {
       followCheckAPI(makerId).then(async (r) => {
         setFollowingStatus(r);
       });
-
+      
       getCountFollowing(makerId).then(async (r) => {
         setFollowingCount(r);
       });
@@ -105,18 +109,32 @@ const MakerPage: React.FC = () => {
       makerIntroRequest(makerId).then(async (r) => {
         setMakerIntro(r.infoText);
       });
+
+      // 제작자 프로필 이미지 가져오기
+      getProfileImg(makerId).then(async (r) => {
+        console.log('여기', r)
+        setMakerProfileImg(r);
+      })
     }
   }, [makerId]);
 
   useEffect(() => {
     setMakerIntro(storedMakerIntro);
-  }, [wantChange, storedMakerIntro])
+  }, [wantChange, storedMakerIntro]);
 
   return (
     <div className={classes.container}>
       <MakerTopBox>
         <MakerSmallBox>
-          <FaCircleUser size={80} color={borderColor} />
+          {makerProfileImg ? (
+            <>
+              <img src={makerProfileImg} alt="프로필 이미지" className={classes.ImgStyle} />
+            </>
+          ) : (
+            <>
+              <FaCircleUser color={borderColor} className={classes.ImgStyle} />
+            </>
+          )}
           <div className={classes.pr}>
             <MakerName>{makerName}</MakerName>
             {myId.toString() === makerId ? (
@@ -126,7 +144,9 @@ const MakerPage: React.FC = () => {
                   size={30}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
-                    dispatch(changeMakerIntroModalActions.loadMakerIntro({changeMakerIntro : makerIntro}));
+                    dispatch(
+                      changeMakerIntroModalActions.loadMakerIntro({ changeMakerIntro: makerIntro }),
+                    );
                     dispatch(changeMakerIntroModalActions.toggle());
                   }}
                 />
