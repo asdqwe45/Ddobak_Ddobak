@@ -280,7 +280,7 @@ export async function getProfileImg(id: string) {
   return axiosWithAuth
     .get(`/member/profileImg/${id}`)
     .then((r) => {
-      return 'https://ddobak-profile-image.s3.ap-northeast-2.amazonaws.com/' + r.data.ProfileImg;
+      return r.data.ProfileImg;
     })
     .catch((e) => {
       throw e;

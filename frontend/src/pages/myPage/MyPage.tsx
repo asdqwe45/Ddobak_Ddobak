@@ -35,8 +35,6 @@ import {
   FontBasketTopBox,
   FontBasketBottomBox,
   SelectListDelete,
-  CCLBox,
-  CCLIcons,
   LikeIconBox,
   LikeProducerBox,
   LikeBoxText,
@@ -44,11 +42,6 @@ import {
   CartPriceText,
 } from './myPageComponents/MyPageComponents';
 import classes from './MyPage.module.css';
-
-import Attribution from './myPageAssets/Attribution.png';
-import NoDerivativeWorks from './myPageAssets/NoDerivativeWorks.png';
-import ShareAlike from './myPageAssets/ShareAlike.png';
-import Noncommercial from './myPageAssets/Noncommercial.png';
 
 // 아이콘
 import { FaCircleUser } from 'react-icons/fa6';
@@ -87,7 +80,7 @@ import { changeNicknameModalActions } from 'store/changeNicknameSlice';
 import { dibListAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
 import { chargePointModalActions } from 'store/chargePointModalSlice';
 import { getData } from 'https/http';
-import { transactionMyAllAPI } from 'https/utils/TransactionFunction';
+import { transactionMyAllAPI, transactionProducerAPI } from 'https/utils/TransactionFunction';
 import { cartDeleteAPI, cartGetAPI } from 'https/utils/CartFunction';
 import styled from '@emotion/styled';
 import { followDeleteAPI, getFollowingList } from 'https/utils/FollowFunction';
@@ -144,9 +137,7 @@ const MyPage: React.FC = () => {
               console.log(r);
               setCartData(r);
             })
-            .catch((e) => {
-              console.error(e);
-            });
+            .catch((e) => console.error(e));
         }
       }
     }
@@ -168,13 +159,14 @@ const MyPage: React.FC = () => {
             const profileImg = r.profileImg;
             await setMyNickname(nickname);
             await setMyPoint(point);
-            await setMyProfileImage(
-              'https://ddobak-profile-image.s3.ap-northeast-2.amazonaws.com/' + profileImg,
-            );
+            await setMyProfileImage(profileImg);
           })
-          .catch((e) => {
-            console.error(e);
-          });
+          .catch((e) => console.error(e));
+
+        // 제작 상태 가져오기
+        transactionProducerAPI(id)
+          .then(async (r) => setCreatedFontList(r))
+          .catch((e) => console.error(e));
       } else {
         console.log('잘못된 접근입니다.');
         navigate('/wrong');
@@ -194,11 +186,17 @@ const MyPage: React.FC = () => {
 
   const [dibList, setDibList] = useState([]);
   const [myFollowingList, setMyFollowingList] = useState([]);
+  const [createdFontList, setCreatedFontList] = useState([]);
+  const [purchaseFontList, setPurchaseFontList] = useState([]);
 
   // 스와이퍼 참조
   const swiperRef = useRef<SwiperCore>();
   const pageClickHandle = async (pageName: string) => {
     if (pageName === 'productsState') {
+      transactionProducerAPI(myId)
+        .then(async (r) => setCreatedFontList(r))
+        .catch((e) => console.error(e));
+
       setPageLocation({
         productsState: true,
         likeList: false,
@@ -206,13 +204,6 @@ const MyPage: React.FC = () => {
         boughtFonts: false,
         likeProducers: false,
       });
-      transactionMyAllAPI()
-        .then((r) => {
-          console.log(r);
-        })
-        .catch((e) => {
-          console.error(e);
-        });
     } else if (pageName === 'likeList') {
       dibListAPI()
         .then((response) => {
@@ -254,6 +245,10 @@ const MyPage: React.FC = () => {
           console.error(e);
         });
     } else if (pageName === 'boughtFonts') {
+      transactionMyAllAPI()
+        .then(async (r) => setPurchaseFontList(r))
+        .catch((e) => console.error(e));
+
       setPageLocation({
         productsState: false,
         likeList: false,
@@ -303,8 +298,26 @@ const MyPage: React.FC = () => {
 
   // redux
   const dispatch = useDispatch();
-  const clickDownloadHandler = () => {
-    console.log('다운로드');
+
+  interface FontType {
+    fontId: number;
+    fontName: string;
+    fontFileUrl: string;
+    openStatus: boolean;
+  }
+  // 폰트 다운로드
+  const clickDownloadHandler = async (item: FontType) => {
+    const response = await fetch(item['fontFileUrl']);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    // 다운로드 시, 파일 이름
+    a.download = item['fontName'] + '.ttf';
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
   };
   const clickChangePwHandler = () => {
     dispatch(changePwModalActions.toggle());
@@ -320,7 +333,6 @@ const MyPage: React.FC = () => {
     dispatch(changeProfileImgModalActions.toggle());
   };
   const clickBasketHandler = () => {
-    console.log('click');
     dispatch(goToBasketModalActions.toggle());
   };
 
@@ -476,7 +488,7 @@ const MyPage: React.FC = () => {
             <ProfilImgBox onClick={clickProfileImgHandler}>
               {myProfileImage ? (
                 <>
-                  <img src={myProfileImage} alt="프로필 이미지" className={classes.ImgStyle} />
+                  <img src={'https://ddobak-profile-image.s3.ap-northeast-2.amazonaws.com/' + myProfileImage} alt="프로필 이미지" className={classes.ImgStyle} />
                 </>
               ) : (
                 <>
@@ -612,34 +624,41 @@ const MyPage: React.FC = () => {
           </SelectBox>
           {pageLocation.productsState ? (
             <>
-              {/* ======== */}
-              {/* 제작 상태 */}
-              {/* ======== */}
               <ContentLargeBox>
-                {/* 이게 한 콘텐트 */}
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <ContentGrayDisabled>결제완료</ContentGrayDisabled>
-                    <ContentRedBtn onClick={clickDownloadHandler}>다운로드</ContentRedBtn>
-                  </ContentInnerRight>
-                </ContentIngredient>
-                {/* 이게 한 콘텐트 */}
+                {createdFontList.length > 0 ? (
+                  createdFontList.map((font) => {
+                    return (
+                      <ContentIngredient key={font['fontId']}>
+                        <ContentInnerLeft>
+                          <ContentInnerTextBox>
+                            <ContentHeader>
+                              <ContentInnerHeaderText>{font['fontName']}</ContentInnerHeaderText>
+                            </ContentHeader>
+                            <ContentInnerContentText>
+                              다람쥐 헌 쳇바퀴 타고파
+                            </ContentInnerContentText>
+                          </ContentInnerTextBox>
+                        </ContentInnerLeft>
+                        <ContentInnerRight>
+                          <ContentGrayDisabled>결제완료</ContentGrayDisabled>
+                          <ContentRedBtn
+                            onClick={() => {
+                              clickDownloadHandler(font);
+                            }}
+                          >
+                            다운로드
+                          </ContentRedBtn>
+                        </ContentInnerRight>
+                      </ContentIngredient>
+                    );
+                  })
+                ) : (
+                  <div className={classes.noContent}>"구매한 폰트가 없습니다."</div>
+                )}
               </ContentLargeBox>
             </>
           ) : pageLocation.likeList ? (
             <>
-              {/* ======== */}
-              {/* 찜 목록 */}
-              {/* ======== */}
               <ContentLargeBox>
                 {dibList.length > 0 ? (
                   dibList.map((dib) => {
@@ -736,41 +755,34 @@ const MyPage: React.FC = () => {
             </>
           ) : pageLocation.boughtFonts ? (
             <>
-              {/* ======== */}
-              {/* 구매한 폰트 */}
-              {/* ======== */}
-              {/* import Attribution from "./myPageAssets/Attribution.png"
-                  import NoDerivativeWorks from "./myPageAssets/NoDerivativeWorks.png"
-                  import ShareAlike from "./myPageAssets/ShareAlike.png"
-                  import Noncommercial from "./myPageAssets/Noncommercial.png" */}
               <ContentLargeBox>
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                        <CCLBox>
-                          <CCLIcons src={Attribution} />
-                          <CCLIcons src={NoDerivativeWorks} />
-                          <CCLIcons src={ShareAlike} />
-                          <CCLIcons src={Noncommercial} />
-                        </CCLBox>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <ContentGrayBtn onClick={clickReviewHandler}>후기등록</ContentGrayBtn>
-                    <ContentRedBtn>다운로드</ContentRedBtn>
-                  </ContentInnerRight>
-                </ContentIngredient>
-                {/* 여기까지 */}
-                <ContentIngredient></ContentIngredient>
-                <ContentIngredient></ContentIngredient>
-                <ContentIngredient></ContentIngredient>
-                <ContentIngredient></ContentIngredient>
-                <ContentIngredient></ContentIngredient>
+                {purchaseFontList.length > 0 ? (
+                  purchaseFontList.map((font) => {
+                    return (
+                      <ContentIngredient key={font['fontId']}>
+                        <ContentInnerLeft>
+                          <ContentInnerTextBox>
+                            <ContentHeader>
+                              <ContentInnerHeaderText>{font['fontName']}</ContentInnerHeaderText>
+                              <ContentProducerName>| {font['producerName']}</ContentProducerName>
+                            </ContentHeader>
+                            <ContentInnerContentText>
+                              다람쥐 헌 쳇바퀴 타고파
+                            </ContentInnerContentText>
+                          </ContentInnerTextBox>
+                        </ContentInnerLeft>
+                        <ContentInnerRight>
+                          <ContentGrayBtn onClick={clickReviewHandler}>후기등록</ContentGrayBtn>
+                          <ContentRedBtn onClick={() => clickDownloadHandler(font)}>
+                            다운로드
+                          </ContentRedBtn>
+                        </ContentInnerRight>
+                      </ContentIngredient>
+                    );
+                  })
+                ) : (
+                  <div className={classes.noContent}>"구매한 폰트가 없습니다."</div>
+                )}
               </ContentLargeBox>
             </>
           ) : (
