@@ -93,6 +93,18 @@ import { changeNicknameModalActions } from 'store/changeNicknameSlice';
 import { dibListAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
 import { chargePointModalActions } from 'store/chargePointModalSlice';
 import { getData } from 'https/http';
+import { transactionMyAllAPI } from 'https/utils/TransactionFunction';
+import { cartDeleteAPI, cartGetAPI } from 'https/utils/CartFunction';
+import styled from '@emotion/styled';
+
+interface CartType {
+  fontId: number;
+  fontName: string;
+  producer: string;
+  favoriteCheck: boolean;
+  fontPrice: number;
+  fontUrl: string;
+}
 
 const MyPage: React.FC = () => {
   const [myNickname, setMyNickname] = useState<string>('');
@@ -102,7 +114,9 @@ const MyPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const myValue = location.state?.pageValue;
-  
+
+  const [cartData, setCartData] = useState<CartType[]>([]);
+
   useEffect(() => {
     async function fetch() {
       if (myValue) {
@@ -114,6 +128,14 @@ const MyPage: React.FC = () => {
             boughtFonts: false,
             likeProducers: false,
           });
+          cartGetAPI()
+            .then(async (r) => {
+              console.log(r);
+              setCartData(r);
+            })
+            .catch((e) => {
+              console.error(e);
+            });
         }
       }
     }
@@ -161,7 +183,7 @@ const MyPage: React.FC = () => {
   const [dibList, setDibList] = useState([]);
   // 스와이퍼 참조
   const swiperRef = useRef<SwiperCore>();
-  const pageClickHandle = (pageName: string) => {
+  const pageClickHandle = async (pageName: string) => {
     if (pageName === 'productsState') {
       setPageLocation({
         productsState: true,
@@ -170,6 +192,13 @@ const MyPage: React.FC = () => {
         boughtFonts: false,
         likeProducers: false,
       });
+      transactionMyAllAPI()
+        .then((r) => {
+          console.log(r);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
     } else if (pageName === 'likeList') {
       dibListAPI().then((response) => {
         console.log(response);
@@ -190,6 +219,14 @@ const MyPage: React.FC = () => {
         boughtFonts: false,
         likeProducers: false,
       });
+      cartGetAPI()
+        .then(async (r) => {
+          console.log(r);
+          setCartData(r);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
     } else if (pageName === 'boughtFonts') {
       setPageLocation({
         productsState: false,
@@ -282,8 +319,38 @@ const MyPage: React.FC = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
+  function formatNumberWithCommas(x: number) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
   const movePointPage = true;
+
+  const [fontCount, setFontCount] = useState<boolean[]>(new Array(100001).fill({
+    isSelected: false,
+    sellerId: 0,
+  }));
+  const [totalCartPrice, setTotalCartPrice] = useState<number>(0);
+  const [selectedCartList, setSelectedCartList] = useState<number[]>([]);
+  const deleteCartFC = (selectedCartList: number[]) => {
+    cartDeleteAPI(selectedCartList)
+      .then((r) => {
+        console.log(r);
+        // 삭제 완료 모달이 있으면 좋을듯
+        window.location.reload();
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+//   async function selectFontFC(fontId: number) {
+//     const isSelected = fontCount[font].
+//     if (isSelected) {
+// // 선택했으면 선택 해제하고
+// // sellerId도 필요하네
+//     } else {
+
+//     }
+//     fontCount[fontId] = !fontCount[fontId]
+//   }
 
   return (
     <div className={classes.container}>
@@ -355,7 +422,7 @@ const MyPage: React.FC = () => {
             <PointIngredient>
               <PointHeader>
                 <PointHeaderText>보유포인트</PointHeaderText>
-                <PointHeaderText>{myPoint} P</PointHeaderText>
+                <PointHeaderText>{formatNumberWithCommas(myPoint)} P</PointHeaderText>
               </PointHeader>
               <PointBtnBox>
                 <NavLink to={'/point'} state={{ myPoint, movePointPage }}>
@@ -497,24 +564,51 @@ const MyPage: React.FC = () => {
               {/* ======== */}
               {/* 장바구니 */}
               {/* ======== */}
+
               <ContentLargeBox>
                 <FontBasketTopBox>
                   <SelectListDelete>선택 항목 삭제</SelectListDelete>
                 </FontBasketTopBox>
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <FaRegCheckSquare className={classes.checkIcon} />
-                  </ContentInnerRight>
-                </ContentIngredient>
+                {cartData.map((cart) => {
+                  type CartStyleType = {
+                    fontFamily: string;
+                    fontSrc: string;
+                  };
+
+                  const CartStyle = styled.p<CartStyleType>`
+                    @font-face {
+                      font-family: ${(props) => props.fontFamily};
+                      src: url(${(props) => props.fontSrc});
+                    }
+
+                    font-family: ${(props) => props.fontFamily};
+                    font-size: 24px;
+                    margin: 0px;
+                  `;
+
+                  return (
+                    <ContentIngredient key={'cart' + cart.fontId}>
+                      <ContentInnerLeft>
+                        <ContentInnerTextBox>
+                          <ContentHeader>
+                            <ContentInnerHeaderText>{cart.fontName}</ContentInnerHeaderText>
+                            <ContentProducerName>| {cart.producer}</ContentProducerName>
+                          </ContentHeader>
+                          <CartStyle
+                            fontFamily={cart.fontName.replace('5', '')}
+                            fontSrc={cart.fontUrl}
+                          >
+                            다람쥐 헌 쳇바퀴 타고파
+                          </CartStyle>
+                        </ContentInnerTextBox>
+                      </ContentInnerLeft>
+                      <ContentInnerRight>
+                        <FaRegCheckSquare className={classes.checkIcon} />
+                      </ContentInnerRight>
+                    </ContentIngredient>
+                  );
+                })}
+
                 <ContentIngredient>
                   <ContentInnerLeft>
                     <ContentInnerTextBox>
@@ -529,11 +623,12 @@ const MyPage: React.FC = () => {
                     <FaRegSquare className={classes.checkIcon} />
                   </ContentInnerRight>
                 </ContentIngredient>
-                <ContentIngredient></ContentIngredient>
-                <ContentIngredient></ContentIngredient>
-                <ContentIngredient></ContentIngredient>
-                <ContentIngredient></ContentIngredient>
+
                 <FontBasketBottomBox>
+                  {/* 금액이 나와야 함 */}
+                  <div>
+                    <p>{totalCartPrice}</p>
+                  </div>
                   <ContentGrayTransaction onClick={transactionClick}>
                     결제하기
                   </ContentGrayTransaction>

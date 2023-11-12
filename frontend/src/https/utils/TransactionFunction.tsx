@@ -138,3 +138,26 @@ export async function transactionListAllAPI(): Promise<any> {
       throw e;
     });
 }
+
+// 제작, 구매한 폰트 조회
+export async function transactionMyAllAPI(): Promise<any> {
+  return axiosWithAuth
+    .get(BASE_URL + '/my')
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+// 제작 폰트 조회
+export async function transactionProducerAPI(producerId: string): Promise<any> {
+  return axiosWithAuth
+    .get(BASE_URL + `/font/${producerId}`)
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
