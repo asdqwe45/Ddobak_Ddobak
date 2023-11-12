@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import classes from './FontOptionPage.module.css';
 
 import { BoxTitle, InputTitle } from 'common/titleComponents/TitleComponents';
+import AlertCustomModal from 'common/modals/alertCustomModal/AlertCustomModal';
 
 import RadioBtn from 'common/checkButton/RadioBtn';
 import KeywordBtn from 'common/keywordButton/KeywordBtn';
@@ -13,6 +14,31 @@ import { axiosWithAuth, getData } from 'https/http';
 import type { RootState } from 'store';
 
 const FontOptionPage: React.FC = () => {
+  const [nameInputModal, setNameInputModal] = useState(false);
+  const handleNameInputAlert = () => {
+    setNameInputModal(true); //
+  };
+  const [nameOkModal, setNameOkModal] = useState(false);
+  const handleNameOkAlert = () => {
+    setNameOkModal(true); //
+  };
+  const [nameExistModal, setNameExistModal] = useState(false);
+  const handleNameExistAlert = () => {
+    setNameExistModal(true); //
+  };
+  const [engFileModal, setEngFileModal] = useState(false);
+  const handleEngFileModalAlert = () => {
+    setEngFileModal(true); //
+  };
+  const [priceNumModal, setPriceNumModal] = useState(false);
+  const handlePriceNumModalAlert = () => {
+    setPriceNumModal(true); //
+  };
+  const [notAllInputModal, setNotAllInputModal] = useState(false);
+  const handleNotAllInputAlert = () => {
+    setNotAllInputModal(true); //
+  };
+
   const fontId = useSelector((state: RootState) => state.resultModal.fontId);
   const fontSortUrl = useSelector((state: RootState) => state.resultModal.sortUrl);
 
@@ -25,8 +51,7 @@ const FontOptionPage: React.FC = () => {
 
   const korNameCheck = async () => {
     if (!korFontName.trim()) {
-      alert('폰트 이름을 입력해 주세요!');
-      console.log('클릭임')
+      handleNameInputAlert() // 폰트 이름을 입력
       console.log(fontId, fontSortUrl);
       return;
     }
@@ -34,10 +59,10 @@ const FontOptionPage: React.FC = () => {
       const params = { korFontName: korFontName }
       const response = await axiosWithAuth.get('/font/name/check', { params });
       if (!response.data) { // false: 사용가능 | true: 중복
-        alert('사용가능한 이름입니다.');
+        handleNameOkAlert() // 사용 가능
         setIsKorNameAvailable(true);
       } else {
-        alert('중복된 폰트 이름입니다.');
+        handleNameExistAlert() // 중복
         setKorFontName('')
       }
     } catch (error) {
@@ -55,23 +80,23 @@ const FontOptionPage: React.FC = () => {
     if (regex.test(value)) {
       setEngFontName(value);
     } else {
-      alert('영문과 숫자만 입력할 수 있습니다.');
+      handleEngFileModalAlert() // 파일명 영문, 숫자만 가능
     }
   };
 
   const engNameCheck = async () => {
     if (!engFontName.trim()) {
-      alert('폰트 이름을 입력해 주세요!');
+      handleNameInputAlert() // 폰트 이름을 입력
       return;
     }
     try {
       const params = { engFontName: engFontName }
       const response = await axiosWithAuth.get('/font/name/check', { params });
       if (!response.data) { // false: 사용가능 | true: 중복
-        alert('사용가능한 파일명입니다.');
+        handleNameOkAlert() // 사용 가능
         setIsEngNameAvailable(true);
       } else {
-        alert('중복된 파일명입니다.');
+        handleNameExistAlert() // 중복
         setEngFontName('')
       }
     } catch (error) {
@@ -101,7 +126,7 @@ const FontOptionPage: React.FC = () => {
     if (/^\d*$/.test(value)) {
       setPriceValue(Number(value));
     } else {
-      alert('숫자만 입력할 수 있습니다.');
+      handlePriceNumModalAlert() // 숫자만 가능
     }
   };
 
@@ -196,7 +221,7 @@ const FontOptionPage: React.FC = () => {
       console.log('keywords', selectedKeywords);
       await fontOptionAPI(); // 폰트 정보 API 호출
     } else {
-      alert("모든 정보를 입력해주세요.");
+      handleNotAllInputAlert() // 모든 정보 입력
     }
   };
 
@@ -320,6 +345,36 @@ const FontOptionPage: React.FC = () => {
           </button>
         </div>
       </div>
+      <AlertCustomModal
+        show={nameInputModal}
+        onHide={() => setNameInputModal(false)}
+        message1="폰트 이름을 입력해 주세요! 😮" message2="" btnName="확인"
+      />
+      <AlertCustomModal
+        show={nameOkModal}
+        onHide={() => setNameOkModal(false)}
+        message1="사용 가능합니다. 😄" message2="" btnName="확인"
+      />
+      <AlertCustomModal
+        show={nameExistModal}
+        onHide={() => setNameExistModal(false)}
+        message1="중복된 이름입니다. 😢" message2="" btnName="확인"
+      />
+      <AlertCustomModal
+        show={engFileModal}
+        onHide={() => setEngFileModal(false)}
+        message1="폰트 파일명은 영문과 숫자만 가능해요." message2="" btnName="확인"
+      />
+      <AlertCustomModal
+        show={priceNumModal}
+        onHide={() => setPriceNumModal(false)}
+        message1="숫자만 입력해 주세요. 😀" message2="" btnName="확인"
+      />
+      <AlertCustomModal
+        show={notAllInputModal}
+        onHide={() => setNotAllInputModal(false)}
+        message1="📢 모든 정보를 입력해주세요! 🚨" message2="" btnName="확인"
+      />
     </>
   );
 };
