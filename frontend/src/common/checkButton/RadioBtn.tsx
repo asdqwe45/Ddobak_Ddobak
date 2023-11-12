@@ -4,20 +4,19 @@ import classes from './RadioBtn.module.css';
 interface RadioButtonsProps {
   options: string[];
   name: string;
-  // onChange: (value: string) => void;
+  onChange: (value: string) => void;
   style?: CSSProperties;
 }
 
 const RadioBtn: React.FC<RadioButtonsProps> = ({
   options,
   name,
-  // onChange,
+  onChange,
   style,
 }) => {
   return (
     <div style={{ display: 'flex', ...style }}>
       {' '}
-      {/* 기존 스타일에 style prop을 머지 */}
       {options.map((option) => (
         <div key={option} className={classes.radioContainer}>
           <input
@@ -26,7 +25,7 @@ const RadioBtn: React.FC<RadioButtonsProps> = ({
             name={name}
             value={option}
             className={classes.radioInput}
-            // onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => onChange(e.target.value)}
           />
           <label htmlFor={option} className={classes.radioLabel}>
             {option}

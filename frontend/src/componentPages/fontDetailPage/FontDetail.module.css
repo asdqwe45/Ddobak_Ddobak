@@ -6,11 +6,22 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   margin-top: 40px;
+}
+
+.topLeft {
+  display: flex;
+  flex-direction: row;
 }
 
 .title {
   font-size: 55px;
+}
+
+.price {
+  font-size: 45px;
+  margin-right: 10px;
 }
 
 .dibContainer {

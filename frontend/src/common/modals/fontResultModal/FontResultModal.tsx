@@ -83,8 +83,12 @@ const FontResultModal: React.FC = () => {
       const response = await axiosWithFormData.post('/font/goSetting', formData).then((r) => {
         return r;
       });
-      console.log(response.data);
-      goToFontOptionStep();
+      if (response.data) {
+        console.log(response.data);
+        const fontId = response.data.fontId; 
+        dispatch(resultModalActions.setFontId(fontId));
+        goToFontOptionStep();
+      }
     } catch (error) {
       console.error('정보를 보내는데 실패했습니다.', error);
     }
