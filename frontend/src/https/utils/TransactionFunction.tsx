@@ -139,7 +139,7 @@ export async function transactionListAllAPI(): Promise<any> {
     });
 }
 
-// 제작, 구매한 폰트 조회
+// 구매한 폰트 조회
 export async function transactionMyAllAPI(): Promise<any> {
   return axiosWithAuth
     .get(BASE_URL + '/my')
