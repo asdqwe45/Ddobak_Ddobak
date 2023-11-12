@@ -15,6 +15,7 @@ interface ChargeModalState {
     chargePointVisible: boolean;
     myPoint: number;
     nickname: string;
+    isModal: boolean;
   };
 }
 
@@ -27,6 +28,7 @@ const ChargePointModal: React.FC = () => {
     dispatch(chargePointModalActions.toggle());
   };
   const showCharge = useSelector((state: ChargeModalState) => state.chargePoint.chargePointVisible);
+  const isModal = useSelector((state: ChargeModalState) => state.chargePoint.isModal);
   const closeModal = () => {
     clickChargeHandler();
   };
@@ -58,8 +60,14 @@ const ChargePointModal: React.FC = () => {
         // DB에 API를 실행하고
         // 충전이 완료되었다는 모달이 필요한가.
         // 결제창이 닫힌다
+
+        // 마이페이지에서 충전 할 때만 새로고침
+        setChargePoint(0);
+        dispatch(chargePointModalActions.chargePlus());
         closeModal();
-        window.location.reload();
+        if (!isModal) {
+          window.location.reload();
+        }
       })
       .catch((e) => {
         console.error(e);

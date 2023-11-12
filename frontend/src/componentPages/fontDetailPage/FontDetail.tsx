@@ -14,6 +14,9 @@ import FontUserReview from './fontDetailPageComponent/FontUserReview';
 import { FaRegBookmark, FaBookmark, FaRegCopy, FaPen } from 'react-icons/fa';
 
 import { axiosWithAuth, axiosWithFormData } from 'https/http';
+import { pointPayModalActions } from 'store/pointPayModalSlice';
+import { goToBasketModalActions } from 'store/goToBasketModalSlice';
+import { cartAddAPI } from 'https/utils/CartFunction';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
 type Font = {
@@ -21,12 +24,15 @@ type Font = {
   dibCount: string;
   fontFileUrl: string;
   fontId: string;
+  fontName: string;
+  fontPrice: number;
   introduceContext: string;
   keywords: string[];
-  producerName: string;
-  viewCount: bigint;
-  fontName: string;
   producerId: string;
+  producerName: string;
+  reviewCount: number;
+  reviewResponseList: [];
+  viewCount: bigint;
 };
 
 const FontDetail: React.FC = () => {
@@ -147,12 +153,40 @@ const FontDetail: React.FC = () => {
   };
 
   // // 바로 구매하기
-  // async function handlePayFC() {
-  //   const fontId = fontDetail?.fontId
-  // }
+  async function handlePayFC() {
+    console.log('pay');
+    const fontId = fontDetail?.fontId;
+    const fontPrice = fontDetail?.fontPrice;
+    const producerId = fontDetail?.producerId;
+    console.log(fontId, fontPrice, producerId);
+    if (fontId && (fontPrice || fontPrice === 0) && producerId) {
+      dispatch(
+        pointPayModalActions.buyAll({
+          buyAll: [
+            {
+              sellerId: +producerId,
+              fontId: +fontId,
+            },
+          ],
+        }),
+      );
+      dispatch(pointPayModalActions.toggle());
+    }
+  }
 
-  // // 장바구니
-  // async function handleCartFC() {}
+  // 장바구니
+  async function handleCartFC() {
+    if (fontId) {
+      cartAddAPI(fontId)
+        .then((r) => {
+          console.log(r);
+          dispatch(goToBasketModalActions.toggle());
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+  }
 
   window.scrollTo({ left: 0, top: 0 });
 
@@ -187,8 +221,12 @@ const FontDetail: React.FC = () => {
           </div>
 
           <div className={classes.buyContainer}>
-            <div className={classes.cartBtn}>장바구니</div>
-            <div className={classes.buyBtn}>바로 구매</div>
+            <div className={classes.cartBtn} onClick={handleCartFC}>
+              장바구니
+            </div>
+            <div className={classes.buyBtn} onClick={handlePayFC}>
+              바로 구매
+            </div>
           </div>
         </div>
 
