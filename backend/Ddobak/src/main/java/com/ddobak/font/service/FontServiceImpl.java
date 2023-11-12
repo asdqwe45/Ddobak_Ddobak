@@ -2,11 +2,10 @@ package com.ddobak.font.service;
 
 import com.ddobak.favorite.repository.FavoriteRepository;
 import com.ddobak.font.dto.request.MakeFontRequest;
-import com.ddobak.font.dto.request.finalMakeRequeset;
+import com.ddobak.font.dto.request.FinalMakeRequest;
 import com.ddobak.font.dto.response.FontDetailResponse;
 import com.ddobak.font.dto.response.FontIdResponse;
 import com.ddobak.font.dto.response.FontListResponse;
-import com.ddobak.font.dto.response.FontResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.entity.FontStatusType;
 import com.ddobak.font.entity.Keyword;
@@ -19,7 +18,6 @@ import com.ddobak.member.entity.Member;
 import com.ddobak.member.exception.MemberException;
 import com.ddobak.member.repository.MemberRepository;
 import com.ddobak.review.dto.response.ReviewResponse;
-import com.ddobak.review.entity.Review;
 import com.ddobak.review.repository.ReviewRepository;
 import com.ddobak.review.service.ReviewService;
 import com.ddobak.security.util.LoginInfo;
@@ -30,12 +28,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 
 @Service
@@ -185,7 +181,7 @@ public class FontServiceImpl implements FontService {
     }
 
     @Override
-    public void finalMakeFont(finalMakeRequeset req, LoginInfo loginInfo){
+    public void finalMakeFont(FinalMakeRequest req, LoginInfo loginInfo){
         Font font = fontRepository.findById(req.fontId())
                 .orElseThrow(() -> {
                     log.error("Font not found with Id: {}", req.fontId());
