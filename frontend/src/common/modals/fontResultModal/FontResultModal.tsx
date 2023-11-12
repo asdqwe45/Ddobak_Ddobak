@@ -85,7 +85,7 @@ const FontResultModal: React.FC = () => {
       });
       if (response.data) {
         console.log(response.data);
-        const fontId = response.data.fontId; 
+        const fontId = response.data.fontId;
         dispatch(resultModalActions.setFontId(fontId));
         goToFontOptionStep();
       }

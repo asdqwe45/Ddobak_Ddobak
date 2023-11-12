@@ -69,7 +69,6 @@ const MakerPage: React.FC = () => {
   );
 
   const handleHeartClick = async () => {
-
     // 팔로우 상태를 변경합니다.
     if (followingStatus) {
       await followDeleteAPI(makerId || '');
@@ -93,14 +92,14 @@ const MakerPage: React.FC = () => {
 
     fetch();
   }, []);
-  
+
   useEffect(() => {
     // 팔로우 상태 가져오기
     if (makerId) {
       followCheckAPI(makerId).then(async (r) => {
         setFollowingStatus(r);
       });
-      
+
       getCountFollowing(makerId).then(async (r) => {
         setFollowingCount(r);
       });
@@ -112,9 +111,9 @@ const MakerPage: React.FC = () => {
 
       // 제작자 프로필 이미지 가져오기
       getProfileImg(makerId).then(async (r) => {
-        console.log('여기', r)
+        console.log('여기', r);
         setMakerProfileImg(r);
-      })
+      });
     }
   }, [makerId]);
 

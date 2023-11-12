@@ -45,7 +45,7 @@ export const MakerLikeCount = styled.p`
   font-size: 28px;
   font-weight: bold;
   padding: 0px 20px;
-  width : 20px;
+  width: 20px;
   color: ${likeCountColor};
 `;
 
