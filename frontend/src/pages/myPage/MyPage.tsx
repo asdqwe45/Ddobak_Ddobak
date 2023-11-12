@@ -157,9 +157,7 @@ const MyPage: React.FC = () => {
             const profileImg = r.profileImg;
             await setMyNickname(nickname);
             await setMyPoint(point);
-            await setMyProfileImage(
-              'https://ddobak-profile-image.s3.ap-northeast-2.amazonaws.com/' + profileImg,
-            );
+            await setMyProfileImage(profileImg);
           })
           .catch((e) => console.error(e));
 
@@ -471,7 +469,7 @@ const MyPage: React.FC = () => {
             <ProfilImgBox onClick={clickProfileImgHandler}>
               {myProfileImage ? (
                 <>
-                  <img src={myProfileImage} alt="프로필 이미지" className={classes.ImgStyle} />
+                  <img src={'https://ddobak-profile-image.s3.ap-northeast-2.amazonaws.com/' + myProfileImage} alt="프로필 이미지" className={classes.ImgStyle} />
                 </>
               ) : (
                 <>

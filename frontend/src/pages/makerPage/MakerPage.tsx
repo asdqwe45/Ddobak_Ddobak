@@ -143,7 +143,7 @@ const MakerPage: React.FC = () => {
         <MakerSmallBox>
           {makerProfileImg ? (
             <>
-              <img src={makerProfileImg} alt="프로필 이미지" className={classes.ImgStyle} />
+              <img src={'https://ddobak-profile-image.s3.ap-northeast-2.amazonaws.com/' + makerProfileImg} alt="프로필 이미지" className={classes.ImgStyle} />
             </>
           ) : (
             <>
