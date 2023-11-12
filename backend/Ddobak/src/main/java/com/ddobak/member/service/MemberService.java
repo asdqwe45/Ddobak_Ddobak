@@ -200,8 +200,8 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public ProfileImgResponse getProfileImg(LoginInfo loginInfo) {
-        Member member = findMemberById(loginInfo.id());
+    public ProfileImgResponse getProfileImg(Long memberId) {
+        Member member = findMemberById(memberId);
         return new ProfileImgResponse(member.getProfileImg());
     }
 
