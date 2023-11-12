@@ -8,12 +8,7 @@ interface RadioButtonsProps {
   style?: CSSProperties;
 }
 
-const RadioBtn: React.FC<RadioButtonsProps> = ({
-  options,
-  name,
-  onChange,
-  style,
-}) => {
+const RadioBtn: React.FC<RadioButtonsProps> = ({ options, name, onChange, style }) => {
   return (
     <div style={{ display: 'flex', ...style }}>
       {' '}

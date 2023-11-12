@@ -4,7 +4,7 @@ interface ResultModalState {
   resultIsVisible: boolean;
   step: number;
   sortUrl: string;
-  fontId: number;  
+  fontId: number;
 }
 
 const initialState: ResultModalState = {
