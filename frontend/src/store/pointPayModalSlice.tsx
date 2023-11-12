@@ -35,7 +35,7 @@ const pointModalSlice = createSlice({
       state.pointPayVisible = !state.pointPayVisible;
     },
     payThePrice(state, action: PayloadAction<PayThePriceAction>) {
-      state.howMuch = state.howMuch + action.payload.howMuch;
+      state.howMuch = action.payload.howMuch;
       state.boughtSometing = action.payload.boughtSometing;
     },
     paidSomething(state) {

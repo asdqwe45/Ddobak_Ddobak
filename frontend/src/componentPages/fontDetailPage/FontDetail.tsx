@@ -17,6 +17,7 @@ import { axiosWithAuth, axiosWithFormData } from 'https/http';
 import { pointPayModalActions } from 'store/pointPayModalSlice';
 import { goToBasketModalActions } from 'store/goToBasketModalSlice';
 import { cartAddAPI } from 'https/utils/CartFunction';
+import { basketErrorModalActions } from 'store/basketErrorModalSlice';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
 type Font = {
@@ -158,8 +159,12 @@ const FontDetail: React.FC = () => {
     const fontId = fontDetail?.fontId;
     const fontPrice = fontDetail?.fontPrice;
     const producerId = fontDetail?.producerId;
+    const fontName = fontDetail?.fontName;
     console.log(fontId, fontPrice, producerId);
-    if (fontId && (fontPrice || fontPrice === 0) && producerId) {
+    if (fontId && (fontPrice || fontPrice === 0) && producerId && fontName) {
+      dispatch(
+        pointPayModalActions.payThePrice({ howMuch: fontPrice, boughtSometing: '폰트구매' }),
+      );
       dispatch(
         pointPayModalActions.buyAll({
           buyAll: [
@@ -184,6 +189,7 @@ const FontDetail: React.FC = () => {
         })
         .catch((e) => {
           console.error(e);
+          dispatch(basketErrorModalActions.toggle());
         });
     }
   }

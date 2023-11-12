@@ -1,29 +1,29 @@
 import { useEffect } from 'react';
 import ReactModal from 'react-modal';
-import classes from './GoToBasketModal.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { goToBasketModalActions } from 'store/goToBasketModalSlice';
+import { basketErrorModalActions } from 'store/basketErrorModalSlice';
 import { AiOutlineClose } from 'react-icons/ai';
 import { mainRedColor, likeCountColor } from 'common/colors/CommonColors';
+import classes from './BasketErrorModal.module.css';
+import { FaCartPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-interface GoToBasketModalState {
-  goToBasket: {
+
+interface BasketType {
+  basketError: {
     basketVisible: boolean;
   };
 }
-const GoToBasketModal: React.FC = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const closeModal = () => {
-    dispatch(goToBasketModalActions.toggle());
-  };
-  const showBasketModal = useSelector(
-    (state: GoToBasketModalState) => state.goToBasket.basketVisible,
-  );
+
+const BasketErrorModal: React.FC = () => {
   useEffect(() => {
     ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
   }, []);
-
+  const navigate = useNavigate();
+  const basketVisible = useSelector((state: BasketType) => state.basketError.basketVisible);
+  const dispatch = useDispatch();
+  const closeModal = () => {
+    dispatch(basketErrorModalActions.toggle());
+  };
   const goToBasketHandler = () => {
     closeModal();
     navigate('/myPage', {
@@ -33,16 +33,16 @@ const GoToBasketModal: React.FC = () => {
   };
   return (
     <ReactModal
-      isOpen={showBasketModal}
+      isOpen={basketVisible}
       onRequestClose={closeModal}
       shouldCloseOnOverlayClick={true}
       className={classes.overLay}
       style={{
         content: {
-          zIndex: 10006, // NavBar보다 2 높게 설정
+          zIndex: 10008,
         },
         overlay: {
-          zIndex: 10005, // NavBar보다 1 높게 설정
+          zIndex: 10007,
         },
       }}
     >
@@ -50,13 +50,10 @@ const GoToBasketModal: React.FC = () => {
         <div className={classes.topBox}>
           <AiOutlineClose size={30} className={classes.closeIcon} onClick={closeModal} />
         </div>
-        <div className={classes.middleBox}>
-          <p className={classes.innerText}>
-            장바구니에 폰트를 잘 담았어요.
-            <br />
-            어떤 멘트를 쓰면 좋을까요?
-          </p>
-        </div>
+        <FaCartPlus size={100} color={mainRedColor} />
+        <h1 className={classes.innerHeader}>장바구니 중복</h1>
+        <p className={classes.innerText}>이미 장바구니에 들어있어요.</p>
+
         <div className={classes.bottomBox}>
           <button
             className={classes.modalBtn}
@@ -80,4 +77,4 @@ const GoToBasketModal: React.FC = () => {
     </ReactModal>
   );
 };
-export default GoToBasketModal;
+export default BasketErrorModal;
