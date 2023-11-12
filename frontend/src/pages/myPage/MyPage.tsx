@@ -38,6 +38,8 @@ import {
   LikeIconBox,
   LikeProducerBox,
   LikeBoxText,
+  CartPriceBox,
+  CartPriceText,
 } from './myPageComponents/MyPageComponents';
 import classes from './MyPage.module.css';
 
@@ -272,9 +274,29 @@ const MyPage: React.FC = () => {
       });
     }
   };
+  // 포인트 결제
 
-  const transactionClick = () => {
-    dispatch(pointPayModalActions.toggle());
+  const transactionClick = async () => {
+    if (totalCartPrice > 0) {
+      const buyAllList = [];
+      for (const sf of selectedFont) {
+        if (sf.selected === true) {
+          const data = {
+            sellerId: sf.sellerId,
+            fontId: sf.fontId,
+          };
+          buyAllList.push(data);
+        }
+      }
+      dispatch(
+        pointPayModalActions.payThePrice({
+          howMuch: totalCartPrice,
+          boughtSometing: '장바구니구매',
+        }),
+      );
+      dispatch(pointPayModalActions.buyAll({ buyAll: buyAllList }));
+      dispatch(pointPayModalActions.toggle());
+    }
   };
 
   // redux
@@ -469,7 +491,14 @@ const MyPage: React.FC = () => {
             <ProfilImgBox onClick={clickProfileImgHandler}>
               {myProfileImage ? (
                 <>
-                  <img src={'https://ddobak-profile-image.s3.ap-northeast-2.amazonaws.com/' + myProfileImage} alt="프로필 이미지" className={classes.ImgStyle} />
+                  <img
+                    src={
+                      'https://ddobak-profile-image.s3.ap-northeast-2.amazonaws.com/' +
+                      myProfileImage
+                    }
+                    alt="프로필 이미지"
+                    className={classes.ImgStyle}
+                  />
                 </>
               ) : (
                 <>
@@ -692,10 +721,13 @@ const MyPage: React.FC = () => {
                         <ContentInnerTextBox>
                           <ContentHeader>
                             <ContentInnerHeaderText>{cart.fontName}</ContentInnerHeaderText>
-                            <ContentProducerName>| {cart.producer}</ContentProducerName>
+                            <ContentProducerName>| {cart.producer} </ContentProducerName>
+                            <ContentProducerName style={{ marginLeft: 10 }}>
+                              | {formatNumberWithCommas(cart.fontPrice)} P
+                            </ContentProducerName>
                           </ContentHeader>
                           <CartStyle
-                            fontFamily={cart.fontName.replace('5', '')}
+                            fontFamily={cart.fontName.replace(' ', '_')}
                             fontSrc={cart.fontUrl}
                           >
                             다람쥐 헌 쳇바퀴 타고파
@@ -724,9 +756,9 @@ const MyPage: React.FC = () => {
                 })}
                 <FontBasketBottomBox>
                   {/* 금액이 나와야 함 */}
-                  <div>
-                    <p>{totalCartPrice}</p>
-                  </div>
+                  <CartPriceText>
+                    <CartPriceBox>{formatNumberWithCommas(totalCartPrice)} P</CartPriceBox>
+                  </CartPriceText>
                   <ContentGrayTransaction onClick={transactionClick}>
                     결제하기
                   </ContentGrayTransaction>
