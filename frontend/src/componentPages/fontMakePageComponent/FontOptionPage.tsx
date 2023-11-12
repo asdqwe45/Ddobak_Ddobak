@@ -9,7 +9,7 @@ import KeywordBtn from 'common/keywordButton/KeywordBtn';
 import TermsAgreement from 'common/checkButton/TermsAgreement';
 import { useSelector, useDispatch } from 'react-redux';
 import { pointPayModalActions } from 'store/pointPayModalSlice';
-import { axiosWithAuth } from 'https/http';
+import { axiosWithAuth, getData } from 'https/http';
 import type { RootState } from 'store';
 
 const FontOptionPage: React.FC = () => {
@@ -26,6 +26,8 @@ const FontOptionPage: React.FC = () => {
   const korNameCheck = async () => {
     if (!korFontName.trim()) {
       alert('폰트 이름을 입력해 주세요!');
+      console.log('클릭임')
+      console.log(fontId, fontSortUrl);
       return;
     }
     try {
@@ -90,13 +92,9 @@ const FontOptionPage: React.FC = () => {
   const handleOpenChange = (option: string) => {
     setOptionOpen(option === '공개');
   };
-  const [saleOption, setSaleOption] = useState<boolean>(true);
-  // 무료|유료 선택
-  const handleSaleChange = (option: string) => {
-    setSaleOption(option === '무료');
-  };
 
-  const [priceValue, setPriceValue] = useState<number | null>(null);
+  const [saleOption, setSaleOption] = useState<boolean>(true);
+  const [priceValue, setPriceValue] = useState<number>(0);
   // 가격 입력 핸들러 함수
   const handlePriceValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -107,9 +105,18 @@ const FontOptionPage: React.FC = () => {
     }
   };
 
+  // 무료|유료 선택
+  const handleSaleChange = (option: string) => {
+    if (option === '무료') {
+      setSaleOption(true);
+      setPriceValue(0); // 가격을 0으로 설정
+    } else {
+      setSaleOption(false);
+    }
+  };
+
   // 키워드 상태 관리
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
-  console.log(selectedKeywords)
 
   const handleKeywordsChange = (keywords: string[]) => {
     setSelectedKeywords(keywords);
@@ -129,7 +136,7 @@ const FontOptionPage: React.FC = () => {
 
   const isReadyToPay = () => {
     // 유료일 때는 금액이 입력되어야하고, 무료일 때는 항상 유효함
-    const isPriceValid = !saleOption ? priceValue !== null : true;
+    const isPriceValid = !saleOption ? priceValue !== 0 : true;
     return (
       korFontName.trim() !== '' &&
       isKorNameAvailable &&
@@ -146,26 +153,30 @@ const FontOptionPage: React.FC = () => {
 
   // 폰트 정보 API 연결
   const fontOptionAPI = async () => {
-    try {
-      const requestBody = {
-        fontId: fontId,
-        fontSortUrl: fontSortUrl,
-        korFontName: korFontName,
-        engFontName: engFontName,
-        introduceText: inputFontIntro,
-        openStatus: openOption,
-        freeStatus: saleOption,
-        price: !saleOption && priceValue !== null ? priceValue : 0,
-        keywords: selectedKeywords.join(','), // 쉼표로 구분된 문자열로 전송
+    const token = await getData('accessToken');
+    if (token) {
+      try {
+        const requestBody = {
+          fontId: fontId,
+          fontSortUrl: fontSortUrl,
+          korFontName: korFontName,
+          engFontName: engFontName,
+          openStatus: openOption,
+          freeStatus: saleOption,
+          price: !saleOption && priceValue !== null ? priceValue : 0,
+          introduceText: inputFontIntro,
+          keywords: selectedKeywords,
+        }
+        const response = await axiosWithAuth.put('/font/make/request', requestBody);
+        if (response.data) {
+          console.log(response.data)
+        } else {
+          console.error('Unexpected response:', response);
+        }
       }
-      const response = await axiosWithAuth.put('/font/make/request', requestBody);
-      if (response.data) {
-        console.log(response.data)
-      } else {
-        console.error('Unexpected response:', response);
+      catch (error) {
+        console.error('폰트 정보 업데이트 중 오류 발생:', error);
       }
-    } catch (error) {
-      console.error('폰트 정보 업데이트 중 오류 발생:', error);
     }
   };
 
@@ -173,6 +184,16 @@ const FontOptionPage: React.FC = () => {
   const handlePaymentClick = async () => {
     if (isReadyToPay()) {
       await clickPayHandler(); // 모든 조건 충족
+      // 폰트 정보 API 항목 값 확인
+      console.log('fontId', fontId);
+      console.log('fontSortUrl', fontSortUrl);
+      console.log('korFontName', korFontName);
+      console.log('engFontName', engFontName);
+      console.log('openStatus', openOption);
+      console.log('freeStatus', saleOption);
+      console.log('price', priceValue);
+      console.log('introduceText', inputFontIntro);
+      console.log('keywords', selectedKeywords);
       await fontOptionAPI(); // 폰트 정보 API 호출
     } else {
       alert("모든 정보를 입력해주세요.");
