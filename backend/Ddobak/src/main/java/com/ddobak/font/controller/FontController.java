@@ -1,7 +1,7 @@
 package com.ddobak.font.controller;
 
 import com.ddobak.font.dto.request.MakeFontRequest;
-import com.ddobak.font.dto.request.finalMakeRequeset;
+import com.ddobak.font.dto.request.FinalMakeRequest;
 import com.ddobak.font.dto.response.FontDetailResponse;
 import com.ddobak.font.dto.response.FontIdResponse;
 import com.ddobak.font.dto.response.FontListResponse;
@@ -93,7 +93,7 @@ public class FontController {
 //        }
     }
     @PutMapping(value = "/make/final")
-    public ResponseEntity<String> makeFinalFont(@RequestBody finalMakeRequeset req, @AuthenticationPrincipal LoginInfo loginInfo){
+    public ResponseEntity<String> makeFinalFont(@RequestBody FinalMakeRequest req, @AuthenticationPrincipal LoginInfo loginInfo){
         fontService.finalMakeFont(req,loginInfo);
         return ResponseEntity.ok("success");
     }
