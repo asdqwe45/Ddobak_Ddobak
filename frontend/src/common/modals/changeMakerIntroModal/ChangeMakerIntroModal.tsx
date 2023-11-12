@@ -36,7 +36,7 @@ const ChangeMakerIntroModal: React.FC = () => {
     dispatch(changeMakerIntroModalActions.loadMakerIntro({ changeMakerIntro: makerIntroInput }));
     dispatch(changeMakerIntroModalActions.toggle());
   };
-  
+
   return (
     <ReactModal
       isOpen={showMakerIntroModal}

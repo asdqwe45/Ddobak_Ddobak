@@ -195,20 +195,31 @@ const FontDetail: React.FC = () => {
       <div className={classes.container}>
         <div className={classes.topContainer}>
           {/* 폰트 찜 책갈피 */}
-          <div className={classes.dibContainer}>
-            <div className={classes.dibCount}>{dibCount}</div>
-            {dibCheck ? (
-              <FaBookmark className={classes.bookIcon} onClick={handleIconClick} />
-            ) : (
-              <FaRegBookmark className={classes.bookIcon} onClick={handleIconClick} />
-            )}
+          <div className={classes.topLeft}>
+            <div className={classes.dibContainer}>
+              <div className={classes.dibCount}>{dibCount}</div>
+              {dibCheck ? (
+                <FaBookmark className={classes.bookIcon} onClick={handleIconClick} />
+              ) : (
+                <FaRegBookmark className={classes.bookIcon} onClick={handleIconClick} />
+              )}
+            </div>
+            <div className={classes.title}>{fontDetail ? fontDetail.fontName : ''}</div>
           </div>
-          <div className={classes.title}>{fontDetail ? fontDetail.fontName : ''}</div>
+          <div>
+            <span className={classes.price}>
+              <>
+                {fontDetail && fontDetail.fontPrice > 0
+                  ? `${fontDetail.fontPrice.toLocaleString()} P`
+                  : '무료'}{' '}
+              </>
+            </span>
+          </div>
         </div>
         <div className={classes.subContainer}>
           <div className={classes.makerContainer}>
             <p>
-              <strong>제작 </strong> {fontDetail ? fontDetail.producerName : ''}
+              <strong>제작자 </strong> {fontDetail ? fontDetail.producerName : ''}
             </p>
             <p>
               <>

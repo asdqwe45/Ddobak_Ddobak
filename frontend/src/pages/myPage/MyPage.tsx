@@ -105,6 +105,7 @@ interface CartType {
   favoriteCheck: boolean;
   fontPrice: number;
   fontUrl: string;
+  sellerId: number;
 }
 
 const MyPage: React.FC = () => {
@@ -115,6 +116,21 @@ const MyPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const myValue = location.state?.pageValue;
+  type CartStyleType = {
+    fontFamily: string;
+    fontSrc: string;
+  };
+
+  const CartStyle = styled.p<CartStyleType>`
+    @font-face {
+      font-family: ${(props) => props.fontFamily};
+      src: url(${(props) => props.fontSrc});
+    }
+
+    font-family: ${(props) => props.fontFamily};
+    font-size: 24px;
+    margin: 0px;
+  `;
 
   const [cartData, setCartData] = useState<CartType[]>([]);
 
@@ -227,9 +243,18 @@ const MyPage: React.FC = () => {
         likeProducers: false,
       });
       cartGetAPI()
-        .then(async (r) => {
-          console.log(r);
-          setCartData(r);
+        .then(async (response) => {
+          console.log(response);
+          response.map((r: CartType) => {
+            const tmp = {
+              fontId: r.fontId,
+              sellerId: r.sellerId,
+              selected: false,
+              fontPrice: r.fontPrice,
+            };
+            return setSelectedFont([...selectedFont, tmp]);
+          });
+          setCartData(response);
         })
         .catch((e) => {
           console.error(e);
@@ -367,36 +392,70 @@ const MyPage: React.FC = () => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   const movePointPage = true;
-
-  const [fontCount, setFontCount] = useState<boolean[]>(
-    new Array(100001).fill({
-      isSelected: false,
-      sellerId: 0,
-    }),
-  );
   const [totalCartPrice, setTotalCartPrice] = useState<number>(0);
-  const [selectedCartList, setSelectedCartList] = useState<number[]>([]);
-  const deleteCartFC = (selectedCartList: number[]) => {
-    cartDeleteAPI(selectedCartList)
-      .then((r) => {
-        console.log(r);
-        // 삭제 완료 모달이 있으면 좋을듯
-        window.location.reload();
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  };
-  //   async function selectFontFC(fontId: number) {
-  //     const isSelected = fontCount[font].
-  //     if (isSelected) {
-  // // 선택했으면 선택 해제하고
-  // // sellerId도 필요하네
-  //     } else {
 
-  //     }
-  //     fontCount[fontId] = !fontCount[fontId]
-  //   }
+  interface SelectedType {
+    fontId: number;
+    selected: boolean;
+    sellerId: number;
+    fontPrice: number;
+  }
+
+  // 시작하자마자 불러올것
+  const [selectedFont, setSelectedFont] = useState<SelectedType[]>([]);
+
+  const deleteCartFC = () => {
+    const selectedCartList = selectedFont.filter((sf) => sf.selected).map((sf) => sf.fontId);
+
+    if (selectedCartList.length > 0) {
+      cartDeleteAPI(selectedCartList)
+        .then((r) => {
+          console.log(r);
+          window.location.reload();
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+  };
+  useEffect(() => {
+    const initialSelectedFont = cartData.map((item) => ({
+      fontId: item.fontId,
+      selected: false,
+      sellerId: item.sellerId,
+      fontPrice: item.fontPrice,
+    }));
+
+    setSelectedFont(initialSelectedFont);
+  }, [cartData]);
+
+  const currentSelected = (fontId: number) => {
+    const selectedItem = selectedFont.find((sf) => sf.fontId === fontId);
+    return selectedItem?.selected;
+  };
+
+  const clickCheckFC = (fontId: number) => {
+    const newSelectedFont = selectedFont.map((item) => {
+      if (item.fontId === fontId) {
+        const newSelected = !item.selected;
+        const priceChange = newSelected ? item.fontPrice : -item.fontPrice;
+        setTotalCartPrice((prevPrice) => prevPrice + priceChange);
+
+        return { ...item, selected: newSelected };
+      }
+      return item;
+    });
+
+    setSelectedFont(newSelectedFont);
+  };
+
+  useEffect(() => {
+    const newTotalPrice = selectedFont
+      .filter((item) => item.selected)
+      .reduce((total, item) => total + item.fontPrice, 0);
+
+    setTotalCartPrice(newTotalPrice);
+  }, [selectedFont]);
 
   return (
     <div className={classes.container}>
@@ -613,25 +672,9 @@ const MyPage: React.FC = () => {
 
               <ContentLargeBox>
                 <FontBasketTopBox>
-                  <SelectListDelete>선택 항목 삭제</SelectListDelete>
+                  <SelectListDelete onClick={deleteCartFC}>선택 항목 삭제</SelectListDelete>
                 </FontBasketTopBox>
                 {cartData.map((cart) => {
-                  type CartStyleType = {
-                    fontFamily: string;
-                    fontSrc: string;
-                  };
-
-                  const CartStyle = styled.p<CartStyleType>`
-                    @font-face {
-                      font-family: ${(props) => props.fontFamily};
-                      src: url(${(props) => props.fontSrc});
-                    }
-
-                    font-family: ${(props) => props.fontFamily};
-                    font-size: 24px;
-                    margin: 0px;
-                  `;
-
                   return (
                     <ContentIngredient key={'cart' + cart.fontId}>
                       <ContentInnerLeft>
@@ -649,27 +692,25 @@ const MyPage: React.FC = () => {
                         </ContentInnerTextBox>
                       </ContentInnerLeft>
                       <ContentInnerRight>
-                        <FaRegCheckSquare className={classes.checkIcon} />
+                        {currentSelected(cart.fontId) ? (
+                          <FaRegCheckSquare
+                            className={classes.checkIcon}
+                            onClick={() => {
+                              clickCheckFC(cart.fontId);
+                            }}
+                          />
+                        ) : (
+                          <FaRegSquare
+                            className={classes.checkIcon}
+                            onClick={() => {
+                              clickCheckFC(cart.fontId);
+                            }}
+                          />
+                        )}
                       </ContentInnerRight>
                     </ContentIngredient>
                   );
                 })}
-
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <FaRegSquare className={classes.checkIcon} />
-                  </ContentInnerRight>
-                </ContentIngredient>
-
                 <FontBasketBottomBox>
                   {/* 금액이 나와야 함 */}
                   <div>
