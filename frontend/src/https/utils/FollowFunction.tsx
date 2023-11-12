@@ -61,3 +61,15 @@ export async function getCountFollowing(followingId: string): Promise<any> {
       throw e;
     });
 }
+
+// 팔로우 목록
+export async function getFollowingList(): Promise<any> {
+  return axiosWithAuth
+    .get(BASE_URL + `/list`)
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}

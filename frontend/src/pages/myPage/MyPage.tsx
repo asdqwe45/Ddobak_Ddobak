@@ -96,6 +96,7 @@ import { getData } from 'https/http';
 import { transactionMyAllAPI } from 'https/utils/TransactionFunction';
 import { cartDeleteAPI, cartGetAPI } from 'https/utils/CartFunction';
 import styled from '@emotion/styled';
+import { followDeleteAPI, getFollowingList } from 'https/utils/FollowFunction';
 
 interface CartType {
   fontId: number;
@@ -196,7 +197,10 @@ const MyPage: React.FC = () => {
     boughtFonts: false,
     likeProducers: false,
   });
+
   const [dibList, setDibList] = useState([]);
+  const [myFollowingList, setMyFollowingList] = useState([]);
+
   // 스와이퍼 참조
   const swiperRef = useRef<SwiperCore>();
   const pageClickHandle = async (pageName: string) => {
@@ -216,10 +220,13 @@ const MyPage: React.FC = () => {
           console.error(e);
         });
     } else if (pageName === 'likeList') {
-      dibListAPI().then((response) => {
-        console.log(response);
-        setDibList(response);
-      });
+      dibListAPI()
+        .then((response) => {
+          setDibList(response);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
       setPageLocation({
         productsState: false,
         likeList: true,
@@ -261,6 +268,14 @@ const MyPage: React.FC = () => {
         likeProducers: false,
       });
     } else {
+      getFollowingList()
+        .then((r) => {
+          console.log('여기: ', r);
+          setMyFollowingList(r);
+        })
+        .catch((e) => {
+          console.error('팔로우 에러 : ', e);
+        });
       setPageLocation({
         productsState: false,
         likeList: false,
@@ -317,13 +332,42 @@ const MyPage: React.FC = () => {
   }
 
   const clickBookmarkButton = (dib: DibType) => {
-    console.log('click');
-    dibRemoveAPI(dib.fontId.toString()).then(() => {
-      dibListAPI().then((response) => {
-        console.log(response);
-        setDibList(response);
+    dibRemoveAPI(dib.fontId.toString())
+      .then(() => {
+        dibListAPI()
+          .then((response) => {
+            console.log(response);
+            setDibList(response);
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      })
+      .catch((e) => {
+        console.error(e);
       });
-    });
+  };
+
+  interface FollowType {
+    memberId: string;
+    nickname: string;
+    ProfileImg: string;
+  }
+
+  const clickHeartButton = (follow: FollowType) => {
+    followDeleteAPI(follow['memberId'])
+      .then(() => {
+        getFollowingList()
+          .then((r) => {
+            setMyFollowingList(r);
+          })
+          .catch((e) => {
+            console.error('팔로우 에러 : ', e);
+          });
+      })
+      .catch((e) => {
+        console.error('팔로우 에러 : ', e);
+      });
   };
 
   // 닉네임 수정하기 마우스 호버시
@@ -723,73 +767,57 @@ const MyPage: React.FC = () => {
               {/* 찜한 제작자 */}
               {/* ======== */}
               <ContentLargeBox>
-                <Swiper
-                  onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
-                  slidesPerView={3}
-                  spaceBetween={15}
-                  loop={true}
-                  autoplay={{
-                    delay: 2500,
-                    disableOnInteraction: false,
-                  }}
-                  modules={[Autoplay, Navigation]}
-                  className={classes.swiper}
-                >
-                  <SwiperSlide className={classes.swiperSlide}>
-                    <img src={Test1} alt="" className={classes.swiperImg} />
-                    <LikeIconBox>
-                      <FaHeart size={40} color={'#d71718'} />
-                    </LikeIconBox>
-                    <LikeProducerBox>
-                      <LikeBoxText>LTS 운영팀장</LikeBoxText>
-                    </LikeProducerBox>
-                  </SwiperSlide>
-                  <SwiperSlide className={classes.swiperSlide}>
-                    <img src={Test2} alt="" className={classes.swiperImg} />
-                    <LikeIconBox>
-                      <FaHeart size={40} color={'#d71718'} />
-                    </LikeIconBox>
-                    <LikeProducerBox>
-                      <LikeBoxText>LJE 기획팀장</LikeBoxText>
-                    </LikeProducerBox>
-                  </SwiperSlide>
-                  <SwiperSlide className={classes.swiperSlide}>
-                    <img src={Test3} alt="" className={classes.swiperImg} />
-                    <LikeIconBox>
-                      <FaHeart size={40} color={'#d71718'} />
-                    </LikeIconBox>
-                    <LikeProducerBox>
-                      <LikeBoxText>KJJ FE팀장</LikeBoxText>
-                    </LikeProducerBox>
-                  </SwiperSlide>
-                  <SwiperSlide className={classes.swiperSlide}>
-                    <img src={Test4} alt="" className={classes.swiperImg} />
-                    <LikeIconBox>
-                      <FaHeart size={40} color={'#d71718'} />
-                    </LikeIconBox>
-                    <LikeProducerBox>
-                      <LikeBoxText>LKM 배포팀장</LikeBoxText>
-                    </LikeProducerBox>
-                  </SwiperSlide>
-                  <SwiperSlide className={classes.swiperSlide}>
-                    <img src={Test5} alt="" className={classes.swiperImg} />
-                    <LikeIconBox>
-                      <FaHeart size={40} color={'#d71718'} />
-                    </LikeIconBox>
-                    <LikeProducerBox>
-                      <LikeBoxText>LMK AI팀장</LikeBoxText>
-                    </LikeProducerBox>
-                  </SwiperSlide>
-                  <SwiperSlide className={classes.swiperSlide}>
-                    <img src={Test6} alt="" className={classes.swiperImg} />
-                    <LikeIconBox>
-                      <FaHeart size={40} color={'#d71718'} />
-                    </LikeIconBox>
-                    <LikeProducerBox>
-                      <LikeBoxText>LJM BE팀장</LikeBoxText>
-                    </LikeProducerBox>
-                  </SwiperSlide>
-                </Swiper>
+                {myFollowingList.length > 0 ? (
+                  <Swiper
+                    onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
+                    slidesPerView={3}
+                    spaceBetween={15}
+                    loop={true}
+                    autoplay={{
+                      delay: 2500,
+                      disableOnInteraction: false,
+                    }}
+                    modules={[Autoplay, Navigation]}
+                    className={classes.swiper}
+                  >
+                    {myFollowingList.map((item) => {
+                      console.log('여기여기', item);
+                      return (
+                        <SwiperSlide className={classes.swiperSlide}>
+                          <img
+                            onClick={() => {
+                              navigate(`/maker/${item['nickname']}/${item['memberId']}`);
+                            }}
+                            src={
+                              'https://ddobak-profile-image.s3.ap-northeast-2.amazonaws.com/' +
+                              item['ProfileImg']
+                            }
+                            alt=""
+                            className={classes.swiperImg}
+                          />
+                          <LikeIconBox>
+                            <FaHeart
+                              size={40}
+                              color={'#d71718'}
+                              onClick={() => {
+                                clickHeartButton(item);
+                              }}
+                            />
+                          </LikeIconBox>
+                          <LikeProducerBox
+                            onClick={() => {
+                              navigate(`/maker/${item['nickname']}/${item['memberId']}`);
+                            }}
+                          >
+                            <LikeBoxText>{item['nickname']}</LikeBoxText>
+                          </LikeProducerBox>
+                        </SwiperSlide>
+                      );
+                    })}
+                  </Swiper>
+                ) : (
+                  <div className={classes.noContent}>"팔로우한 폰트 제작자가 없습니다."</div>
+                )}
               </ContentLargeBox>
             </>
           )}
