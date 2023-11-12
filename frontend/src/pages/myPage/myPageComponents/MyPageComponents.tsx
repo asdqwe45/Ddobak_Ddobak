@@ -373,3 +373,16 @@ export const LikeBoxText = styled.p`
   font-size: 24px;
   font-weight: bold;
 `;
+
+export const CartPriceBox = styled.div`
+  height: 40px;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+export const CartPriceText = styled.h1`
+  margin: 0px;
+  font-size: 20px;
+`

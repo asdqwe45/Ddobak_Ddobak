@@ -14,9 +14,14 @@ import SignupLoaderModal from 'common/modals/signupLoaderModal/SignupLoaderModal
 import FailAuthModal from 'common/modals/failAuthModal/FailAuthModal';
 import ChangeNicknameModal from 'common/modals/changeNicknameModal/ChangeNicknameModal';
 import ChangeMakerIntroModal from 'common/modals/changeMakerIntroModal/ChangeMakerIntroModal';
+import BasketErrorModal from 'common/modals/basketErrorModal/BasketErrorModal';
+import SuccessModal from 'common/modals/successModal/SuccessModal';
+
 const RootLayout: React.FC = () => {
   return (
     <div>
+      <SuccessModal />
+      <BasketErrorModal />
       <ChangeNicknameModal />
       <FailAuthModal />
       <SignupLoaderModal />

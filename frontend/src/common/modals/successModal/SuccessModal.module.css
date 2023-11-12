@@ -1,0 +1,68 @@
+.overLay {
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .modalContainer {
+    background-color: white;
+    width: 600px;
+    height: 350px;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    border: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .closeIcon {
+    cursor: pointer;
+  
+    &:hover {
+      color: #d71718;
+    }
+  }
+  .topBox {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    height: 30px;
+  }
+  .innerText {
+    margin: 20px 0px;
+    font-size: 24px;
+    white-space: normal;
+    font-weight: bold;
+  }
+  .innerHeader {
+    margin: 5px 0px;
+    font-size: 32px;
+    white-space: normal;
+    font-weight: bold;
+  }
+  
+  .modalBtn {
+    height: 40px;
+    border: 0px;
+    border-radius: 10px;
+    aspect-ratio: 4;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+    margin: 0px 10px;
+  
+    &:hover {
+      cursor: pointer;
+      opacity: 0.7;
+    }
+  }
+  

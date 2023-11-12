@@ -12,6 +12,7 @@ import { borderColor, mainRedColor, likeCountColor } from 'common/colors/CommonC
 import { resultModalActions } from 'store/resultModalSlice';
 import { checkToken, userMypageAPI } from 'https/utils/AuthFunction';
 import { transactionPurchaseAPI } from 'https/utils/TransactionFunction';
+import { cartDeleteAPI } from 'https/utils/CartFunction';
 
 interface PointModalState {
   pointModal: {
@@ -83,12 +84,46 @@ const PointPayModal: React.FC = () => {
     transactionPurchaseAPI(buyAll)
       .then(async (r) => {
         console.log(r);
-        if (boughtSomething) {
+        if (boughtSomething === '폰트제작') {
           dispatch(pointPayModalActions.paidSomething());
           clickPayHandler();
           // 다음 페이지로 이동
           dispatch(resultModalActions.nextStep());
           return;
+        } else if (boughtSomething === '폰트구매') {
+          // 장바구니 삭제
+          const data = [];
+          // buyAll
+          for (const bA of buyAll) {
+            data.push(bA.fontId);
+          }
+          cartDeleteAPI(data)
+            .then(async (r) => {
+              console.log(r);
+              closeModal();
+              dispatch(pointPayModalActions.resetState());
+              window.location.reload()
+            })
+            .catch((e) => {
+              console.error(e);
+            });
+        } else if (boughtSomething === '장바구니구매') {
+          // 장바구니 삭제
+          const data = [];
+          // buyAll
+          for (const bA of buyAll) {
+            data.push(bA.fontId);
+          }
+          cartDeleteAPI(data)
+            .then(async (r) => {
+              console.log(r);
+              closeModal();
+              dispatch(pointPayModalActions.resetState());
+              window.location.reload()
+            })
+            .catch((e) => {
+              console.error(e);
+            });
         } else {
           closeModal();
           dispatch(pointPayModalActions.resetState());

@@ -12,6 +12,8 @@ import signupLoaderSlice from './signupLoaderSlice';
 import failAuthModalSlice from './failAuthModalSlice';
 import changeNicknameModalSlice from './changeNicknameSlice';
 import changeMakerIntroModalSlice from './changeMakerIntroSlice';
+import basketErrorModalSlice from './basketErrorModalSlice';
+import successModalSlice from './successModalSlice';
 
 const store = configureStore({
   reducer: {
@@ -27,6 +29,8 @@ const store = configureStore({
     failAuth: failAuthModalSlice.reducer,
     changeNickname: changeNicknameModalSlice.reducer,
     changeMakerIntro: changeMakerIntroModalSlice.reducer,
+    basketError: basketErrorModalSlice.reducer,
+    successModal: successModalSlice.reducer,
   },
 });
 
