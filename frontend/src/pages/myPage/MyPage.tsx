@@ -104,6 +104,7 @@ interface CartType {
   favoriteCheck: boolean;
   fontPrice: number;
   fontUrl: string;
+  sellerId: number;
 }
 
 const MyPage: React.FC = () => {
@@ -220,9 +221,18 @@ const MyPage: React.FC = () => {
         likeProducers: false,
       });
       cartGetAPI()
-        .then(async (r) => {
-          console.log(r);
-          setCartData(r);
+        .then(async (response) => {
+          console.log(response);
+          response.map((r: CartType) => {
+            const tmp = {
+              fontId: r.fontId,
+              sellerId: r.sellerId,
+              selected: false,
+              fontPrice: r.fontPrice,
+            };
+            return setSelectedFont([...selectedFont, tmp]);
+          });
+          setCartData(response);
         })
         .catch((e) => {
           console.error(e);
@@ -323,34 +333,83 @@ const MyPage: React.FC = () => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
   const movePointPage = true;
-
-  const [fontCount, setFontCount] = useState<boolean[]>(new Array(100001).fill({
-    isSelected: false,
-    sellerId: 0,
-  }));
   const [totalCartPrice, setTotalCartPrice] = useState<number>(0);
-  const [selectedCartList, setSelectedCartList] = useState<number[]>([]);
-  const deleteCartFC = (selectedCartList: number[]) => {
-    cartDeleteAPI(selectedCartList)
-      .then((r) => {
-        console.log(r);
-        // 삭제 완료 모달이 있으면 좋을듯
-        window.location.reload();
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  };
-//   async function selectFontFC(fontId: number) {
-//     const isSelected = fontCount[font].
-//     if (isSelected) {
-// // 선택했으면 선택 해제하고
-// // sellerId도 필요하네
-//     } else {
 
-//     }
-//     fontCount[fontId] = !fontCount[fontId]
-//   }
+  interface SelectedType {
+    fontId: number;
+    selected: boolean;
+    sellerId: number;
+    fontPrice: number;
+  }
+
+  // 시작하자마자 불러올것
+  const [selectedFont, setSelectedFont] = useState<SelectedType[]>([]);
+
+  const deleteCartFC = () => {
+    const selectedCartList: number[] = [];
+    selectedFont.map((sf) => {
+      if (sf.selected) {
+        return selectedCartList.push(sf.fontId);
+      }
+      return 0;
+    });
+    if (selectedCartList.length > 0) {
+      cartDeleteAPI(selectedCartList)
+        .then((r) => {
+          console.log(r);
+          // 삭제 완료 모달이 있으면 좋을듯
+          window.location.reload();
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+  };
+
+  const currentSelected = (fontId: number) => {
+    // true인지 false인지 보내줌
+    let returnValue = false;
+    selectedFont.map((sf) => {
+      const tmpSelected = sf.selected;
+      if (tmpSelected) {
+        return (returnValue = tmpSelected);
+      } else {
+        return (returnValue = tmpSelected);
+      }
+    });
+
+    return returnValue;
+  };
+
+  const clickCheckFC = (fontId: number) => {
+    selectedFont.map((sf) => {
+      const isSelected = sf.selected;
+      const sfFontId = sf.fontId;
+      const nowPrice = sf.fontPrice;
+      const sellerId = sf.sellerId;
+      if (sfFontId === fontId && isSelected) {
+        // 선택을 해제한다.
+        // 가격을 뺀다는 말
+        setTotalCartPrice(totalCartPrice - nowPrice);
+        const newData = {
+          fontId: sfFontId,
+          selected: !isSelected,
+          sellerId: sellerId,
+          fontPrice: nowPrice,
+        };
+        return setSelectedFont([...selectedFont, newData]);
+      } else {
+        setTotalCartPrice(totalCartPrice + nowPrice);
+        const newData = {
+          fontId: sfFontId,
+          selected: !isSelected,
+          sellerId: sellerId,
+          fontPrice: nowPrice,
+        };
+        return setSelectedFont([...selectedFont, newData]);
+      }
+    });
+  };
 
   return (
     <div className={classes.container}>
@@ -567,7 +626,7 @@ const MyPage: React.FC = () => {
 
               <ContentLargeBox>
                 <FontBasketTopBox>
-                  <SelectListDelete>선택 항목 삭제</SelectListDelete>
+                  <SelectListDelete onClick={deleteCartFC}>선택 항목 삭제</SelectListDelete>
                 </FontBasketTopBox>
                 {cartData.map((cart) => {
                   type CartStyleType = {
@@ -603,27 +662,25 @@ const MyPage: React.FC = () => {
                         </ContentInnerTextBox>
                       </ContentInnerLeft>
                       <ContentInnerRight>
-                        <FaRegCheckSquare className={classes.checkIcon} />
+                        {currentSelected(cart.fontId) ? (
+                          <FaRegCheckSquare
+                            onClick={() => {
+                              clickCheckFC(cart.fontId);
+                            }}
+                            className={classes.checkIcon}
+                          />
+                        ) : (
+                          <FaRegSquare
+                            className={classes.checkIcon}
+                            onClick={() => {
+                              clickCheckFC(cart.fontId);
+                            }}
+                          />
+                        )}
                       </ContentInnerRight>
                     </ContentIngredient>
                   );
                 })}
-
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <FaRegSquare className={classes.checkIcon} />
-                  </ContentInnerRight>
-                </ContentIngredient>
-
                 <FontBasketBottomBox>
                   {/* 금액이 나와야 함 */}
                   <div>
