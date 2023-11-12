@@ -22,11 +22,11 @@ interface KeywordBtnProps {
 
 const KeywordBtn: React.FC<KeywordBtnProps> = ({ onKeywordsChange }) => {
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
-  
+
   const toggleKeyword = (keyword: string) => {
     let newSelectedKeywords;
     if (selectedKeywords.includes(keyword)) {
-      newSelectedKeywords = selectedKeywords.filter(k => k !== keyword);
+      newSelectedKeywords = selectedKeywords.filter((k) => k !== keyword);
     } else {
       if (selectedKeywords.length >= 3) {
         alert('3개까지만 선택 가능합니다.');
@@ -40,21 +40,19 @@ const KeywordBtn: React.FC<KeywordBtnProps> = ({ onKeywordsChange }) => {
 
   const renderKeywords = (keywords: string[]) => (
     <div className={classes.btnContainer}>
-    {keywords.map((keyword) => {
-      const isSelected = selectedKeywords.includes(keyword);
-      const keywordClass = isSelected ? `${classes.keyword} ${classes.selected}` : classes.keyword;
-      
-      return (
-        <div
-          className={keywordClass}
-          key={keyword}
-          onClick={() => toggleKeyword(keyword)}
-        >
-          <p>{keyword}</p>
-        </div>
-      );
-    })}
-  </div>
+      {keywords.map((keyword) => {
+        const isSelected = selectedKeywords.includes(keyword);
+        const keywordClass = isSelected
+          ? `${classes.keyword} ${classes.selected}`
+          : classes.keyword;
+
+        return (
+          <div className={keywordClass} key={keyword} onClick={() => toggleKeyword(keyword)}>
+            <p>{keyword}</p>
+          </div>
+        );
+      })}
+    </div>
   );
 
   return (

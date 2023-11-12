@@ -178,7 +178,7 @@ const FontMakeStep2: React.FC = () => {
             .filter((url: string) => url.trim() !== '');
           // console.log(imageUrls)
 
-          const sortedUrl = (await response).data
+          const sortedUrl = (await response).data;
           dispatch(setSortUrl(sortedUrl));
 
           // 첫 번째 이미지로 한국어 파일 미리보기 업데이트

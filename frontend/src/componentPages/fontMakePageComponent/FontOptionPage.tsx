@@ -51,19 +51,20 @@ const FontOptionPage: React.FC = () => {
 
   const korNameCheck = async () => {
     if (!korFontName.trim()) {
-      handleNameInputAlert() // 폰트 이름을 입력
+      handleNameInputAlert(); // 폰트 이름을 입력
       console.log(fontId, fontSortUrl);
       return;
     }
     try {
-      const params = { korFontName: korFontName }
+      const params = { korFontName: korFontName };
       const response = await axiosWithAuth.get('/font/name/check', { params });
-      if (!response.data) { // false: 사용가능 | true: 중복
-        handleNameOkAlert() // 사용 가능
+      if (!response.data) {
+        // false: 사용가능 | true: 중복
+        handleNameOkAlert(); // 사용 가능
         setIsKorNameAvailable(true);
       } else {
-        handleNameExistAlert() // 중복
-        setKorFontName('')
+        handleNameExistAlert(); // 중복
+        setKorFontName('');
       }
     } catch (error) {
       console.error('한글명 중복체크 오류 발생:', error);
@@ -80,24 +81,25 @@ const FontOptionPage: React.FC = () => {
     if (regex.test(value)) {
       setEngFontName(value);
     } else {
-      handleEngFileModalAlert() // 파일명 영문, 숫자만 가능
+      handleEngFileModalAlert(); // 파일명 영문, 숫자만 가능
     }
   };
 
   const engNameCheck = async () => {
     if (!engFontName.trim()) {
-      handleNameInputAlert() // 폰트 이름을 입력
+      handleNameInputAlert(); // 폰트 이름을 입력
       return;
     }
     try {
-      const params = { engFontName: engFontName }
+      const params = { engFontName: engFontName };
       const response = await axiosWithAuth.get('/font/name/check', { params });
-      if (!response.data) { // false: 사용가능 | true: 중복
-        handleNameOkAlert() // 사용 가능
+      if (!response.data) {
+        // false: 사용가능 | true: 중복
+        handleNameOkAlert(); // 사용 가능
         setIsEngNameAvailable(true);
       } else {
-        handleNameExistAlert() // 중복
-        setEngFontName('')
+        handleNameExistAlert(); // 중복
+        setEngFontName('');
       }
     } catch (error) {
       console.error('파일명(영문) 중복체크 오류 발생:', error);
@@ -126,7 +128,7 @@ const FontOptionPage: React.FC = () => {
     if (/^\d*$/.test(value)) {
       setPriceValue(Number(value));
     } else {
-      handlePriceNumModalAlert() // 숫자만 가능
+      handlePriceNumModalAlert(); // 숫자만 가능
     }
   };
 
@@ -191,15 +193,14 @@ const FontOptionPage: React.FC = () => {
           price: !saleOption && priceValue !== null ? priceValue : 0,
           introduceText: inputFontIntro,
           keywords: selectedKeywords,
-        }
+        };
         const response = await axiosWithAuth.put('/font/make/request', requestBody);
         if (response.data) {
-          console.log(response.data)
+          console.log(response.data);
         } else {
           console.error('Unexpected response:', response);
         }
-      }
-      catch (error) {
+      } catch (error) {
         console.error('폰트 정보 업데이트 중 오류 발생:', error);
       }
     }
@@ -221,7 +222,7 @@ const FontOptionPage: React.FC = () => {
       console.log('keywords', selectedKeywords);
       await fontOptionAPI(); // 폰트 정보 API 호출
     } else {
-      handleNotAllInputAlert() // 모든 정보 입력
+      handleNotAllInputAlert(); // 모든 정보 입력
     }
   };
 
@@ -238,7 +239,6 @@ const FontOptionPage: React.FC = () => {
         <div className={classes.fontNameContainer}>
           <BoxTitle>폰트 이름 설정</BoxTitle>
           <div className={classes.name}>
-
             <div className={classes.nameInput} style={{ flexGrow: '1' }}>
               <InputTitle>폰트명</InputTitle>
               <input
@@ -262,7 +262,6 @@ const FontOptionPage: React.FC = () => {
               />
               <button onClick={engNameCheck}>중복확인</button>
             </div>
-
           </div>
         </div>
         <br />
@@ -274,11 +273,7 @@ const FontOptionPage: React.FC = () => {
             <span style={{ marginLeft: '20px' }}>({inputFontIntro.length}/200)</span>
           </div>
           <div>
-            <textarea
-              placeholder=""
-              value={inputFontIntro}
-              onChange={handleInputChange}
-            />
+            <textarea placeholder="" value={inputFontIntro} onChange={handleInputChange} />
           </div>
         </div>
         <hr />
@@ -289,27 +284,21 @@ const FontOptionPage: React.FC = () => {
           <BoxTitle>상태 설정</BoxTitle>
           <div className={classes.rowContainer}>
             <InputTitle style={{ width: '20vw' }}>공개 여부</InputTitle>
-            <RadioBtn
-              options={['공개', '비공개']}
-              name="open"
-              onChange={handleOpenChange}
-            />
+            <RadioBtn options={['공개', '비공개']} name="open" onChange={handleOpenChange} />
           </div>
 
           <div className={classes.rowContainer}>
             <InputTitle style={{ width: '20vw', height: '53px' }}>판매 금액</InputTitle>
-            <RadioBtn
-              options={['유료', '무료']}
-              name="charge"
-              onChange={handleSaleChange}
-            />
+            <RadioBtn options={['유료', '무료']} name="charge" onChange={handleSaleChange} />
             {!saleOption && ( // 유료 선택 시 금액 설정
               <>
                 <InputTitle style={{ marginLeft: '100px' }}>판매 금액 설정</InputTitle>
-                <input type="text"
+                <input
+                  type="text"
                   value={priceValue !== null ? priceValue.toString() : ''}
                   onChange={handlePriceValue}
-                  style={{ width: '15vw', height: '50px' }} />
+                  style={{ width: '15vw', height: '50px' }}
+                />
                 <InputTitle>원</InputTitle>
               </>
             )}
@@ -348,32 +337,44 @@ const FontOptionPage: React.FC = () => {
       <AlertCustomModal
         show={nameInputModal}
         onHide={() => setNameInputModal(false)}
-        message1="폰트 이름을 입력해 주세요! 😮" message2="" btnName="확인"
+        message1="폰트 이름을 입력해 주세요! 😮"
+        message2=""
+        btnName="확인"
       />
       <AlertCustomModal
         show={nameOkModal}
         onHide={() => setNameOkModal(false)}
-        message1="사용 가능합니다. 😄" message2="" btnName="확인"
+        message1="사용 가능합니다. 😄"
+        message2=""
+        btnName="확인"
       />
       <AlertCustomModal
         show={nameExistModal}
         onHide={() => setNameExistModal(false)}
-        message1="중복된 이름입니다. 😢" message2="" btnName="확인"
+        message1="중복된 이름입니다. 😢"
+        message2=""
+        btnName="확인"
       />
       <AlertCustomModal
         show={engFileModal}
         onHide={() => setEngFileModal(false)}
-        message1="폰트 파일명은 영문과 숫자만 가능해요." message2="" btnName="확인"
+        message1="폰트 파일명은 영문과 숫자만 가능해요."
+        message2=""
+        btnName="확인"
       />
       <AlertCustomModal
         show={priceNumModal}
         onHide={() => setPriceNumModal(false)}
-        message1="숫자만 입력해 주세요. 😀" message2="" btnName="확인"
+        message1="숫자만 입력해 주세요. 😀"
+        message2=""
+        btnName="확인"
       />
       <AlertCustomModal
         show={notAllInputModal}
         onHide={() => setNotAllInputModal(false)}
-        message1="📢 모든 정보를 입력해주세요! 🚨" message2="" btnName="확인"
+        message1="📢 모든 정보를 입력해주세요! 🚨"
+        message2=""
+        btnName="확인"
       />
     </>
   );
