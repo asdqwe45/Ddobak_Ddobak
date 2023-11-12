@@ -115,6 +115,21 @@ const MyPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const myValue = location.state?.pageValue;
+  type CartStyleType = {
+    fontFamily: string;
+    fontSrc: string;
+  };
+
+  const CartStyle = styled.p<CartStyleType>`
+    @font-face {
+      font-family: ${(props) => props.fontFamily};
+      src: url(${(props) => props.fontSrc});
+    }
+
+    font-family: ${(props) => props.fontFamily};
+    font-size: 24px;
+    margin: 0px;
+  `;
 
   const [cartData, setCartData] = useState<CartType[]>([]);
 
@@ -346,18 +361,12 @@ const MyPage: React.FC = () => {
   const [selectedFont, setSelectedFont] = useState<SelectedType[]>([]);
 
   const deleteCartFC = () => {
-    const selectedCartList: number[] = [];
-    selectedFont.map((sf) => {
-      if (sf.selected) {
-        return selectedCartList.push(sf.fontId);
-      }
-      return 0;
-    });
+    const selectedCartList = selectedFont.filter((sf) => sf.selected).map((sf) => sf.fontId);
+
     if (selectedCartList.length > 0) {
       cartDeleteAPI(selectedCartList)
         .then((r) => {
           console.log(r);
-          // 삭제 완료 모달이 있으면 좋을듯
           window.location.reload();
         })
         .catch((e) => {
@@ -365,51 +374,44 @@ const MyPage: React.FC = () => {
         });
     }
   };
+  useEffect(() => {
+    const initialSelectedFont = cartData.map((item) => ({
+      fontId: item.fontId,
+      selected: false,
+      sellerId: item.sellerId,
+      fontPrice: item.fontPrice,
+    }));
+
+    setSelectedFont(initialSelectedFont);
+  }, [cartData]);
 
   const currentSelected = (fontId: number) => {
-    // true인지 false인지 보내줌
-    let returnValue = false;
-    selectedFont.map((sf) => {
-      const tmpSelected = sf.selected;
-      if (tmpSelected) {
-        return (returnValue = tmpSelected);
-      } else {
-        return (returnValue = tmpSelected);
-      }
-    });
-
-    return returnValue;
+    const selectedItem = selectedFont.find((sf) => sf.fontId === fontId);
+    return selectedItem?.selected;
   };
 
   const clickCheckFC = (fontId: number) => {
-    selectedFont.map((sf) => {
-      const isSelected = sf.selected;
-      const sfFontId = sf.fontId;
-      const nowPrice = sf.fontPrice;
-      const sellerId = sf.sellerId;
-      if (sfFontId === fontId && isSelected) {
-        // 선택을 해제한다.
-        // 가격을 뺀다는 말
-        setTotalCartPrice(totalCartPrice - nowPrice);
-        const newData = {
-          fontId: sfFontId,
-          selected: !isSelected,
-          sellerId: sellerId,
-          fontPrice: nowPrice,
-        };
-        return setSelectedFont([...selectedFont, newData]);
-      } else {
-        setTotalCartPrice(totalCartPrice + nowPrice);
-        const newData = {
-          fontId: sfFontId,
-          selected: !isSelected,
-          sellerId: sellerId,
-          fontPrice: nowPrice,
-        };
-        return setSelectedFont([...selectedFont, newData]);
+    const newSelectedFont = selectedFont.map((item) => {
+      if (item.fontId === fontId) {
+        const newSelected = !item.selected;
+        const priceChange = newSelected ? item.fontPrice : -item.fontPrice;
+        setTotalCartPrice((prevPrice) => prevPrice + priceChange);
+
+        return { ...item, selected: newSelected };
       }
+      return item;
     });
+
+    setSelectedFont(newSelectedFont);
   };
+
+  useEffect(() => {
+    const newTotalPrice = selectedFont
+      .filter((item) => item.selected)
+      .reduce((total, item) => total + item.fontPrice, 0);
+
+    setTotalCartPrice(newTotalPrice);
+  }, [selectedFont]);
 
   return (
     <div className={classes.container}>
@@ -629,22 +631,6 @@ const MyPage: React.FC = () => {
                   <SelectListDelete onClick={deleteCartFC}>선택 항목 삭제</SelectListDelete>
                 </FontBasketTopBox>
                 {cartData.map((cart) => {
-                  type CartStyleType = {
-                    fontFamily: string;
-                    fontSrc: string;
-                  };
-
-                  const CartStyle = styled.p<CartStyleType>`
-                    @font-face {
-                      font-family: ${(props) => props.fontFamily};
-                      src: url(${(props) => props.fontSrc});
-                    }
-
-                    font-family: ${(props) => props.fontFamily};
-                    font-size: 24px;
-                    margin: 0px;
-                  `;
-
                   return (
                     <ContentIngredient key={'cart' + cart.fontId}>
                       <ContentInnerLeft>
@@ -664,10 +650,10 @@ const MyPage: React.FC = () => {
                       <ContentInnerRight>
                         {currentSelected(cart.fontId) ? (
                           <FaRegCheckSquare
+                            className={classes.checkIcon}
                             onClick={() => {
                               clickCheckFC(cart.fontId);
                             }}
-                            className={classes.checkIcon}
                           />
                         ) : (
                           <FaRegSquare
