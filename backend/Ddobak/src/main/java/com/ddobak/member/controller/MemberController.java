@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -138,11 +139,11 @@ public class MemberController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/profileImg")
-    public ResponseEntity<ProfileImgResponse> requestProfileImg(@AuthenticationPrincipal LoginInfo loginInfo) {
+    @GetMapping("/profileImg/{memberId}")
+    public ResponseEntity<ProfileImgResponse> requestProfileImg(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long memberId) {
         log.info("{} request profileImg");
 
-        ProfileImgResponse profileImgResponse = memberService.getProfileImg(loginInfo);
+        ProfileImgResponse profileImgResponse = memberService.getProfileImg(memberId);
         return ResponseEntity.ok().body(profileImgResponse);
     }
 
