@@ -61,7 +61,7 @@ public class FollowServiceImpl implements FollowService {
 
             for (Follow follow: follows) {
                 Member member = follow.getFollowing();
-                FollowingMemberResponse followingMember = new FollowingMemberResponse(member.getNickname(), member.getProfileImg());
+                FollowingMemberResponse followingMember = new FollowingMemberResponse(member.getId(), member.getNickname(), member.getProfileImg());
                 result.add(followingMember);
             }
             return result;
