@@ -12,15 +12,12 @@ import com.ddobak.transaction.dto.response.ProducerResponse;
 import com.ddobak.transaction.dto.response.PurchaseResponse;
 import com.ddobak.transaction.dto.response.TransactionResponse;
 import com.ddobak.transaction.dto.response.WithdrawResponse;
-import com.ddobak.transaction.entity.Withdrawal;
 import com.ddobak.transaction.service.TransactionService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -148,12 +145,12 @@ public class TransactionController {
         return ResponseEntity.ok().body(producerResponseList);
     }
 
-    // 제작 및 구매 폰트 디테일 조회
+    // 구매 폰트 디테일 조회
     @GetMapping("/font/detail")
-    public ResponseEntity<List<FontDetailResponse>> requestFontDetail(@AuthenticationPrincipal LoginInfo loginInfo) {
+    public ResponseEntity<List<FontDetailResponse>> requestPurchaseList(@AuthenticationPrincipal LoginInfo loginInfo) {
         log.info("{}'s font detail info");
 
-        List<FontDetailResponse> fontDetailResponseList = transactionService.getFontDetailList(loginInfo);
+        List<FontDetailResponse> fontDetailResponseList = transactionService.getPurchaseList(loginInfo);
         return ResponseEntity.ok().body(fontDetailResponseList);
     }
 }
