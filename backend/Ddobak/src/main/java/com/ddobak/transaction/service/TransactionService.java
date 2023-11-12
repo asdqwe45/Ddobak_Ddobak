@@ -506,7 +506,8 @@ public class TransactionService {
             FontResponse fontResponse = new FontResponse(
                 creationList.get(i).getCreatedFont().getId(),
                 creationList.get(i).getCreatedFont().getKorFontName(),
-                creationList.get(i).getCreatedFont().getFont_file_url()
+                creationList.get(i).getCreatedFont().getFont_file_url(),
+                creationList.get(i).getCreatedFont().getOpen_status()
             );
             fontResponseList.add(fontResponse);
         }
