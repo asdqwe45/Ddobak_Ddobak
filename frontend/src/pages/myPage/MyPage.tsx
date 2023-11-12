@@ -67,14 +67,6 @@ import 'swiper/css/navigation';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper as SwiperCore } from 'swiper/types';
 
-// testImg
-import Test1 from './myPageAssets/Test1.png';
-import Test2 from './myPageAssets/Test2.png';
-import Test3 from './myPageAssets/Test3.png';
-import Test4 from './myPageAssets/Test4.png';
-import Test5 from './myPageAssets/Test5.png';
-import Test6 from './myPageAssets/Test6.png';
-
 // redux
 import { useDispatch } from 'react-redux';
 import { changePwModalActions } from 'store/changePwModalSlice';
