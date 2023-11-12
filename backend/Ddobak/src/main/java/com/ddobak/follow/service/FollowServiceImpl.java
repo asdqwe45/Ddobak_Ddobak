@@ -1,16 +1,18 @@
 package com.ddobak.follow.service;
 
+import com.ddobak.follow.dto.FollowingMemberResponse;
 import com.ddobak.follow.entity.Follow;
 import com.ddobak.follow.exception.UserAlreadyFollowingException;
 import com.ddobak.follow.exception.UserNotFoundException;
 import com.ddobak.follow.repository.FollowRepository;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.repository.MemberRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class FollowServiceImpl implements FollowService {
@@ -54,10 +56,21 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public List<Member> getFollowingsByFollower(Long followerId) {
+    public ResponseEntity<List<FollowingMemberResponse>> getFollowingsByFollower(Long followerId) {
         List<Follow> follows = followRepository.findAllByFollowerId(followerId);
-        return follows.stream()
-                .map(Follow::getFollowing).collect(Collectors.toList());
+
+        if (follows.isEmpty()){
+            return ResponseEntity.noContent().build();
+        } else {
+            ArrayList<FollowingMemberResponse> result = new ArrayList<>();
+
+            for (Follow follow: follows) {
+                Member member = follow.getFollowing();
+                FollowingMemberResponse followingMember = new FollowingMemberResponse(member.getNickname(), member.getProfileImg());
+                result.add(followingMember);
+            }
+            return ResponseEntity.ok(result);
+        }
     }
 
     @Override
