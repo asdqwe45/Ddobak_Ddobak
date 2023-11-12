@@ -23,3 +23,11 @@
 .prCentered {
   width: 60%;
 }
+
+.ImgStyle {
+  width: 98.4px;
+  height: 98.4px;
+  border-radius: 100%;
+  box-sizing: border-box;
+  border: 1px solid #b6b6b6;
+}

@@ -102,6 +102,7 @@ const MyPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const myValue = location.state?.pageValue;
+  
   useEffect(() => {
     async function fetch() {
       if (myValue) {
