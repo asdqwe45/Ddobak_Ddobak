@@ -12,6 +12,7 @@ import com.ddobak.member.dto.request.SignUpRequest;
 import com.ddobak.member.dto.response.InfoTextResponse;
 import com.ddobak.member.dto.response.LoginResponse;
 import com.ddobak.member.dto.response.MyPageResponse;
+import com.ddobak.member.dto.response.ProfileImgResponse;
 import com.ddobak.member.dto.response.RefreshTokenResponse;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.entity.SignUpType;
@@ -196,6 +197,12 @@ public class MemberService {
     public InfoTextResponse getInfoText(Long producerId) {
         Member member = findMemberById(producerId);
         return new InfoTextResponse(member.getIntroduceText());
+    }
+
+    @Transactional(readOnly = true)
+    public ProfileImgResponse getProfileImg(LoginInfo loginInfo) {
+        Member member = findMemberById(loginInfo.id());
+        return new ProfileImgResponse(member.getProfileImg());
     }
 
     public Member findByEmail(String email) {

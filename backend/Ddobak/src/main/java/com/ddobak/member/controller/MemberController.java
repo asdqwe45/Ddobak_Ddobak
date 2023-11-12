@@ -13,6 +13,7 @@ import com.ddobak.member.dto.response.InfoTextResponse;
 import com.ddobak.member.dto.response.LoginResponse;
 import com.ddobak.member.dto.response.MyOwnFontResponse;
 import com.ddobak.member.dto.response.MyPageResponse;
+import com.ddobak.member.dto.response.ProfileImgResponse;
 import com.ddobak.member.dto.response.RefreshTokenResponse;
 import com.ddobak.member.service.MemberService;
 import com.ddobak.security.util.LoginInfo;
@@ -137,6 +138,14 @@ public class MemberController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/profileImg")
+    public ResponseEntity<ProfileImgResponse> requestProfileImg(@AuthenticationPrincipal LoginInfo loginInfo) {
+        log.info("{} request profileImg");
+
+        ProfileImgResponse profileImgResponse = memberService.getProfileImg(loginInfo);
+        return ResponseEntity.ok().body(profileImgResponse);
+    }
+
     // 프로필이미지 변경
     @PostMapping("/profileImg")
     public ResponseEntity<Void> modifyProfileImg(@AuthenticationPrincipal LoginInfo loginInfo, @RequestPart MultipartFile profileImg) {
@@ -146,6 +155,7 @@ public class MemberController {
         return ResponseEntity.noContent().build();
     }
 
+    // 마이 페이지 조회
     @GetMapping("/mypage")
     public ResponseEntity<MyPageResponse> requestMyPage(@AuthenticationPrincipal LoginInfo loginInfo) {
         log.info("{} mypage", loginInfo.email());
@@ -154,6 +164,7 @@ public class MemberController {
         return ResponseEntity.ok().body(myPageResponse);
     }
 
+    // 제작자 소개글 조회
     @GetMapping("/textinfo/{producerId}")
     public ResponseEntity<InfoTextResponse> requestInfoText(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long producerId) {
         log.info("{} wants InfoText", loginInfo.email());
