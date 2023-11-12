@@ -35,18 +35,11 @@ import {
   FontBasketTopBox,
   FontBasketBottomBox,
   SelectListDelete,
-  CCLBox,
-  CCLIcons,
   LikeIconBox,
   LikeProducerBox,
   LikeBoxText,
 } from './myPageComponents/MyPageComponents';
 import classes from './MyPage.module.css';
-
-import Attribution from './myPageAssets/Attribution.png';
-import NoDerivativeWorks from './myPageAssets/NoDerivativeWorks.png';
-import ShareAlike from './myPageAssets/ShareAlike.png';
-import Noncommercial from './myPageAssets/Noncommercial.png';
 
 // 아이콘
 import { FaCircleUser } from 'react-icons/fa6';
@@ -85,7 +78,7 @@ import { changeNicknameModalActions } from 'store/changeNicknameSlice';
 import { dibListAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
 import { chargePointModalActions } from 'store/chargePointModalSlice';
 import { getData } from 'https/http';
-import { transactionProducerAPI } from 'https/utils/TransactionFunction';
+import { transactionMyAllAPI, transactionProducerAPI } from 'https/utils/TransactionFunction';
 import { cartDeleteAPI, cartGetAPI } from 'https/utils/CartFunction';
 import styled from '@emotion/styled';
 import { followDeleteAPI, getFollowingList } from 'https/utils/FollowFunction';
@@ -194,6 +187,7 @@ const MyPage: React.FC = () => {
   const [dibList, setDibList] = useState([]);
   const [myFollowingList, setMyFollowingList] = useState([]);
   const [createdFontList, setCreatedFontList] = useState([]);
+  const [purchaseFontList, setPurchaseFontList] = useState([]);
 
   // 스와이퍼 참조
   const swiperRef = useRef<SwiperCore>();
@@ -251,6 +245,10 @@ const MyPage: React.FC = () => {
           console.error(e);
         });
     } else if (pageName === 'boughtFonts') {
+      transactionMyAllAPI()
+        .then(async (r) => setPurchaseFontList(r))
+        .catch((e) => console.error(e));
+
       setPageLocation({
         productsState: false,
         likeList: false,
@@ -609,43 +607,41 @@ const MyPage: React.FC = () => {
           </SelectBox>
           {pageLocation.productsState ? (
             <>
-              {/* ======== */}
-              {/* 제작 상태 */}
-              {/* ======== */}
               <ContentLargeBox>
-                {/* 이게 한 콘텐트 */}
-                {createdFontList.map((font) => {
-                  return (
-                    <ContentIngredient key={font['fontId']}>
-                      <ContentInnerLeft>
-                        <ContentInnerTextBox>
-                          <ContentHeader>
-                            <ContentInnerHeaderText>{font['fontName']}</ContentInnerHeaderText>
-                          </ContentHeader>
-                          <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                        </ContentInnerTextBox>
-                      </ContentInnerLeft>
-                      <ContentInnerRight>
-                        <ContentGrayDisabled>결제완료</ContentGrayDisabled>
-                        <ContentRedBtn
-                          onClick={() => {
-                            clickDownloadHandler(font);
-                          }}
-                        >
-                          다운로드
-                        </ContentRedBtn>
-                      </ContentInnerRight>
-                    </ContentIngredient>
-                  );
-                })}
-                {/* 이게 한 콘텐트 */}
+                {createdFontList.length > 0 ? (
+                  createdFontList.map((font) => {
+                    return (
+                      <ContentIngredient key={font['fontId']}>
+                        <ContentInnerLeft>
+                          <ContentInnerTextBox>
+                            <ContentHeader>
+                              <ContentInnerHeaderText>{font['fontName']}</ContentInnerHeaderText>
+                            </ContentHeader>
+                            <ContentInnerContentText>
+                              다람쥐 헌 쳇바퀴 타고파
+                            </ContentInnerContentText>
+                          </ContentInnerTextBox>
+                        </ContentInnerLeft>
+                        <ContentInnerRight>
+                          <ContentGrayDisabled>결제완료</ContentGrayDisabled>
+                          <ContentRedBtn
+                            onClick={() => {
+                              clickDownloadHandler(font);
+                            }}
+                          >
+                            다운로드
+                          </ContentRedBtn>
+                        </ContentInnerRight>
+                      </ContentIngredient>
+                    );
+                  })
+                ) : (
+                  <div className={classes.noContent}>"구매한 폰트가 없습니다."</div>
+                )}
               </ContentLargeBox>
             </>
           ) : pageLocation.likeList ? (
             <>
-              {/* ======== */}
-              {/* 찜 목록 */}
-              {/* ======== */}
               <ContentLargeBox>
                 {dibList.length > 0 ? (
                   dibList.map((dib) => {
@@ -741,41 +737,34 @@ const MyPage: React.FC = () => {
             </>
           ) : pageLocation.boughtFonts ? (
             <>
-              {/* ======== */}
-              {/* 구매한 폰트 */}
-              {/* ======== */}
-              {/* import Attribution from "./myPageAssets/Attribution.png"
-                  import NoDerivativeWorks from "./myPageAssets/NoDerivativeWorks.png"
-                  import ShareAlike from "./myPageAssets/ShareAlike.png"
-                  import Noncommercial from "./myPageAssets/Noncommercial.png" */}
               <ContentLargeBox>
-                <ContentIngredient>
-                  <ContentInnerLeft>
-                    <ContentInnerTextBox>
-                      <ContentHeader>
-                        <ContentInnerHeaderText>또박또박_이태성체</ContentInnerHeaderText>
-                        <ContentProducerName>| 이태성</ContentProducerName>
-                        <CCLBox>
-                          <CCLIcons src={Attribution} />
-                          <CCLIcons src={NoDerivativeWorks} />
-                          <CCLIcons src={ShareAlike} />
-                          <CCLIcons src={Noncommercial} />
-                        </CCLBox>
-                      </ContentHeader>
-                      <ContentInnerContentText>다람쥐 헌 쳇바퀴 타고파</ContentInnerContentText>
-                    </ContentInnerTextBox>
-                  </ContentInnerLeft>
-                  <ContentInnerRight>
-                    <ContentGrayBtn onClick={clickReviewHandler}>후기등록</ContentGrayBtn>
-                    <ContentRedBtn>다운로드</ContentRedBtn>
-                  </ContentInnerRight>
-                </ContentIngredient>
-                {/* 여기까지 */}
-                <ContentIngredient></ContentIngredient>
-                <ContentIngredient></ContentIngredient>
-                <ContentIngredient></ContentIngredient>
-                <ContentIngredient></ContentIngredient>
-                <ContentIngredient></ContentIngredient>
+                {purchaseFontList.length > 0 ? (
+                  purchaseFontList.map((font) => {
+                    return (
+                      <ContentIngredient key={font['fontId']}>
+                        <ContentInnerLeft>
+                          <ContentInnerTextBox>
+                            <ContentHeader>
+                              <ContentInnerHeaderText>{font['fontName']}</ContentInnerHeaderText>
+                              <ContentProducerName>| {font['producerName']}</ContentProducerName>
+                            </ContentHeader>
+                            <ContentInnerContentText>
+                              다람쥐 헌 쳇바퀴 타고파
+                            </ContentInnerContentText>
+                          </ContentInnerTextBox>
+                        </ContentInnerLeft>
+                        <ContentInnerRight>
+                          <ContentGrayBtn onClick={clickReviewHandler}>후기등록</ContentGrayBtn>
+                          <ContentRedBtn onClick={() => clickDownloadHandler(font)}>
+                            다운로드
+                          </ContentRedBtn>
+                        </ContentInnerRight>
+                      </ContentIngredient>
+                    );
+                  })
+                ) : (
+                  <div className={classes.noContent}>"구매한 폰트가 없습니다."</div>
+                )}
               </ContentLargeBox>
             </>
           ) : (

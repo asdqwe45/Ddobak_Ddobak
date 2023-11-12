@@ -142,7 +142,7 @@ export async function transactionListAllAPI(): Promise<any> {
 // 구매한 폰트 조회
 export async function transactionMyAllAPI(): Promise<any> {
   return axiosWithAuth
-    .get(BASE_URL + '/my')
+    .get(BASE_URL + '/font/detail')
     .then((r) => {
       return r.data;
     })
