@@ -41,13 +41,13 @@ public class CartServiceImpl implements com.ddobak.cart.service.CartService {
         Boolean existCheck = cartRepository.existsByMemberIdAndFontId(loginInfo.id(),fontId);
         if(existCheck){
            log.info("이미 존재하는 font : {}", fontId);
-           throw new FontException(ErrorCode.FONT_NOT_FOUND);
+           throw new EntityNotFoundException("이미 존재하는 폰트입니다.");
         }
 
         Font font = fontRepository.findById(fontId)
                 .orElseThrow(() -> {
                     log.error("Font not found with Id: {}", fontId);
-                    return new EntityNotFoundException("폰트가 이미 존재합니다.");
+                    return new EntityNotFoundException("폰트가 존재하지 않습니다.");
                 });
         Member member = memberRepository.findById(loginInfo.id())
                 .orElseThrow(() -> {
@@ -65,7 +65,7 @@ public class CartServiceImpl implements com.ddobak.cart.service.CartService {
         List<FontCartResponse> result = new ArrayList<>();
         for(Cart c : cart){
             Boolean favoriteCheck = favoriteRepository.existsByMemberIdAndFontId(loginInfo.id(),c.getFont().getId());
-            FontCartResponse temp = new FontCartResponse(c.getFont().getId(), c.getFont().getKorFontName(),c.getMember().getNickname(),favoriteCheck,c.getFont().getPrice(),c.getFont().getFont_file_url());
+            FontCartResponse temp = new FontCartResponse(c.getFont().getId(),c.getMember().getId(), c.getFont().getKorFontName(),c.getMember().getNickname(),favoriteCheck,c.getFont().getPrice(),c.getFont().getFont_file_url());
             result.add(temp);
         }
 

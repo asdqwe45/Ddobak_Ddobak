@@ -4,18 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42588689-721d-4ce2-8f75-5d7862f4ce0f" name="Changes" comment="&lt;feat&gt;[#136-LJE] 찜 API 구현">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/eng_template.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/eng_template.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/eng_template_original.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/eng_template_original.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/english_crop.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/english_crop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/handwriting_template2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/kor/delete_margin.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/kor/delete_margin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/kor/template.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/kor/template.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/kor/template.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/template.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai-server/study/merge/char2unicode.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/merge/char2unicode.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai-server/study/merge/generateTTF.js" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/merge/generateTTF.js" afterDir="false" />
+    <list default="true" id="42588689-721d-4ce2-8f75-5d7862f4ce0f" name="Changes" comment="&lt;feat&gt;[#187-LJE] 팔로우한 사람 수 가져오기">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Ddobak/src/main/java/com/ddobak/follow/service/FollowService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Ddobak/src/main/java/com/ddobak/follow/service/FollowService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/Ddobak/src/main/java/com/ddobak/follow/service/FollowServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Ddobak/src/main/java/com/ddobak/follow/service/FollowServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,23 +58,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feat/136-LJE",
-    "last_opened_file_path": "C:/Users/SSAFY/Desktop/S09P31C208/backend/Ddobak/src",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/187-LJE&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/SSAFY/Desktop/S09P31C208/backend/Ddobak/src&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="DdobakApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <envs>
@@ -140,7 +132,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699000160066</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="&lt;feat&gt;[#187-LJE] 팔로우한 사람 수 가져오기">
+      <option name="closed" value="true" />
+      <created>1699707838173</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1699707838173</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -148,6 +148,22 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="&lt;feat&gt;[#136-LJE] 찜 API 구현" />
-    <option name="LAST_COMMIT_MESSAGE" value="&lt;feat&gt;[#136-LJE] 찜 API 구현" />
+    <MESSAGE value="&lt;feat&gt;[#187-LJE] 팔로우한 사람 수 가져오기" />
+    <option name="LAST_COMMIT_MESSAGE" value="&lt;feat&gt;[#187-LJE] 팔로우한 사람 수 가져오기" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/backend/Ddobak/src/main/java/com/ddobak/member/service/MemberService.java</url>
+          <line>147</line>
+          <properties class="com.ddobak.member.service.MemberService" method="refreshToken">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
