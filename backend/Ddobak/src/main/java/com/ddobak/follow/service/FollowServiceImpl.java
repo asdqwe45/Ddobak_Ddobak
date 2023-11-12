@@ -7,7 +7,6 @@ import com.ddobak.follow.exception.UserNotFoundException;
 import com.ddobak.follow.repository.FollowRepository;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.repository.MemberRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,21 +55,16 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public ResponseEntity<List<FollowingMemberResponse>> getFollowingsByFollower(Long followerId) {
+    public ArrayList<FollowingMemberResponse> getFollowingsByFollower(Long followerId) {
         List<Follow> follows = followRepository.findAllByFollowerId(followerId);
-
-        if (follows.isEmpty()){
-            return ResponseEntity.noContent().build();
-        } else {
-            ArrayList<FollowingMemberResponse> result = new ArrayList<>();
+        ArrayList<FollowingMemberResponse> result = new ArrayList<>();
 
             for (Follow follow: follows) {
                 Member member = follow.getFollowing();
                 FollowingMemberResponse followingMember = new FollowingMemberResponse(member.getNickname(), member.getProfileImg());
                 result.add(followingMember);
             }
-            return ResponseEntity.ok(result);
-        }
+            return result;
     }
 
     @Override
