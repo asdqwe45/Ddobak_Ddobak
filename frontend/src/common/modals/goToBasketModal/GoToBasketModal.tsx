@@ -62,8 +62,8 @@ const GoToBasketModal: React.FC = () => {
             className={classes.modalBtn}
             style={{ backgroundColor: likeCountColor }}
             onClick={async () => {
-              navigate("/fontList")
-              closeModal()
+              navigate('/fontList');
+              closeModal();
             }}
           >
             더 둘러보기

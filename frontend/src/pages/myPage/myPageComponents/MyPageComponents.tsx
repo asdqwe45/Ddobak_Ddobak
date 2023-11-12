@@ -380,9 +380,9 @@ export const CartPriceBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 export const CartPriceText = styled.h1`
   margin: 0px;
   font-size: 20px;
-`
+`;

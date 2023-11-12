@@ -21,9 +21,9 @@ const SuccessModal: React.FC = () => {
   }, []);
   const navigate = useNavigate();
   const successVisible = useSelector((state: SuccessType) => state.successModal.successVisible);
-  const successHeader = useSelector((state: SuccessType) => state.successModal.successHeader)
-  const successContext = useSelector((state: SuccessType) => state.successModal.successContext)
-  
+  const successHeader = useSelector((state: SuccessType) => state.successModal.successHeader);
+  const successContext = useSelector((state: SuccessType) => state.successModal.successContext);
+
   const dispatch = useDispatch();
   const closeModal = () => {
     dispatch(successModalActions.showSomething({ successHeader: '', successContext: '' }));
@@ -43,36 +43,35 @@ const SuccessModal: React.FC = () => {
         },
       }}
     >
-<div className={classes.modalContainer}>
-      <div className={classes.topBox}>
-        <AiOutlineClose size={30} className={classes.closeIcon} onClick={closeModal} />
-      </div>
-      {/* successHeader에 따라 다른 글 넣기 */}
-      {/* <FaCartPlus size={100} color={mainRedColor} /> */}
-      <h1 className={classes.innerHeader}>{successHeader}</h1>
-      <p className={classes.innerText}>{successContext}</p>
+      <div className={classes.modalContainer}>
+        <div className={classes.topBox}>
+          <AiOutlineClose size={30} className={classes.closeIcon} onClick={closeModal} />
+        </div>
+        {/* successHeader에 따라 다른 글 넣기 */}
+        {/* <FaCartPlus size={100} color={mainRedColor} /> */}
+        <h1 className={classes.innerHeader}>{successHeader}</h1>
+        <p className={classes.innerText}>{successContext}</p>
 
-      <div className={classes.bottomBox}>
-        <button
-          className={classes.modalBtn}
-          style={{ backgroundColor: likeCountColor }}
-          onClick={async () => {
-            navigate('/fontList');
-            closeModal();
-          }}
-        >
-          더 둘러보기
-        </button>
-        <button
-          className={classes.modalBtn}
-          style={{ backgroundColor: mainRedColor }}
-          onClick={closeModal}
-        >
-          확인
-        </button>
+        <div className={classes.bottomBox}>
+          <button
+            className={classes.modalBtn}
+            style={{ backgroundColor: likeCountColor }}
+            onClick={async () => {
+              navigate('/fontList');
+              closeModal();
+            }}
+          >
+            더 둘러보기
+          </button>
+          <button
+            className={classes.modalBtn}
+            style={{ backgroundColor: mainRedColor }}
+            onClick={closeModal}
+          >
+            확인
+          </button>
+        </div>
       </div>
-    </div>
-
     </ReactModal>
   );
 };

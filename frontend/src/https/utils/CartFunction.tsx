@@ -27,7 +27,7 @@ export async function cartGetAPI(): Promise<any> {
 // 장바구니 삭제
 export async function cartDeleteAPI(fontList: number[]): Promise<any> {
   const newFontList = fontList.join(',');
-  const params = {fontList: newFontList}
+  const params = { fontList: newFontList };
   return axiosWithAuth
     .delete(BASE_URL + '/delete', { params })
     .then((r) => {

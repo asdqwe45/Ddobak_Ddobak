@@ -102,7 +102,7 @@ const PointPayModal: React.FC = () => {
               console.log(r);
               closeModal();
               dispatch(pointPayModalActions.resetState());
-              window.location.reload()
+              window.location.reload();
             })
             .catch((e) => {
               console.error(e);
@@ -119,7 +119,7 @@ const PointPayModal: React.FC = () => {
               console.log(r);
               closeModal();
               dispatch(pointPayModalActions.resetState());
-              window.location.reload()
+              window.location.reload();
             })
             .catch((e) => {
               console.error(e);

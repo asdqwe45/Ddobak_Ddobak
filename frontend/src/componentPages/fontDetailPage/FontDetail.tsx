@@ -159,10 +159,12 @@ const FontDetail: React.FC = () => {
     const fontId = fontDetail?.fontId;
     const fontPrice = fontDetail?.fontPrice;
     const producerId = fontDetail?.producerId;
-    const fontName = fontDetail?.fontName
+    const fontName = fontDetail?.fontName;
     console.log(fontId, fontPrice, producerId);
     if (fontId && (fontPrice || fontPrice === 0) && producerId && fontName) {
-      dispatch(pointPayModalActions.payThePrice({howMuch: fontPrice, boughtSometing: "폰트구매"}))
+      dispatch(
+        pointPayModalActions.payThePrice({ howMuch: fontPrice, boughtSometing: '폰트구매' }),
+      );
       dispatch(
         pointPayModalActions.buyAll({
           buyAll: [
@@ -187,7 +189,7 @@ const FontDetail: React.FC = () => {
         })
         .catch((e) => {
           console.error(e);
-          dispatch(basketErrorModalActions.toggle())
+          dispatch(basketErrorModalActions.toggle());
         });
     }
   }

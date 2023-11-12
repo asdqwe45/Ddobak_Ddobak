@@ -1,15 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const basketErrorModalSlice = createSlice({
-    name: "basketError",
-    initialState: {
-        basketVisible: false
+  name: 'basketError',
+  initialState: {
+    basketVisible: false,
+  },
+  reducers: {
+    toggle(state) {
+      state.basketVisible = !state.basketVisible;
     },
-    reducers: {
-        toggle(state) {
-            state.basketVisible = !state.basketVisible
-        }
-    }
-})
-export const basketErrorModalActions = basketErrorModalSlice.actions
-export default basketErrorModalSlice
+  },
+});
+export const basketErrorModalActions = basketErrorModalSlice.actions;
+export default basketErrorModalSlice;
