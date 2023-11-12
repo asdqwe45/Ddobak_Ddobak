@@ -8,6 +8,7 @@ import com.ddobak.font.entity.Font;
 import com.ddobak.font.entity.FontStatusType;
 import com.ddobak.font.entity.Keyword;
 import com.ddobak.font.repository.FontRepository;
+import com.ddobak.font.repository.KeywordRepository;
 import com.ddobak.font.service.FontService;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.entity.SignUpType;
@@ -16,6 +17,7 @@ import com.ddobak.security.util.LoginInfo;
 import com.ddobak.transaction.dto.request.ChargeRequest;
 import com.ddobak.transaction.dto.request.WithdrawRequest;
 import com.ddobak.transaction.service.TransactionService;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -31,6 +33,7 @@ import org.springframework.stereotype.Component;
 public class DataInitializer implements CommandLineRunner {
 
     private final MemberRepository memberRepository;
+    private final KeywordRepository keywordRepository;
 
     private final FontService fontService;
     private final TransactionService transactionService;
@@ -62,7 +65,7 @@ public class DataInitializer implements CommandLineRunner {
                 .email("test" + i)
                 .nickname("또박 테스트계정" + i)
                 .signUpType(SignUpType.GENERAL)
-                .profileImg("https://ddobak-profile-image.s3.ap-northeast-2.amazonaws.com/profile-img/%EC%BC%80%EB%A1%9C%EB%A1%9C2.png")
+                .profileImg("https://ddobak-profile-image.s3.ap-northeast-2.amazonaws.com/profile-img/keroro2.png")
                 .introduceText("안녕하세요! 또박 테스트계정" + i)
                 .productionStatus(false)
                 .point(0)
