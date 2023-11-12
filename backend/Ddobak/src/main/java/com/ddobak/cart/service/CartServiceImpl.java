@@ -65,7 +65,7 @@ public class CartServiceImpl implements com.ddobak.cart.service.CartService {
         List<FontCartResponse> result = new ArrayList<>();
         for(Cart c : cart){
             Boolean favoriteCheck = favoriteRepository.existsByMemberIdAndFontId(loginInfo.id(),c.getFont().getId());
-            FontCartResponse temp = new FontCartResponse(c.getFont().getId(), c.getFont().getKorFontName(),c.getMember().getNickname(),favoriteCheck,c.getFont().getPrice(),c.getFont().getFont_file_url());
+            FontCartResponse temp = new FontCartResponse(c.getFont().getId(),c.getMember().getId(), c.getFont().getKorFontName(),c.getMember().getNickname(),favoriteCheck,c.getFont().getPrice(),c.getFont().getFont_file_url());
             result.add(temp);
         }
 
