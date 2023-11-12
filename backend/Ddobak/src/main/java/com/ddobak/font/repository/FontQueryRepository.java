@@ -90,7 +90,8 @@ public class FontQueryRepository {
                                 .where(favorite.member.id.eq(member_id),
                                         favorite.font.id.eq(font.id))
                                 .gt(0L),
-                        font.producer.id
+                        font.producer.id,
+                        font.price
                 ))
                 .from(font)
                 .where(whereClause)
@@ -147,7 +148,8 @@ public class FontQueryRepository {
                         font.producer.nickname,
                         font.font_file_url,
                         Expressions.as(Expressions.constant(false), "favoriteCheck"),
-                        font.producer.id
+                        font.producer.id,
+                        font.price
                 ))
                 .from(font)
                 .where(whereClause)
