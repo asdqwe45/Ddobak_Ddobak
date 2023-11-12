@@ -31,3 +31,9 @@
   box-sizing: border-box;
   border: 1px solid #b6b6b6;
 }
+
+.noContent {
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+}
