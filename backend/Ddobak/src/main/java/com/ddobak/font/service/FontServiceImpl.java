@@ -2,6 +2,7 @@ package com.ddobak.font.service;
 
 import com.ddobak.favorite.repository.FavoriteRepository;
 import com.ddobak.font.dto.request.MakeFontRequest;
+import com.ddobak.font.dto.request.finalMakeRequeset;
 import com.ddobak.font.dto.response.FontDetailResponse;
 import com.ddobak.font.dto.response.FontIdResponse;
 import com.ddobak.font.dto.response.FontListResponse;
@@ -29,6 +30,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -90,9 +92,12 @@ public class FontServiceImpl implements FontService {
         }
 
         font.makeDetail(req);
-        Stream.of(req.keyword1(), req.keyword2(), req.keyword3())
-                .filter(Objects::nonNull)
-                .forEach(keyword -> addKeywordToFont(keyword, font));
+        if (req.keywords() != null) {
+            req.keywords().stream()
+                    .filter(Objects::nonNull)
+                    .forEach(keyword -> addKeywordToFont(keyword, font));
+        }
+
 
         fontRepository.save(font);
 
@@ -177,6 +182,18 @@ public class FontServiceImpl implements FontService {
 
 
         return result;
+    }
+
+    @Override
+    public void finalMakeFont(finalMakeRequeset req, LoginInfo loginInfo){
+        Font font = fontRepository.findById(req.fontId())
+                .orElseThrow(() -> {
+                    log.error("Font not found with Id: {}", req.fontId());
+                    return new FontException(ErrorCode.FONT_NOT_FOUND);
+                });
+
+        font.finalMakeFont(req.fontFileUrl());
+
     }
 
 

@@ -1,6 +1,7 @@
 package com.ddobak.font.service;
 
 import com.ddobak.font.dto.request.MakeFontRequest;
+import com.ddobak.font.dto.request.finalMakeRequeset;
 import com.ddobak.font.dto.response.FontDetailResponse;
 import com.ddobak.font.dto.response.FontIdResponse;
 import com.ddobak.font.dto.response.FontListResponse;
@@ -29,5 +30,7 @@ public interface FontService {
     Font findByFontId(Long id);
 
     Boolean checkNameDuplicate(String korFontName, String engFontName);
+
+    void finalMakeFont(finalMakeRequeset req, LoginInfo loginInfo);
 }
 
