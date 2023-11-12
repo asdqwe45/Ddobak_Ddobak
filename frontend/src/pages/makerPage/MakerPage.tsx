@@ -33,6 +33,7 @@ import {
   getCountFollowing,
 } from 'https/utils/FollowFunction';
 import { getProfileImg } from 'https/utils/AuthFunction';
+import { transactionProducerAPI } from 'https/utils/TransactionFunction';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
 // type Font = {
@@ -60,6 +61,7 @@ const MakerPage: React.FC = () => {
   const [followingStatus, setFollowingStatus] = useState<boolean>();
   const [followingCount, setFollowingCount] = useState<number>();
   const [makerProfileImg, setMakerProfileImg] = useState<string>('');
+  const [fontList, setFontList] = useState([]);
 
   const wantChange = useSelector(
     (state: ChangeMakerIntroType) => state.changeMakerIntro.wantChange,
@@ -96,24 +98,38 @@ const MakerPage: React.FC = () => {
   useEffect(() => {
     // 팔로우 상태 가져오기
     if (makerId) {
-      followCheckAPI(makerId).then(async (r) => {
-        setFollowingStatus(r);
-      });
+      followCheckAPI(makerId)
+        .then(async (r) => {
+          setFollowingStatus(r);
+        })
+        .catch((e) => console.error('MakerPage FollowAPI Error: ' + e.message));
 
-      getCountFollowing(makerId).then(async (r) => {
-        setFollowingCount(r);
-      });
+      getCountFollowing(makerId)
+        .then(async (r) => {
+          setFollowingCount(r);
+        })
+        .catch((e) => console.error('MakerPage GetCountFollowing Error: ' + e.message));
 
       // 제작자 소개글 가져오기
-      makerIntroRequest(makerId).then(async (r) => {
-        setMakerIntro(r.infoText);
-      });
+      makerIntroRequest(makerId)
+        .then(async (r) => {
+          setMakerIntro(r.infoText);
+        })
+        .catch((e) => console.error('MakerPage MakerIntroRequest Error: ' + e.message));
 
       // 제작자 프로필 이미지 가져오기
-      getProfileImg(makerId).then(async (r) => {
-        console.log('여기', r);
-        setMakerProfileImg(r);
-      });
+      getProfileImg(makerId)
+        .then(async (r) => {
+          setMakerProfileImg(r);
+        })
+        .catch((e) => console.error('MakerPage GetProfileImg Error: ' + e.message));
+
+      // 제작한 폰트 리스트 가져오기
+      transactionProducerAPI(makerId)
+        .then(async (r) => {
+          setFontList(r);
+        })
+        .catch((e) => console.error('MakerPage TransactionProducerAPI Error: ' + e.message));
     }
   }, [makerId]);
 
@@ -127,7 +143,7 @@ const MakerPage: React.FC = () => {
         <MakerSmallBox>
           {makerProfileImg ? (
             <>
-              <img src={makerProfileImg} alt="프로필 이미지" className={classes.ImgStyle} />
+              <img src={'https://ddobak-profile-image.s3.ap-northeast-2.amazonaws.com/' + makerProfileImg} alt="프로필 이미지" className={classes.ImgStyle} />
             </>
           ) : (
             <>
@@ -173,13 +189,25 @@ const MakerPage: React.FC = () => {
           <MakerBottomHeaderText>{makerName} 님이 만든 폰트</MakerBottomHeaderText>
         </MakerBottomHeaderBox>
         <MakerFontLargeBox>
-          <MakerFontSmallBox>
-            <MakerCommemtBox>
-              <MakerFontNameText>또박또박_테스트체</MakerFontNameText>
-            </MakerCommemtBox>
+          {fontList.length > 0 ? (
+            fontList.map((font) => {
+              if (makerId === myId.toString() || font['openStatus']) {
+                return (
+                  <MakerFontSmallBox key={font['fontId']}>
+                    <MakerCommemtBox>
+                      <MakerFontNameText>{font['fontName']}</MakerFontNameText>
+                    </MakerCommemtBox>
 
-            <MakerFontCommentText>다람쥐 헌 쳇바퀴 타고파</MakerFontCommentText>
-          </MakerFontSmallBox>
+                    <MakerFontCommentText>다람쥐 헌 쳇바퀴 타고파</MakerFontCommentText>
+                  </MakerFontSmallBox>
+                );
+              } else {
+                return null;
+              }
+            })
+          ) : (
+            <div className={classes.noContent}>"팔로우한 폰트 제작자가 없습니다."</div>
+          )}
         </MakerFontLargeBox>
       </MakerBottomBox>
     </div>
