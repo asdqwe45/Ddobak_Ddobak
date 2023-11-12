@@ -4,7 +4,6 @@ import com.ddobak.favorite.repository.FavoriteRepository;
 import com.ddobak.follow.repository.FollowRepository;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.service.FontService;
-import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.repository.MemberRepository;
 import com.ddobak.member.service.MemberService;
@@ -25,7 +24,6 @@ import com.ddobak.transaction.entity.Creation;
 import com.ddobak.transaction.entity.PurchaseOrder;
 import com.ddobak.transaction.entity.Transaction;
 import com.ddobak.transaction.entity.Withdrawal;
-import com.ddobak.transaction.exception.TransactionException;
 import com.ddobak.transaction.repository.ChargeRepository;
 import com.ddobak.transaction.repository.CreationRepository;
 import com.ddobak.transaction.repository.PurchaseOrderRepository;
@@ -502,47 +500,34 @@ public class TransactionService {
         List<FontResponse> fontResponseList = new ArrayList<>();
         List<Creation> creationList = creationRepository.findCreationsByCreator(producerId);
         log.info("{}",creationList.size());
-        for(int i=0;i<creationList.size();i++) {
+        for (Creation creation : creationList) {
             FontResponse fontResponse = new FontResponse(
-                creationList.get(i).getCreatedFont().getId(),
-                creationList.get(i).getCreatedFont().getKorFontName(),
-                creationList.get(i).getCreatedFont().getFont_file_url(),
-                creationList.get(i).getCreatedFont().getOpen_status()
+                    creation.getCreatedFont().getId(),
+                    creation.getCreatedFont().getKorFontName(),
+                    creation.getCreatedFont().getFont_file_url(),
+                    creation.getCreatedFont().getOpen_status()
             );
             fontResponseList.add(fontResponse);
         }
         return fontResponseList;
     }
 
-    // 제작, 구매한 폰트 디테일 정보 조회
-    public List<FontDetailResponse> getFontDetailList(LoginInfo loginInfo) {
+    // 구매한 폰트 디테일 정보 조회
+    public List<FontDetailResponse> getPurchaseList(LoginInfo loginInfo) {
         List<FontDetailResponse> fontDetailResponseList = new ArrayList<>();
         Member member = memberService.findByEmail(loginInfo.email());
-        // 제작 내역
-        List<Creation> creationList = creationRepository.findCreationsByCreator(member.getId());
-        // 구매 내역
-        List<Transaction> purchaseList = transactionRepository.findTransactionBuyer(member.getId());
-        for(int i=0;i<creationList.size();i++) {
-            FontDetailResponse fontDetailResponse = new FontDetailResponse(
-                creationList.get(i).getCreatedFont().getId(),
-                creationList.get(i).getCreatedFont().getKorFontName(),
-                creationList.get(i).getCreatedFont().getFont_file_url(),
-                creationList.get(i).getCreatedFont().getProducer().getNickname(),
-                creationList.get(i).getCreatedFont().getOpen_status()
-            );
-            fontDetailResponseList.add(fontDetailResponse);
-        }
-        for(int i=0;i<purchaseList.size();i++) {
-            FontDetailResponse fontDetailResponse = new FontDetailResponse(
-                purchaseList.get(i).getTransactionFont().getId(),
-                purchaseList.get(i).getTransactionFont().getKorFontName(),
-                purchaseList.get(i).getTransactionFont().getFont_file_url(),
-                purchaseList.get(i).getTransactionFont().getProducer().getNickname(),
-                purchaseList.get(i).getTransactionFont().getOpen_status()
-            );
-            fontDetailResponseList.add(fontDetailResponse);
-        }
 
+        List<Transaction> purchaseList = transactionRepository.findTransactionBuyer(member.getId());
+        for (Transaction transaction : purchaseList) {
+            FontDetailResponse fontDetailResponse = new FontDetailResponse(
+                    transaction.getTransactionFont().getId(),
+                    transaction.getTransactionFont().getKorFontName(),
+                    transaction.getTransactionFont().getFont_file_url(),
+                    transaction.getTransactionFont().getProducer().getNickname(),
+                    transaction.getTransactionFont().getOpen_status()
+            );
+            fontDetailResponseList.add(fontDetailResponse);
+        }
         return fontDetailResponseList;
     }
 
