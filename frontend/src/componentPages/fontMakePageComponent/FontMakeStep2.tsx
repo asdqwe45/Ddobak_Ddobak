@@ -176,10 +176,10 @@ const FontMakeStep2: React.FC = () => {
           const imageUrls = (await response).data
             .split('$')
             .filter((url: string) => url.trim() !== '');
-          // const imageUrls = (await response).data.body
           // console.log(imageUrls)
 
-          dispatch(setSortUrl(imageUrls));
+          const sortedUrl = (await response).data
+          dispatch(setSortUrl(sortedUrl));
 
           // 첫 번째 이미지로 한국어 파일 미리보기 업데이트
           if (imageUrls.length > 0) {

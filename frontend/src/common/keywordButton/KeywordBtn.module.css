@@ -20,7 +20,9 @@
   margin-right: 25px;
 }
 
+.selected,
 .keyword:hover {
   color: #fff;
   background-color: #d71718;
+  cursor: pointer;
 }
