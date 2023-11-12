@@ -4,7 +4,8 @@ public record FontDetailResponse(
     Long fontId,
     String fontName,
     String fontUrl,
-    String producerName
+    String producerName,
+    boolean openStatus
 ) {
 
 }

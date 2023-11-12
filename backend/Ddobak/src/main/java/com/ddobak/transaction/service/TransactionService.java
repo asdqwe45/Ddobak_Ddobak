@@ -527,7 +527,8 @@ public class TransactionService {
                 creationList.get(i).getCreatedFont().getId(),
                 creationList.get(i).getCreatedFont().getKorFontName(),
                 creationList.get(i).getCreatedFont().getFont_file_url(),
-                creationList.get(i).getCreatedFont().getProducer().getNickname()
+                creationList.get(i).getCreatedFont().getProducer().getNickname(),
+                creationList.get(i).getCreatedFont().getOpen_status()
             );
             fontDetailResponseList.add(fontDetailResponse);
         }
@@ -535,8 +536,9 @@ public class TransactionService {
             FontDetailResponse fontDetailResponse = new FontDetailResponse(
                 purchaseList.get(i).getTransactionFont().getId(),
                 purchaseList.get(i).getTransactionFont().getKorFontName(),
-                purchaseList.get(i).getTransactionFont().getFont_file_url()
-                ,purchaseList.get(i).getTransactionFont().getProducer().getNickname()
+                purchaseList.get(i).getTransactionFont().getFont_file_url(),
+                purchaseList.get(i).getTransactionFont().getProducer().getNickname(),
+                purchaseList.get(i).getTransactionFont().getOpen_status()
             );
             fontDetailResponseList.add(fontDetailResponse);
         }
