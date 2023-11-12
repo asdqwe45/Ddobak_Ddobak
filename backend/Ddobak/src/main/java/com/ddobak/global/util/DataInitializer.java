@@ -27,7 +27,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-@Profile({"prod"})
+@Profile({"local"})
 @Component
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
