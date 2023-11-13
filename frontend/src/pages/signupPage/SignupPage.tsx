@@ -341,6 +341,15 @@ const SignupPage: React.FC = () => {
     } else {
       setIsValidPw(true);
     }
+
+    const checkPw = checkPWInputRef.current?.value;
+    console.log(checkPw);
+    console.log(changePw);
+    if (checkPw === changePw) {
+      setCheckIsValid(true);
+    } else {
+      setCheckIsValid(false);
+    }
   };
 
   const validCheckPwChange = (e: React.ChangeEvent<HTMLInputElement>) => {
