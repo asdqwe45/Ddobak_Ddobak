@@ -19,6 +19,7 @@ type Font = {
   producer_name: string;
   font_file_url: string;
   dibCheck: boolean;
+  price: number;
 };
 
 const FontListPage: React.FC = () => {
@@ -35,8 +36,9 @@ const FontListPage: React.FC = () => {
             return r;
           });
           if (response.data) {
-            console.log('API로부터 받은 데이터:', response.data); // 데이터 로깅 추가
-            setFonts(response.data.fontListResponse); // 상태 업데이트
+            console.log('API로부터 받은 데이터:', response.data);
+            setFonts(response.data.fontListResponse);
+
           } else {
             console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
           }
@@ -83,7 +85,36 @@ const FontListPage: React.FC = () => {
       ));
     }
   };
+  const sales = ['유료', '무료'];
+  const [showFilter, setShowFilter] = useState(false);
+  const [checked, setChecked] = useState<string[]>([]);
+  console.log(checked);
 
+  const handleCheckbox = (sale: string) => {
+    setChecked((prev) =>
+      prev.includes(sale) ? prev.filter((o) => o !== sale) : [...prev, sale],
+    );
+  };
+
+  const renderFilter = () => {
+    return (
+      <div className={classes.filterOptions} style={{ width: '86px' }}
+      >
+        {sales.map((sale, index) => (
+          <label key={index} style={{cursor: 'pointer'}}>
+            <input
+              type="checkbox"
+              className={classes.checkbox}
+              style={{cursor: 'pointer'}}
+              checked={checked.includes(sale)}
+              onChange={() => handleCheckbox(sale)}
+            />
+            {' ' + sale}
+          </label>
+        ))}
+      </div>
+    );
+  };
   const options = [
     '단정한',
     '가지런한',
@@ -110,7 +141,7 @@ const FontListPage: React.FC = () => {
     return (
       <div className={classes.filterOptions}>
         {options.map((option, index) => (
-          <label key={index}>
+          <label key={index} style={{cursor: 'pointer'}}>
             <input
               type="checkbox"
               className={classes.checkbox}
@@ -145,7 +176,6 @@ const FontListPage: React.FC = () => {
       if (response.data) {
         console.log('필터링 된 폰트 목록:', response.data);
         setFonts(response.data.fontListResponse);
-        console.log('폰트 개수:', response.data.fontCount);
         setTotalFonts(response.data.fontCount);
       }
     } catch (error) {
@@ -192,28 +222,48 @@ const FontListPage: React.FC = () => {
             />
             <FaSistrix size={24} color="black" />
           </div>
+
           <div className={classes.filterBarWrapper}>
             <div
               className={`${classes.filterBar} ${showFilterOptions ? classes.filterBarActive : ''}`}
               onClick={() => setShowFilterOptions(!showFilterOptions)}
             >
-              폰트 필터링
+              폰트 스타일
               <FaAngleDown
                 size={22}
                 color="gray"
                 style={{ marginLeft: '4px' }}
-                className={`${classes.filterIcon} ${
-                  showFilterOptions ? classes.filterIconActive : ''
-                }`}
+                className={`${classes.filterIcon} ${showFilterOptions ? classes.filterIconActive : ''
+                  }`}
               />
             </div>
             {showFilterOptions && renderFilterOptions()}
           </div>
+
+          <div className={classes.filterBarWrapper}>
+            <div
+              className={`${classes.filterBar} ${showFilter ? classes.filterBarActive : ''}`}
+              onClick={() => setShowFilter(!showFilter)}
+              style={{ width: '86px' }}
+            >
+              판매 상태
+              <FaAngleDown
+                size={22}
+                color="gray"
+                style={{ marginLeft: '4px' }}
+                className={`${classes.filterIcon} ${showFilter ? classes.filterIconActive : ''
+                  }`}
+              />
+            </div>
+            {showFilter && renderFilter()}
+          </div>
+
+
         </div>
         <div className={classes.fontBoxContainer}>{renderFontBoxes()}</div>
       </div>
       <div className={classes.paginationContainer}>
-        {/* 페이지네이션 자리 */}
+        {/* 페이지네이션 */}
         <PageMiniManuscript
           currentPage={currentPage}
           totalPages={totalPages}
