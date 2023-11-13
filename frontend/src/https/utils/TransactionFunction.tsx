@@ -162,3 +162,14 @@ export async function transactionProducerAPI(producerId: string): Promise<any> {
       throw e;
     });
 }
+
+export async function transactionBuyOrMakeAPI(): Promise<any> {
+  return axiosWithAuth
+    .get(BASE_URL + '/my')
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
