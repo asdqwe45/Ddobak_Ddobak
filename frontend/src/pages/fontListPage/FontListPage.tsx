@@ -80,6 +80,7 @@ const FontListPage: React.FC = () => {
           producer_id={font.producer_id.toString()}
           maker={font.producer_name}
           dib={font.dibCheck}
+          price={font.price}
         />
       ));
     }
