@@ -4,7 +4,7 @@ import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.member.exception.EmailException;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.naming.Context;
+import org.thymeleaf.context.Context;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
@@ -21,19 +21,20 @@ import org.thymeleaf.TemplateEngine;
 public class EmailService {
 
     private final JavaMailSender javaMailSender;
+    private final TemplateEngine templateEngine;
 
-    private SimpleMailMessage createEmailForm(String toEmail, String title, String text) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(toEmail);
-        message.setSubject(title);
-        message.setText(text);
 
-        return message;
+    public String makeEmailTemplate(String authCode) {
+        Context context = new Context();
+        context.setVariable("authCode", authCode);
+
+        return templateEngine.process("emailTemplate", context);
     }
 
-    public void sendHTMLEmail(String toEmail, String title, String htmlText) {
+    public void sendHTMLEmail(String toEmail, String title, String authCode) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
+        String htmlText = makeEmailTemplate(authCode);
 
         try {
             helper.setTo(toEmail);
