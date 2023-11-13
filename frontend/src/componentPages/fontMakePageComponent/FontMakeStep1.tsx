@@ -57,8 +57,8 @@ const FontMakeStep1: React.FC = () => {
       <div className={classes.container}>
         <div className={classes.downLoadContainer}>
           <img src={guideLine} alt="" className={classes.guideImg} />
-            <div className={classes.templateText}>가이드라인 다운로드</div>
-            <div className={classes.btnContainer}>  
+          <div className={classes.templateText}>가이드라인 다운로드</div>
+          <div className={classes.btnContainer}>
             <button className={classes.downBtn} onClick={handleEngDownload}>
               영어 | 특수기호
             </button>

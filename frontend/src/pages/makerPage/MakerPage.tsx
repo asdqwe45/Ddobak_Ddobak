@@ -24,7 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeMakerIntroModalActions } from 'store/changeMakerIntroSlice';
 
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { makerIntroRequest } from 'https/utils/FontFunction';
 import {
   followCheckAPI,
@@ -55,7 +55,7 @@ interface ChangeMakerIntroType {
 const MakerPage: React.FC = () => {
   const dispatch = useDispatch();
   const { makerName, makerId } = useParams();
-
+  const navigate = useNavigate();
   const [myId, setMyId] = useState<string>('');
   const [makerIntro, setMakerIntro] = useState<string>('');
   const [followingStatus, setFollowingStatus] = useState<boolean>();
@@ -200,7 +200,13 @@ const MakerPage: React.FC = () => {
                 return (
                   <MakerFontSmallBox key={font['fontId']}>
                     <MakerCommemtBox>
-                      <MakerFontNameText>{font['fontName']}</MakerFontNameText>
+                      <MakerFontNameText
+                        onClick={() => {
+                          navigate(`/font/${font['fontId']}`);
+                        }}
+                      >
+                        {font['fontName']}
+                      </MakerFontNameText>
                     </MakerCommemtBox>
 
                     <MakerFontCommentText>다람쥐 헌 쳇바퀴 타고파</MakerFontCommentText>
@@ -211,7 +217,7 @@ const MakerPage: React.FC = () => {
               }
             })
           ) : (
-            <CommonEmptyBox />
+            <CommonEmptyBox text="제작한 폰트가 없습니다." />
           )}
         </MakerFontLargeBox>
       </MakerBottomBox>

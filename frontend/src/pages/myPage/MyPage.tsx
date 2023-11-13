@@ -83,7 +83,7 @@ import { dibListAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
 import { chargePointModalActions } from 'store/chargePointModalSlice';
 import { getData } from 'https/http';
 import { transactionMyAllAPI, transactionProducerAPI } from 'https/utils/TransactionFunction';
-import { cartDeleteAPI, cartGetAPI } from 'https/utils/CartFunction';
+import { cartAddAPI, cartDeleteAPI, cartGetAPI } from 'https/utils/CartFunction';
 import { followDeleteAPI, getFollowingList } from 'https/utils/FollowFunction';
 
 import styled from '@emotion/styled';
@@ -361,8 +361,15 @@ const MyPage: React.FC = () => {
   const clickProfileImgHandler = () => {
     dispatch(changeProfileImgModalActions.toggle());
   };
-  const clickBasketHandler = () => {
-    dispatch(goToBasketModalActions.toggle());
+  const clickBasketHandler = async (fontId: string) => {
+    cartAddAPI(fontId)
+      .then(async (r) => {
+        console.log(r);
+        dispatch(goToBasketModalActions.toggle());
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   const clickMyWorkspaceHandler = () => {
@@ -704,7 +711,7 @@ const MyPage: React.FC = () => {
                     );
                   })
                 ) : (
-                  <CommonEmptyBox />
+                  <CommonEmptyBox text="제작한 폰트가 없습니다." />
                 )}
               </ContentLargeBox>
             </>
@@ -746,7 +753,11 @@ const MyPage: React.FC = () => {
                           </ContentInnerTextBox>
                         </ContentInnerLeft>
                         <ContentInnerRight style={{ justifyContent: 'center' }}>
-                          <NewBtnBox onClick={clickBasketHandler}>
+                          <NewBtnBox
+                            onClick={() => {
+                              clickBasketHandler(dib.fontId.toString());
+                            }}
+                          >
                             <NewBtnText>장바구니</NewBtnText>
                             <NewBtnText>담기</NewBtnText>
                           </NewBtnBox>
@@ -755,7 +766,7 @@ const MyPage: React.FC = () => {
                     );
                   })
                 ) : (
-                  <CommonEmptyBox />
+                  <CommonEmptyBox text="찜한 폰트가 없습니다." />
                 )}
               </ContentLargeBox>
             </>
@@ -829,7 +840,7 @@ const MyPage: React.FC = () => {
                   </>
                 ) : (
                   <>
-                    <CommonEmptyBox />
+                    <CommonEmptyBox text="장바구니에 담긴 폰트가 없습니다." />
                   </>
                 )}
               </ContentLargeBox>
@@ -873,7 +884,7 @@ const MyPage: React.FC = () => {
                     );
                   })
                 ) : (
-                  <CommonEmptyBox />
+                  <CommonEmptyBox text="구매한 폰트가 없습니다." />
                 )}
               </ContentLargeBox>
             </>
@@ -932,7 +943,7 @@ const MyPage: React.FC = () => {
                     })}
                   </Swiper>
                 ) : (
-                  <CommonEmptyBox />
+                  <CommonEmptyBox text="찜한 제작자가 없습니다." />
                 )}
               </ContentLargeBox>
             </>
