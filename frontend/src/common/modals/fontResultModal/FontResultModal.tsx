@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react';
 import modalClasses from './FontResultModal.module.css';
 import classes from 'pages/mainPage/mainPageComponents/MainPageLargeManuscript.module.css';
 import ReactModal from 'react-modal';
+import JSZip from 'jszip';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { resultModalActions } from 'store/resultModalSlice';
 import type { RootState } from 'store';
-import { axiosWithFormData } from 'https/http';
 
-import GaImg from './fontResultModalAssets/가.png';
 import { AiOutlineClose } from 'react-icons/ai';
 import { RotatingLines } from 'react-loader-spinner';
 import { mainRedColor } from 'common/colors/CommonColors';
+import { makeFontPreveiwReqeust, makeFontSettingRequest } from 'https/utils/FontFunction';
 
 interface ResultModalState {
   resultModal: {
@@ -20,11 +20,10 @@ interface ResultModalState {
 }
 
 const FontResultModal: React.FC = () => {
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [elapsedTime, setElapsedTime] = useState<number>(0);
   // redux
   const dispatch = useDispatch();
+  const sortedUrl = useSelector((state: RootState) => state.resultModal.sortUrl);
+
   const clickResultHandler = () => {
     dispatch(resultModalActions.toggle());
   };
@@ -41,53 +40,53 @@ const FontResultModal: React.FC = () => {
     return alert('제작취소 또는 정보입력을 선택해주세요.');
   };
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [elapsedTime, setElapsedTime] = useState<number>(0);
+  const [previewImgs, setPreviewImgs] = useState<string[]>([]);
+
   useEffect(() => {
-    ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
-    // 30초 후에 isLoading을 false로 설정
-    const loadingTimer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000); // 30000ms = 30s
+    if (sortedUrl) {
+      makeFontPreveiwReqeust(sortedUrl)
+        .then((r) => JSZip.loadAsync(r))
+        .then((zip) => {
+          const files = Object.values(zip.files);
+          const imgPromises = files.map(async (file) => {
+            return file.async('blob').then((fileData) => URL.createObjectURL(fileData));
+          });
 
-    // 1초마다 elapsedTime 업데이트
-    const interval = setInterval(() => {
-      setElapsedTime((prevTime) => prevTime + 1);
-    }, 1000); // 1000ms = 1s
+          return imgPromises;
+        })
+        .then(async (imgPromises) => {
+          const resultsArray = await Promise.all(imgPromises);
+          setIsLoading(false);
+          setPreviewImgs(resultsArray);
+        })
+        .catch((e) => console.error(e));
 
-    // 컴포넌트가 언마운트될 때 타이머와 인터벌을 취소
-    return () => {
-      clearTimeout(loadingTimer);
-      clearInterval(interval);
-    };
-  }, []);
+      ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
+
+      // 1초마다 elapsedTime 업데이트
+      const interval = setInterval(() => {
+        setElapsedTime((prevTime) => prevTime + 1);
+      }, 1000); // 1000ms = 1s
+
+      // 컴포넌트가 언마운트될 때 타이머와 인터벌을 취소
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [sortedUrl]);
 
   // 제작 취소
   const cancleHandler = async () => {
     window.location.reload();
   };
 
-  const sortUrl = useSelector((state: RootState) => state.resultModal.sortUrl);
-
-  const postFontInformation = async () => {
-    try {
-      const formData = new FormData();
-      // Redux 스토어에서 이미지 URL을 가져옴
-      formData.append('sortUrl', sortUrl);
-      const response = await axiosWithFormData.post('/font/goSetting', formData).then((r) => {
-        return r;
-      });
-      if (response.data) {
-        console.log(response.data);
-        const fontId = response.data.fontId;
-        dispatch(resultModalActions.setFontId(fontId));
-        goToFontOptionStep();
-      }
-    } catch (error) {
-      console.error('정보를 보내는데 실패했습니다.', error);
-    }
-  };
-
   // 폰트 정보 입력페이지 이동
   const goToFontOptionStep = () => {
+    makeFontSettingRequest(sortedUrl).then((r) => {
+      dispatch(resultModalActions.setFontId(r.fontId));
+    });
     dispatch(resultModalActions.setStep(3));
     dispatch(resultModalActions.toggle());
   };
@@ -164,11 +163,29 @@ const FontResultModal: React.FC = () => {
                 {renderLineBoxes(1)}
                 <div className={classes.lineBox}>
                   <TextSmallBox />
-                  <div className={classes.smallBox}>
+
+                  {previewImgs.slice(0, 14).map((file) => {
+                    return (
+                      <div className={classes.smallBox}>
+                        <div className={classes.content}>
+                          <img src={file} alt="가" className={modalClasses.fontImg} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {/* 
+                      <div className={classes.smallBox}>
+                        <div className={classes.content}>
+                          <img src={previewImgs[0]} alt="가" className={modalClasses.fontImg} />
+                        </div>
+                      </div>
+                     */}
+                  {/* <div className={classes.smallBox}>
                     <div className={classes.content}>
                       <img src={GaImg} alt="가" className={modalClasses.fontImg} />
                     </div>
                   </div>
+
                   <TextSmallBox innerText="나" />
                   <TextSmallBox innerText="다" />
                   <TextSmallBox innerText="라" />
@@ -182,25 +199,20 @@ const FontResultModal: React.FC = () => {
                   <TextSmallBox innerText="타" />
                   <TextSmallBox innerText="파" />
                   <TextSmallBox innerText="하" />
-                  <TextSmallBox />
+                  <TextSmallBox /> */}
                 </div>
                 <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
                 <div className={classes.lineBox}>
                   <TextSmallBox />
-                  <TextSmallBox innerText="A" />
-                  <TextSmallBox innerText="B" />
-                  <TextSmallBox innerText="C" />
-                  <TextSmallBox innerText="D" />
-                  <TextSmallBox innerText="E" />
-                  <TextSmallBox innerText="F" />
-                  <TextSmallBox innerText="G" />
-                  <TextSmallBox innerText="H" />
-                  <TextSmallBox innerText="I" />
-                  <TextSmallBox innerText="J" />
-                  <TextSmallBox innerText="K" />
-                  <TextSmallBox innerText="L" />
-                  <TextSmallBox innerText="M" />
-                  <TextSmallBox innerText="N" />
+                  {previewImgs.slice(14, 28).map((file) => {
+                    return (
+                      <div className={classes.smallBox}>
+                        <div className={classes.content}>
+                          <img src={file} alt="가" className={modalClasses.fontImg} />
+                        </div>
+                      </div>
+                    );
+                  })}
                   <TextSmallBox />
                 </div>
                 <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
@@ -225,7 +237,7 @@ const FontResultModal: React.FC = () => {
               <button
                 className={modalClasses.modalBtn}
                 style={{ backgroundColor: 'white', fontWeight: 'bold' }}
-                onClick={postFontInformation}
+                onClick={goToFontOptionStep}
               >
                 정보입력
               </button>
