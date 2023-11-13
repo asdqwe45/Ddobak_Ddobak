@@ -13,6 +13,7 @@ import { resultModalActions } from 'store/resultModalSlice';
 import { checkToken, userMypageAPI } from 'https/utils/AuthFunction';
 import { transactionPurchaseAPI } from 'https/utils/TransactionFunction';
 import { cartDeleteAPI } from 'https/utils/CartFunction';
+import { successModalActions } from 'store/successModalSlice';
 
 interface PointModalState {
   pointModal: {
@@ -89,6 +90,12 @@ const PointPayModal: React.FC = () => {
           clickPayHandler();
           // 다음 페이지로 이동
           dispatch(resultModalActions.nextStep());
+          dispatch(
+            successModalActions.showSomething({
+              successHeader: '폰트 제작 결제',
+              successContext: '이용해주셔서 감사합니다.',
+            }),
+          );
           return;
         } else if (boughtSomething === '폰트구매') {
           // 장바구니 삭제
@@ -102,7 +109,12 @@ const PointPayModal: React.FC = () => {
               console.log(r);
               closeModal();
               dispatch(pointPayModalActions.resetState());
-              window.location.reload();
+              dispatch(
+                successModalActions.showSomething({
+                  successHeader: '구매 완료',
+                  successContext: '폰트 구매를 완료했어요!',
+                }),
+              );
             })
             .catch((e) => {
               console.error(e);
@@ -119,7 +131,12 @@ const PointPayModal: React.FC = () => {
               console.log(r);
               closeModal();
               dispatch(pointPayModalActions.resetState());
-              window.location.reload();
+              dispatch(
+                successModalActions.showSomething({
+                  successHeader: '구매 완료',
+                  successContext: '장바구니 구매를 완료했어요!',
+                }),
+              );
             })
             .catch((e) => {
               console.error(e);

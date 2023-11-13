@@ -277,25 +277,25 @@ const MyPage: React.FC = () => {
   // 포인트 결제
 
   const transactionClick = async () => {
-    if (totalCartPrice > 0) {
-      const buyAllList = [];
-      for (const sf of selectedFont) {
-        if (sf.selected === true) {
-          const data = {
-            sellerId: sf.sellerId,
-            fontId: sf.fontId,
-          };
-          buyAllList.push(data);
-        }
+    const buyAllList = [];
+    for (const sf of selectedFont) {
+      if (sf.selected === true) {
+        const data = {
+          sellerId: sf.sellerId,
+          fontId: sf.fontId,
+        };
+        buyAllList.push(data);
       }
-      dispatch(
-        pointPayModalActions.payThePrice({
-          howMuch: totalCartPrice,
-          boughtSometing: '장바구니구매',
-        }),
-      );
-      dispatch(pointPayModalActions.buyAll({ buyAll: buyAllList }));
-      dispatch(pointPayModalActions.toggle());
+      if (buyAllList.length > 0) {
+        dispatch(
+          pointPayModalActions.payThePrice({
+            howMuch: totalCartPrice,
+            boughtSometing: '장바구니구매',
+          }),
+        );
+        dispatch(pointPayModalActions.buyAll({ buyAll: buyAllList }));
+        dispatch(pointPayModalActions.toggle());
+      }
     }
   };
 
