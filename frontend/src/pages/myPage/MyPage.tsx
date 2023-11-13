@@ -294,16 +294,17 @@ const MyPage: React.FC = () => {
         };
         buyAllList.push(data);
       }
-      if (buyAllList.length > 0) {
-        dispatch(
-          pointPayModalActions.payThePrice({
-            howMuch: totalCartPrice,
-            boughtSometing: '장바구니구매',
-          }),
-        );
-        dispatch(pointPayModalActions.buyAll({ buyAll: buyAllList }));
-        dispatch(pointPayModalActions.toggle());
-      }
+    }
+    if (buyAllList.length > 0) {
+      console.log(buyAllList);
+      dispatch(
+        pointPayModalActions.payThePrice({
+          howMuch: totalCartPrice,
+          boughtSometing: '장바구니구매',
+        }),
+      );
+      dispatch(pointPayModalActions.buyAll({ buyAll: buyAllList }));
+      dispatch(pointPayModalActions.toggle());
     }
   };
 

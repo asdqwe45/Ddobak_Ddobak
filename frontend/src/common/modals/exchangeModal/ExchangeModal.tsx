@@ -148,7 +148,12 @@ const ExchangeModal: React.FC = () => {
       .then(async (r) => {
         console.log(r);
         closeModal();
-        dispatch(successModalActions.showSomething({successHeader: "인출 요청", successContext: "인출은 최대 3일이 소요됩니다."}))
+        dispatch(
+          successModalActions.showSomething({
+            successHeader: '인출 요청',
+            successContext: '인출은 최대 3일이 소요됩니다.',
+          }),
+        );
       })
       .catch((e) => {
         console.error(e);
