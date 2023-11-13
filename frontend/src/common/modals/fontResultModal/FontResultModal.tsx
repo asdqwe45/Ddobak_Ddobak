@@ -20,7 +20,6 @@ interface ResultModalState {
 }
 
 const FontResultModal: React.FC = () => {
-
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [elapsedTime, setElapsedTime] = useState<number>(0);
   // redux

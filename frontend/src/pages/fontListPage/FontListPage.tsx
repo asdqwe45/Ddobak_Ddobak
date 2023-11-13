@@ -38,7 +38,6 @@ const FontListPage: React.FC = () => {
           if (response.data) {
             console.log('API로부터 받은 데이터:', response.data);
             setFonts(response.data.fontListResponse);
-
           } else {
             console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
           }
@@ -91,21 +90,18 @@ const FontListPage: React.FC = () => {
   console.log(checked);
 
   const handleCheckbox = (sale: string) => {
-    setChecked((prev) =>
-      prev.includes(sale) ? prev.filter((o) => o !== sale) : [...prev, sale],
-    );
+    setChecked((prev) => (prev.includes(sale) ? prev.filter((o) => o !== sale) : [...prev, sale]));
   };
 
   const renderFilter = () => {
     return (
-      <div className={classes.filterOptions} style={{ width: '86px' }}
-      >
+      <div className={classes.filterOptions} style={{ width: '86px' }}>
         {sales.map((sale, index) => (
-          <label key={index} style={{cursor: 'pointer'}}>
+          <label key={index} style={{ cursor: 'pointer' }}>
             <input
               type="checkbox"
               className={classes.checkbox}
-              style={{cursor: 'pointer'}}
+              style={{ cursor: 'pointer' }}
               checked={checked.includes(sale)}
               onChange={() => handleCheckbox(sale)}
             />
@@ -141,7 +137,7 @@ const FontListPage: React.FC = () => {
     return (
       <div className={classes.filterOptions}>
         {options.map((option, index) => (
-          <label key={index} style={{cursor: 'pointer'}}>
+          <label key={index} style={{ cursor: 'pointer' }}>
             <input
               type="checkbox"
               className={classes.checkbox}
@@ -233,8 +229,9 @@ const FontListPage: React.FC = () => {
                 size={22}
                 color="gray"
                 style={{ marginLeft: '4px' }}
-                className={`${classes.filterIcon} ${showFilterOptions ? classes.filterIconActive : ''
-                  }`}
+                className={`${classes.filterIcon} ${
+                  showFilterOptions ? classes.filterIconActive : ''
+                }`}
               />
             </div>
             {showFilterOptions && renderFilterOptions()}
@@ -251,14 +248,11 @@ const FontListPage: React.FC = () => {
                 size={22}
                 color="gray"
                 style={{ marginLeft: '4px' }}
-                className={`${classes.filterIcon} ${showFilter ? classes.filterIconActive : ''
-                  }`}
+                className={`${classes.filterIcon} ${showFilter ? classes.filterIconActive : ''}`}
               />
             </div>
             {showFilter && renderFilter()}
           </div>
-
-
         </div>
         <div className={classes.fontBoxContainer}>{renderFontBoxes()}</div>
       </div>
