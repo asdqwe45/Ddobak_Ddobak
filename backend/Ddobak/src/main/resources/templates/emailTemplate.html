@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
@@ -87,7 +87,7 @@
         <tbody>
         <tr>
           <td height="49" style="text-align: center; color: #fff">
-            인증번호 : "${authCode}"
+            인증번호 : <span th:text="${authCode}"></span>
             <span><b></b></span>
           </td>
         </tr>
