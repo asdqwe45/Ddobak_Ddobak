@@ -77,7 +77,7 @@ const ChargePointModal: React.FC = () => {
 
   const handlePaymentFailure = (error: any) => {
     if (chargePoint === 0) {
-      handleNoChangePoint()
+      handleNoChangePoint();
       return; // 조기 반환을 통해 이후 로직을 실행하지 않습니다.
     }
     console.log('Payment Failure:', error);
@@ -196,7 +196,8 @@ const ChargePointModal: React.FC = () => {
       <AlertCustomModal
         show={showAlertModal}
         onHide={() => setShowAlertModal(false)}
-        message1="충전할 금액을 선택해 주세요!" message2=""
+        message1="충전할 금액을 선택해 주세요!"
+        message2=""
         btnName="확인"
       />
     </ReactModal>
