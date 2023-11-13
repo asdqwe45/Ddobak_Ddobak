@@ -98,7 +98,7 @@ public class FontController {
         return ResponseEntity.ok("success");
     }
     @GetMapping(value = "/list")
-    public ResponseEntity<FontListResponse> getFontList(@AuthenticationPrincipal LoginInfo loginInfo,@PageableDefault(size=12) Pageable pageable,@RequestParam(required = false) String search, @RequestParam(required = false) List<String> keywords, @RequestParam(required = false) String freeCheck){
+    public ResponseEntity<FontListResponse> getFontList(@AuthenticationPrincipal LoginInfo loginInfo,@PageableDefault(size=1000) Pageable pageable,@RequestParam(required = false) String search, @RequestParam(required = false) List<String> keywords, @RequestParam(required = false) String freeCheck){
 
         Boolean free = null;
         if(freeCheck != null){
@@ -116,7 +116,7 @@ public class FontController {
     }
 
     @GetMapping(value = "/list/NoAuth")
-    public ResponseEntity<FontListResponse> getFontList(@PageableDefault(size=12) Pageable pageable,@RequestParam(required = false) String search, @RequestParam(required = false) List<String> keywords, @RequestParam(required = false) String freeCheck){
+    public ResponseEntity<FontListResponse> getFontList(@PageableDefault(size=1000) Pageable pageable,@RequestParam(required = false) String search, @RequestParam(required = false) List<String> keywords, @RequestParam(required = false) String freeCheck){
 
         Boolean free = null;
         if(freeCheck != null){
