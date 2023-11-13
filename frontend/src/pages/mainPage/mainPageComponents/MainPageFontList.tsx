@@ -25,6 +25,8 @@ import DdobakLogo from '../../../common/commonAssets/ddobak_logo.png';
 
 // API 호출
 import { axiosWithAuth, axiosWithoutAuth, getData } from 'https/http';
+import { useDispatch } from 'react-redux';
+import { progressLoaderActions } from 'store/progressLoaderSlice';
 
 type Font = {
   font_id: string;
@@ -33,6 +35,7 @@ type Font = {
   producer_name: string;
   font_file_url: string;
   dibCheck: boolean;
+  price: number;
 };
 type FontList = {
   fontListResponse: Font[];
@@ -42,10 +45,11 @@ type FontList = {
 const MainPageFontList: React.FC = () => {
   const swiperRef = useRef<SwiperCore>();
   const [fonts, setFonts] = useState<Font[]>([]); // 폰트 데이터를 위한 상태
-
+  const dispatch = useDispatch();
   // 폰트 데이터를 가져오는 함수
   useEffect(() => {
     const fetchFonts = async () => {
+      dispatch(progressLoaderActions.startGuage());
       const token = await getData('accessToken');
       if (token) {
         try {
@@ -55,8 +59,10 @@ const MainPageFontList: React.FC = () => {
           console.log('로그인 한 상태에서 데이터 가져오기');
           console.log(response);
           setFonts(response.fontListResponse); // 폰트 데이터 상태 업데이트
+          dispatch(progressLoaderActions.resetGauge());
         } catch (error) {
           console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
+          dispatch(progressLoaderActions.resetGauge());
         }
       } else {
         try {
@@ -66,13 +72,15 @@ const MainPageFontList: React.FC = () => {
           console.log('비회원 한 상태에서 데이터 가져오기');
           console.log(response);
           setFonts(response.fontListResponse); // 폰트 데이터 상태 업데이트
+          dispatch(progressLoaderActions.resetGauge());
         } catch (error) {
           console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
+          dispatch(progressLoaderActions.resetGauge());
         }
       }
     };
     fetchFonts();
-  }, []);
+  }, [dispatch]);
 
   const renderFontBoxes = () => {
     return fonts.map((font) => (
@@ -83,6 +91,7 @@ const MainPageFontList: React.FC = () => {
           producer_id={font.producer_id.toString()}
           maker={font.producer_name}
           dib={font.dibCheck}
+          price={font.price}
         />
       </SwiperSlide>
     ));

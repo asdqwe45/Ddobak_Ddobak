@@ -24,7 +24,6 @@ import {
   ContentInnerLeft,
   ContentInnerTextBox,
   ContentProducerName,
-  ContentInnerContentText,
   ContentInnerHeaderText,
   ContentInnerRight,
   ContentGrayDisabled,
@@ -88,6 +87,7 @@ import { followDeleteAPI, getFollowingList } from 'https/utils/FollowFunction';
 
 import styled from '@emotion/styled';
 import CommonEmptyBox from '../../common/commonEmptyBox/CommonEmptyBox';
+import { progressLoaderActions } from 'store/progressLoaderSlice';
 
 interface CartType {
   fontId: number;
@@ -100,6 +100,9 @@ interface CartType {
 }
 
 const MyPage: React.FC = () => {
+  window.scrollTo({ left: 0, top: 0 });
+  // redux
+  const dispatch = useDispatch();
   const [myNickname, setMyNickname] = useState<string>('');
   const [myPoint, setMyPoint] = useState<number>(0);
   const [myProfileImage, setMyProfileImage] = useState<string>('');
@@ -127,8 +130,10 @@ const MyPage: React.FC = () => {
 
   useEffect(() => {
     async function fetch() {
+      dispatch(progressLoaderActions.resetGauge());
       if (myValue) {
         if (myValue === 'fontBasket') {
+          dispatch(progressLoaderActions.startGuage());
           setPageLocation({
             productsState: false,
             likeList: false,
@@ -136,27 +141,30 @@ const MyPage: React.FC = () => {
             boughtFonts: false,
             likeProducers: false,
           });
-          cartGetAPI()
+          await cartGetAPI()
             .then(async (r) => {
               console.log(r);
               setCartData(r);
             })
             .catch((e) => console.error(e));
+          dispatch(progressLoaderActions.resetGauge());
         }
       }
     }
     fetch();
-  }, [myValue]);
+  }, [myValue, dispatch]);
 
   useEffect(() => {
     async function fetch() {
+      dispatch(progressLoaderActions.resetGauge());
+      dispatch(progressLoaderActions.startGuage());
       const token = await checkToken();
       const id = await getData('id');
       setMyId(id);
       if (token) {
         console.log('have Token');
         // 마이페이지 불러오기
-        userMypageAPI()
+        await userMypageAPI()
           .then(async (r) => {
             const nickname = r.nickname;
             const point = r.point;
@@ -164,6 +172,7 @@ const MyPage: React.FC = () => {
             await setMyNickname(nickname);
             await setMyPoint(point);
             await setMyProfileImage(profileImg);
+            dispatch(progressLoaderActions.resetGauge());
           })
           .catch((e) => console.error(e));
 
@@ -178,7 +187,7 @@ const MyPage: React.FC = () => {
     }
     fetch();
     // navigate를 의존성 배열에 추가합니다.
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   const [pageLocation, setPageLocation] = useState({
     productsState: true,
@@ -205,8 +214,12 @@ const MyPage: React.FC = () => {
   const swiperRef = useRef<SwiperCore>();
   const pageClickHandle = async (pageName: string) => {
     if (pageName === 'productsState') {
-      transactionProducerAPI(myId)
-        .then(async (r) => setCreatedFontList(r))
+      dispatch(progressLoaderActions.resetGauge());
+      dispatch(progressLoaderActions.startGuage());
+      await transactionProducerAPI(myId)
+        .then(async (r) => {
+          setCreatedFontList(r);
+        })
         .catch((e) => console.error(e));
 
       setPageLocation({
@@ -216,8 +229,11 @@ const MyPage: React.FC = () => {
         boughtFonts: false,
         likeProducers: false,
       });
+      dispatch(progressLoaderActions.resetGauge());
     } else if (pageName === 'likeList') {
-      dibListAPI()
+      dispatch(progressLoaderActions.resetGauge());
+      dispatch(progressLoaderActions.startGuage());
+      await dibListAPI()
         .then((response) => {
           setDibList(response);
         })
@@ -231,7 +247,10 @@ const MyPage: React.FC = () => {
         boughtFonts: false,
         likeProducers: false,
       });
+      dispatch(progressLoaderActions.resetGauge());
     } else if (pageName === 'fontBasket') {
+      dispatch(progressLoaderActions.resetGauge());
+      dispatch(progressLoaderActions.startGuage());
       setPageLocation({
         productsState: false,
         likeList: false,
@@ -239,7 +258,7 @@ const MyPage: React.FC = () => {
         boughtFonts: false,
         likeProducers: false,
       });
-      cartGetAPI()
+      await cartGetAPI()
         .then(async (response) => {
           console.log(response);
           response.map((r: CartType) => {
@@ -256,8 +275,11 @@ const MyPage: React.FC = () => {
         .catch((e) => {
           console.error(e);
         });
+      dispatch(progressLoaderActions.resetGauge());
     } else if (pageName === 'boughtFonts') {
-      transactionMyAllAPI()
+      dispatch(progressLoaderActions.resetGauge());
+      dispatch(progressLoaderActions.startGuage());
+      await transactionMyAllAPI()
         .then(async (r) => setPurchaseFontList(r))
         .catch((e) => console.error(e));
 
@@ -268,8 +290,11 @@ const MyPage: React.FC = () => {
         boughtFonts: true,
         likeProducers: false,
       });
+      dispatch(progressLoaderActions.resetGauge());
     } else {
-      getFollowingList()
+      dispatch(progressLoaderActions.resetGauge());
+      dispatch(progressLoaderActions.startGuage());
+      await getFollowingList()
         .then((r) => {
           console.log('여기: ', r);
           setMyFollowingList(r);
@@ -284,6 +309,7 @@ const MyPage: React.FC = () => {
         boughtFonts: false,
         likeProducers: true,
       });
+      dispatch(progressLoaderActions.resetGauge());
     }
   };
   // 포인트 결제
@@ -311,9 +337,6 @@ const MyPage: React.FC = () => {
       dispatch(pointPayModalActions.toggle());
     }
   };
-
-  // redux
-  const dispatch = useDispatch();
 
   interface FontType {
     fontId: number;
@@ -687,14 +710,14 @@ const MyPage: React.FC = () => {
                                 {font['fontName']}
                               </ContentInnerHeaderText>
                             </ContentHeader>
-                            <ContentInnerContentText>
+                            <div>
                               <CartStyle
                                 fontFamily={font['fontName'].replaceAll(' ', '_')}
                                 fontSrc={font['fontFileUrl']}
                               >
                                 다람쥐 헌 쳇바퀴 타고파
                               </CartStyle>
-                            </ContentInnerContentText>
+                            </div>
                           </ContentInnerTextBox>
                         </ContentInnerLeft>
                         <ContentInnerRight>
@@ -742,14 +765,14 @@ const MyPage: React.FC = () => {
                               </ContentInnerHeaderText>
                               <ContentProducerName>| {dib.producerName}</ContentProducerName>
                             </ContentHeader>
-                            <ContentInnerContentText>
+                            <div>
                               <CartStyle
                                 fontFamily={dib.fontName.replaceAll(' ', '_')}
                                 fontSrc={dib.fontFileUrl}
                               >
                                 다람쥐 헌 쳇바퀴 타고파
                               </CartStyle>
-                            </ContentInnerContentText>
+                            </div>
                           </ContentInnerTextBox>
                         </ContentInnerLeft>
                         <ContentInnerRight style={{ justifyContent: 'center' }}>
@@ -864,14 +887,14 @@ const MyPage: React.FC = () => {
                               </ContentInnerHeaderText>
                               <ContentProducerName>| {font.producerName}</ContentProducerName>
                             </ContentHeader>
-                            <ContentInnerContentText>
+                            <div>
                               <CartStyle
                                 fontSrc={font.fontUrl}
                                 fontFamily={font.fontName.replaceAll(' ', '_')}
                               >
                                 다람쥐 헌 쳇바퀴 타고파
                               </CartStyle>
-                            </ContentInnerContentText>
+                            </div>
                           </ContentInnerTextBox>
                         </ContentInnerLeft>
                         <ContentInnerRight>
@@ -899,7 +922,7 @@ const MyPage: React.FC = () => {
                     onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
                     slidesPerView={3}
                     spaceBetween={15}
-                    loop={true}
+                    loop={myFollowingList && myFollowingList.length > 3}
                     autoplay={{
                       delay: 2500,
                       disableOnInteraction: false,
@@ -910,7 +933,7 @@ const MyPage: React.FC = () => {
                     {myFollowingList.map((item) => {
                       console.log('여기여기', item);
                       return (
-                        <SwiperSlide className={classes.swiperSlide}>
+                        <SwiperSlide key={item['memberId']} className={classes.swiperSlide}>
                           <img
                             onClick={() => {
                               navigate(`/maker/${item['nickname']}/${item['memberId']}`);

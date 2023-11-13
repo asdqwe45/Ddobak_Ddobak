@@ -167,3 +167,20 @@
   width: 100%;
   height: 2px;
 }
+@keyframes fillBar {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+.progressBar {
+  height: 100%;
+  background-color: #d71718;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fillBar 5s ease-in-out forwards; /* 5초 동안 애니메이션 실행 */
+}

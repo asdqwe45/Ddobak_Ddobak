@@ -5,6 +5,7 @@ import { dibAddAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
 
 // icons
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
+import pointCoin from '../../../fontListPage/fontListPageAssets/point.png';
 
 import { getData } from 'https/http';
 import AlertCustomModal from 'common/modals/alertCustomModal/AlertCustomModal';
@@ -15,9 +16,17 @@ interface FontBoxProps {
   producer_id: string;
   maker: string;
   dib: boolean;
+  price: number;
 }
 
-const MainFontBox: React.FC<FontBoxProps> = ({ font_id, title, producer_id, maker, dib }) => {
+const MainFontBox: React.FC<FontBoxProps> = ({
+  font_id,
+  title,
+  producer_id,
+  maker,
+  dib,
+  price,
+}) => {
   const navigate = useNavigate();
   const [showAlertModal, setShowAlertModal] = useState(false);
 
@@ -113,6 +122,9 @@ const MainFontBox: React.FC<FontBoxProps> = ({ font_id, title, producer_id, make
         </div>
         <div className={classes.fontMaker} onClick={handleMakerClick}>
           <span> {maker} </span>
+          {price !== 0 && (
+            <img src={pointCoin} alt="유료" title="유료" className={classes.coinIcon} />
+          )}
         </div>
         {/* box 중앙 선 */}
         <div className={classes.borderTop}></div>

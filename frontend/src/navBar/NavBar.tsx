@@ -6,6 +6,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { mainRedColor } from 'common/colors/CommonColors';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { userLogout } from 'https/utils/AuthFunction';
+import { useDispatch, useSelector } from 'react-redux';
 /*
 // Save to local storage
 window.localStorage.setItem(key, JSON.stringify(newValue))
@@ -29,6 +30,13 @@ localStorage.length;
 
 */
 
+interface ProgressType {
+  progress: {
+    gauge: number;
+    refresh: boolean;
+  };
+}
+
 const NavBar: React.FC = () => {
   // 로그인이 되면 새로고침되게 할 것
   const navigate = useNavigate();
@@ -36,9 +44,9 @@ const NavBar: React.FC = () => {
   const hamburgerToggle = () => {
     setIsClicked(!isClicked);
   };
-
   const [haveToken, setHaveToken] = useState<boolean>(false);
   const [myToken, setMyToken] = useState<string>('');
+  const dispatch = useDispatch();
   useEffect(() => {
     async function fetch() {
       const offset = new Date().getTimezoneOffset() * 60000;
@@ -65,10 +73,11 @@ const NavBar: React.FC = () => {
       }
     }
     fetch();
-  }, [myToken]);
+  }, [myToken, dispatch]);
 
   const location = useLocation();
-
+  const firstProgress = useSelector((state: ProgressType) => state.progress.gauge);
+  const refresh = useSelector((state: ProgressType) => state.progress.refresh);
   const isActivePath = (pathPatterns: string[]): boolean => {
     for (const pattern of pathPatterns) {
       if (location.pathname.startsWith(pattern)) {
@@ -96,7 +105,12 @@ const NavBar: React.FC = () => {
   };
   return (
     <div className={classes.header}>
-      <div className={classes.progressLoader}></div>
+      <div className={classes.progressLoader}>
+        <div
+          className={classes.progressBar}
+          style={refresh ? { width: firstProgress + '%' } : { backgroundColor: 'white' }}
+        ></div>
+      </div>
       <div className={classes.list}>
         <div className={haveToken ? classes.leftBox : classes.leftNoTokenBox}>
           <div className={classes.logoBox}>
@@ -197,20 +211,20 @@ const hamburgerMenuBar = (
 ) => {
   const logoutHandler = async () => {
     setIsClicked(false);
-    userLogout()
+    await userLogout()
       .then(async (r) => {
         console.log(r);
-        localStorage.removeItem('id');
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('profileImgUrl');
-        localStorage.removeItem('today');
-        navigate('/');
         window.location.reload();
       })
       .catch((e) => {
         console.error(e);
       });
+    localStorage.removeItem('id');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('profileImgUrl');
+    localStorage.removeItem('today');
+    navigate('/');
   };
   return (
     <div className={classes.menuDiv}>

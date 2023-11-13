@@ -136,7 +136,7 @@ const MakerPage: React.FC = () => {
   useEffect(() => {
     setMakerIntro(storedMakerIntro);
   }, [wantChange, storedMakerIntro]);
-
+  window.scrollTo({ left: 0, top: 0 });
   return (
     <div className={classes.container}>
       <MakerTopBox>

@@ -188,7 +188,6 @@ const FontListPage: React.FC = () => {
       };
       const response = await axiosWithoutAuth.get('/font/list/NoAuth', { params });
       if (response.data) {
-
         setTotalFonts(response.data.fontCount);
         setFonts(response.data.fontListResponse);
       }
