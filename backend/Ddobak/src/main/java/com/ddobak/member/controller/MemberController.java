@@ -139,6 +139,7 @@ public class MemberController {
         return ResponseEntity.noContent().build();
     }
 
+    // 회원 프로필 이미지 조회
     @GetMapping("/profileImg/{memberId}")
     public ResponseEntity<ProfileImgResponse> requestProfileImg(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long memberId) {
         log.info("{} request profileImg");
