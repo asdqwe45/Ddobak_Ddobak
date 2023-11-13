@@ -3,6 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from image_align.controller.controller import router as image_align_router
 from font_create.controller.controller import router as font_create
+from font_create.service.handwriting_infer import VDSR,Conv_ReLU_Block
 app = FastAPI()
 import uvicorn
 app.include_router(image_align_router, prefix="/api/v1/image_align")
@@ -28,4 +29,4 @@ app.add_middleware(
 )
 
 if __name__ == '__main__':
-    uvicorn.run("main:app",host='0.0.0.0', port=7000, reload=True)
+    uvicorn.run("main:app",host='0.0.0.0', port=6000, reload=True)
