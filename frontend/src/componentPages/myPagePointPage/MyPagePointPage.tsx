@@ -453,7 +453,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <CommonEmptyBox/>
+                <CommonEmptyBox />
               )}
             </>
           ) : selectContent.buy ? (
@@ -491,7 +491,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <CommonEmptyBox/>
+                <CommonEmptyBox />
               )}
             </>
           ) : selectContent.sell ? (
@@ -523,7 +523,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <CommonEmptyBox/>
+                <CommonEmptyBox />
               )}
             </>
           ) : selectContent.charge ? (
@@ -552,7 +552,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <CommonEmptyBox/>
+                <CommonEmptyBox />
               )}
             </>
           ) : selectContent.exchange ? (
@@ -583,7 +583,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <CommonEmptyBox/>
+                <CommonEmptyBox />
               )}
             </>
           ) : selectContent.make ? (
@@ -617,7 +617,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <CommonEmptyBox/>
+                <CommonEmptyBox />
               )}
             </>
           ) : (

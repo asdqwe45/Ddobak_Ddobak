@@ -704,7 +704,7 @@ const MyPage: React.FC = () => {
                     );
                   })
                 ) : (
-                  <CommonEmptyBox/>
+                  <CommonEmptyBox />
                 )}
               </ContentLargeBox>
             </>
@@ -755,7 +755,7 @@ const MyPage: React.FC = () => {
                     );
                   })
                 ) : (
-                  <CommonEmptyBox/>
+                  <CommonEmptyBox />
                 )}
               </ContentLargeBox>
             </>
@@ -766,70 +766,72 @@ const MyPage: React.FC = () => {
               {/* ======== */}
 
               <ContentLargeBox>
-                {cartData.length > 0? <>
-                
-                
-                <FontBasketTopBox>
-                  <SelectListDelete onClick={deleteCartFC}>선택 항목 삭제</SelectListDelete>
-                </FontBasketTopBox>
-                {cartData.map((cart) => {
-                  return (
-                    <ContentIngredient key={'cart' + cart.fontId}>
-                      <ContentInnerLeft>
-                        <ContentInnerTextBox>
-                          <ContentHeader>
-                            <ContentInnerHeaderText
-                              onClick={() => {
-                                handleClickFontNameFC(cart.fontId.toString());
-                              }}
-                            >
-                              {cart.fontName}
-                            </ContentInnerHeaderText>
-                            <ContentProducerName>| {cart.producer} </ContentProducerName>
-                            <ContentProducerName style={{ marginLeft: 10 }}>
-                              | {formatNumberWithCommas(cart.fontPrice)} P
-                            </ContentProducerName>
-                          </ContentHeader>
-                          <CartStyle
-                            fontFamily={cart.fontName.replace(' ', '_')}
-                            fontSrc={cart.fontUrl}
-                          >
-                            다람쥐 헌 쳇바퀴 타고파
-                          </CartStyle>
-                        </ContentInnerTextBox>
-                      </ContentInnerLeft>
-                      <ContentInnerRight>
-                        {currentSelected(cart.fontId) ? (
-                          <FaRegCheckSquare
-                            className={classes.checkIcon}
-                            onClick={() => {
-                              clickCheckFC(cart.fontId);
-                            }}
-                          />
-                        ) : (
-                          <FaRegSquare
-                            className={classes.checkIcon}
-                            onClick={() => {
-                              clickCheckFC(cart.fontId);
-                            }}
-                          />
-                        )}
-                      </ContentInnerRight>
-                    </ContentIngredient>
-                  );
-                })}
-                <FontBasketBottomBox>
-                  {/* 금액이 나와야 함 */}
-                  <CartPriceText>
-                    <CartPriceBox>{formatNumberWithCommas(totalCartPrice)} P</CartPriceBox>
-                  </CartPriceText>
-                  <ContentGrayTransaction onClick={transactionClick}>
-                    결제하기
-                  </ContentGrayTransaction>
-                </FontBasketBottomBox>
-                </> : <>
-                <CommonEmptyBox />
-                </>}
+                {cartData.length > 0 ? (
+                  <>
+                    <FontBasketTopBox>
+                      <SelectListDelete onClick={deleteCartFC}>선택 항목 삭제</SelectListDelete>
+                    </FontBasketTopBox>
+                    {cartData.map((cart) => {
+                      return (
+                        <ContentIngredient key={'cart' + cart.fontId}>
+                          <ContentInnerLeft>
+                            <ContentInnerTextBox>
+                              <ContentHeader>
+                                <ContentInnerHeaderText
+                                  onClick={() => {
+                                    handleClickFontNameFC(cart.fontId.toString());
+                                  }}
+                                >
+                                  {cart.fontName}
+                                </ContentInnerHeaderText>
+                                <ContentProducerName>| {cart.producer} </ContentProducerName>
+                                <ContentProducerName style={{ marginLeft: 10 }}>
+                                  | {formatNumberWithCommas(cart.fontPrice)} P
+                                </ContentProducerName>
+                              </ContentHeader>
+                              <CartStyle
+                                fontFamily={cart.fontName.replace(' ', '_')}
+                                fontSrc={cart.fontUrl}
+                              >
+                                다람쥐 헌 쳇바퀴 타고파
+                              </CartStyle>
+                            </ContentInnerTextBox>
+                          </ContentInnerLeft>
+                          <ContentInnerRight>
+                            {currentSelected(cart.fontId) ? (
+                              <FaRegCheckSquare
+                                className={classes.checkIcon}
+                                onClick={() => {
+                                  clickCheckFC(cart.fontId);
+                                }}
+                              />
+                            ) : (
+                              <FaRegSquare
+                                className={classes.checkIcon}
+                                onClick={() => {
+                                  clickCheckFC(cart.fontId);
+                                }}
+                              />
+                            )}
+                          </ContentInnerRight>
+                        </ContentIngredient>
+                      );
+                    })}
+                    <FontBasketBottomBox>
+                      {/* 금액이 나와야 함 */}
+                      <CartPriceText>
+                        <CartPriceBox>{formatNumberWithCommas(totalCartPrice)} P</CartPriceBox>
+                      </CartPriceText>
+                      <ContentGrayTransaction onClick={transactionClick}>
+                        결제하기
+                      </ContentGrayTransaction>
+                    </FontBasketBottomBox>
+                  </>
+                ) : (
+                  <>
+                    <CommonEmptyBox />
+                  </>
+                )}
               </ContentLargeBox>
             </>
           ) : pageLocation.boughtFonts ? (

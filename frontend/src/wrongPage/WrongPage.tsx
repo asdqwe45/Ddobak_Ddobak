@@ -20,15 +20,18 @@ const WrongPage: React.FC = () => {
   return (
     <div id={'scroll'} className={classes.container}>
       <div className={classes.warningBox}>
-        <h1 style={{ marginBottom: 5 }}>Something went wrong</h1>
+        <h1 style={{ marginBottom: 20, fontSize: 90 }}>잠시만요!</h1>
+        <h1 style={{ marginBottom: 5, fontSize: 24 }}>
+          로그인 상태 또는 접속 경로를 확인해주세요.
+        </h1>
         <div>
           <button
-            className={classes.loginBtn}
+            className={classes.signupBtn}
             onClick={() => {
               navigate('/');
             }}
           >
-            홈페이지 이동
+            또박또박으로 가기
           </button>
           <button
             className={classes.signupBtn}
@@ -36,7 +39,7 @@ const WrongPage: React.FC = () => {
               navigate('/login');
             }}
           >
-            로그인 하기
+            로그인 하러가기
           </button>
         </div>
       </div>
