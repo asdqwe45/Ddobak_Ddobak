@@ -26,12 +26,12 @@ const WrongPage: React.FC = () => {
         </h1>
         <div>
           <button
-            className={classes.loginBtn}
+            className={classes.signupBtn}
             onClick={() => {
               navigate('/');
             }}
           >
-            홈페이지 이동
+            또박또박으로 가기
           </button>
           <button
             className={classes.signupBtn}
@@ -39,7 +39,7 @@ const WrongPage: React.FC = () => {
               navigate('/login');
             }}
           >
-            로그인 하기
+            로그인 하러가기
           </button>
         </div>
       </div>

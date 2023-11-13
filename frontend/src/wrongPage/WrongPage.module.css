@@ -18,23 +18,6 @@
   background-color: white;
 }
 
-.loginBtn {
-  margin: 10px;
-  width: 200px;
-  height: 50px;
-  border-radius: 6.5px;
-  border: 4px solid #d71718;
-  box-sizing: border-box;
-  font-size: 20px;
-  font-weight: bold;
-  background-color: white;
-  &:hover {
-    cursor: pointer;
-    background-color: #d71718;
-    color: white;
-  }
-}
-
 .signupBtn {
   margin: 10px;
   width: 200px;
