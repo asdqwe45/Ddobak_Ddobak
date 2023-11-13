@@ -69,8 +69,8 @@ parser.add_argument('--dst_dir', dest='dst_dir', required=True, help='directory 
 args = parser.parse_args()
 
 if __name__ == "__main__":
-    rows = 8
-    cols = 12
-    header_ratio = 16.5/(16.5+42)
+    rows = 7
+    cols = 13
+    header_ratio = .5/2.5
     crop_image_uniform(args.src_dir, args.dst_dir)
 #    crop_image_frequency(args.src_dir, args.dst_dir)
