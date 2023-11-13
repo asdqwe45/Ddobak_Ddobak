@@ -5,8 +5,7 @@ const CommonEmptyBox: React.FC = () => {
   return <div className={classes.container}>
     <div className={classes.innerBox}>
         <img src={EmptyBox} alt="" className={classes.innerIcon} />
-        <h1 className={classes.innerHeader}>Empty</h1>
-        <p className={classes.innerContext}>아무것도 들어있지 않습니다.</p>
+        <h1 className={classes.innerHeader}>아무것도 들어있지 않습니다.</h1>
     </div>
   </div>;
 };
