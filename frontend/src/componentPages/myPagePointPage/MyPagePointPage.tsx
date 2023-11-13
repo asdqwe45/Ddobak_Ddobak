@@ -453,7 +453,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <CommonEmptyBox />
+                <CommonEmptyBox text="전체 거래 내역이 없습니다." />
               )}
             </>
           ) : selectContent.buy ? (
@@ -491,7 +491,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <CommonEmptyBox />
+                <CommonEmptyBox text="폰트 구매 내역이 없습니다." />
               )}
             </>
           ) : selectContent.sell ? (
@@ -523,7 +523,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <CommonEmptyBox />
+                <CommonEmptyBox text="판매한 내역이 없습니다." />
               )}
             </>
           ) : selectContent.charge ? (
@@ -552,7 +552,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <CommonEmptyBox />
+                <CommonEmptyBox text="포인트 충전 내역이 없습니다." />
               )}
             </>
           ) : selectContent.exchange ? (
@@ -583,7 +583,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <CommonEmptyBox />
+                <CommonEmptyBox text="인출 내역이 없습니다." />
               )}
             </>
           ) : selectContent.make ? (
@@ -617,7 +617,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <CommonEmptyBox />
+                <CommonEmptyBox text="제작한 내역이 없습니다." />
               )}
             </>
           ) : (

@@ -62,10 +62,8 @@ const FaqPage: React.FC = () => {
             <div className={classes.qText}>Q. {faq.question}</div>
             <hr />
             <div className={classes.aText}>
-              <strong>A.</strong> 
-              <div style={{marginLeft: '35px', marginTop:'-35px'}}>
-              {faq.answer}
-              </div>
+              <strong>A.</strong>
+              <div style={{ marginLeft: '35px', marginTop: '-35px' }}>{faq.answer}</div>
             </div>
           </div>
         ))}

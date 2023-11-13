@@ -86,16 +86,17 @@ const NavBar: React.FC = () => {
       .catch((e) => {
         console.error(e);
       });
-      localStorage.removeItem('id');
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('profileImgUrl');
-      localStorage.removeItem('today');
-      navigate('/');
-      window.location.reload();
+    localStorage.removeItem('id');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('profileImgUrl');
+    localStorage.removeItem('today');
+    navigate('/');
+    window.location.reload();
   };
   return (
     <div className={classes.header}>
+      <div className={classes.progressLoader}></div>
       <div className={classes.list}>
         <div className={haveToken ? classes.leftBox : classes.leftNoTokenBox}>
           <div className={classes.logoBox}>

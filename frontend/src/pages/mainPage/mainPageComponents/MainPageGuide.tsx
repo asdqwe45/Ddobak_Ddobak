@@ -16,14 +16,14 @@ const MainPageGuide: React.FC = () => {
         <div className={classes.contentBox}>
           <div className={classes.ingredientBox}>
             <div className={classes.contentImgBox}>
-              <div className={classes.aspectImg} style={{height:'80%'}}>
+              <div className={classes.aspectImg} style={{ height: '80%' }}>
                 <img src={guideLine} alt="가이드라인" className={classes.guideImg} />
               </div>
-            <div className={classes.btnBox}>
-              <button className={classes.downloadBtn} onClick={handleDownload}>
-                가이드라인 다운로드
-              </button>
-            </div>
+              <div className={classes.btnBox}>
+                <button className={classes.downloadBtn} onClick={handleDownload}>
+                  가이드라인 다운로드
+                </button>
+              </div>
             </div>
             <div className={classes.contentTextBox}>
               <p className={classes.contentHeader}>1. 작성하기</p>

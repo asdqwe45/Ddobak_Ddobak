@@ -77,6 +77,7 @@ const FontDetail: React.FC = () => {
 
   // 폰트 데이터를 가져오는 함수
   const fetchFontDetails = async (fontId: string) => {
+    setFontDetail(null);
     try {
       const response = await axiosWithAuth.get(`/font/detail/${fontId}`).then((r) => {
         return r;

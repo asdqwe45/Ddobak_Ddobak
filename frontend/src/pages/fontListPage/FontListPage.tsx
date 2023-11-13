@@ -177,9 +177,8 @@ const FontListPage: React.FC = () => {
       };
       const response = await axiosWithoutAuth.get('/font/list/NoAuth', { params });
       if (response.data) {
-       
-      setTotalFonts(response.data.fontCount);
-      setFonts(response.data.fontListResponse);
+        setTotalFonts(response.data.fontCount);
+        setFonts(response.data.fontListResponse);
       }
     } catch (error) {
       console.error('폰트 목록을 가져오는데 실패했습니다:', error);
@@ -235,8 +234,9 @@ const FontListPage: React.FC = () => {
                 size={22}
                 color="gray"
                 style={{ marginLeft: '4px' }}
-                className={`${classes.filterIcon} ${showFilterOptions ? classes.filterIconActive : ''
-                  }`}
+                className={`${classes.filterIcon} ${
+                  showFilterOptions ? classes.filterIconActive : ''
+                }`}
               />
             </div>
             {showFilterOptions && renderFilterOptions()}

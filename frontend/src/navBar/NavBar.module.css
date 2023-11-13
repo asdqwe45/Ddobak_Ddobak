@@ -1,7 +1,7 @@
 .header {
   width: 100%;
   min-width: 440px;
-  height: 68px;
+  height: 70px;
   border-bottom: 2.2px solid #d9d9d9;
   position: sticky;
   top: 0;
@@ -161,4 +161,9 @@
 .menuFont {
   font-size: 20px;
   margin: 0px;
+}
+
+.progressLoader {
+  width: 100%;
+  height: 2px;
 }

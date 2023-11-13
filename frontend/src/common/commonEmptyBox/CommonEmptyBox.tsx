@@ -1,12 +1,16 @@
 import classes from './CommonEmptyBox.module.css';
-import EmptyBox from './commonEmptyBoxAssets/EmptyBox.svg';
+import EmptyBox2 from './commonEmptyBoxAssets/EmptyBox2.svg';
 
-const CommonEmptyBox: React.FC = () => {
+interface CommonEmptyBoxType {
+  text: string;
+}
+
+const CommonEmptyBox: React.FC<CommonEmptyBoxType> = ({ text }) => {
   return (
     <div className={classes.container}>
       <div className={classes.innerBox}>
-        <img src={EmptyBox} alt="" className={classes.innerIcon} />
-        <h1 className={classes.innerHeader}>아무것도 들어있지 않습니다.</h1>
+        <img src={EmptyBox2} alt="" className={classes.innerIcon} />
+        <h1 className={classes.innerHeader}>{text}</h1>
       </div>
     </div>
   );
