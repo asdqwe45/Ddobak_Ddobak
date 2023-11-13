@@ -14,17 +14,16 @@ const faqs = [
   },
   {
     question: '손글씨로 몇 글자를 작성해야 하나요? 📝',
-    answer:
-      '총 글자 수 답변 \n 한글 : 28자, 영어 : 52자(대소문자 포함), 숫자 : 10자, 특수기호 : 29자',
+    answer: `'한글' 템플릿과 '영어 및 특수기호' 템플릿으로 나뉘어 있어요. \n - 한글 : 28자 \n - 영어 및 특수기호 : 91자 [영어 52, 숫자 10, 특수기호 29]`,
   },
   { question: '폰트를 제작하는데 시간이 얼마나 걸리나요? ⏱', answer: '제작 소요 시간 답변' },
   {
     question: '제작이 완료된 폰트는 어떻게 사용할 수 있나요? 🙄',
-    answer: `"마이페이지의 제작한 폰트" 에서 확인하고 다운로드 받으실 수 있어요.`,
+    answer: `[마이페이지]-[제작한 폰트] 에서 확인하고 다운로드 받으실 수 있어요.`,
   },
   {
     question: '웹폰트 적용하는 방법이 궁금해요. 💻',
-    answer: `폰트 "상세페이지" 의 웹폰트 코드를 복사해서 html 파일의 <style> 태그 안에 넣으시면 됩니다.`,
+    answer: `각 폰트의 [상세페이지] 상단의 웹폰트 코드를 복사해서 html 파일의 <style> 태그 안에 넣으시면 됩니다.`,
   },
 ];
 
@@ -63,7 +62,10 @@ const FaqPage: React.FC = () => {
             <div className={classes.qText}>Q. {faq.question}</div>
             <hr />
             <div className={classes.aText}>
-              <strong>A.</strong> {faq.answer}
+              <strong>A.</strong> 
+              <div style={{marginLeft: '35px', marginTop:'-35px'}}>
+              {faq.answer}
+              </div>
             </div>
           </div>
         ))}

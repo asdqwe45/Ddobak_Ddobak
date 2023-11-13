@@ -25,7 +25,7 @@ type Font = {
 const FontListPage: React.FC = () => {
   window.scrollTo({ left: 0, top: 0 });
 
-  const [fonts, setFonts] = useState<Font[]>([]); // 폰트 데이터를 위한 상태
+  const [fonts, setFonts] = useState<Font[]>([]);
   // 컴포넌트 마운트시 API 호출
   useEffect(() => {
     const fetch = async () => {
@@ -59,7 +59,7 @@ const FontListPage: React.FC = () => {
       });
       if (response.data) {
         console.log('API로부터 받은 폰트 목록:', response.data);
-        setFonts(response.data.fontListResponse); // 상태 업데이트
+        setFonts(response.data.fontListResponse);
       } else {
         console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
       }
@@ -87,7 +87,7 @@ const FontListPage: React.FC = () => {
   const sales = ['유료', '무료'];
   const [showFilter, setShowFilter] = useState(false);
   const [checked, setChecked] = useState<string[]>([]);
-  console.log(checked);
+  // console.log("유/무료 필터 리스트", checked);
 
   const handleCheckbox = (sale: string) => {
     setChecked((prev) => (prev.includes(sale) ? prev.filter((o) => o !== sale) : [...prev, sale]));
@@ -158,6 +158,12 @@ const FontListPage: React.FC = () => {
     // console.log('선택된 필터 옵션:', checkedOptions);
     // console.log('입력한 검색어:', searchTerm);
     try {
+      let freeCheckValue = undefined;
+      if (checked.includes('무료') && !checked.includes('유료')) {
+        freeCheckValue = 'true'; // 무료만 체크된 경우
+      } else if (!checked.includes('무료') && checked.includes('유료')) {
+        freeCheckValue = 'false'; // 유료만 체크된 경우
+      }
       const params = {
         fontCount: totalFonts,
         page: currentPage,
@@ -167,24 +173,24 @@ const FontListPage: React.FC = () => {
           checkedOptions.length > 0
             ? checkedOptions.join(',') // 선택된 옵션이 있을 경우, 쉼표로 구분된 문자열로 전송
             : {}, // 옵션 체크 해제 시, params 비워서 모든 데이터 요청
+        freeCheck: freeCheckValue,
       };
       const response = await axiosWithoutAuth.get('/font/list/NoAuth', { params });
       if (response.data) {
-        console.log('필터링 된 폰트 목록:', response.data);
-        setFonts(response.data.fontListResponse);
-        setTotalFonts(response.data.fontCount);
+       
+      setTotalFonts(response.data.fontCount);
+      setFonts(response.data.fontListResponse);
       }
     } catch (error) {
       console.error('폰트 목록을 가져오는데 실패했습니다:', error);
     }
-  }, [totalFonts, currentPage, searchTerm, checkedOptions]);
+  }, [totalFonts, currentPage, searchTerm, checkedOptions, checked]);
 
   const handlePagination = (newPage: number) => {
-    if (newPage < totalPages) {
+    if (newPage !== currentPage && newPage < totalPages) {
       setCurrentPage(newPage);
     }
   };
-
   useEffect(() => {
     const timer = setTimeout(() => {
       if (searchTerm && currentPage !== 0) {
@@ -200,7 +206,7 @@ const FontListPage: React.FC = () => {
   // 변경될 때마다 데이터를 가져옵니다.
   useEffect(() => {
     fetchFilteredFonts();
-  }, [currentPage, checkedOptions, fetchFilteredFonts]);
+  }, [currentPage, checkedOptions, checked, fetchFilteredFonts]);
 
   return (
     <>
@@ -229,9 +235,8 @@ const FontListPage: React.FC = () => {
                 size={22}
                 color="gray"
                 style={{ marginLeft: '4px' }}
-                className={`${classes.filterIcon} ${
-                  showFilterOptions ? classes.filterIconActive : ''
-                }`}
+                className={`${classes.filterIcon} ${showFilterOptions ? classes.filterIconActive : ''
+                  }`}
               />
             </div>
             {showFilterOptions && renderFilterOptions()}

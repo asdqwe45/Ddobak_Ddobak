@@ -17,18 +17,30 @@
 }
 
 .downLoadContainer img {
-  width: 15vw;
-  margin: 35px;
+  width: 20vw;
+  margin: 20px 35px;
+}
+.templateText {
+  text-align: center;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-top: 15px;
 }
 
 .downBtn {
   background-color: #d71718;
   color: #fff;
   border-radius: 10px;
-  width: 240px;
+  width: 160px;
   height: 45px;
   text-align: center;
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 600;
   border: none;
 }

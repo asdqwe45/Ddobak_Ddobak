@@ -85,7 +85,7 @@ export const mainRedColor = "#D71718" */
 }
 
 .aspectImg {
-  /* position: absolute; */
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -97,8 +97,6 @@ export const mainRedColor = "#D71718" */
 .btnBox {
   display: flex;
   justify-content: center;
-  width: 100%;
-  padding-top: 10px;
   box-sizing: border-box;
 }
 .downloadBtn {
@@ -118,7 +116,7 @@ export const mainRedColor = "#D71718" */
   cursor: pointer;
 }
 .guideImg {
-  width: 60%;
+  width: 90%;
 }
 .contentImg {
   width: 100%;
