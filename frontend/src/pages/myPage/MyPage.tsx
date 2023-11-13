@@ -285,17 +285,18 @@ const MyPage: React.FC = () => {
   // 포인트 결제
 
   const transactionClick = async () => {
-    if (totalCartPrice > 0) {
-      const buyAllList = [];
-      for (const sf of selectedFont) {
-        if (sf.selected === true) {
-          const data = {
-            sellerId: sf.sellerId,
-            fontId: sf.fontId,
-          };
-          buyAllList.push(data);
-        }
+    const buyAllList = [];
+    for (const sf of selectedFont) {
+      if (sf.selected === true) {
+        const data = {
+          sellerId: sf.sellerId,
+          fontId: sf.fontId,
+        };
+        buyAllList.push(data);
       }
+    }
+    if (buyAllList.length > 0) {
+      console.log(buyAllList);
       dispatch(
         pointPayModalActions.payThePrice({
           howMuch: totalCartPrice,

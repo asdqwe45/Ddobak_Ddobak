@@ -12,6 +12,7 @@ import { exchangeModalActions } from 'store/exchangeModalSlice';
 import { AiOutlineClose, AiFillCloseCircle } from 'react-icons/ai';
 import { mainRedColor, borderColor } from 'common/colors/CommonColors';
 import { transactionWithdrawAPI } from 'https/utils/TransactionFunction';
+import { successModalActions } from 'store/successModalSlice';
 
 interface ExchangeModalState {
   exchangeModal: {
@@ -119,6 +120,8 @@ const ExchangeModal: React.FC = () => {
     clickChargeHandler();
   };
 
+  // 인출 완료 모달 실행
+
   // 선택은행
   // 계좌번호
   const [selectedBank, setSelectedBank] = useState<string>('');
@@ -145,7 +148,12 @@ const ExchangeModal: React.FC = () => {
       .then(async (r) => {
         console.log(r);
         closeModal();
-        window.location.reload();
+        dispatch(
+          successModalActions.showSomething({
+            successHeader: '인출 요청',
+            successContext: '인출은 최대 3일이 소요됩니다.',
+          }),
+        );
       })
       .catch((e) => {
         console.error(e);
