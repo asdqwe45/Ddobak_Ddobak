@@ -184,10 +184,18 @@ const MyPage: React.FC = () => {
     likeProducers: false,
   });
 
-  const [dibList, setDibList] = useState([]);
+  const [dibList, setDibList] = useState<DibType[]>([]);
   const [myFollowingList, setMyFollowingList] = useState([]);
-  const [createdFontList, setCreatedFontList] = useState([]);
-  const [purchaseFontList, setPurchaseFontList] = useState([]);
+  const [createdFontList, setCreatedFontList] = useState<FontType[]>([]);
+  const [purchaseFontList, setPurchaseFontList] = useState<PurchaseType[]>([]);
+
+  interface PurchaseType {
+    fontId: number;
+    fontName: string;
+    fontUrl: string;
+    openStatus: boolean;
+    producerName: string;
+  }
 
   // 스와이퍼 참조
   const swiperRef = useRef<SwiperCore>();
@@ -311,6 +319,19 @@ const MyPage: React.FC = () => {
   // 폰트 다운로드
   const clickDownloadHandler = async (item: FontType) => {
     const response = await fetch(item['fontFileUrl']);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    // 다운로드 시, 파일 이름
+    a.download = item['fontName'] + '.ttf';
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+  const clickPurchaseDownload = async (item: PurchaseType) => {
+    const response = await fetch(item.fontUrl);
     const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -645,7 +666,12 @@ const MyPage: React.FC = () => {
                               <ContentInnerHeaderText>{font['fontName']}</ContentInnerHeaderText>
                             </ContentHeader>
                             <ContentInnerContentText>
-                              다람쥐 헌 쳇바퀴 타고파
+                              <CartStyle
+                                fontFamily={font['fontName'].replaceAll(' ', '_')}
+                                fontSrc={font['fontFileUrl']}
+                              >
+                                다람쥐 헌 쳇바퀴 타고파
+                              </CartStyle>
                             </ContentInnerContentText>
                           </ContentInnerTextBox>
                         </ContentInnerLeft>
@@ -685,11 +711,16 @@ const MyPage: React.FC = () => {
                           </ContentIconsBox>
                           <ContentInnerTextBox>
                             <ContentHeader>
-                              <ContentInnerHeaderText>{dib['fontName']}</ContentInnerHeaderText>
-                              <ContentProducerName>| {dib['producerName']}</ContentProducerName>
+                              <ContentInnerHeaderText>{dib.fontName}</ContentInnerHeaderText>
+                              <ContentProducerName>| {dib.producerName}</ContentProducerName>
                             </ContentHeader>
                             <ContentInnerContentText>
-                              다람쥐 헌 쳇바퀴 타고파
+                              <CartStyle
+                                fontFamily={dib.fontName.replaceAll(' ', '_')}
+                                fontSrc={dib.fontFileUrl}
+                              >
+                                다람쥐 헌 쳇바퀴 타고파
+                              </CartStyle>
                             </ContentInnerContentText>
                           </ContentInnerTextBox>
                         </ContentInnerLeft>
@@ -771,21 +802,26 @@ const MyPage: React.FC = () => {
                 {purchaseFontList.length > 0 ? (
                   purchaseFontList.map((font) => {
                     return (
-                      <ContentIngredient key={font['fontId']}>
+                      <ContentIngredient key={font.fontId}>
                         <ContentInnerLeft>
                           <ContentInnerTextBox>
                             <ContentHeader>
-                              <ContentInnerHeaderText>{font['fontName']}</ContentInnerHeaderText>
-                              <ContentProducerName>| {font['producerName']}</ContentProducerName>
+                              <ContentInnerHeaderText>{font.fontName}</ContentInnerHeaderText>
+                              <ContentProducerName>| {font.producerName}</ContentProducerName>
                             </ContentHeader>
                             <ContentInnerContentText>
-                              다람쥐 헌 쳇바퀴 타고파
+                              <CartStyle
+                                fontSrc={font.fontUrl}
+                                fontFamily={font.fontName.replaceAll(' ', '_')}
+                              >
+                                다람쥐 헌 쳇바퀴 타고파
+                              </CartStyle>
                             </ContentInnerContentText>
                           </ContentInnerTextBox>
                         </ContentInnerLeft>
                         <ContentInnerRight>
                           <ContentGrayBtn onClick={clickReviewHandler}>후기등록</ContentGrayBtn>
-                          <ContentRedBtn onClick={() => clickDownloadHandler(font)}>
+                          <ContentRedBtn onClick={() => clickPurchaseDownload(font)}>
                             다운로드
                           </ContentRedBtn>
                         </ContentInnerRight>
