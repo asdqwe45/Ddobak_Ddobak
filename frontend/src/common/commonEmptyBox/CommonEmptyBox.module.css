@@ -12,9 +12,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  &:hover {
-    opacity: 0.7;
-  }
 }
 .innerHeader {
   margin-top: 40px;

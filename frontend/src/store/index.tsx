@@ -14,6 +14,7 @@ import changeNicknameModalSlice from './changeNicknameSlice';
 import changeMakerIntroModalSlice from './changeMakerIntroSlice';
 import basketErrorModalSlice from './basketErrorModalSlice';
 import successModalSlice from './successModalSlice';
+import progressLoaderSlice from './progressLoaderSlice';
 
 const store = configureStore({
   reducer: {
@@ -31,6 +32,7 @@ const store = configureStore({
     changeMakerIntro: changeMakerIntroModalSlice.reducer,
     basketError: basketErrorModalSlice.reducer,
     successModal: successModalSlice.reducer,
+    progressLoader: progressLoaderSlice.reducer,
   },
 });
 
