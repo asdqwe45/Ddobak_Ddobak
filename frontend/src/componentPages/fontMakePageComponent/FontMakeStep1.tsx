@@ -6,7 +6,7 @@ import guideLine from './fontMakePageAssets/guideLine.png';
 const handleEngDownload = async () => {
   try {
     const response = await fetch(
-      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/template.pdf',
+      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/english_number_templateFinal.pdf',
     );
     if (response.ok) {
       const blob = await response.blob();
@@ -23,13 +23,13 @@ const handleEngDownload = async () => {
       throw new Error('Network response was not ok');
     }
   } catch (error) {
-    console.error('한글 템플릿 다운로드 중 에러 발생', error);
+    console.error('영어 템플릿 다운로드 중 에러 발생', error);
   }
 };
 const handleKorDownload = async () => {
   try {
     const response = await fetch(
-      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/template.pdf',
+      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/templateFinal.pdf',
     );
     if (response.ok) {
       const blob = await response.blob();
@@ -46,7 +46,7 @@ const handleKorDownload = async () => {
       throw new Error('Network response was not ok');
     }
   } catch (error) {
-    console.error('영어 템플릿 다운로드 중 에러 발생', error);
+    console.error('한글 템플릿 다운로드 중 에러 발생', error);
   }
 };
 
