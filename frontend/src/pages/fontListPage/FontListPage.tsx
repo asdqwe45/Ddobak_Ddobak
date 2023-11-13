@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import classes from './FontListPage.module.css';
 import { FaSistrix, FaAngleDown } from 'react-icons/fa';
+import { LiaTimesCircle } from 'react-icons/lia';
 import { PageTitle } from 'common/titleComponents/TitleComponents';
 import FontBoxComponent from './fontListPageComponents/FontBoxComponent';
 import { axiosWithAuth, axiosWithoutAuth } from 'https/http';
@@ -8,10 +9,6 @@ import { getData } from 'https/http';
 import PageMiniManuscript from './fontListPageComponents/PageMiniManuscript';
 
 // API로부터 받아올 데이터 타입 정의
-// type FontList = {
-//   fontCount: number;
-//   fontListResponse: Font[];
-// };
 type Font = {
   font_id: string;
   kor_font_name: string;
@@ -26,7 +23,6 @@ const FontListPage: React.FC = () => {
   window.scrollTo({ left: 0, top: 0 });
 
   const [fonts, setFonts] = useState<Font[]>([]);
-  // 컴포넌트 마운트시 API 호출
   useEffect(() => {
     const fetch = async () => {
       const token = await getData('accessToken');
@@ -92,6 +88,8 @@ const FontListPage: React.FC = () => {
 
   const handleCheckbox = (sale: string) => {
     setChecked((prev) => (prev.includes(sale) ? prev.filter((o) => o !== sale) : [...prev, sale]));
+    // 필터링 후에 항상 첫 페이지로 이동
+    setCurrentPage(0);
   };
 
   const renderFilter = () => {
@@ -127,6 +125,18 @@ const FontListPage: React.FC = () => {
   const [showFilterOptions, setShowFilterOptions] = useState(false);
   const [checkedOptions, setCheckedOptions] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [isSearching, setIsSearching] = useState<boolean>(false); // 검색중인지 상태
+
+  // 검색어가 변경될 때마다 검색중인지 상태를 업데이트
+  useEffect(() => {
+    setIsSearching(searchTerm.length > 0);
+  }, [searchTerm]);
+
+  // 검색어 초기화
+  const clearSearch = () => {
+    setSearchTerm('');
+    setIsSearching(false);
+  };
 
   const handleCheckboxChange = (option: string) => {
     setCheckedOptions((prev) =>
@@ -178,9 +188,9 @@ const FontListPage: React.FC = () => {
       };
       const response = await axiosWithoutAuth.get('/font/list/NoAuth', { params });
       if (response.data) {
-       
-      setTotalFonts(response.data.fontCount);
-      setFonts(response.data.fontListResponse);
+
+        setTotalFonts(response.data.fontCount);
+        setFonts(response.data.fontListResponse);
       }
     } catch (error) {
       console.error('폰트 목록을 가져오는데 실패했습니다:', error);
@@ -223,7 +233,12 @@ const FontListPage: React.FC = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <FaSistrix size={24} color="black" />
+            {isSearching ? (
+              // 검색 중
+              <LiaTimesCircle size={24} color="black" onClick={clearSearch} />
+            ) : (
+              <FaSistrix size={24} color="black" />
+            )}
           </div>
 
           <div className={classes.filterBarWrapper}>
@@ -264,11 +279,15 @@ const FontListPage: React.FC = () => {
       </div>
       <div className={classes.paginationContainer}>
         {/* 페이지네이션 */}
-        <PageMiniManuscript
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePagination}
-        />
+        {fonts.length > 0 ? (
+          <PageMiniManuscript
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePagination}
+          />
+        ) : (
+          <div className={classes.noResult}>찾으시는 값이 없습니다. 💬</div>
+        )}
       </div>
     </>
   );
