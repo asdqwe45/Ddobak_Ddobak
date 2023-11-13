@@ -17,7 +17,7 @@ const PaymentComponent: React.FC<PaymentProps> = ({
   nickname,
   onPaymentSuccess,
   onPaymentFailure,
-  onPaymentCancel,
+  // onPaymentCancel,
 }) => {
   const onClickPayment = useCallback(() => {
     // 1. 아임포트 모듈 초기화
@@ -60,7 +60,7 @@ const PaymentComponent: React.FC<PaymentProps> = ({
       onClick={onClickPayment}
       style={{ backgroundColor: mainRedColor }}
     >
-      결제창
+      결제
     </button>
   );
 };

@@ -32,6 +32,8 @@ import {
   ContentGrayBtn,
   ContentRedBtn,
   ContentIconsBox,
+  NewBtnBox,
+  NewBtnText,
   FontBasketTopBox,
   FontBasketBottomBox,
   SelectListDelete,
@@ -81,9 +83,11 @@ import { dibListAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
 import { chargePointModalActions } from 'store/chargePointModalSlice';
 import { getData } from 'https/http';
 import { transactionMyAllAPI, transactionProducerAPI } from 'https/utils/TransactionFunction';
-import { cartDeleteAPI, cartGetAPI } from 'https/utils/CartFunction';
-import styled from '@emotion/styled';
+import { cartAddAPI, cartDeleteAPI, cartGetAPI } from 'https/utils/CartFunction';
 import { followDeleteAPI, getFollowingList } from 'https/utils/FollowFunction';
+
+import styled from '@emotion/styled';
+import CommonEmptyBox from '../../common/commonEmptyBox/CommonEmptyBox';
 
 interface CartType {
   fontId: number;
@@ -285,17 +289,18 @@ const MyPage: React.FC = () => {
   // 포인트 결제
 
   const transactionClick = async () => {
-    if (totalCartPrice > 0) {
-      const buyAllList = [];
-      for (const sf of selectedFont) {
-        if (sf.selected === true) {
-          const data = {
-            sellerId: sf.sellerId,
-            fontId: sf.fontId,
-          };
-          buyAllList.push(data);
-        }
+    const buyAllList = [];
+    for (const sf of selectedFont) {
+      if (sf.selected === true) {
+        const data = {
+          sellerId: sf.sellerId,
+          fontId: sf.fontId,
+        };
+        buyAllList.push(data);
       }
+    }
+    if (buyAllList.length > 0) {
+      console.log(buyAllList);
       dispatch(
         pointPayModalActions.payThePrice({
           howMuch: totalCartPrice,
@@ -356,8 +361,15 @@ const MyPage: React.FC = () => {
   const clickProfileImgHandler = () => {
     dispatch(changeProfileImgModalActions.toggle());
   };
-  const clickBasketHandler = () => {
-    dispatch(goToBasketModalActions.toggle());
+  const clickBasketHandler = async (fontId: string) => {
+    cartAddAPI(fontId)
+      .then(async (r) => {
+        console.log(r);
+        dispatch(goToBasketModalActions.toggle());
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   const clickMyWorkspaceHandler = () => {
@@ -503,6 +515,10 @@ const MyPage: React.FC = () => {
 
     setTotalCartPrice(newTotalPrice);
   }, [selectedFont]);
+
+  const handleClickFontNameFC = async (fontId: string) => {
+    navigate(`/font/${fontId}`);
+  };
 
   return (
     <div className={classes.container}>
@@ -663,7 +679,13 @@ const MyPage: React.FC = () => {
                         <ContentInnerLeft>
                           <ContentInnerTextBox>
                             <ContentHeader>
-                              <ContentInnerHeaderText>{font['fontName']}</ContentInnerHeaderText>
+                              <ContentInnerHeaderText
+                                onClick={() => {
+                                  handleClickFontNameFC(font.fontId.toString());
+                                }}
+                              >
+                                {font['fontName']}
+                              </ContentInnerHeaderText>
                             </ContentHeader>
                             <ContentInnerContentText>
                               <CartStyle
@@ -689,7 +711,7 @@ const MyPage: React.FC = () => {
                     );
                   })
                 ) : (
-                  <div className={classes.noContent}>"구매한 폰트가 없습니다."</div>
+                  <CommonEmptyBox text="제작한 폰트가 없습니다." />
                 )}
               </ContentLargeBox>
             </>
@@ -707,11 +729,17 @@ const MyPage: React.FC = () => {
                               clickBookmarkButton(dib);
                             }}
                           >
-                            <FaBookmark className={classes.bookmarkIcon}></FaBookmark>
+                            <FaBookmark className={classes.bookmarkIcon} />
                           </ContentIconsBox>
                           <ContentInnerTextBox>
                             <ContentHeader>
-                              <ContentInnerHeaderText>{dib.fontName}</ContentInnerHeaderText>
+                              <ContentInnerHeaderText
+                                onClick={() => {
+                                  handleClickFontNameFC(dib.fontId.toString());
+                                }}
+                              >
+                                {dib.fontName}
+                              </ContentInnerHeaderText>
                               <ContentProducerName>| {dib.producerName}</ContentProducerName>
                             </ContentHeader>
                             <ContentInnerContentText>
@@ -724,14 +752,21 @@ const MyPage: React.FC = () => {
                             </ContentInnerContentText>
                           </ContentInnerTextBox>
                         </ContentInnerLeft>
-                        <ContentInnerRight>
-                          <ContentRedBtn onClick={clickBasketHandler}>장바구니 담기</ContentRedBtn>
+                        <ContentInnerRight style={{ justifyContent: 'center' }}>
+                          <NewBtnBox
+                            onClick={() => {
+                              clickBasketHandler(dib.fontId.toString());
+                            }}
+                          >
+                            <NewBtnText>장바구니</NewBtnText>
+                            <NewBtnText>담기</NewBtnText>
+                          </NewBtnBox>
                         </ContentInnerRight>
                       </ContentIngredient>
                     );
                   })
                 ) : (
-                  <div className={classes.noContent}>"찜한 폰트가 없습니다."</div>
+                  <CommonEmptyBox text="찜한 폰트가 없습니다." />
                 )}
               </ContentLargeBox>
             </>
@@ -742,58 +777,72 @@ const MyPage: React.FC = () => {
               {/* ======== */}
 
               <ContentLargeBox>
-                <FontBasketTopBox>
-                  <SelectListDelete onClick={deleteCartFC}>선택 항목 삭제</SelectListDelete>
-                </FontBasketTopBox>
-                {cartData.map((cart) => {
-                  return (
-                    <ContentIngredient key={'cart' + cart.fontId}>
-                      <ContentInnerLeft>
-                        <ContentInnerTextBox>
-                          <ContentHeader>
-                            <ContentInnerHeaderText>{cart.fontName}</ContentInnerHeaderText>
-                            <ContentProducerName>| {cart.producer} </ContentProducerName>
-                            <ContentProducerName style={{ marginLeft: 10 }}>
-                              | {formatNumberWithCommas(cart.fontPrice)} P
-                            </ContentProducerName>
-                          </ContentHeader>
-                          <CartStyle
-                            fontFamily={cart.fontName.replace(' ', '_')}
-                            fontSrc={cart.fontUrl}
-                          >
-                            다람쥐 헌 쳇바퀴 타고파
-                          </CartStyle>
-                        </ContentInnerTextBox>
-                      </ContentInnerLeft>
-                      <ContentInnerRight>
-                        {currentSelected(cart.fontId) ? (
-                          <FaRegCheckSquare
-                            className={classes.checkIcon}
-                            onClick={() => {
-                              clickCheckFC(cart.fontId);
-                            }}
-                          />
-                        ) : (
-                          <FaRegSquare
-                            className={classes.checkIcon}
-                            onClick={() => {
-                              clickCheckFC(cart.fontId);
-                            }}
-                          />
-                        )}
-                      </ContentInnerRight>
-                    </ContentIngredient>
-                  );
-                })}
-                <FontBasketBottomBox>
-                  {/* 금액이 나와야 함 */}
-                  <CartPriceText>
-                    <CartPriceBox>{formatNumberWithCommas(totalCartPrice)} P</CartPriceBox>
-                  </CartPriceText>
-                  <ContentGrayTransaction onClick={transactionClick}>
-                    결제하기
-                  </ContentGrayTransaction>
-                </FontBasketBottomBox>
+                {cartData.length > 0 ? (
+                  <>
+                    <FontBasketTopBox>
+                      <SelectListDelete onClick={deleteCartFC}>선택 항목 삭제</SelectListDelete>
+                    </FontBasketTopBox>
+                    {cartData.map((cart) => {
+                      return (
+                        <ContentIngredient key={'cart' + cart.fontId}>
+                          <ContentInnerLeft>
+                            <ContentInnerTextBox>
+                              <ContentHeader>
+                                <ContentInnerHeaderText
+                                  onClick={() => {
+                                    handleClickFontNameFC(cart.fontId.toString());
+                                  }}
+                                >
+                                  {cart.fontName}
+                                </ContentInnerHeaderText>
+                                <ContentProducerName>| {cart.producer} </ContentProducerName>
+                                <ContentProducerName style={{ marginLeft: 10 }}>
+                                  | {formatNumberWithCommas(cart.fontPrice)} P
+                                </ContentProducerName>
+                              </ContentHeader>
+                              <CartStyle
+                                fontFamily={cart.fontName.replace(' ', '_')}
+                                fontSrc={cart.fontUrl}
+                              >
+                                다람쥐 헌 쳇바퀴 타고파
+                              </CartStyle>
+                            </ContentInnerTextBox>
+                          </ContentInnerLeft>
+                          <ContentInnerRight>
+                            {currentSelected(cart.fontId) ? (
+                              <FaRegCheckSquare
+                                className={classes.checkIcon}
+                                onClick={() => {
+                                  clickCheckFC(cart.fontId);
+                                }}
+                              />
+                            ) : (
+                              <FaRegSquare
+                                className={classes.checkIcon}
+                                onClick={() => {
+                                  clickCheckFC(cart.fontId);
+                                }}
+                              />
+                            )}
+                          </ContentInnerRight>
+                        </ContentIngredient>
+                      );
+                    })}
+                    <FontBasketBottomBox>
+                      {/* 금액이 나와야 함 */}
+                      <CartPriceText>
+                        <CartPriceBox>{formatNumberWithCommas(totalCartPrice)} P</CartPriceBox>
+                      </CartPriceText>
+                      <ContentGrayTransaction onClick={transactionClick}>
+                        결제하기
+                      </ContentGrayTransaction>
+                    </FontBasketBottomBox>
+                  </>
+                ) : (
+                  <>
+                    <CommonEmptyBox text="장바구니에 담긴 폰트가 없습니다." />
+                  </>
+                )}
               </ContentLargeBox>
             </>
           ) : pageLocation.boughtFonts ? (
@@ -806,7 +855,13 @@ const MyPage: React.FC = () => {
                         <ContentInnerLeft>
                           <ContentInnerTextBox>
                             <ContentHeader>
-                              <ContentInnerHeaderText>{font.fontName}</ContentInnerHeaderText>
+                              <ContentInnerHeaderText
+                                onClick={() => {
+                                  handleClickFontNameFC(font.fontId.toString());
+                                }}
+                              >
+                                {font.fontName}
+                              </ContentInnerHeaderText>
                               <ContentProducerName>| {font.producerName}</ContentProducerName>
                             </ContentHeader>
                             <ContentInnerContentText>
@@ -829,7 +884,7 @@ const MyPage: React.FC = () => {
                     );
                   })
                 ) : (
-                  <div className={classes.noContent}>"구매한 폰트가 없습니다."</div>
+                  <CommonEmptyBox text="구매한 폰트가 없습니다." />
                 )}
               </ContentLargeBox>
             </>
@@ -888,7 +943,7 @@ const MyPage: React.FC = () => {
                     })}
                   </Swiper>
                 ) : (
-                  <div className={classes.noContent}>"팔로우한 폰트 제작자가 없습니다."</div>
+                  <CommonEmptyBox text="찜한 제작자가 없습니다." />
                 )}
               </ContentLargeBox>
             </>

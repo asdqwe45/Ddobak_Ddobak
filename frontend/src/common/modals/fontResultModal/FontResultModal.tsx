@@ -20,6 +20,10 @@ interface ResultModalState {
 }
 
 const FontResultModal: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [elapsedTime, setElapsedTime] = useState<number>(0);
+  const [previewImgs, setPreviewImgs] = useState<string[]>([]);
+
   // redux
   const dispatch = useDispatch();
   const sortedUrl = useSelector((state: RootState) => state.resultModal.sortUrl);
@@ -37,12 +41,9 @@ const FontResultModal: React.FC = () => {
   };
 
   const clickCloseIcon = () => {
-    return alert('제작취소 또는 정보입력을 선택해주세요.');
+    clickResultHandler();
+    // return alert('제작취소 또는 정보입력을 선택해주세요.');
   };
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [elapsedTime, setElapsedTime] = useState<number>(0);
-  const [previewImgs, setPreviewImgs] = useState<string[]>([]);
 
   useEffect(() => {
     if (sortedUrl) {

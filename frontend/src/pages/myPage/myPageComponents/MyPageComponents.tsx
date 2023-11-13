@@ -226,8 +226,13 @@ export const ContentHeader = styled.div`
 `;
 export const ContentInnerHeaderText = styled.h1`
   margin: 0px;
+  margin-right: 10px;
   font-size: 24px;
-  padding-right: 20px;
+  padding: 0px 10px;
+  &:hover {
+    cursor: pointer;
+    background-color: #fff1f0;
+  }
 `;
 
 export const ContentProducerName = styled.p`
@@ -271,6 +276,28 @@ export const ContentRedBtn = styled(ContentBtnIngredient)`
   }
 `;
 
+export const NewBtnBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  width: 80px;
+  border-radius: 10px;
+  border: 0px;
+  background-color: ${mainRedColor};
+  color: white;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+`;
+
+export const NewBtnText = styled.p`
+  margin: 1px;
+  font-size: 16px;
+`;
+
 export const ContentGrayBtn = styled(ContentBtnIngredient)`
   background-color: ${likeCountColor};
   &:hover {
@@ -300,8 +327,8 @@ export const ContentGrayTransaction = styled(ContentBtnIngredient)`
 // 아이콘
 export const ContentIconsBox = styled.div`
   box-sizing: border-box;
-  height: 80%;
-  aspect-ratio: 1;
+  height: 91.79px;
+  width: 60px;
   padding: 30px 20px;
   padding-left: 0px;
 `;

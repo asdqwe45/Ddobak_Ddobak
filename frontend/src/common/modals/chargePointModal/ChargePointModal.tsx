@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ReactModal from 'react-modal';
 import PaymentComponent from 'componentPages/myPagePointPage/myPagePointPageComponents/PaymentComponent';
+import AlertCustomModal from '../alertCustomModal/AlertCustomModal';
 import classes from './ChargePointModal.module.css';
 
 import { useSelector } from 'react-redux';
@@ -75,6 +76,10 @@ const ChargePointModal: React.FC = () => {
   };
 
   const handlePaymentFailure = (error: any) => {
+    if (chargePoint === 0) {
+      handleNoChangePoint();
+      return; // 조기 반환을 통해 이후 로직을 실행하지 않습니다.
+    }
     console.log('Payment Failure:', error);
     // 결제 실패 시 필요한 로직을 실행
   };
@@ -82,6 +87,11 @@ const ChargePointModal: React.FC = () => {
   const handlePaymentCancel = (cancelData: any) => {
     console.log('Payment Cancelled:', cancelData);
     // 결제 취소 시 필요한 로직을 실행
+  };
+
+  const [showAlertModal, setShowAlertModal] = useState(false);
+  const handleNoChangePoint = () => {
+    setShowAlertModal(true); //
   };
 
   return (
@@ -114,7 +124,7 @@ const ChargePointModal: React.FC = () => {
             }}
           >
             <p className={classes.innerText}>현재 포인트</p>
-            <p className={classes.innerText}>{currentPoint} P</p>
+            <p className={classes.innerText}>{currentPoint.toLocaleString()} P</p>
           </div>
           <div
             className={classes.innerMiddleBox}
@@ -128,7 +138,7 @@ const ChargePointModal: React.FC = () => {
             style={{ height: 60, justifyContent: 'flex-end' }}
           >
             <div className={classes.chargeBox}>
-              <p className={classes.chargeText}>{chargePoint} P</p>
+              <p className={classes.chargeText}>{chargePoint.toLocaleString()} P</p>
               <div className={classes.removeImgBox}>
                 <AiFillCloseCircle size={32} color={borderColor} onClick={removeCharge} />
               </div>
@@ -169,7 +179,7 @@ const ChargePointModal: React.FC = () => {
             style={{ borderTopStyle: 'solid', borderTopWidth: 2, borderTopColor: borderColor }}
           >
             <p className={classes.innerText}>총 포인트</p>
-            <p className={classes.innerText}>{totalPoint} P</p>
+            <p className={classes.innerText}>{totalPoint.toLocaleString()} P</p>
           </div>
         </div>
         <div className={classes.bottomBox}>
@@ -183,6 +193,13 @@ const ChargePointModal: React.FC = () => {
           />
         </div>
       </div>
+      <AlertCustomModal
+        show={showAlertModal}
+        onHide={() => setShowAlertModal(false)}
+        message1="충전할 금액을 선택해 주세요!"
+        message2=""
+        btnName="확인"
+      />
     </ReactModal>
   );
 };

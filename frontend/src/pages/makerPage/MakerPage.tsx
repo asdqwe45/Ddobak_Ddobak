@@ -24,7 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeMakerIntroModalActions } from 'store/changeMakerIntroSlice';
 
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { makerIntroRequest } from 'https/utils/FontFunction';
 import {
   followCheckAPI,
@@ -34,7 +34,7 @@ import {
 } from 'https/utils/FollowFunction';
 import { getProfileImg } from 'https/utils/AuthFunction';
 import { transactionProducerAPI } from 'https/utils/TransactionFunction';
-
+import CommonEmptyBox from 'common/commonEmptyBox/CommonEmptyBox';
 // API로부터 받아올 폰트 데이터의 타입을 정의
 // type Font = {
 //   fontFileUrl: string;
@@ -55,7 +55,7 @@ interface ChangeMakerIntroType {
 const MakerPage: React.FC = () => {
   const dispatch = useDispatch();
   const { makerName, makerId } = useParams();
-
+  const navigate = useNavigate();
   const [myId, setMyId] = useState<string>('');
   const [makerIntro, setMakerIntro] = useState<string>('');
   const [followingStatus, setFollowingStatus] = useState<boolean>();
@@ -159,18 +159,17 @@ const MakerPage: React.FC = () => {
           <div className={classes.pr}>
             <MakerName>{makerName}</MakerName>
             {myId.toString() === makerId ? (
-              <div className={classes.pencil}>
-                <FaPencil
-                  className={classes.pencilText}
-                  size={30}
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    dispatch(
-                      changeMakerIntroModalActions.loadMakerIntro({ changeMakerIntro: makerIntro }),
-                    );
-                    dispatch(changeMakerIntroModalActions.toggle());
-                  }}
-                />
+              <div
+                className={classes.pencil}
+                onClick={() => {
+                  dispatch(
+                    changeMakerIntroModalActions.loadMakerIntro({ changeMakerIntro: makerIntro }),
+                  );
+                  dispatch(changeMakerIntroModalActions.toggle());
+                }}
+              >
+                <h1 className={classes.prText}>소개글 수정하기</h1>
+                <FaPencil className={classes.pencilText} size={30} style={{ cursor: 'pointer' }} />
               </div>
             ) : null}
           </div>
@@ -201,7 +200,13 @@ const MakerPage: React.FC = () => {
                 return (
                   <MakerFontSmallBox key={font['fontId']}>
                     <MakerCommemtBox>
-                      <MakerFontNameText>{font['fontName']}</MakerFontNameText>
+                      <MakerFontNameText
+                        onClick={() => {
+                          navigate(`/font/${font['fontId']}`);
+                        }}
+                      >
+                        {font['fontName']}
+                      </MakerFontNameText>
                     </MakerCommemtBox>
 
                     <MakerFontCommentText>다람쥐 헌 쳇바퀴 타고파</MakerFontCommentText>
@@ -212,7 +217,7 @@ const MakerPage: React.FC = () => {
               }
             })
           ) : (
-            <div className={classes.noContent}>"팔로우한 폰트 제작자가 없습니다."</div>
+            <CommonEmptyBox text="제작한 폰트가 없습니다." />
           )}
         </MakerFontLargeBox>
       </MakerBottomBox>

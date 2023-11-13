@@ -1,5 +1,5 @@
 import classes from './MainPageGuide.module.css';
-import guideLine from '../mainPageAssets/guideline_ex.png';
+import guideLine from '../mainPageAssets/guideLine.png';
 import uploadPC from '../mainPageAssets/uploadPC.png';
 import payment from '../mainPageAssets/payment.png';
 import { FaCircleChevronRight } from 'react-icons/fa6';
@@ -16,14 +16,14 @@ const MainPageGuide: React.FC = () => {
         <div className={classes.contentBox}>
           <div className={classes.ingredientBox}>
             <div className={classes.contentImgBox}>
-              <div className={classes.aspectImg}>
+              <div className={classes.aspectImg} style={{ height: '80%' }}>
                 <img src={guideLine} alt="가이드라인" className={classes.guideImg} />
               </div>
-            </div>
-            <div className={classes.btnBox}>
-              <button className={classes.downloadBtn} onClick={handleDownload}>
-                가이드라인 다운로드
-              </button>
+              <div className={classes.btnBox}>
+                <button className={classes.downloadBtn} onClick={handleDownload}>
+                  가이드라인 다운로드
+                </button>
+              </div>
             </div>
             <div className={classes.contentTextBox}>
               <p className={classes.contentHeader}>1. 작성하기</p>

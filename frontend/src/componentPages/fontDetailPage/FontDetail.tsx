@@ -18,6 +18,7 @@ import { pointPayModalActions } from 'store/pointPayModalSlice';
 import { goToBasketModalActions } from 'store/goToBasketModalSlice';
 import { cartAddAPI } from 'https/utils/CartFunction';
 import { basketErrorModalActions } from 'store/basketErrorModalSlice';
+import { transactionBuyOrMakeAPI } from 'https/utils/TransactionFunction';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
 type Font = {
@@ -39,17 +40,44 @@ type Font = {
 const FontDetail: React.FC = () => {
   const { fontId } = useParams();
   const [fontDetail, setFontDetail] = useState<Font | null>(null);
-
+  const [isBoughtOrMade, setIsBoughtOrMade] = useState<string>('nothing');
   // 컴포넌트 마운트시 API 호출
   useEffect(() => {
     // 라우트에서 폰트 ID 가져오기
     if (fontId) {
-      fetchFontDetails(fontId); // 폰트 ID로 폰트 정보를 불러오는 함수 호출
+      fetchFontDetails(fontId);
+      fetchBuyOrMake(fontId); // 폰트 ID로 폰트 정보를 불러오는 함수 호출
     }
   }, [fontId]);
 
+  // 구매했는지 확인해주는 함수
+
+  // interface BuyOrMakeType {
+  //   fontId: string
+  //   possessionType: string
+  // }
+
+  const fetchBuyOrMake = async (fontId: string) => {
+    const response = await transactionBuyOrMakeAPI()
+      .then((r) => {
+        console.log(r);
+        return r;
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+    console.log(response);
+    for (const r of response) {
+      if (r.fontId.toString() === fontId) {
+        setIsBoughtOrMade(r.possessionType);
+        return;
+      }
+    }
+  };
+
   // 폰트 데이터를 가져오는 함수
   const fetchFontDetails = async (fontId: string) => {
+    setFontDetail(null);
     try {
       const response = await axiosWithAuth.get(`/font/detail/${fontId}`).then((r) => {
         return r;
@@ -238,12 +266,30 @@ const FontDetail: React.FC = () => {
           </div>
 
           <div className={classes.buyContainer}>
-            <div className={classes.cartBtn} onClick={handleCartFC}>
+            {isBoughtOrMade === 'nothing' ? (
+              <>
+                <div className={classes.cartBtn} onClick={handleCartFC}>
+                  장바구니
+                </div>
+                <div className={classes.buyBtn} onClick={handlePayFC}>
+                  바로 구매
+                </div>
+              </>
+            ) : isBoughtOrMade === '제작' ? (
+              <>
+                <div className={classes.isBoughtOrMadeBox}>제작한 폰트입니다.</div>
+              </>
+            ) : (
+              <>
+                <div className={classes.isBoughtOrMadeBox}>이미 구매한 폰트입니다.</div>
+              </>
+            )}
+            {/* <div className={classes.cartBtn} onClick={handleCartFC}>
               장바구니
             </div>
             <div className={classes.buyBtn} onClick={handlePayFC}>
               바로 구매
-            </div>
+            </div> */}
           </div>
         </div>
 
