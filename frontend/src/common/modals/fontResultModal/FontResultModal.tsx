@@ -46,7 +46,8 @@ const FontResultModal: React.FC = () => {
   };
 
   const clickCloseIcon = () => {
-    return alert('제작취소 또는 정보입력을 선택해주세요.');
+    clickResultHandler();
+    // return alert('제작취소 또는 정보입력을 선택해주세요.');
   };
 
   useEffect(() => {

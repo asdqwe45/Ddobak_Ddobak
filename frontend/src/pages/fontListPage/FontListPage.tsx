@@ -101,11 +101,11 @@ const FontListPage: React.FC = () => {
       <div className={classes.filterOptions} style={{ width: '86px' }}
       >
         {sales.map((sale, index) => (
-          <label key={index}>
+          <label key={index} style={{cursor: 'pointer'}}>
             <input
               type="checkbox"
               className={classes.checkbox}
-              style={{color: 'yellow'}}
+              style={{cursor: 'pointer'}}
               checked={checked.includes(sale)}
               onChange={() => handleCheckbox(sale)}
             />
@@ -141,7 +141,7 @@ const FontListPage: React.FC = () => {
     return (
       <div className={classes.filterOptions}>
         {options.map((option, index) => (
-          <label key={index}>
+          <label key={index} style={{cursor: 'pointer'}}>
             <input
               type="checkbox"
               className={classes.checkbox}

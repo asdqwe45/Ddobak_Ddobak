@@ -49,6 +49,7 @@
   width: 20px;
   margin-right: 10px;
   vertical-align: middle;
+  cursor: pointer;
 }
 
 /* 체크된 상태의 체크박스 스타일링 */
