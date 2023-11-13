@@ -39,8 +39,18 @@
 }
 
 .fontMaker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 23px;
-  padding: 5px 0 15px 15px;
+  padding: 5px 15px 15px 15px;
+  margin-top: 5px;
+}
+
+.coinIcon {
+  width: 28px;
+  height: 28px;
+  color: rgb(255, 238, 0);
 }
 
 .fontMaker span:hover {

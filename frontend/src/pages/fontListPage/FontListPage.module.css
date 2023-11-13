@@ -153,3 +153,10 @@
   background-color: #d71718;
   color: white;
 }
+
+.noResult {
+  text-align: center;
+  padding: 90px;
+  font-size: 25px;
+  /* color: #666; */
+}

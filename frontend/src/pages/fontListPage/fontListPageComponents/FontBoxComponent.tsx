@@ -5,6 +5,8 @@ import { axiosWithAuth, axiosWithFormData, getData } from 'https/http';
 
 // icons
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
+// import { RiCoinLine } from 'react-icons/ri';
+import pointCoin from '../fontListPageAssets/point.png'
 
 import AlertCustomModal from 'common/modals/alertCustomModal/AlertCustomModal';
 
@@ -18,9 +20,10 @@ interface FontBoxProps {
   producer_id: string;
   maker: string;
   dib: boolean;
+  price: number;
 }
 
-const FontBoxComponent: React.FC<FontBoxProps> = ({ font_id, title, producer_id, maker, dib }) => {
+const FontBoxComponent: React.FC<FontBoxProps> = ({ font_id, title, producer_id, maker, dib, price }) => {
   const navigate = useNavigate();
   const [showAlertModal, setShowAlertModal] = useState(false);
 
@@ -171,6 +174,9 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({ font_id, title, producer_id,
         </div>
         <div className={classes.fontMaker} onClick={handleMakerClick}>
           <span> {maker} </span>
+          {/* {price !== 0 && <RiCoinLine className={classes.coinIcon} title="유료" />}  */}
+          {price !== 0 && <img src={pointCoin} alt="유료" title="유료" className={classes.coinIcon} />}
+
         </div>
         {/* box 중앙 선 */}
         <div className={classes.borderTop}></div>
