@@ -47,6 +47,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { userMypageAPI } from 'https/utils/AuthFunction';
 
+import CommonEmptyBox from 'common/commonEmptyBox/CommonEmptyBox';
+
 interface TransactionResponse {
   transactionDate: string;
   transactionType: string;
@@ -325,7 +327,7 @@ const MyPagePointPage: React.FC = () => {
           )}
         </SelectBox>
         <ContentLargeBox
-          style={{ paddingTop: 10, paddingBottom: 10, overflow: 'auto', maxHeight: 370 }}
+          style={{ paddingTop: 10, paddingBottom: 10, overflow: 'auto', height: 370 }}
         >
           {selectContent.all ? (
             <>
@@ -451,7 +453,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <></>
+                <CommonEmptyBox />
               )}
             </>
           ) : selectContent.buy ? (
@@ -489,7 +491,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <></>
+                <CommonEmptyBox />
               )}
             </>
           ) : selectContent.sell ? (
@@ -521,7 +523,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <></>
+                <CommonEmptyBox />
               )}
             </>
           ) : selectContent.charge ? (
@@ -550,7 +552,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <></>
+                <CommonEmptyBox />
               )}
             </>
           ) : selectContent.exchange ? (
@@ -581,7 +583,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <></>
+                <CommonEmptyBox />
               )}
             </>
           ) : selectContent.make ? (
@@ -615,7 +617,7 @@ const MyPagePointPage: React.FC = () => {
                   })}
                 </>
               ) : (
-                <></>
+                <CommonEmptyBox />
               )}
             </>
           ) : (

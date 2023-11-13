@@ -14,6 +14,7 @@ export const MakerTopBox = styled.div`
 export const MakerName = styled.div`
   font-size: 30px;
   font-weight: bold;
+  text-align: center;
 `;
 
 export const MakerCommemtBox = styled.div`
