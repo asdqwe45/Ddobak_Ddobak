@@ -1,12 +1,12 @@
 import React from 'react';
 import classes from './FontMakeStep1.module.css';
-import guideLine from './fontMakePageAssets/guideline_ex.png';
+import guideLine from './fontMakePageAssets/guideLine.png';
 
 // 가이드라인 다운로드
-const handleDownload = async () => {
+const handleEngDownload = async () => {
   try {
     const response = await fetch(
-      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/template.pdf',
+      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/english_number_templateFinal.pdf',
     );
     if (response.ok) {
       const blob = await response.blob();
@@ -15,7 +15,7 @@ const handleDownload = async () => {
       a.style.display = 'none';
       a.href = url;
       // 다운로드 시, 파일 이름
-      a.download = 'ddobak_template.pdf';
+      a.download = 'ddobak_english.pdf';
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
@@ -23,7 +23,30 @@ const handleDownload = async () => {
       throw new Error('Network response was not ok');
     }
   } catch (error) {
-    console.error('다운로드 중 에러가 발생했습니다', error);
+    console.error('영어 템플릿 다운로드 중 에러 발생', error);
+  }
+};
+const handleKorDownload = async () => {
+  try {
+    const response = await fetch(
+      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/templateFinal.pdf',
+    );
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = url;
+      // 다운로드 시, 파일 이름
+      a.download = 'ddobak_korean.pdf';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } else {
+      throw new Error('Network response was not ok');
+    }
+  } catch (error) {
+    console.error('한글 템플릿 다운로드 중 에러 발생', error);
   }
 };
 
@@ -33,19 +56,19 @@ const FontMakeStep1: React.FC = () => {
       {/* 가이드라인 */}
       <div className={classes.container}>
         <div className={classes.downLoadContainer}>
-          {/* <div className={classes.info}>
-            또박또박 손글씨 가이드라인을 다운로드 {'\n'}
-            손글씨를 작성하고, 이미지를 올려주세요.
-          </div> */}
           <img src={guideLine} alt="" className={classes.guideImg} />
-          <button className={classes.downBtn} onClick={handleDownload}>
-            가이드라인 다운로드
-          </button>
+            <div className={classes.templateText}>가이드라인 다운로드</div>
+            <div className={classes.btnContainer}>  
+            <button className={classes.downBtn} onClick={handleEngDownload}>
+              영어 | 특수기호
+            </button>
+            <button className={classes.downBtn} onClick={handleKorDownload}>
+              한글 템플릿
+            </button>
+          </div>
         </div>
 
-        {/* 준비물 */}
         <div className={classes.rightContainer}>
-          {/* <div className={classes.titleBox}>준비물</div> */}
           <div className={classes.supplyContainer}>
             <div className={classes.supplyBox}>
               <div className={classes.supplyTitle}>종이에 또박또박</div>
