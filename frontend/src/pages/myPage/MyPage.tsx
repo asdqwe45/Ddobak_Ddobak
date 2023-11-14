@@ -130,9 +130,9 @@ const MyPage: React.FC = () => {
   useEffect(() => {
     async function fetch() {
       dispatch(progressLoaderActions.resetGauge());
+      dispatch(progressLoaderActions.startGuage());
       if (myValue) {
         if (myValue === 'fontBasket') {
-          dispatch(progressLoaderActions.startGuage());
           setPageLocation({
             productsState: false,
             likeList: false,
@@ -265,7 +265,6 @@ const MyPage: React.FC = () => {
       setLikeListComplete(true);
     } else if (pageName === 'fontBasket') {
       dispatch(progressLoaderActions.resetGauge());
-      dispatch(progressLoaderActions.startGuage());
       setPageLocation({
         productsState: false,
         likeList: false,
@@ -273,6 +272,7 @@ const MyPage: React.FC = () => {
         boughtFonts: false,
         likeProducers: false,
       });
+      dispatch(progressLoaderActions.startGuage());
       await cartGetAPI()
         .then(async (response) => {
           response.map((r: CartType) => {
@@ -289,10 +289,13 @@ const MyPage: React.FC = () => {
         .catch((e) => {
           console.error(e);
         });
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         dispatch(progressLoaderActions.resetGauge());
       }, 1500);
       setFontBasketComplete(true);
+      return () => {
+        clearTimeout(timer);
+      };
     } else if (pageName === 'boughtFonts') {
       dispatch(progressLoaderActions.resetGauge());
       dispatch(progressLoaderActions.startGuage());

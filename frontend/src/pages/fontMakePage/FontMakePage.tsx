@@ -8,6 +8,7 @@ import { resultModalActions } from 'store/resultModalSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkToken } from 'https/utils/AuthFunction';
 import { useNavigate } from 'react-router-dom';
+import { progressLoaderActions } from 'store/progressLoaderSlice';
 
 interface ResultModalState {
   resultModal: {
@@ -19,13 +20,18 @@ interface ResultModalState {
 const FontMakePage: React.FC = () => {
   // const [step, setStep] = useState(1);
   const step = useSelector((state: ResultModalState) => state.resultModal.step);
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     async function fetch() {
+      dispatch(progressLoaderActions.resetGauge());
+      dispatch(progressLoaderActions.startGuage());
       const token = await checkToken();
       if (token) {
         console.log('have Token');
+        setTimeout(() => {
+          dispatch(progressLoaderActions.resetGauge());
+        }, 1500);
       } else {
         console.log('잘못된 접근입니다.');
         navigate('/wrong');
@@ -33,7 +39,7 @@ const FontMakePage: React.FC = () => {
     }
     fetch();
     // navigate를 의존성 배열에 추가합니다.
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   const handleNext = () => {
     if (step < 4) {
@@ -45,7 +51,6 @@ const FontMakePage: React.FC = () => {
   };
 
   // 미리보기 모달 가져오기
-  const dispatch = useDispatch();
   const showPreviewHandler = () => {
     dispatch(resultModalActions.toggle());
   };
