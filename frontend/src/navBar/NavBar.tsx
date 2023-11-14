@@ -108,7 +108,7 @@ const NavBar: React.FC = () => {
       <div className={classes.progressLoader}>
         <div
           className={classes.progressBar}
-          style={refresh ? { width: firstProgress + '%' } : { backgroundColor: 'white' }}
+          style={refresh ? { width: firstProgress + '%' } : { display: 'none' }}
         ></div>
       </div>
       <div className={classes.list}>
