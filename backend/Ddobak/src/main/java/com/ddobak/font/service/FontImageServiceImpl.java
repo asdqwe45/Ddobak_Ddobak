@@ -19,15 +19,13 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Collections;
 
 @Service
@@ -72,8 +70,7 @@ public class FontImageServiceImpl implements FontImageService {
     }
 
     public String createFont(MakeFontRequest req) throws IOException {
-        List<File> tempFile = urlToFile(req.fontSortUrl());
-        String fontUrl = getS3FontUrl(tempFile,req.fontId(),req.engFontName());
+        String fontUrl = getS3FontUrl(req);
         return fontUrl;
     }
 
@@ -171,10 +168,10 @@ public class FontImageServiceImpl implements FontImageService {
         return new ResponseEntity<>(zip.getBody(), headers, HttpStatus.OK);
     }
 
-    private String getS3FontUrl(List<File> imageFiles, Long fontId, String engFontUrl) {
+    private String getS3FontUrl(MakeFontRequest req) {
         String fastapiServer = "163.239.223.171:8786/api/v1/font_create/create_font";
         String myServer = "http://localhost:8000/makeUpload";
-        String fastApiUrl = myServer;
+        String fastApiUrl = fastapiServer;
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -182,15 +179,16 @@ public class FontImageServiceImpl implements FontImageService {
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
-        body.add("fontId", fontId.toString());
-        body.add("engFontName",engFontUrl);
+        body.add("fontId", req.fontId().toString());
+        body.add("engFontName",req.engFontName());
+        body.add("url",req.fontSortUrl());
 
-        int fileIndex = 1;
-        for (File imageFile : imageFiles) {
-            FileSystemResource resource = new FileSystemResource(imageFile);
-            body.add("file" + fileIndex, resource);
-            fileIndex++;
-        }
+//        int fileIndex = 1;
+//        for (File imageFile : imageFiles) {
+//            FileSystemResource resource = new FileSystemResource(imageFile);
+//            body.add("file" + fileIndex, resource);
+//            fileIndex++;
+//        }
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 

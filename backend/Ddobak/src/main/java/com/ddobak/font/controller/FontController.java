@@ -82,18 +82,20 @@ public class FontController {
     @PutMapping(value = "/make/request")
     public ResponseEntity<String> makeFont(@RequestBody MakeFontRequest req,
         @AuthenticationPrincipal LoginInfo loginInfo) throws IOException {
-//        try {
+        try {
             Font makedFont = fontService.makeFont(req,loginInfo);
-//            fontImageService.createFont(req);
+            fontImageService.createFont(req);
             transactionService.requestFontTransaction(makedFont, loginInfo.id(),makedFont.getPrice());
             return ResponseEntity.ok("success");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Font creation failed due to an internal error.");
-//        }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Font creation failed due to an internal error.");
+        }
     }
     @PutMapping(value = "/make/final")
     public ResponseEntity<String> makeFinalFont(@RequestBody FinalMakeRequest req, @AuthenticationPrincipal LoginInfo loginInfo){
+        System.out.println("############### fontId : " + req.fontId());
+        System.out.println("############### url : " + req.fontFileUrl());
         fontService.finalMakeFont(req,loginInfo);
         return ResponseEntity.ok("success");
     }
