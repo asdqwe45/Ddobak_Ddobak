@@ -87,7 +87,7 @@ public class FontImageServiceImpl implements FontImageService {
 
         if ("png".equalsIgnoreCase(fileExtension)){
             return tempInputFile;
-        } else if ("JPG".equalsIgnoreCase(fileExtension)) {
+        } else if ("JPG".equalsIgnoreCase(fileExtension) || "JPEG".equalsIgnoreCase(fileExtension)) {
             tempOutputFile = convertJpgToPng(tempInputFile);
         }else if("pdf".equalsIgnoreCase(fileExtension)){
             convertPdfToPng(tempInputFile,tempOutputFile);
