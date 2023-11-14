@@ -230,6 +230,22 @@ const FontOptionPage: React.FC = () => {
 
   const clickPayHandler = async () => {
     dispatch(pointPayModalActions.payThePrice({ howMuch: 50000, boughtSometing: '폰트제작' }));
+    // 데이터를 다 넣어서 보내준다.
+    dispatch(
+      pointPayModalActions.makeFont({
+        makeFontRequest: {
+          fontId: fontId.toString(),
+          fontSortUrl: fontSortUrl,
+          korFontName: korFontName,
+          engFontName: engFontName,
+          openStatus: openOption,
+          freeStatus: saleOption,
+          price: !saleOption && priceValue !== null ? priceValue : 0,
+          introduceText: inputFontIntro,
+          keywords: selectedKeywords,
+        },
+      }),
+    );
     dispatch(pointPayModalActions.toggle());
   };
 

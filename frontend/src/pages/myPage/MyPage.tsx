@@ -100,7 +100,6 @@ interface CartType {
 }
 
 const MyPage: React.FC = () => {
-  window.scrollTo({ left: 0, top: 0 });
   // redux
   const dispatch = useDispatch();
   const [myNickname, setMyNickname] = useState<string>('');
@@ -149,8 +148,10 @@ const MyPage: React.FC = () => {
           setTimeout(() => {
             dispatch(progressLoaderActions.resetGauge());
           }, 1500);
+          setFontBasketComplete(true);
         }
       }
+      window.scrollTo({ left: 0, top: 0 });
     }
     fetch();
   }, [myValue, dispatch]);
@@ -182,6 +183,7 @@ const MyPage: React.FC = () => {
         transactionProducerAPI(id)
           .then(async (r) => setCreatedFontList(r))
           .catch((e) => console.error(e));
+        setProductsComplete(true);
       } else {
         navigate('/wrong');
       }
@@ -213,6 +215,13 @@ const MyPage: React.FC = () => {
 
   // 스와이퍼 참조
   const swiperRef = useRef<SwiperCore>();
+
+  const [productsComplete, setProductsComplete] = useState<boolean>(false);
+  const [likeListComplete, setLikeListComplete] = useState<boolean>(false);
+  const [fontBasketComplete, setFontBasketComplete] = useState<boolean>(false);
+  const [boughtComplete, setBoughtComplete] = useState<boolean>(false);
+  const [likeProComplete, setLikeProComplete] = useState<boolean>(false);
+
   const pageClickHandle = async (pageName: string) => {
     if (pageName === 'productsState') {
       dispatch(progressLoaderActions.resetGauge());
@@ -233,6 +242,7 @@ const MyPage: React.FC = () => {
       setTimeout(() => {
         dispatch(progressLoaderActions.resetGauge());
       }, 1500);
+      setProductsComplete(true);
     } else if (pageName === 'likeList') {
       dispatch(progressLoaderActions.resetGauge());
       dispatch(progressLoaderActions.startGuage());
@@ -253,6 +263,7 @@ const MyPage: React.FC = () => {
       setTimeout(() => {
         dispatch(progressLoaderActions.resetGauge());
       }, 1500);
+      setLikeListComplete(true);
     } else if (pageName === 'fontBasket') {
       dispatch(progressLoaderActions.resetGauge());
       dispatch(progressLoaderActions.startGuage());
@@ -282,6 +293,7 @@ const MyPage: React.FC = () => {
       setTimeout(() => {
         dispatch(progressLoaderActions.resetGauge());
       }, 1500);
+      setFontBasketComplete(true);
     } else if (pageName === 'boughtFonts') {
       dispatch(progressLoaderActions.resetGauge());
       dispatch(progressLoaderActions.startGuage());
@@ -299,6 +311,7 @@ const MyPage: React.FC = () => {
       setTimeout(() => {
         dispatch(progressLoaderActions.resetGauge());
       }, 1500);
+      setBoughtComplete(true);
     } else {
       dispatch(progressLoaderActions.resetGauge());
       dispatch(progressLoaderActions.startGuage());
@@ -319,6 +332,7 @@ const MyPage: React.FC = () => {
       setTimeout(() => {
         dispatch(progressLoaderActions.resetGauge());
       }, 1500);
+      setLikeProComplete(true);
     }
   };
   // 포인트 결제
@@ -468,6 +482,7 @@ const MyPage: React.FC = () => {
   };
   // resize 이벤트에 대한 리스너를 설정합니다.
   useEffect(() => {
+    window.scrollTo({ left: 0, top: 0 });
     handleResize();
     window.addEventListener('resize', handleResize);
 
@@ -506,6 +521,7 @@ const MyPage: React.FC = () => {
     }
   };
   useEffect(() => {
+    window.scrollTo({ left: 0, top: 0 });
     const initialSelectedFont = cartData.map((item) => ({
       fontId: item.fontId,
       selected: false,
@@ -537,6 +553,7 @@ const MyPage: React.FC = () => {
   };
 
   useEffect(() => {
+    window.scrollTo({ left: 0, top: 0 });
     const newTotalPrice = selectedFont
       .filter((item) => item.selected)
       .reduce((total, item) => total + item.fontPrice, 0);
@@ -699,279 +716,308 @@ const MyPage: React.FC = () => {
           </SelectBox>
           {pageLocation.productsState ? (
             <>
-              <ContentLargeBox>
-                {createdFontList.length > 0 ? (
-                  createdFontList.map((font) => {
-                    return (
-                      <ContentIngredient key={font['fontId']}>
-                        <ContentInnerLeft>
-                          <ContentInnerTextBox>
-                            <ContentHeader>
-                              <ContentInnerHeaderText
+              {productsComplete ? (
+                <>
+                  <ContentLargeBox>
+                    {createdFontList.length > 0 ? (
+                      createdFontList.map((font) => {
+                        return (
+                          <ContentIngredient key={font['fontId']}>
+                            <ContentInnerLeft>
+                              <ContentInnerTextBox>
+                                <ContentHeader>
+                                  <ContentInnerHeaderText
+                                    onClick={() => {
+                                      handleClickFontNameFC(font.fontId.toString());
+                                    }}
+                                  >
+                                    {font['fontName']}
+                                  </ContentInnerHeaderText>
+                                </ContentHeader>
+                                <div>
+                                  <CartStyle
+                                    fontFamily={font['fontName'].replaceAll(' ', '_')}
+                                    fontSrc={font['fontFileUrl']}
+                                  >
+                                    다람쥐 헌 쳇바퀴 타고파
+                                  </CartStyle>
+                                </div>
+                              </ContentInnerTextBox>
+                            </ContentInnerLeft>
+                            <ContentInnerRight>
+                              <ContentGrayDisabled>결제완료</ContentGrayDisabled>
+                              <ContentRedBtn
                                 onClick={() => {
-                                  handleClickFontNameFC(font.fontId.toString());
+                                  clickDownloadHandler(font);
                                 }}
                               >
-                                {font['fontName']}
-                              </ContentInnerHeaderText>
-                            </ContentHeader>
-                            <div>
-                              <CartStyle
-                                fontFamily={font['fontName'].replaceAll(' ', '_')}
-                                fontSrc={font['fontFileUrl']}
-                              >
-                                다람쥐 헌 쳇바퀴 타고파
-                              </CartStyle>
-                            </div>
-                          </ContentInnerTextBox>
-                        </ContentInnerLeft>
-                        <ContentInnerRight>
-                          <ContentGrayDisabled>결제완료</ContentGrayDisabled>
-                          <ContentRedBtn
-                            onClick={() => {
-                              clickDownloadHandler(font);
-                            }}
-                          >
-                            다운로드
-                          </ContentRedBtn>
-                        </ContentInnerRight>
-                      </ContentIngredient>
-                    );
-                  })
-                ) : (
-                  <CommonEmptyBox text="제작한 폰트가 없습니다." />
-                )}
-              </ContentLargeBox>
+                                다운로드
+                              </ContentRedBtn>
+                            </ContentInnerRight>
+                          </ContentIngredient>
+                        );
+                      })
+                    ) : (
+                      <CommonEmptyBox text="제작한 폰트가 없습니다." />
+                    )}
+                  </ContentLargeBox>
+                </>
+              ) : (
+                <></>
+              )}
             </>
           ) : pageLocation.likeList ? (
             <>
-              <ContentLargeBox>
-                {dibList.length > 0 ? (
-                  dibList.map((dib) => {
-                    return (
-                      <ContentIngredient key={dib['fontId']}>
-                        <ContentInnerLeft>
-                          <ContentIconsBox
-                            onClick={() => {
-                              clickBookmarkButton(dib);
-                            }}
-                          >
-                            <FaBookmark className={classes.bookmarkIcon} />
-                          </ContentIconsBox>
-                          <ContentInnerTextBox>
-                            <ContentHeader>
-                              <ContentInnerHeaderText
+              {likeListComplete ? (
+                <>
+                  <ContentLargeBox>
+                    {dibList.length > 0 ? (
+                      dibList.map((dib) => {
+                        return (
+                          <ContentIngredient key={dib['fontId']}>
+                            <ContentInnerLeft>
+                              <ContentIconsBox
                                 onClick={() => {
-                                  handleClickFontNameFC(dib.fontId.toString());
+                                  clickBookmarkButton(dib);
                                 }}
                               >
-                                {dib.fontName}
-                              </ContentInnerHeaderText>
-                              <ContentProducerName>| {dib.producerName}</ContentProducerName>
-                            </ContentHeader>
-                            <div>
-                              <CartStyle
-                                fontFamily={dib.fontName.replaceAll(' ', '_')}
-                                fontSrc={dib.fontFileUrl}
+                                <FaBookmark className={classes.bookmarkIcon} />
+                              </ContentIconsBox>
+                              <ContentInnerTextBox>
+                                <ContentHeader>
+                                  <ContentInnerHeaderText
+                                    onClick={() => {
+                                      handleClickFontNameFC(dib.fontId.toString());
+                                    }}
+                                  >
+                                    {dib.fontName}
+                                  </ContentInnerHeaderText>
+                                  <ContentProducerName>| {dib.producerName}</ContentProducerName>
+                                </ContentHeader>
+                                <div>
+                                  <CartStyle
+                                    fontFamily={dib.fontName.replaceAll(' ', '_')}
+                                    fontSrc={dib.fontFileUrl}
+                                  >
+                                    다람쥐 헌 쳇바퀴 타고파
+                                  </CartStyle>
+                                </div>
+                              </ContentInnerTextBox>
+                            </ContentInnerLeft>
+                            <ContentInnerRight style={{ justifyContent: 'center' }}>
+                              <NewBtnBox
+                                onClick={() => {
+                                  clickBasketHandler(dib.fontId.toString());
+                                }}
                               >
-                                다람쥐 헌 쳇바퀴 타고파
-                              </CartStyle>
-                            </div>
-                          </ContentInnerTextBox>
-                        </ContentInnerLeft>
-                        <ContentInnerRight style={{ justifyContent: 'center' }}>
-                          <NewBtnBox
-                            onClick={() => {
-                              clickBasketHandler(dib.fontId.toString());
-                            }}
-                          >
-                            <NewBtnText>장바구니</NewBtnText>
-                            <NewBtnText>담기</NewBtnText>
-                          </NewBtnBox>
-                        </ContentInnerRight>
-                      </ContentIngredient>
-                    );
-                  })
-                ) : (
-                  <CommonEmptyBox text="찜한 폰트가 없습니다." />
-                )}
-              </ContentLargeBox>
+                                <NewBtnText>장바구니</NewBtnText>
+                                <NewBtnText>담기</NewBtnText>
+                              </NewBtnBox>
+                            </ContentInnerRight>
+                          </ContentIngredient>
+                        );
+                      })
+                    ) : (
+                      <CommonEmptyBox text="찜한 폰트가 없습니다." />
+                    )}
+                  </ContentLargeBox>
+                </>
+              ) : (
+                <></>
+              )}
             </>
           ) : pageLocation.fontBasket ? (
             <>
               {/* ======== */}
               {/* 장바구니 */}
               {/* ======== */}
-
-              <ContentLargeBox>
-                {cartData.length > 0 ? (
-                  <>
-                    <FontBasketTopBox>
-                      <SelectListDelete onClick={deleteCartFC}>선택 항목 삭제</SelectListDelete>
-                    </FontBasketTopBox>
-                    {cartData.map((cart) => {
-                      return (
-                        <ContentIngredient key={'cart' + cart.fontId}>
-                          <ContentInnerLeft>
-                            <ContentInnerTextBox>
-                              <ContentHeader>
-                                <ContentInnerHeaderText
-                                  onClick={() => {
-                                    handleClickFontNameFC(cart.fontId.toString());
-                                  }}
-                                >
-                                  {cart.fontName}
-                                </ContentInnerHeaderText>
-                                <ContentProducerName>| {cart.producer} </ContentProducerName>
-                                <ContentProducerName style={{ marginLeft: 10 }}>
-                                  | {formatNumberWithCommas(cart.fontPrice)} P
-                                </ContentProducerName>
-                              </ContentHeader>
-                              <CartStyle
-                                fontFamily={cart.fontName.replace(' ', '_')}
-                                fontSrc={cart.fontUrl}
-                              >
-                                다람쥐 헌 쳇바퀴 타고파
-                              </CartStyle>
-                            </ContentInnerTextBox>
-                          </ContentInnerLeft>
-                          <ContentInnerRight>
-                            {currentSelected(cart.fontId) ? (
-                              <FaRegCheckSquare
-                                className={classes.checkIcon}
-                                onClick={() => {
-                                  clickCheckFC(cart.fontId);
-                                }}
-                              />
-                            ) : (
-                              <FaRegSquare
-                                className={classes.checkIcon}
-                                onClick={() => {
-                                  clickCheckFC(cart.fontId);
-                                }}
-                              />
-                            )}
-                          </ContentInnerRight>
-                        </ContentIngredient>
-                      );
-                    })}
-                    <FontBasketBottomBox>
-                      {/* 금액이 나와야 함 */}
-                      <CartPriceText>
-                        <CartPriceBox>{formatNumberWithCommas(totalCartPrice)} P</CartPriceBox>
-                      </CartPriceText>
-                      <ContentGrayTransaction onClick={transactionClick}>
-                        결제하기
-                      </ContentGrayTransaction>
-                    </FontBasketBottomBox>
-                  </>
-                ) : (
-                  <>
-                    <CommonEmptyBox text="장바구니에 담긴 폰트가 없습니다." />
-                  </>
-                )}
-              </ContentLargeBox>
+              {fontBasketComplete ? (
+                <>
+                  <ContentLargeBox>
+                    {cartData.length > 0 ? (
+                      <>
+                        <FontBasketTopBox>
+                          <SelectListDelete onClick={deleteCartFC}>선택 항목 삭제</SelectListDelete>
+                        </FontBasketTopBox>
+                        {cartData.map((cart) => {
+                          return (
+                            <ContentIngredient key={'cart' + cart.fontId}>
+                              <ContentInnerLeft>
+                                <ContentInnerTextBox>
+                                  <ContentHeader>
+                                    <ContentInnerHeaderText
+                                      onClick={() => {
+                                        handleClickFontNameFC(cart.fontId.toString());
+                                      }}
+                                    >
+                                      {cart.fontName}
+                                    </ContentInnerHeaderText>
+                                    <ContentProducerName>| {cart.producer} </ContentProducerName>
+                                    <ContentProducerName style={{ marginLeft: 10 }}>
+                                      | {formatNumberWithCommas(cart.fontPrice)} P
+                                    </ContentProducerName>
+                                  </ContentHeader>
+                                  <CartStyle
+                                    fontFamily={cart.fontName.replace(' ', '_')}
+                                    fontSrc={cart.fontUrl}
+                                  >
+                                    다람쥐 헌 쳇바퀴 타고파
+                                  </CartStyle>
+                                </ContentInnerTextBox>
+                              </ContentInnerLeft>
+                              <ContentInnerRight>
+                                {currentSelected(cart.fontId) ? (
+                                  <FaRegCheckSquare
+                                    className={classes.checkIcon}
+                                    onClick={() => {
+                                      clickCheckFC(cart.fontId);
+                                    }}
+                                  />
+                                ) : (
+                                  <FaRegSquare
+                                    className={classes.checkIcon}
+                                    onClick={() => {
+                                      clickCheckFC(cart.fontId);
+                                    }}
+                                  />
+                                )}
+                              </ContentInnerRight>
+                            </ContentIngredient>
+                          );
+                        })}
+                        <FontBasketBottomBox>
+                          {/* 금액이 나와야 함 */}
+                          <CartPriceText>
+                            <CartPriceBox>{formatNumberWithCommas(totalCartPrice)} P</CartPriceBox>
+                          </CartPriceText>
+                          <ContentGrayTransaction onClick={transactionClick}>
+                            결제하기
+                          </ContentGrayTransaction>
+                        </FontBasketBottomBox>
+                      </>
+                    ) : (
+                      <>
+                        <CommonEmptyBox text="장바구니에 담긴 폰트가 없습니다." />
+                      </>
+                    )}
+                  </ContentLargeBox>
+                </>
+              ) : (
+                <></>
+              )}
             </>
           ) : pageLocation.boughtFonts ? (
             <>
-              <ContentLargeBox>
-                {purchaseFontList.length > 0 ? (
-                  purchaseFontList.map((font) => {
-                    return (
-                      <ContentIngredient key={font.fontId}>
-                        <ContentInnerLeft>
-                          <ContentInnerTextBox>
-                            <ContentHeader>
-                              <ContentInnerHeaderText
-                                onClick={() => {
-                                  handleClickFontNameFC(font.fontId.toString());
-                                }}
-                              >
-                                {font.fontName}
-                              </ContentInnerHeaderText>
-                              <ContentProducerName>| {font.producerName}</ContentProducerName>
-                            </ContentHeader>
-                            <div>
-                              <CartStyle
-                                fontSrc={font.fontUrl}
-                                fontFamily={font.fontName.replaceAll(' ', '_')}
-                              >
-                                다람쥐 헌 쳇바퀴 타고파
-                              </CartStyle>
-                            </div>
-                          </ContentInnerTextBox>
-                        </ContentInnerLeft>
-                        <ContentInnerRight>
-                          <ContentGrayBtn onClick={clickReviewHandler}>후기등록</ContentGrayBtn>
-                          <ContentRedBtn onClick={() => clickPurchaseDownload(font)}>
-                            다운로드
-                          </ContentRedBtn>
-                        </ContentInnerRight>
-                      </ContentIngredient>
-                    );
-                  })
-                ) : (
-                  <CommonEmptyBox text="구매한 폰트가 없습니다." />
-                )}
-              </ContentLargeBox>
+              {boughtComplete ? (
+                <>
+                  <ContentLargeBox>
+                    {purchaseFontList.length > 0 ? (
+                      purchaseFontList.map((font) => {
+                        return (
+                          <ContentIngredient key={font.fontId}>
+                            <ContentInnerLeft>
+                              <ContentInnerTextBox>
+                                <ContentHeader>
+                                  <ContentInnerHeaderText
+                                    onClick={() => {
+                                      handleClickFontNameFC(font.fontId.toString());
+                                    }}
+                                  >
+                                    {font.fontName}
+                                  </ContentInnerHeaderText>
+                                  <ContentProducerName>| {font.producerName}</ContentProducerName>
+                                </ContentHeader>
+                                <div>
+                                  <CartStyle
+                                    fontSrc={font.fontUrl}
+                                    fontFamily={font.fontName.replaceAll(' ', '_')}
+                                  >
+                                    다람쥐 헌 쳇바퀴 타고파
+                                  </CartStyle>
+                                </div>
+                              </ContentInnerTextBox>
+                            </ContentInnerLeft>
+                            <ContentInnerRight>
+                              <ContentGrayBtn onClick={clickReviewHandler}>후기등록</ContentGrayBtn>
+                              <ContentRedBtn onClick={() => clickPurchaseDownload(font)}>
+                                다운로드
+                              </ContentRedBtn>
+                            </ContentInnerRight>
+                          </ContentIngredient>
+                        );
+                      })
+                    ) : (
+                      <CommonEmptyBox text="구매한 폰트가 없습니다." />
+                    )}
+                  </ContentLargeBox>
+                </>
+              ) : (
+                <></>
+              )}
             </>
           ) : (
             <>
               {/* ======== */}
               {/* 찜한 제작자 */}
               {/* ======== */}
-              <ContentLargeBox>
-                {myFollowingList.length > 0 ? (
-                  <Swiper
-                    onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
-                    slidesPerView={3}
-                    spaceBetween={15}
-                    loop={myFollowingList && myFollowingList.length > 3}
-                    autoplay={{
-                      delay: 2500,
-                      disableOnInteraction: false,
-                    }}
-                    modules={[Autoplay, Navigation]}
-                    className={classes.swiper}
-                  >
-                    {myFollowingList.map((item) => {
-                      return (
-                        <SwiperSlide key={item['memberId']} className={classes.swiperSlide}>
-                          <img
-                            onClick={() => {
-                              navigate(`/maker/${item['nickname']}/${item['memberId']}`);
-                            }}
-                            src={
-                              'https://ddobak-profile-image.s3.ap-northeast-2.amazonaws.com/' +
-                              item['ProfileImg']
-                            }
-                            alt=""
-                            className={classes.swiperImg}
-                          />
-                          <LikeIconBox>
-                            <FaHeart
-                              size={40}
-                              color={'#d71718'}
-                              onClick={() => {
-                                clickHeartButton(item);
-                              }}
-                            />
-                          </LikeIconBox>
-                          <LikeProducerBox
-                            onClick={() => {
-                              navigate(`/maker/${item['nickname']}/${item['memberId']}`);
-                            }}
-                          >
-                            <LikeBoxText>{item['nickname']}</LikeBoxText>
-                          </LikeProducerBox>
-                        </SwiperSlide>
-                      );
-                    })}
-                  </Swiper>
-                ) : (
-                  <CommonEmptyBox text="찜한 제작자가 없습니다." />
-                )}
-              </ContentLargeBox>
+              {likeProComplete ? (
+                <>
+                  <ContentLargeBox>
+                    {myFollowingList.length > 0 ? (
+                      <Swiper
+                        onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
+                        slidesPerView={3}
+                        spaceBetween={15}
+                        loop={myFollowingList && myFollowingList.length > 3}
+                        autoplay={{
+                          delay: 2500,
+                          disableOnInteraction: false,
+                        }}
+                        modules={[Autoplay, Navigation]}
+                        className={classes.swiper}
+                      >
+                        {myFollowingList.map((item) => {
+                          return (
+                            <SwiperSlide key={item['memberId']} className={classes.swiperSlide}>
+                              <img
+                                onClick={() => {
+                                  navigate(`/maker/${item['nickname']}/${item['memberId']}`);
+                                }}
+                                src={
+                                  'https://ddobak-profile-image.s3.ap-northeast-2.amazonaws.com/' +
+                                  item['ProfileImg']
+                                }
+                                alt=""
+                                className={classes.swiperImg}
+                              />
+                              <LikeIconBox>
+                                <FaHeart
+                                  size={40}
+                                  color={'#d71718'}
+                                  onClick={() => {
+                                    clickHeartButton(item);
+                                  }}
+                                />
+                              </LikeIconBox>
+                              <LikeProducerBox
+                                onClick={() => {
+                                  navigate(`/maker/${item['nickname']}/${item['memberId']}`);
+                                }}
+                              >
+                                <LikeBoxText>{item['nickname']}</LikeBoxText>
+                              </LikeProducerBox>
+                            </SwiperSlide>
+                          );
+                        })}
+                      </Swiper>
+                    ) : (
+                      <CommonEmptyBox text="찜한 제작자가 없습니다." />
+                    )}
+                  </ContentLargeBox>
+                </>
+              ) : (
+                <></>
+              )}
             </>
           )}
         </MyPageContent>

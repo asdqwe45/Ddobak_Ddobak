@@ -79,21 +79,21 @@ const PointPayModal: React.FC = () => {
   const buyAll = useSelector((state: PointModalState) => state.pointModal.buyAll);
   const payHandler = async () => {
     // 결제가 완료되면 순차적으로 실행
+    if (boughtSomething === "폰트제작") {
+      dispatch(pointPayModalActions.paidSomething());
+      clickPayHandler();
+      // 다음 페이지로 이동
+      dispatch(resultModalActions.nextStep());
+      dispatch(
+        successModalActions.showSomething({
+          successHeader: '폰트 제작 결제',
+          successContext: '이용해주셔서 감사합니다.',
+        }),
+      );}
+
     transactionPurchaseAPI(buyAll)
       .then(async (r) => {
-        if (boughtSomething === '폰트제작') {
-          dispatch(pointPayModalActions.paidSomething());
-          clickPayHandler();
-          // 다음 페이지로 이동
-          dispatch(resultModalActions.nextStep());
-          dispatch(
-            successModalActions.showSomething({
-              successHeader: '폰트 제작 결제',
-              successContext: '이용해주셔서 감사합니다.',
-            }),
-          );
-          return;
-        } else if (boughtSomething === '폰트구매') {
+         if (boughtSomething === '폰트구매') {
           // 장바구니 삭제
           const data = [];
           // buyAll
@@ -143,6 +143,10 @@ const PointPayModal: React.FC = () => {
       .catch((e) => {
         console.error(e);
       });
+
+
+
+
   };
   function formatNumberWithCommas(x: number) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
