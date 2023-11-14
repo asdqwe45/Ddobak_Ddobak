@@ -16,7 +16,6 @@ import AlertCustomModal from 'common/modals/alertCustomModal/AlertCustomModal';
 //  ===================
 //  ===    axios    ===
 //  ===================
-// userEmailVerifyAPI,  userSignup
 import {
   userEmailVerifyAPI,
   userEmailVerifyRequest,

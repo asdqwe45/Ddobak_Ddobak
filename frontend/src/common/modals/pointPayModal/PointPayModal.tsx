@@ -42,8 +42,6 @@ const PointPayModal: React.FC = () => {
   const refresh = useSelector((state: ChargePointType) => state.chargePoint.chargeCount);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(refresh);
-    console.log('아무거나');
     async function fetch() {
       if (await checkToken()) {
         userMypageAPI()
