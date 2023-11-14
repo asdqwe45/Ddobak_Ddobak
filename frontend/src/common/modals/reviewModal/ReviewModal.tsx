@@ -60,7 +60,6 @@ const ReviewModal: React.FC = () => {
       };
       reviewRegisterAPI(data, imgFile)
         .then(async (r) => {
-          console.log(r);
           closeModal();
           window.location.reload();
         })

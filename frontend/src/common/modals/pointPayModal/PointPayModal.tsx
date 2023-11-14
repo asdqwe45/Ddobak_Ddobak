@@ -46,7 +46,6 @@ const PointPayModal: React.FC = () => {
       if (await checkToken()) {
         userMypageAPI()
           .then((r) => {
-            console.log(r);
             setCurrentPoint(r.point);
             dispatch(
               chargePointModalActions.currentMyState({ myPoint: r.point, nickname: r.nickname }),
@@ -82,7 +81,6 @@ const PointPayModal: React.FC = () => {
     // 결제가 완료되면 순차적으로 실행
     transactionPurchaseAPI(buyAll)
       .then(async (r) => {
-        console.log(r);
         if (boughtSomething === '폰트제작') {
           dispatch(pointPayModalActions.paidSomething());
           clickPayHandler();
@@ -104,7 +102,6 @@ const PointPayModal: React.FC = () => {
           }
           cartDeleteAPI(data)
             .then(async (r) => {
-              console.log(r);
               closeModal();
               dispatch(pointPayModalActions.resetState());
               dispatch(
@@ -126,7 +123,6 @@ const PointPayModal: React.FC = () => {
           }
           cartDeleteAPI(data)
             .then(async (r) => {
-              console.log(r);
               closeModal();
               dispatch(pointPayModalActions.resetState());
               dispatch(

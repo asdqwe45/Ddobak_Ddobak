@@ -48,6 +48,7 @@ import { useNavigate } from 'react-router-dom';
 import { userMypageAPI } from 'https/utils/AuthFunction';
 
 import CommonEmptyBox from 'common/commonEmptyBox/CommonEmptyBox';
+import { progressLoaderActions } from 'store/progressLoaderSlice';
 
 interface TransactionResponse {
   transactionDate: string;
@@ -92,6 +93,7 @@ const MyPagePointPage: React.FC = () => {
       console.error(e);
     });
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     async function fetch() {
@@ -111,8 +113,10 @@ const MyPagePointPage: React.FC = () => {
     exchange: false,
     make: false,
   });
-  const selectHandler = (content: string) => {
+  const selectHandler = async (content: string) => {
     if (content === 'all') {
+      dispatch(progressLoaderActions.resetGauge());
+      dispatch(progressLoaderActions.startGuage());
       setSelectContent({
         all: true,
         buy: false,
@@ -121,15 +125,19 @@ const MyPagePointPage: React.FC = () => {
         exchange: false,
         make: false,
       });
-      transactionListAllAPI()
+      await transactionListAllAPI()
         .then(async (r) => {
-          console.log(r);
           setAllData(r);
         })
         .catch((e) => {
           console.error(e);
         });
+      setTimeout(() => {
+        dispatch(progressLoaderActions.resetGauge());
+      }, 1500);
     } else if (content === 'buy') {
+      dispatch(progressLoaderActions.resetGauge());
+      dispatch(progressLoaderActions.startGuage());
       setSelectContent({
         all: false,
         buy: true,
@@ -138,15 +146,19 @@ const MyPagePointPage: React.FC = () => {
         exchange: false,
         make: false,
       });
-      transactionPurchaseListAPI()
+      await transactionPurchaseListAPI()
         .then(async (r) => {
-          console.log(r);
           setBuyData(r);
         })
         .catch((e) => {
           console.error(e);
         });
+      setTimeout(() => {
+        dispatch(progressLoaderActions.resetGauge());
+      }, 1500);
     } else if (content === 'sell') {
+      dispatch(progressLoaderActions.resetGauge());
+      dispatch(progressLoaderActions.startGuage());
       setSelectContent({
         all: false,
         buy: false,
@@ -155,15 +167,19 @@ const MyPagePointPage: React.FC = () => {
         exchange: false,
         make: false,
       });
-      transactionSellList()
+      await transactionSellList()
         .then(async (r) => {
-          console.log(r);
           setSellData(r);
         })
         .catch((e) => {
           console.error(e);
         });
+      setTimeout(() => {
+        dispatch(progressLoaderActions.resetGauge());
+      }, 1500);
     } else if (content === 'charge') {
+      dispatch(progressLoaderActions.resetGauge());
+      dispatch(progressLoaderActions.startGuage());
       setSelectContent({
         all: false,
         buy: false,
@@ -172,15 +188,19 @@ const MyPagePointPage: React.FC = () => {
         exchange: false,
         make: false,
       });
-      transactionChargeListAPI()
+      await transactionChargeListAPI()
         .then(async (r) => {
-          console.log(r);
           setChargeData(r);
         })
         .catch((e) => {
           console.error(e);
         });
+      setTimeout(() => {
+        dispatch(progressLoaderActions.resetGauge());
+      }, 1500);
     } else if (content === 'exchange') {
+      dispatch(progressLoaderActions.resetGauge());
+      dispatch(progressLoaderActions.startGuage());
       setSelectContent({
         all: false,
         buy: false,
@@ -189,15 +209,19 @@ const MyPagePointPage: React.FC = () => {
         exchange: true,
         make: false,
       });
-      transactionWithdrawListAPI()
+      await transactionWithdrawListAPI()
         .then(async (r) => {
-          console.log(r.transactionDate);
           setExchangeData(r);
         })
         .catch((e) => {
           console.error(e);
         });
+      setTimeout(() => {
+        dispatch(progressLoaderActions.resetGauge());
+      }, 1500);
     } else {
+      dispatch(progressLoaderActions.resetGauge());
+      dispatch(progressLoaderActions.startGuage());
       setSelectContent({
         all: false,
         buy: false,
@@ -206,18 +230,19 @@ const MyPagePointPage: React.FC = () => {
         exchange: false,
         make: true,
       });
-      transactionCreationListAPI()
+      await transactionCreationListAPI()
         .then(async (r) => {
-          console.log(r);
           setMakeData(r);
         })
         .catch((e) => {
           console.error(e);
         });
+      setTimeout(() => {
+        dispatch(progressLoaderActions.resetGauge());
+      }, 1500);
     }
   };
 
-  const dispatch = useDispatch();
   const clickChargeHandler = async () => {
     dispatch(chargePointModalActions.currentMyState({ myPoint: myPoint, nickname: nickname }));
     dispatch(chargePointModalActions.chargeWhereFC({ isModal: false }));
@@ -230,17 +255,21 @@ const MyPagePointPage: React.FC = () => {
 
   useEffect(() => {
     async function fetch() {
-      transactionListAllAPI()
+      dispatch(progressLoaderActions.resetGauge());
+      dispatch(progressLoaderActions.startGuage());
+      await transactionListAllAPI()
         .then(async (r) => {
-          console.log(r);
           setAllData(r);
         })
         .catch((e) => {
           console.error(e);
         });
+      setTimeout(() => {
+        dispatch(progressLoaderActions.resetGauge());
+      }, 1500);
     }
     fetch();
-  }, []);
+  }, [dispatch]);
 
   function formatNumberWithCommas(x: number) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');

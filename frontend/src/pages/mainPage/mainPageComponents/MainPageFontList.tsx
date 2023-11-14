@@ -56,8 +56,6 @@ const MainPageFontList: React.FC = () => {
           const response: FontList = await axiosWithAuth.get('/font/list').then((r) => {
             return r.data;
           }); // API 경로는 예시입니다
-          console.log('로그인 한 상태에서 데이터 가져오기');
-          console.log(response);
           setFonts(response.fontListResponse); // 폰트 데이터 상태 업데이트
           setTimeout(() => {
             dispatch(progressLoaderActions.resetGauge());
@@ -73,8 +71,6 @@ const MainPageFontList: React.FC = () => {
           const response: FontList = await axiosWithoutAuth.get('/font/list/NoAuth').then((r) => {
             return r.data;
           }); // API 경로는 예시입니다
-          console.log('비회원 한 상태에서 데이터 가져오기');
-          console.log(response);
           setFonts(response.fontListResponse); // 폰트 데이터 상태 업데이트
           setTimeout(() => {
             dispatch(progressLoaderActions.resetGauge());

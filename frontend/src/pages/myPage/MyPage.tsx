@@ -143,7 +143,6 @@ const MyPage: React.FC = () => {
           });
           await cartGetAPI()
             .then(async (r) => {
-              console.log(r);
               setCartData(r);
             })
             .catch((e) => console.error(e));
@@ -164,7 +163,6 @@ const MyPage: React.FC = () => {
       const id = await getData('id');
       setMyId(id);
       if (token) {
-        console.log('have Token');
         // 마이페이지 불러오기
         await userMypageAPI()
           .then(async (r) => {
@@ -185,7 +183,6 @@ const MyPage: React.FC = () => {
           .then(async (r) => setCreatedFontList(r))
           .catch((e) => console.error(e));
       } else {
-        console.log('잘못된 접근입니다.');
         navigate('/wrong');
       }
     }
@@ -268,7 +265,6 @@ const MyPage: React.FC = () => {
       });
       await cartGetAPI()
         .then(async (response) => {
-          console.log(response);
           response.map((r: CartType) => {
             const tmp = {
               fontId: r.fontId,
@@ -308,7 +304,6 @@ const MyPage: React.FC = () => {
       dispatch(progressLoaderActions.startGuage());
       await getFollowingList()
         .then((r) => {
-          console.log('여기: ', r);
           setMyFollowingList(r);
         })
         .catch((e) => {
@@ -340,7 +335,6 @@ const MyPage: React.FC = () => {
       }
     }
     if (buyAllList.length > 0) {
-      console.log(buyAllList);
       dispatch(
         pointPayModalActions.payThePrice({
           howMuch: totalCartPrice,
@@ -401,7 +395,6 @@ const MyPage: React.FC = () => {
   const clickBasketHandler = async (fontId: string) => {
     cartAddAPI(fontId)
       .then(async (r) => {
-        console.log(r);
         dispatch(goToBasketModalActions.toggle());
       })
       .catch((e) => {
@@ -432,7 +425,6 @@ const MyPage: React.FC = () => {
       .then(() => {
         dibListAPI()
           .then((response) => {
-            console.log(response);
             setDibList(response);
           })
           .catch((e) => {
@@ -506,7 +498,6 @@ const MyPage: React.FC = () => {
     if (selectedCartList.length > 0) {
       cartDeleteAPI(selectedCartList)
         .then((r) => {
-          console.log(r);
           window.location.reload();
         })
         .catch((e) => {
@@ -757,7 +748,6 @@ const MyPage: React.FC = () => {
               <ContentLargeBox>
                 {dibList.length > 0 ? (
                   dibList.map((dib) => {
-                    console.log(dib);
                     return (
                       <ContentIngredient key={dib['fontId']}>
                         <ContentInnerLeft>
@@ -945,7 +935,6 @@ const MyPage: React.FC = () => {
                     className={classes.swiper}
                   >
                     {myFollowingList.map((item) => {
-                      console.log('여기여기', item);
                       return (
                         <SwiperSlide key={item['memberId']} className={classes.swiperSlide}>
                           <img

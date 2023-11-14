@@ -43,7 +43,6 @@ const MainFontBox: React.FC<FontBoxProps> = ({
       dibRemoveAPI(fontId)
         .then(async (r) => {
           window.location.reload();
-          console.log(r);
         })
         .catch((e) => {
           console.error(e);
@@ -52,7 +51,6 @@ const MainFontBox: React.FC<FontBoxProps> = ({
       dibAddAPI(fontId)
         .then((r) => {
           window.location.reload();
-          console.log(r);
         })
         .catch((e) => {
           console.error(e);

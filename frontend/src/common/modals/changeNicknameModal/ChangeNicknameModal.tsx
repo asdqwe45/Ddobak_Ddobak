@@ -38,15 +38,13 @@ const ChangeNicknameModal: React.FC = () => {
     // 중복확인 util이 필요
     const signupNickname = nickNameRef.current?.value;
     if (signupNickname) {
-      console.log(signupNickname);
       userNicknameAPI(signupNickname)
         .then((r) => {
-          console.log(r);
           setValidNickname(true);
           setNicknameUseState(true);
         })
         .catch((e) => {
-          console.log(e);
+          console.error(e);
           setNicknameUseState(true);
           setIsDuplicated(true);
         });
@@ -71,7 +69,6 @@ const ChangeNicknameModal: React.FC = () => {
       };
       userChangeNicknameAPI(data)
         .then(async (r) => {
-          console.log(r);
           setIsDuplicated(false);
           setValidNickname(false);
           closeModal();
