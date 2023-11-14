@@ -101,7 +101,7 @@ public class TransactionService {
                 false,
                 0
             ))
-//            .sorted(Comparator.comparing(TransactionResponse::transactionDate).reversed())
+            .sorted(Comparator.comparing(TransactionResponse::transactionDate).reversed())
             .collect(Collectors.toList());
         return transactionResponseList;
     }
