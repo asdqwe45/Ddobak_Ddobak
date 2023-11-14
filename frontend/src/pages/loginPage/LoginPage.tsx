@@ -40,7 +40,6 @@ const LoginPage: React.FC = () => {
       .then((r) => {
         navigate('/');
         window.location.reload();
-        console.log(r);
       })
       .catch(
         (e) => {
@@ -60,7 +59,6 @@ const LoginPage: React.FC = () => {
   };
   // 이메일 input의 onChange 이벤트 핸들러
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(isValidEmail);
     const email = e.target.value;
     if (email) {
       setIsValidEmail(validateEmail(email));

@@ -1,19 +1,22 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-
-interface ProgressType {
-  gauge: number;
-}
+import { createSlice } from '@reduxjs/toolkit';
 
 const progressLoaderSlice = createSlice({
   name: 'progress',
   initialState: {
-    gauge: 100,
+    gauge: 0,
+    refresh: false,
   },
   reducers: {
-    gauge(state, action: PayloadAction<ProgressType>) {
-      state.gauge = action.payload.gauge;
+    startGuage(state) {
+      state.refresh = true;
+      state.gauge = 100;
+    },
+    resetGauge(state) {
+      state.refresh = false;
+      state.gauge = 0;
     },
   },
 });
-export const progressLoaderActions = progressLoaderSlice.actions;
+
 export default progressLoaderSlice;
+export const progressLoaderActions = progressLoaderSlice.actions;

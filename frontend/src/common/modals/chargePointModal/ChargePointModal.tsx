@@ -53,11 +53,9 @@ const ChargePointModal: React.FC = () => {
 
   // 포트원 결제 창 결제 결과 로직
   const handlePaymentSuccess = (response: any) => {
-    console.log('Payment Success:', response);
     // 결제 성공 시 필요한 로직을 실행
     transactionChargeAPI(chargePoint)
       .then(async (r) => {
-        console.log(r);
         // DB에 API를 실행하고
         // 충전이 완료되었다는 모달이 필요한가.
         // 결제창이 닫힌다
@@ -80,7 +78,7 @@ const ChargePointModal: React.FC = () => {
       handleNoChangePoint();
       return; // 조기 반환을 통해 이후 로직을 실행하지 않습니다.
     }
-    console.log('Payment Failure:', error);
+    console.error('Payment Failure:', error);
     // 결제 실패 시 필요한 로직을 실행
   };
 

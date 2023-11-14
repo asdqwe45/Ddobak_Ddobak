@@ -4,13 +4,6 @@ import {
   axiosWithoutFormData,
   axiosWithFormData,
 } from 'https/http';
-// 함수 실험
-import { genSaltSync, hashSync } from 'bcrypt-ts';
-// const salt = genSaltSync(10);
-// const hash = hashSync("B4c0//", salt);
-// const hash = hashSync("원하는 문자열", salt)
-// formData
-
 /*
 const aiDiagnosisRequest = {
       surveyResult: arrayString,
@@ -146,13 +139,6 @@ export async function userLogin(data: LoginType): Promise<any> {
       await localStorage.setItem('profileImgUrl', profileImgUrl);
       await localStorage.setItem('today', today.toISOString());
 
-      // 실험 시작
-      const salt = genSaltSync(10);
-      const hash = hashSync('1234', salt);
-      const newHash = await JSON.stringify(hash);
-      await localStorage.setItem('test', newHash);
-
-      // 실험 끝
       return r.data;
     })
     .catch((e) => {
@@ -249,7 +235,6 @@ export async function userChangeInfoAPI(data: userChangeInfoType): Promise<any> 
 }
 
 // accessToken 만료 갱신??
-// 규민이한테 물어봐야함
 interface userAccessTokenType {
   refreshToken: string;
 }

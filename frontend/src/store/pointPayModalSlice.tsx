@@ -19,6 +19,20 @@ interface PurchaseMany {
   buyAll: BuyAllType[];
 }
 
+interface MakeFontType {
+  makeFontRequest: {
+    fontId: string;
+    fontSortUrl: string;
+    korFontName: string;
+    engFontName: string;
+    openStatus: boolean;
+    freeStatus: boolean;
+    price: number;
+    introduceText: string;
+    keywords: string[];
+  };
+}
+
 const pointModalSlice = createSlice({
   name: 'pointModal',
   initialState: {
@@ -29,6 +43,17 @@ const pointModalSlice = createSlice({
     sellerId: 0,
     fontId: 0,
     buyAll: [{ sellerId: 0, fontId: 0 }],
+    makeFontRequest: {
+      fontId: '',
+      fontSortUrl: '',
+      korFontName: '',
+      engFontName: '',
+      openStatus: false,
+      freeStatus: false,
+      price: 0,
+      introduceText: '',
+      keywords: [''],
+    },
   },
   reducers: {
     toggle(state) {
@@ -51,6 +76,17 @@ const pointModalSlice = createSlice({
         sellerId: 0,
         fontId: 0,
         buyAll: [{ sellerId: 0, fontId: 0 }],
+        makeFontRequest: {
+          fontId: '',
+          fontSortUrl: '',
+          korFontName: '',
+          engFontName: '',
+          openStatus: false,
+          freeStatus: false,
+          price: 0,
+          introduceText: '',
+          keywords: [''],
+        },
       };
     },
     payRequest(state, action: PayloadAction<PayRequestAction>) {
@@ -60,6 +96,9 @@ const pointModalSlice = createSlice({
     },
     buyAll(state, action: PayloadAction<PurchaseMany>) {
       state.buyAll = action.payload.buyAll;
+    },
+    makeFont(state, action: PayloadAction<MakeFontType>) {
+      state.makeFontRequest = action.payload.makeFontRequest;
     },
   },
 });
