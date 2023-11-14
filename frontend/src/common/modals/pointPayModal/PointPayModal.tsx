@@ -88,16 +88,14 @@ const PointPayModal: React.FC = () => {
 
   const makeFontRequest = useSelector((state: PointModalState) => state.pointModal.makeFontRequest);
   const boughtSomething = useSelector((state: PointModalState) => state.pointModal.boughtSometing);
-  // const fontId = useSelector((state: PointModalState) => state.pointModal.fontId)
   const buyAll = useSelector((state: PointModalState) => state.pointModal.buyAll);
   const payHandler = async () => {
     // 결제가 완료되면 순차적으로 실행
     console.log(makeFontRequest);
     if (boughtSomething === '폰트제작') {
-      axiosWithAuth
+      await axiosWithAuth
         .put('/font/make/request', makeFontRequest)
         .then(async (r) => {
-          closeModal();
           dispatch(pointPayModalActions.resetState());
           clickPayHandler();
           // 다음 페이지로 이동
@@ -108,6 +106,7 @@ const PointPayModal: React.FC = () => {
               successContext: '이용해주셔서 감사합니다.',
             }),
           );
+          return;
         })
         .catch((e) => {
           console.error(e);
@@ -115,7 +114,7 @@ const PointPayModal: React.FC = () => {
       return;
     }
 
-    transactionPurchaseAPI(buyAll)
+    await transactionPurchaseAPI(buyAll)
       .then(async (r) => {
         if (boughtSomething === '폰트구매') {
           // 장바구니 삭제

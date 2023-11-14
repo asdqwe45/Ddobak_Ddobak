@@ -15,6 +15,7 @@ import changeMakerIntroModalSlice from './changeMakerIntroSlice';
 import basketErrorModalSlice from './basketErrorModalSlice';
 import successModalSlice from './successModalSlice';
 import progressLoaderSlice from './progressLoaderSlice';
+import duplicatedEmailSlice from './duplicatedEmailSlice';
 
 const store = configureStore({
   reducer: {
@@ -33,6 +34,7 @@ const store = configureStore({
     basketError: basketErrorModalSlice.reducer,
     successModal: successModalSlice.reducer,
     progress: progressLoaderSlice.reducer,
+    duplicatedEmail: duplicatedEmailSlice.reducer,
   },
 });
 
