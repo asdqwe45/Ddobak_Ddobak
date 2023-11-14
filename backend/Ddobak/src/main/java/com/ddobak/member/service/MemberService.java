@@ -62,7 +62,7 @@ public class MemberService {
         String authCode = createCode();
 
         // 메일 보내기
-        emailService.sendEmail(email,title,authCode);
+        emailService.sendHTMLEmail(email, title, authCode);
 
         // 이메일 인증 요청 시 인증 번호 Redis에 저장 후 비교
         redisTemplate.opsForValue().set(EMAIL_PREFIX + email, authCode, emailExpireTimeMs, TimeUnit.MILLISECONDS);
