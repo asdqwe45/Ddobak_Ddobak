@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import classes from './FontUserReview.module.css';
-// import { axiosWithAuth } from 'https/http';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -18,8 +17,6 @@ import { Swiper as SwiperCore } from 'swiper/types';
 // icons
 import { FaCircleChevronLeft, FaCircleChevronRight } from 'react-icons/fa6';
 
-// 테스트 이미지
-// import MinuGuide from '../fontDetailPageAssets/review_ex.png';
 import { reviewListAPI } from 'https/utils/ReviewFunction';
 
 interface ReviewListType {
@@ -81,7 +78,7 @@ const FontUserReview: React.FC<FontUserReviewType> = ({ fontId }) => {
   return (
     <>
       <div className={classes.container}>
-        {reviewList.length > 1 && (
+      {reviewList.length > 0 && (
           <div className={classes.swiperLargeBox}>
             <FaCircleChevronLeft
               size={40}
@@ -93,8 +90,8 @@ const FontUserReview: React.FC<FontUserReviewType> = ({ fontId }) => {
             />
             <Swiper
               onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
-              slidesPerView={3}
-              spaceBetween={0}
+              slidesPerView={3.3}
+              spaceBetween={10}
               loop={shouldLoop}
               // autoplay={{
               //   delay: 2500,
@@ -114,7 +111,7 @@ const FontUserReview: React.FC<FontUserReviewType> = ({ fontId }) => {
               className={classes.customBtn}
             />
           </div>
-        )}
+      )}
         {!hasReviews && ( // 후기가 없다면 안내 메시지 표시
           <p className={classes.noReviewsMessage}>
             후기가 아직 없어요.😅 활용 후기를 남겨주세요.📝
