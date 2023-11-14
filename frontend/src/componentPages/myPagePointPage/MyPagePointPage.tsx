@@ -446,7 +446,7 @@ const MyPagePointPage: React.FC = () => {
                               </MyPagePointContentPointBox>
                             </MyPagePointContentIngredient>
                           );
-                        } else if (data.transactionType === '폰트 제작') {
+                        } else if (data.transactionType === '제작') {
                           return (
                             <MyPagePointContentIngredient key={index + 'allD'}>
                               <MyPagePointContentBox>
