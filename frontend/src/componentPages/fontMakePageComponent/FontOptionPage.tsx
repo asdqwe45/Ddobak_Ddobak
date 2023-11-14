@@ -10,7 +10,7 @@ import KeywordBtn from 'common/keywordButton/KeywordBtn';
 import TermsAgreement from 'common/checkButton/TermsAgreement';
 import { useSelector, useDispatch } from 'react-redux';
 import { pointPayModalActions } from 'store/pointPayModalSlice';
-import { axiosWithAuth, getData } from 'https/http';
+import { axiosWithAuth } from 'https/http';
 import type { RootState } from 'store';
 
 const FontOptionPage: React.FC = () => {
@@ -178,34 +178,6 @@ const FontOptionPage: React.FC = () => {
     );
   };
 
-  // 폰트 정보 API 연결
-  const fontOptionAPI = async () => {
-    const token = await getData('accessToken');
-    if (token) {
-      try {
-        const requestBody = {
-          fontId: fontId,
-          fontSortUrl: fontSortUrl,
-          korFontName: korFontName,
-          engFontName: engFontName,
-          openStatus: openOption,
-          freeStatus: saleOption,
-          price: !saleOption && priceValue !== null ? priceValue : 0,
-          introduceText: inputFontIntro,
-          keywords: selectedKeywords,
-        };
-        const response = await axiosWithAuth.put('/font/make/request', requestBody);
-        if (response.data) {
-          console.log(response.data);
-        } else {
-          console.error('Unexpected response:', response);
-        }
-      } catch (error) {
-        console.error('폰트 정보 업데이트 중 오류 발생:', error);
-      }
-    }
-  };
-
   // 결제하기 버튼의 핸들러 함수
   const handlePaymentClick = async () => {
     if (isReadyToPay()) {
@@ -220,7 +192,6 @@ const FontOptionPage: React.FC = () => {
       console.log('price', priceValue);
       console.log('introduceText', inputFontIntro);
       console.log('keywords', selectedKeywords);
-      await fontOptionAPI(); // 폰트 정보 API 호출
     } else {
       handleNotAllInputAlert(); // 모든 정보 입력
     }

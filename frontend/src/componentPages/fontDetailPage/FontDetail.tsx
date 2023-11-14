@@ -39,7 +39,6 @@ type Font = {
 };
 
 const FontDetail: React.FC = () => {
-  
   // 후기 등록 모달
   const dispatch = useDispatch();
   const { fontId } = useParams();
@@ -48,28 +47,28 @@ const FontDetail: React.FC = () => {
   // 컴포넌트 마운트시 API 호출
   useEffect(() => {
     // 라우트에서 폰트 ID 가져오기
-      // 폰트 데이터를 가져오는 함수
-  const fetchFontDetails = async (fontId: string) => {
-    await dispatch(progressLoaderActions.resetGauge());
-    await dispatch(progressLoaderActions.startGuage());
-    setFontDetail(null);
-    try {
-      const response = await axiosWithAuth.get(`/font/detail/${fontId}`).then((r) => {
-        return r;
-      });
-      if (response.data) {
-        console.log('API로부터 받은 데이터:', response.data);
-        setFontDetail(response.data); // 받아온 폰트 정보로 상태 업데이트
-      } else {
-        console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
+    // 폰트 데이터를 가져오는 함수
+    const fetchFontDetails = async (fontId: string) => {
+      await dispatch(progressLoaderActions.resetGauge());
+      await dispatch(progressLoaderActions.startGuage());
+      setFontDetail(null);
+      try {
+        const response = await axiosWithAuth.get(`/font/detail/${fontId}`).then((r) => {
+          return r;
+        });
+        if (response.data) {
+          console.log('API로부터 받은 데이터:', response.data);
+          setFontDetail(response.data); // 받아온 폰트 정보로 상태 업데이트
+        } else {
+          console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
+        }
+      } catch (error) {
+        console.error('API 호출 에러:', error);
       }
-    } catch (error) {
-      console.error('API 호출 에러:', error);
-    }
-    setTimeout(() => {
-      dispatch(progressLoaderActions.resetGauge());
-    }, 1500);
-  };
+      setTimeout(() => {
+        dispatch(progressLoaderActions.resetGauge());
+      }, 1500);
+    };
     if (fontId) {
       fetchFontDetails(fontId);
       fetchBuyOrMake(fontId); // 폰트 ID로 폰트 정보를 불러오는 함수 호출
@@ -100,7 +99,6 @@ const FontDetail: React.FC = () => {
       }
     }
   };
-
 
   // 책갈피 찜하기
   const [dibCheck, setDibCheck] = useState<boolean>(false);

@@ -151,7 +151,6 @@ const MyPage: React.FC = () => {
           setFontBasketComplete(true);
         }
       }
-      window.scrollTo({ left: 0, top: 0 });
     }
     fetch();
   }, [myValue, dispatch]);
@@ -521,7 +520,6 @@ const MyPage: React.FC = () => {
     }
   };
   useEffect(() => {
-    window.scrollTo({ left: 0, top: 0 });
     const initialSelectedFont = cartData.map((item) => ({
       fontId: item.fontId,
       selected: false,
@@ -553,7 +551,6 @@ const MyPage: React.FC = () => {
   };
 
   useEffect(() => {
-    window.scrollTo({ left: 0, top: 0 });
     const newTotalPrice = selectedFont
       .filter((item) => item.selected)
       .reduce((total, item) => total + item.fontPrice, 0);

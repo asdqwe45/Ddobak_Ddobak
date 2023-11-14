@@ -205,7 +205,7 @@ const FontMakeStep2: React.FC = () => {
   };
   // 미리보기 모달 가져오기
   const dispatch = useDispatch();
-  
+
   const showPreviewHandler = () => {
     dispatch(resultModalActions.toggle());
   };

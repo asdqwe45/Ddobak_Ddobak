@@ -23,12 +23,12 @@ interface MakeFontType {
   makeFontRequest: {
     fontId: string;
     fontSortUrl: string;
-    korFontName: string
-    engFontName: string
+    korFontName: string;
+    engFontName: string;
     openStatus: boolean;
     freeStatus: boolean;
     price: number;
-    introduceText: string
+    introduceText: string;
     keywords: string[];
   };
 }

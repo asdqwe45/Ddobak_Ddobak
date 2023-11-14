@@ -14,6 +14,7 @@ import { checkToken, userMypageAPI } from 'https/utils/AuthFunction';
 import { transactionPurchaseAPI } from 'https/utils/TransactionFunction';
 import { cartDeleteAPI } from 'https/utils/CartFunction';
 import { successModalActions } from 'store/successModalSlice';
+import { axiosWithAuth } from 'https/http';
 
 interface PointModalState {
   pointModal: {
@@ -24,6 +25,17 @@ interface PointModalState {
     sellerId: number;
     fontId: number;
     buyAll: { sellerId: 0; fontId: 0 }[];
+    makeFontRequest: {
+      fontId: string;
+      fontSortUrl: string;
+      korFontName: string;
+      engFontName: string;
+      openStatus: boolean;
+      freeStatus: boolean;
+      price: number;
+      introduceText: string;
+      keywords: string[];
+    };
   };
 }
 
@@ -74,26 +86,37 @@ const PointPayModal: React.FC = () => {
     dispatch(chargePointModalActions.toggle());
   };
 
+  const makeFontRequest = useSelector((state: PointModalState) => state.pointModal.makeFontRequest);
   const boughtSomething = useSelector((state: PointModalState) => state.pointModal.boughtSometing);
   // const fontId = useSelector((state: PointModalState) => state.pointModal.fontId)
   const buyAll = useSelector((state: PointModalState) => state.pointModal.buyAll);
   const payHandler = async () => {
     // 결제가 완료되면 순차적으로 실행
-    if (boughtSomething === "폰트제작") {
-      dispatch(pointPayModalActions.paidSomething());
-      clickPayHandler();
-      // 다음 페이지로 이동
-      dispatch(resultModalActions.nextStep());
-      dispatch(
-        successModalActions.showSomething({
-          successHeader: '폰트 제작 결제',
-          successContext: '이용해주셔서 감사합니다.',
-        }),
-      );}
+    if (boughtSomething === '폰트제작') {
+      axiosWithAuth
+        .put('/font/make/request', makeFontRequest)
+        .then(async (r) => {
+          closeModal();
+          dispatch(pointPayModalActions.resetState());
+          clickPayHandler();
+          // 다음 페이지로 이동
+          dispatch(resultModalActions.nextStep());
+          dispatch(
+            successModalActions.showSomething({
+              successHeader: '제작 결제 완료',
+              successContext: '이용해주셔서 감사합니다.',
+            }),
+          );
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+      return;
+    }
 
     transactionPurchaseAPI(buyAll)
       .then(async (r) => {
-         if (boughtSomething === '폰트구매') {
+        if (boughtSomething === '폰트구매') {
           // 장바구니 삭제
           const data = [];
           // buyAll
@@ -143,11 +166,8 @@ const PointPayModal: React.FC = () => {
       .catch((e) => {
         console.error(e);
       });
-
-
-
-
   };
+
   function formatNumberWithCommas(x: number) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
