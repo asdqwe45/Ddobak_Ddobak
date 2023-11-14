@@ -61,12 +61,12 @@ const MainPageFontList: React.FC = () => {
           setFonts(response.fontListResponse); // 폰트 데이터 상태 업데이트
           setTimeout(() => {
             dispatch(progressLoaderActions.resetGauge());
-          }, 1500)
+          }, 1500);
         } catch (error) {
           console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
           setTimeout(() => {
             dispatch(progressLoaderActions.resetGauge());
-          }, 1500)
+          }, 1500);
         }
       } else {
         try {
@@ -78,12 +78,12 @@ const MainPageFontList: React.FC = () => {
           setFonts(response.fontListResponse); // 폰트 데이터 상태 업데이트
           setTimeout(() => {
             dispatch(progressLoaderActions.resetGauge());
-          }, 1500)
+          }, 1500);
         } catch (error) {
           console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
           setTimeout(() => {
             dispatch(progressLoaderActions.resetGauge());
-          }, 1500)
+          }, 1500);
         }
       }
     };
