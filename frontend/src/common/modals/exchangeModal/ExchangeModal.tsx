@@ -187,7 +187,7 @@ const ExchangeModal: React.FC = () => {
             }}
           >
             <p className={classes.innerText}>현재 포인트</p>
-            <p className={classes.innerText}>{myPoint} P</p>
+            <p className={classes.innerText}>{myPoint.toLocaleString()} P</p>
           </div>
           <div
             className={classes.innerMiddleBox}
@@ -201,7 +201,7 @@ const ExchangeModal: React.FC = () => {
             style={{ height: 60, justifyContent: 'flex-end' }}
           >
             <div className={classes.chargeBox}>
-              <p className={classes.chargeText}>{exchangePoint} P</p>
+              <p className={classes.chargeText}>{exchangePoint.toLocaleString()} P</p>
               <div className={classes.removeImgBox}>
                 <AiFillCloseCircle size={32} color={borderColor} onClick={removeCharge} />
               </div>
@@ -284,7 +284,7 @@ const ExchangeModal: React.FC = () => {
             <p className={classes.innerText} style={{ color: mainRedColor }}>
               나머지 포인트
             </p>
-            <p className={classes.innerText}>{totalPoint} P</p>
+            <p className={classes.innerText}>{totalPoint.toLocaleString()} P</p>
           </div>
         </div>
         <div className={classes.bottomBox}>

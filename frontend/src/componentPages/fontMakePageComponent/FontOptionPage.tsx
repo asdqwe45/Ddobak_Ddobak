@@ -76,12 +76,12 @@ const FontOptionPage: React.FC = () => {
   // 파일명(영문) 입력 핸들러 함수
   const handleEngNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    const regex = /^[A-Za-z0-9]*$/;
+    const regex = /^[A-Za-z0-9_]*$/;
 
     if (regex.test(value)) {
       setEngFontName(value);
     } else {
-      handleEngFileModalAlert(); // 파일명 영문, 숫자만 가능
+      handleEngFileModalAlert(); // 파일명 영문, 숫자, 언더바만 가능
     }
   };
 
@@ -110,7 +110,10 @@ const FontOptionPage: React.FC = () => {
 
   // 폰트 소개글 핸들러 함수
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInputFontIntro(event.target.value);
+    const newValue = event.target.value;
+    if( newValue.length <= 80 ) {
+    setInputFontIntro(newValue);
+    }
   };
 
   // 라디오 버튼 선택 핸들러 함수
@@ -182,16 +185,6 @@ const FontOptionPage: React.FC = () => {
   const handlePaymentClick = async () => {
     if (isReadyToPay()) {
       await clickPayHandler(); // 모든 조건 충족
-      // 폰트 정보 API 항목 값 확인
-      console.log('fontId', fontId);
-      console.log('fontSortUrl', fontSortUrl);
-      console.log('korFontName', korFontName);
-      console.log('engFontName', engFontName);
-      console.log('openStatus', openOption);
-      console.log('freeStatus', saleOption);
-      console.log('price', priceValue);
-      console.log('introduceText', inputFontIntro);
-      console.log('keywords', selectedKeywords);
     } else {
       handleNotAllInputAlert(); // 모든 정보 입력
     }
@@ -257,7 +250,7 @@ const FontOptionPage: React.FC = () => {
         <div className={classes.fontInfoContainer}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <BoxTitle>폰트 소개글</BoxTitle>
-            <span style={{ marginLeft: '20px' }}>({inputFontIntro.length}/200)</span>
+            <span style={{ marginLeft: '20px' }}>({inputFontIntro.length}/80)</span>
           </div>
           <div>
             <textarea placeholder="" value={inputFontIntro} onChange={handleInputChange} />
@@ -345,7 +338,7 @@ const FontOptionPage: React.FC = () => {
       <AlertCustomModal
         show={engFileModal}
         onHide={() => setEngFileModal(false)}
-        message1="폰트 파일명은 영문과 숫자만 가능해요."
+        message1="폰트 파일명은 영문과 숫자, 언더바(_)만 가능해요!"
         message2=""
         btnName="확인"
       />
