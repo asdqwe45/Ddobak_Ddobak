@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import modalClasses from './FontResultModal.module.css';
 import classes from 'pages/mainPage/mainPageComponents/MainPageLargeManuscript.module.css';
 import ReactModal from 'react-modal';
-import JSZip from 'jszip';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { resultModalActions } from 'store/resultModalSlice';
@@ -19,10 +18,46 @@ interface ResultModalState {
   };
 }
 
+interface PreviewImgType {
+  [name: string]: string;
+}
+
 const FontResultModal: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [elapsedTime, setElapsedTime] = useState<number>(0);
-  const [previewImgs, setPreviewImgs] = useState<string[]>([]);
+  const [previewImgs, setPreviewImgs] = useState<PreviewImgType>({});
+  const hangeul = [
+    '가.png',
+    '나.png',
+    '다.png',
+    '라.png',
+    '마.png',
+    '바.png',
+    '사.png',
+    '아.png',
+    '자.png',
+    '차.png',
+    '카.png',
+    '파.png',
+    '타.png',
+  ];
+
+  const english = [
+    '0041.png',
+    '0042.png',
+    '0043.png',
+    '0044.png',
+    '0045.png',
+    '0046.png',
+    '0047.png',
+    '0048.png',
+    '0049.png',
+    '004A.png',
+    '004B.png',
+    '004C.png',
+    '004D.png',
+    '004E.png',
+  ];
 
   // redux
   const dispatch = useDispatch();
@@ -47,22 +82,10 @@ const FontResultModal: React.FC = () => {
 
   useEffect(() => {
     if (sortedUrl) {
-      makeFontPreveiwReqeust(sortedUrl)
-        .then((r) => JSZip.loadAsync(r))
-        .then((zip) => {
-          const files = Object.values(zip.files);
-          const imgPromises = files.map(async (file) => {
-            return file.async('blob').then((fileData) => URL.createObjectURL(fileData));
-          });
-
-          return imgPromises;
-        })
-        .then(async (imgPromises) => {
-          const resultsArray = await Promise.all(imgPromises);
-          setIsLoading(false);
-          setPreviewImgs(resultsArray);
-        })
-        .catch((e) => console.error(e));
+      makeFontPreveiwReqeust(sortedUrl).then((r) => {
+        setPreviewImgs(r);
+        setIsLoading(false);
+      });
 
       ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
 
@@ -85,11 +108,14 @@ const FontResultModal: React.FC = () => {
 
   // 폰트 정보 입력페이지 이동
   const goToFontOptionStep = () => {
-    makeFontSettingRequest(sortedUrl).then((r) => {
-      dispatch(resultModalActions.setFontId(r.fontId));
-    });
-    dispatch(resultModalActions.setStep(3));
-    dispatch(resultModalActions.toggle());
+    makeFontSettingRequest(sortedUrl)
+      .then((r) => {
+        dispatch(resultModalActions.setFontId(r.fontId));
+      })
+      .then(() => {
+        dispatch(resultModalActions.setStep(3));
+        dispatch(resultModalActions.toggle());
+      });
   };
 
   return (
@@ -141,7 +167,9 @@ const FontResultModal: React.FC = () => {
               </div>
               <div className={classes.largeBox}>
                 <div className={classes.blankLineBox}>{renderTopBlank()}</div>
+                {renderLineBoxes(1)}
                 <div className={classes.lineBox}>
+                  <TextSmallBox />
                   <TextSmallBox innerText="폰" />
                   <TextSmallBox innerText="트" />
                   <TextSmallBox />
@@ -157,59 +185,39 @@ const FontResultModal: React.FC = () => {
                   <TextSmallBox />
                   <TextSmallBox />
                   <TextSmallBox />
-                  <TextSmallBox />
                 </div>
-
                 <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
                 {renderLineBoxes(1)}
                 <div className={classes.lineBox}>
                   <TextSmallBox />
-
-                  {previewImgs.slice(0, 14).map((file) => {
+                  {hangeul.map((value) => {
+                    // console.log('여기4', value);
                     return (
-                      <div className={classes.smallBox}>
+                      <div key={value} className={classes.smallBox}>
                         <div className={classes.content}>
-                          <img src={file} alt="가" className={modalClasses.fontImg} />
+                          <img
+                            src={previewImgs[value]}
+                            alt={value}
+                            className={modalClasses.fontImg}
+                          />
                         </div>
                       </div>
                     );
                   })}
-                  {/* 
-                      <div className={classes.smallBox}>
-                        <div className={classes.content}>
-                          <img src={previewImgs[0]} alt="가" className={modalClasses.fontImg} />
-                        </div>
-                      </div>
-                     */}
-                  {/* <div className={classes.smallBox}>
-                    <div className={classes.content}>
-                      <img src={GaImg} alt="가" className={modalClasses.fontImg} />
-                    </div>
-                  </div>
-
-                  <TextSmallBox innerText="나" />
-                  <TextSmallBox innerText="다" />
-                  <TextSmallBox innerText="라" />
-                  <TextSmallBox innerText="마" />
-                  <TextSmallBox innerText="바" />
-                  <TextSmallBox innerText="사" />
-                  <TextSmallBox innerText="아" />
-                  <TextSmallBox innerText="자" />
-                  <TextSmallBox innerText="차" />
-                  <TextSmallBox innerText="카" />
-                  <TextSmallBox innerText="타" />
-                  <TextSmallBox innerText="파" />
-                  <TextSmallBox innerText="하" />
-                  <TextSmallBox /> */}
+                  <TextSmallBox />
                 </div>
                 <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
                 <div className={classes.lineBox}>
                   <TextSmallBox />
-                  {previewImgs.slice(14, 28).map((file) => {
+                  {english.map((value) => {
                     return (
-                      <div className={classes.smallBox}>
+                      <div key={value} className={classes.smallBox}>
                         <div className={classes.content}>
-                          <img src={file} alt="가" className={modalClasses.fontImg} />
+                          <img
+                            src={previewImgs[value]}
+                            alt={value}
+                            className={modalClasses.fontImg}
+                          />
                         </div>
                       </div>
                     );
@@ -217,7 +225,7 @@ const FontResultModal: React.FC = () => {
                   <TextSmallBox />
                 </div>
                 <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-                {renderLineBoxes(2)}
+                {renderLineBoxes(1)}
                 <div className={classes.blankLineBox}>{renderBottomBlank()}</div>
               </div>
               <div className={classes.footerBox}>
