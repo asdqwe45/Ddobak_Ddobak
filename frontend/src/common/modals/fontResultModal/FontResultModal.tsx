@@ -6,12 +6,11 @@ import ReactModal from 'react-modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { resultModalActions } from 'store/resultModalSlice';
 import type { RootState } from 'store';
-import { axiosWithFormData } from 'https/http';
 
-import GaImg from './fontResultModalAssets/가.png';
 import { AiOutlineClose } from 'react-icons/ai';
 import { RotatingLines } from 'react-loader-spinner';
 import { mainRedColor } from 'common/colors/CommonColors';
+import { makeFontPreveiwReqeust, makeFontSettingRequest } from 'https/utils/FontFunction';
 
 interface ResultModalState {
   resultModal: {
@@ -19,11 +18,51 @@ interface ResultModalState {
   };
 }
 
+interface PreviewImgType {
+  [name: string]: string;
+}
+
 const FontResultModal: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [elapsedTime, setElapsedTime] = useState<number>(0);
+  const [previewImgs, setPreviewImgs] = useState<PreviewImgType>({});
+  const hangeul = [
+    '가.png',
+    '나.png',
+    '다.png',
+    '라.png',
+    '마.png',
+    '바.png',
+    '사.png',
+    '아.png',
+    '자.png',
+    '차.png',
+    '카.png',
+    '파.png',
+    '타.png',
+  ];
+
+  const english = [
+    '0041.png',
+    '0042.png',
+    '0043.png',
+    '0044.png',
+    '0045.png',
+    '0046.png',
+    '0047.png',
+    '0048.png',
+    '0049.png',
+    '004A.png',
+    '004B.png',
+    '004C.png',
+    '004D.png',
+    '004E.png',
+  ];
+
   // redux
   const dispatch = useDispatch();
+  const sortedUrl = useSelector((state: RootState) => state.resultModal.sortUrl);
+
   const clickResultHandler = () => {
     dispatch(resultModalActions.toggle());
   };
@@ -42,54 +81,41 @@ const FontResultModal: React.FC = () => {
   };
 
   useEffect(() => {
-    ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
-    // 30초 후에 isLoading을 false로 설정
-    const loadingTimer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000); // 30000ms = 30s
+    if (sortedUrl) {
+      makeFontPreveiwReqeust(sortedUrl).then((r) => {
+        setPreviewImgs(r);
+        setIsLoading(false);
+      });
 
-    // 1초마다 elapsedTime 업데이트
-    const interval = setInterval(() => {
-      setElapsedTime((prevTime) => prevTime + 1);
-    }, 1000); // 1000ms = 1s
+      ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
 
-    // 컴포넌트가 언마운트될 때 타이머와 인터벌을 취소
-    return () => {
-      clearTimeout(loadingTimer);
-      clearInterval(interval);
-    };
-  }, []);
+      // 1초마다 elapsedTime 업데이트
+      const interval = setInterval(() => {
+        setElapsedTime((prevTime) => prevTime + 1);
+      }, 1000); // 1000ms = 1s
+
+      // 컴포넌트가 언마운트될 때 타이머와 인터벌을 취소
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [sortedUrl]);
 
   // 제작 취소
   const cancleHandler = async () => {
     window.location.reload();
   };
 
-  const sortUrl = useSelector((state: RootState) => state.resultModal.sortUrl);
-
-  const postFontInformation = async () => {
-    try {
-      const formData = new FormData();
-      // Redux 스토어에서 이미지 URL을 가져옴
-      formData.append('sortUrl', sortUrl);
-      const response = await axiosWithFormData.post('/font/goSetting', formData).then((r) => {
-        return r;
-      });
-      if (response.data) {
-        console.log(response.data);
-        const fontId = response.data.fontId;
-        dispatch(resultModalActions.setFontId(fontId));
-        goToFontOptionStep();
-      }
-    } catch (error) {
-      console.error('정보를 보내는데 실패했습니다.', error);
-    }
-  };
-
   // 폰트 정보 입력페이지 이동
   const goToFontOptionStep = () => {
-    dispatch(resultModalActions.setStep(3));
-    dispatch(resultModalActions.toggle());
+    makeFontSettingRequest(sortedUrl)
+      .then((r) => {
+        dispatch(resultModalActions.setFontId(r.fontId));
+      })
+      .then(() => {
+        dispatch(resultModalActions.setStep(3));
+        dispatch(resultModalActions.toggle());
+      });
   };
 
   return (
@@ -141,7 +167,9 @@ const FontResultModal: React.FC = () => {
               </div>
               <div className={classes.largeBox}>
                 <div className={classes.blankLineBox}>{renderTopBlank()}</div>
+                {renderLineBoxes(1)}
                 <div className={classes.lineBox}>
+                  <TextSmallBox />
                   <TextSmallBox innerText="폰" />
                   <TextSmallBox innerText="트" />
                   <TextSmallBox />
@@ -157,54 +185,47 @@ const FontResultModal: React.FC = () => {
                   <TextSmallBox />
                   <TextSmallBox />
                   <TextSmallBox />
-                  <TextSmallBox />
                 </div>
-
                 <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
                 {renderLineBoxes(1)}
                 <div className={classes.lineBox}>
                   <TextSmallBox />
-                  <div className={classes.smallBox}>
-                    <div className={classes.content}>
-                      <img src={GaImg} alt="가" className={modalClasses.fontImg} />
-                    </div>
-                  </div>
-                  <TextSmallBox innerText="나" />
-                  <TextSmallBox innerText="다" />
-                  <TextSmallBox innerText="라" />
-                  <TextSmallBox innerText="마" />
-                  <TextSmallBox innerText="바" />
-                  <TextSmallBox innerText="사" />
-                  <TextSmallBox innerText="아" />
-                  <TextSmallBox innerText="자" />
-                  <TextSmallBox innerText="차" />
-                  <TextSmallBox innerText="카" />
-                  <TextSmallBox innerText="타" />
-                  <TextSmallBox innerText="파" />
-                  <TextSmallBox innerText="하" />
+                  {hangeul.map((value) => {
+                    // console.log('여기4', value);
+                    return (
+                      <div key={value} className={classes.smallBox}>
+                        <div className={classes.content}>
+                          <img
+                            src={previewImgs[value]}
+                            alt={value}
+                            className={modalClasses.fontImg}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
                   <TextSmallBox />
                 </div>
                 <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
                 <div className={classes.lineBox}>
                   <TextSmallBox />
-                  <TextSmallBox innerText="A" />
-                  <TextSmallBox innerText="B" />
-                  <TextSmallBox innerText="C" />
-                  <TextSmallBox innerText="D" />
-                  <TextSmallBox innerText="E" />
-                  <TextSmallBox innerText="F" />
-                  <TextSmallBox innerText="G" />
-                  <TextSmallBox innerText="H" />
-                  <TextSmallBox innerText="I" />
-                  <TextSmallBox innerText="J" />
-                  <TextSmallBox innerText="K" />
-                  <TextSmallBox innerText="L" />
-                  <TextSmallBox innerText="M" />
-                  <TextSmallBox innerText="N" />
+                  {english.map((value) => {
+                    return (
+                      <div key={value} className={classes.smallBox}>
+                        <div className={classes.content}>
+                          <img
+                            src={previewImgs[value]}
+                            alt={value}
+                            className={modalClasses.fontImg}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
                   <TextSmallBox />
                 </div>
                 <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-                {renderLineBoxes(2)}
+                {renderLineBoxes(1)}
                 <div className={classes.blankLineBox}>{renderBottomBlank()}</div>
               </div>
               <div className={classes.footerBox}>
@@ -225,7 +246,7 @@ const FontResultModal: React.FC = () => {
               <button
                 className={modalClasses.modalBtn}
                 style={{ backgroundColor: 'white', fontWeight: 'bold' }}
-                onClick={postFontInformation}
+                onClick={goToFontOptionStep}
               >
                 정보입력
               </button>

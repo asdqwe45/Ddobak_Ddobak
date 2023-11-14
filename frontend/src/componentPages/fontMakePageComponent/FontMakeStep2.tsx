@@ -198,12 +198,14 @@ const FontMakeStep2: React.FC = () => {
           alert('이미지를 처리하는데 실패했다.');
         }
       } catch (error) {
+        alert('이미지를 처리 중 오류가 발생하였습니다. 담당자에게 문의하세요.');
         console.error('이미지 처리 중 오류가 발생했다:', error);
       }
     }
   };
   // 미리보기 모달 가져오기
   const dispatch = useDispatch();
+  
   const showPreviewHandler = () => {
     dispatch(resultModalActions.toggle());
   };
