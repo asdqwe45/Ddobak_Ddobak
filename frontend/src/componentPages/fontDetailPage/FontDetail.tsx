@@ -44,6 +44,7 @@ const FontDetail: React.FC = () => {
   const { fontId } = useParams();
   const [fontDetail, setFontDetail] = useState<Font | null>(null);
   const [isBoughtOrMade, setIsBoughtOrMade] = useState<string>('nothing');
+
   // 컴포넌트 마운트시 API 호출
   useEffect(() => {
     // 라우트에서 폰트 ID 가져오기
@@ -349,12 +350,14 @@ const FontDetail: React.FC = () => {
 
         <div className={classes.intro}>
           <BoxTitle>또박또박 라이선스</BoxTitle>
-          <div className={classes.introBox}>
+          <div className={classes.introBox} style={{ height: '110px' }}>
             <strong>저작권</strong> : "{fontDetail ? fontDetail.fontName : ''}" 폰트의 라이선스는 "
-            {fontDetail ? fontDetail.producerName : '제작자'}"에게 있습니다.{'\n'}"
-            {fontDetail ? fontDetail.fontName : ''}" 는 개인 및 기업 사용자를 포함한 모든 사용자에게
-            무료로 제공되며 자유롭게 사용할 수 있고 상업적 이용이 가능합니다. 본 서체는 글꼴 자체를
-            유료로 판매하거나 왜곡·변형할 수 없습니다.
+            {fontDetail ? fontDetail.producerName : '제작자'}"에게 있습니다.{'\n'}
+            {fontDetail && fontDetail.fontPrice === 0 && (
+              <span>"{fontDetail ? fontDetail.fontName : ''}" 는 개인 및 기업 사용자를 포함한 모든 사용자에게
+                무료로 제공되며 자유롭게 사용할 수 있고 상업적 이용이 가능합니다.{'\n'} </span>
+            )}
+            본 서체는 글꼴 자체를 유료로 판매하거나 왜곡·변형할 수 없습니다.
           </div>
         </div>
         <br />
@@ -368,7 +371,7 @@ const FontDetail: React.FC = () => {
         <ReviewModal />
         <hr />
         <br />
-        {fontId ? <FontUserReview fontId={fontId} /> : <></>}
+        {fontId ? <FontUserReview fontId={fontId} /> :"null"}
       </div>
     </>
   );
