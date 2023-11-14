@@ -106,7 +106,6 @@ const ExchangeModal: React.FC = () => {
   const myPoint = useSelector((state: ChargePointType) => state.chargePoint.myPoint);
   useEffect(() => {
     ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
-    console.log(myPoint);
     setTotalPoint(myPoint);
   }, [myPoint]);
   const dispatch = useDispatch();
@@ -130,7 +129,6 @@ const ExchangeModal: React.FC = () => {
   const [exchangePoint, setExchangePoint] = useState<number>(0);
   const [totalPoint, setTotalPoint] = useState<number>(0);
   const howMuchCharge = (value: number) => {
-    // console.log(currentPoint, value);
     if (totalPoint < value) {
       alert('인출할 금액을 초과하였습니다.');
       return;
@@ -146,7 +144,6 @@ const ExchangeModal: React.FC = () => {
   const exchangeFC = () => {
     transactionWithdrawAPI(exchangePoint)
       .then(async (r) => {
-        console.log(r);
         closeModal();
         dispatch(
           successModalActions.showSomething({

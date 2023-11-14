@@ -34,7 +34,7 @@ const FontMakePage: React.FC = () => {
     fetch();
     // navigate를 의존성 배열에 추가합니다.
   }, [navigate]);
-  
+
   const handleNext = () => {
     if (step < 4) {
       dispatch(resultModalActions.nextStep());

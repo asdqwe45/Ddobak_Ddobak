@@ -32,7 +32,7 @@ const store = configureStore({
     changeMakerIntro: changeMakerIntroModalSlice.reducer,
     basketError: basketErrorModalSlice.reducer,
     successModal: successModalSlice.reducer,
-    progressLoader: progressLoaderSlice.reducer,
+    progress: progressLoaderSlice.reducer,
   },
 });
 

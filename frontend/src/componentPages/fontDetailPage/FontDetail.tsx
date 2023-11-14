@@ -19,6 +19,7 @@ import { goToBasketModalActions } from 'store/goToBasketModalSlice';
 import { cartAddAPI } from 'https/utils/CartFunction';
 import { basketErrorModalActions } from 'store/basketErrorModalSlice';
 import { transactionBuyOrMakeAPI } from 'https/utils/TransactionFunction';
+import { progressLoaderActions } from 'store/progressLoaderSlice';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
 type Font = {
@@ -38,17 +39,41 @@ type Font = {
 };
 
 const FontDetail: React.FC = () => {
+  // 후기 등록 모달
+  const dispatch = useDispatch();
   const { fontId } = useParams();
   const [fontDetail, setFontDetail] = useState<Font | null>(null);
   const [isBoughtOrMade, setIsBoughtOrMade] = useState<string>('nothing');
   // 컴포넌트 마운트시 API 호출
   useEffect(() => {
     // 라우트에서 폰트 ID 가져오기
+    // 폰트 데이터를 가져오는 함수
+    const fetchFontDetails = async (fontId: string) => {
+      await dispatch(progressLoaderActions.resetGauge());
+      await dispatch(progressLoaderActions.startGuage());
+      setFontDetail(null);
+      try {
+        const response = await axiosWithAuth.get(`/font/detail/${fontId}`).then((r) => {
+          return r;
+        });
+        if (response.data) {
+          console.log('API로부터 받은 데이터:', response.data);
+          setFontDetail(response.data); // 받아온 폰트 정보로 상태 업데이트
+        } else {
+          console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
+        }
+      } catch (error) {
+        console.error('API 호출 에러:', error);
+      }
+      setTimeout(() => {
+        dispatch(progressLoaderActions.resetGauge());
+      }, 1500);
+    };
     if (fontId) {
       fetchFontDetails(fontId);
       fetchBuyOrMake(fontId); // 폰트 ID로 폰트 정보를 불러오는 함수 호출
     }
-  }, [fontId]);
+  }, [fontId, dispatch]);
 
   // 구매했는지 확인해주는 함수
 
@@ -72,24 +97,6 @@ const FontDetail: React.FC = () => {
         setIsBoughtOrMade(r.possessionType);
         return;
       }
-    }
-  };
-
-  // 폰트 데이터를 가져오는 함수
-  const fetchFontDetails = async (fontId: string) => {
-    setFontDetail(null);
-    try {
-      const response = await axiosWithAuth.get(`/font/detail/${fontId}`).then((r) => {
-        return r;
-      });
-      if (response.data) {
-        console.log('API로부터 받은 데이터:', response.data);
-        setFontDetail(response.data); // 받아온 폰트 정보로 상태 업데이트
-      } else {
-        console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
-      }
-    } catch (error) {
-      console.error('API 호출 에러:', error);
     }
   };
 
@@ -169,9 +176,6 @@ const FontDetail: React.FC = () => {
   const handleFontSizeChange = (size: number) => {
     setFontSize(size);
   };
-
-  // 후기 등록 모달
-  const dispatch = useDispatch();
 
   const openReviewModal = () => {
     dispatch(reviewModalActions.toggle());

@@ -40,8 +40,6 @@ const ChangePwModal: React.FC = () => {
       };
       userChangePwAPI(data)
         .then(async (r) => {
-          console.log('회원가입');
-          console.log(r);
           closeModal();
         })
         .catch((e) => {

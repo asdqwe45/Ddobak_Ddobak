@@ -16,7 +16,6 @@ import AlertCustomModal from 'common/modals/alertCustomModal/AlertCustomModal';
 //  ===================
 //  ===    axios    ===
 //  ===================
-// userEmailVerifyAPI,  userSignup
 import {
   userEmailVerifyAPI,
   userEmailVerifyRequest,
@@ -163,7 +162,6 @@ const SignupPage: React.FC = () => {
       // 인증번호 유효한지 확인
       await userEmailVerifyRequest(email)
         .then(async (r) => {
-          console.log(r);
           signupLoaderHandler();
           setDisabledCheck(true);
           startTimer();
@@ -194,7 +192,6 @@ const SignupPage: React.FC = () => {
       };
       userEmailVerifyAPI(data)
         .then((r) => {
-          console.log(r);
           setTimer(null);
           setIsActive(false);
           setIsValidCheckNumber(true);
@@ -227,7 +224,6 @@ const SignupPage: React.FC = () => {
 
   // isValidCheckNumber 가 true일 경우 이메일 확인 비활성화
   const signupHandler = async () => {
-    // console.log(isValidCheckNumber);
     // 회원가입 실행
     // signupLoaderHandler();
     const email = emailInputRef.current?.value;
@@ -269,7 +265,6 @@ const SignupPage: React.FC = () => {
       if (profileImg) {
         userSignup(data, profileImg)
           .then(async (r) => {
-            console.log(r);
             signupLoadingStop();
             successSignupFC();
             signupLoaderHandler();
@@ -283,7 +278,6 @@ const SignupPage: React.FC = () => {
       } else {
         userSignup(data, '')
           .then(async (r) => {
-            console.log(r);
             signupLoadingStop();
             successSignupFC();
             signupLoaderHandler();
@@ -308,15 +302,13 @@ const SignupPage: React.FC = () => {
     // 중복확인 util이 필요
     const signupNickname = nickNameRef.current?.value;
     if (signupNickname) {
-      console.log(signupNickname);
       userNicknameAPI(signupNickname)
         .then((r) => {
-          console.log(r);
           setValidNickname(true);
           setNicknameUseState(true);
         })
         .catch((e) => {
-          console.log(e);
+          console.error(e);
           setNicknameUseState(true);
           setIsDuplicated(true);
         });
@@ -343,8 +335,6 @@ const SignupPage: React.FC = () => {
     }
 
     const checkPw = checkPWInputRef.current?.value;
-    console.log(checkPw);
-    console.log(changePw);
     if (checkPw === changePw) {
       setCheckIsValid(true);
     } else {

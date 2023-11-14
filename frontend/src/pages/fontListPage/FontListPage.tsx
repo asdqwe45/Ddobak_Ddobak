@@ -7,6 +7,8 @@ import FontBoxComponent from './fontListPageComponents/FontBoxComponent';
 import { axiosWithAuth, axiosWithoutAuth } from 'https/http';
 import { getData } from 'https/http';
 import PageMiniManuscript from './fontListPageComponents/PageMiniManuscript';
+import { useDispatch } from 'react-redux';
+import { progressLoaderActions } from 'store/progressLoaderSlice';
 
 // API로부터 받아올 데이터 타입 정의
 type Font = {
@@ -21,13 +23,36 @@ type Font = {
 
 const FontListPage: React.FC = () => {
   window.scrollTo({ left: 0, top: 0 });
-
+  const dispatch = useDispatch();
   const [fonts, setFonts] = useState<Font[]>([]);
+
   useEffect(() => {
+    const fetchFonts = async () => {
+      dispatch(progressLoaderActions.resetGauge());
+      dispatch(progressLoaderActions.startGuage());
+      try {
+        const response = await axiosWithAuth.get('/font/list').then((r) => {
+          return r;
+        });
+        if (response.data) {
+          console.log('API로부터 받은 폰트 목록:', response.data);
+          setFonts(response.data.fontListResponse);
+        } else {
+          console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
+        }
+      } catch (error) {
+        console.error('API 호출 에러:', error);
+      }
+      setTimeout(() => {
+        dispatch(progressLoaderActions.resetGauge());
+      }, 1500);
+    };
     const fetch = async () => {
       const token = await getData('accessToken');
       if (!token) {
         try {
+          dispatch(progressLoaderActions.resetGauge());
+          dispatch(progressLoaderActions.startGuage());
           const response = await axiosWithoutAuth.get('/font/list/NoAuth').then((r) => {
             return r;
           });
@@ -40,29 +65,15 @@ const FontListPage: React.FC = () => {
         } catch (error) {
           console.error('API 호출 에러:', error);
         }
+        setTimeout(() => {
+          dispatch(progressLoaderActions.resetGauge());
+        }, 1500);
       } else {
         fetchFonts();
       }
     };
     fetch();
-  }, []);
-
-  // 폰트 데이터를 가져오는 함수
-  const fetchFonts = async () => {
-    try {
-      const response = await axiosWithAuth.get('/font/list').then((r) => {
-        return r;
-      });
-      if (response.data) {
-        console.log('API로부터 받은 폰트 목록:', response.data);
-        setFonts(response.data.fontListResponse);
-      } else {
-        console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
-      }
-    } catch (error) {
-      console.error('API 호출 에러:', error);
-    }
-  };
+  }, [dispatch]);
 
   // 폰트보기 페이지의 폰트 목록 렌더링
   const renderFontBoxes = () => {
@@ -188,7 +199,6 @@ const FontListPage: React.FC = () => {
       };
       const response = await axiosWithoutAuth.get('/font/list/NoAuth', { params });
       if (response.data) {
-
         setTotalFonts(response.data.fontCount);
         setFonts(response.data.fontListResponse);
       }

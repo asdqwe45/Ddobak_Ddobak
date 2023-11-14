@@ -36,7 +36,6 @@ const ChangeProfileImgModal: React.FC = () => {
     if (sendFile) {
       userChangeProfileAPI(sendFile)
         .then(async (r) => {
-          console.log(r);
           closeModal();
           window.location.reload();
         })
