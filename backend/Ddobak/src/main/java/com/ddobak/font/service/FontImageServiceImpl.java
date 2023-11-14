@@ -169,7 +169,7 @@ public class FontImageServiceImpl implements FontImageService {
     }
 
     private String getS3FontUrl(MakeFontRequest req) {
-        String fastapiServer = "163.239.223.171:8786/api/v1/font_create/create_font";
+        String fastapiServer = "http://163.239.223.171:8786/api/v1/font_create/create_font";
         String myServer = "http://localhost:8000/makeUpload";
         String fastApiUrl = fastapiServer;
         HttpHeaders headers = new HttpHeaders();
