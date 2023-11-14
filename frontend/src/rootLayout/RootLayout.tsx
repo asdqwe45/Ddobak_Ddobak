@@ -16,10 +16,11 @@ import ChangeNicknameModal from 'common/modals/changeNicknameModal/ChangeNicknam
 import ChangeMakerIntroModal from 'common/modals/changeMakerIntroModal/ChangeMakerIntroModal';
 import BasketErrorModal from 'common/modals/basketErrorModal/BasketErrorModal';
 import SuccessModal from 'common/modals/successModal/SuccessModal';
-
+import DuplicatedEmailModal from 'common/modals/duplicatedEmailModal/DuplicatedEmailModal';
 const RootLayout: React.FC = () => {
   return (
     <div>
+      <DuplicatedEmailModal />
       <SuccessModal />
       <BasketErrorModal />
       <ChangeNicknameModal />

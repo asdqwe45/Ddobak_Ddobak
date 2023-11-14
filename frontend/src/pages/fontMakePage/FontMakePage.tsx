@@ -18,7 +18,6 @@ interface ResultModalState {
 }
 
 const FontMakePage: React.FC = () => {
-  // const [step, setStep] = useState(1);
   const step = useSelector((state: ResultModalState) => state.resultModal.step);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,13 +28,13 @@ const FontMakePage: React.FC = () => {
       const token = await checkToken();
       if (token) {
         console.log('have Token');
-        setTimeout(() => {
-          dispatch(progressLoaderActions.resetGauge());
-        }, 1500);
       } else {
         console.log('잘못된 접근입니다.');
         navigate('/wrong');
       }
+      setTimeout(() => {
+        dispatch(progressLoaderActions.resetGauge());
+      }, 1500);
     }
     fetch();
     // navigate를 의존성 배열에 추가합니다.

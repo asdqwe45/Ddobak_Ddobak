@@ -24,6 +24,7 @@ import {
 } from 'https/utils/AuthFunction';
 import { useDispatch } from 'react-redux';
 import { signupLoaderActions } from 'store/signupLoaderSlice';
+import { duplicatedEmailActions } from 'store/duplicatedEmailSlice';
 
 const Circle = styled.div`
   width: 36px;
@@ -166,9 +167,10 @@ const SignupPage: React.FC = () => {
           setDisabledCheck(true);
           startTimer();
         })
-        .catch((e) => {
+        .catch(async (e) => {
           console.error(e);
           signupLoaderHandler();
+          dispatch(duplicatedEmailActions.toggle());
         });
     } else {
       handleAlertEmailModal();
