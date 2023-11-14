@@ -226,7 +226,8 @@ const FontResultModal: React.FC = () => {
                 </div>
                 <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
                 {renderLineBoxes(1)}
-                <div className={classes.blankLineBox}>{renderBottomBlank()}</div>
+                <div className={classes.blankLineBox}>{renderTopBlank()}</div>
+                <div className={classes.blankLineBox}></div>
               </div>
               <div className={classes.footerBox}>
                 <div className={classes.footerTextBox}>
