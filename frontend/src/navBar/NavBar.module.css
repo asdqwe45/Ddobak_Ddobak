@@ -182,5 +182,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: fillBar 5s ease-in-out forwards; /* 5초 동안 애니메이션 실행 */
+  animation: fillBar 2s ease-in-out forwards; /* 5초 동안 애니메이션 실행 */
 }

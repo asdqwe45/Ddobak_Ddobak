@@ -59,10 +59,14 @@ const MainPageFontList: React.FC = () => {
           console.log('로그인 한 상태에서 데이터 가져오기');
           console.log(response);
           setFonts(response.fontListResponse); // 폰트 데이터 상태 업데이트
-          dispatch(progressLoaderActions.resetGauge());
+          setTimeout(() => {
+            dispatch(progressLoaderActions.resetGauge());
+          }, 1500)
         } catch (error) {
           console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
-          dispatch(progressLoaderActions.resetGauge());
+          setTimeout(() => {
+            dispatch(progressLoaderActions.resetGauge());
+          }, 1500)
         }
       } else {
         try {
@@ -72,10 +76,14 @@ const MainPageFontList: React.FC = () => {
           console.log('비회원 한 상태에서 데이터 가져오기');
           console.log(response);
           setFonts(response.fontListResponse); // 폰트 데이터 상태 업데이트
-          dispatch(progressLoaderActions.resetGauge());
+          setTimeout(() => {
+            dispatch(progressLoaderActions.resetGauge());
+          }, 1500)
         } catch (error) {
           console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
-          dispatch(progressLoaderActions.resetGauge());
+          setTimeout(() => {
+            dispatch(progressLoaderActions.resetGauge());
+          }, 1500)
         }
       }
     };

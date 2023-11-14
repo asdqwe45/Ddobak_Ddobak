@@ -147,7 +147,9 @@ const MyPage: React.FC = () => {
               setCartData(r);
             })
             .catch((e) => console.error(e));
-          dispatch(progressLoaderActions.resetGauge());
+            setTimeout(() => {
+              dispatch(progressLoaderActions.resetGauge());
+            }, 1500)
         }
       }
     }
@@ -172,7 +174,9 @@ const MyPage: React.FC = () => {
             await setMyNickname(nickname);
             await setMyPoint(point);
             await setMyProfileImage(profileImg);
-            dispatch(progressLoaderActions.resetGauge());
+            setTimeout(() => {
+              dispatch(progressLoaderActions.resetGauge());
+            }, 1500)
           })
           .catch((e) => console.error(e));
 
@@ -229,7 +233,9 @@ const MyPage: React.FC = () => {
         boughtFonts: false,
         likeProducers: false,
       });
-      dispatch(progressLoaderActions.resetGauge());
+      setTimeout(() => {
+        dispatch(progressLoaderActions.resetGauge());
+      }, 1500)
     } else if (pageName === 'likeList') {
       dispatch(progressLoaderActions.resetGauge());
       dispatch(progressLoaderActions.startGuage());
@@ -247,7 +253,9 @@ const MyPage: React.FC = () => {
         boughtFonts: false,
         likeProducers: false,
       });
-      dispatch(progressLoaderActions.resetGauge());
+      setTimeout(() => {
+        dispatch(progressLoaderActions.resetGauge());
+      }, 1500)
     } else if (pageName === 'fontBasket') {
       dispatch(progressLoaderActions.resetGauge());
       dispatch(progressLoaderActions.startGuage());
@@ -275,7 +283,9 @@ const MyPage: React.FC = () => {
         .catch((e) => {
           console.error(e);
         });
-      dispatch(progressLoaderActions.resetGauge());
+        setTimeout(() => {
+          dispatch(progressLoaderActions.resetGauge());
+        }, 1500)
     } else if (pageName === 'boughtFonts') {
       dispatch(progressLoaderActions.resetGauge());
       dispatch(progressLoaderActions.startGuage());
@@ -290,7 +300,9 @@ const MyPage: React.FC = () => {
         boughtFonts: true,
         likeProducers: false,
       });
-      dispatch(progressLoaderActions.resetGauge());
+      setTimeout(() => {
+        dispatch(progressLoaderActions.resetGauge());
+      }, 1500)
     } else {
       dispatch(progressLoaderActions.resetGauge());
       dispatch(progressLoaderActions.startGuage());
@@ -309,7 +321,9 @@ const MyPage: React.FC = () => {
         boughtFonts: false,
         likeProducers: true,
       });
-      dispatch(progressLoaderActions.resetGauge());
+      setTimeout(() => {
+        dispatch(progressLoaderActions.resetGauge());
+      }, 1500)
     }
   };
   // 포인트 결제
