@@ -92,6 +92,7 @@ const PointPayModal: React.FC = () => {
   const buyAll = useSelector((state: PointModalState) => state.pointModal.buyAll);
   const payHandler = async () => {
     // 결제가 완료되면 순차적으로 실행
+    console.log(makeFontRequest);
     if (boughtSomething === '폰트제작') {
       axiosWithAuth
         .put('/font/make/request', makeFontRequest)
