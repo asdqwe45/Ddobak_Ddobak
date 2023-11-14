@@ -53,8 +53,6 @@ const GoToBasketModal: React.FC = () => {
         <div className={classes.middleBox}>
           <p className={classes.innerText}>
             장바구니에 폰트를 잘 담았어요.
-            <br />
-            어떤 멘트를 쓰면 좋을까요?
           </p>
         </div>
         <div className={classes.bottomBox}>

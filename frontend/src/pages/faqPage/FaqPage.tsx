@@ -57,7 +57,8 @@ const FaqPage: React.FC = () => {
         </div>
       </div>
       <div className={classes.containerStyle}>
-        {filteredFaqs.map((faq, index) => (
+        {filteredFaqs.length > 0 ?(
+        filteredFaqs.map((faq, index) => (
           <div key={index} className={classes.faqStyle}>
             <div className={classes.qText}>Q. {faq.question}</div>
             <hr />
@@ -66,7 +67,10 @@ const FaqPage: React.FC = () => {
               <div style={{ marginLeft: '35px', marginTop: '-35px' }}>{faq.answer}</div>
             </div>
           </div>
-        ))}
+          ))
+          ):(
+          <div className={classes.noResult}>찾으시는 값이 없습니다. 💬</div>
+          )}
       </div>
     </>
   );

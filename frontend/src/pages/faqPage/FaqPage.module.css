@@ -40,3 +40,9 @@
   font-size: 22px;
   line-height: 35px;
 }
+
+.noResult {
+  text-align: center;
+  padding: 90px;
+  font-size: 25px;
+}
