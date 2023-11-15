@@ -17,6 +17,7 @@ export const MyPagePointHeader = styled.div`
   border: 2px solid ${borderColor};
   border-radius: 15px;
   margin-bottom: 20px;
+  min-width: 807px;
 `;
 
 export const MyPagePointHeaderText = styled.h1`
@@ -28,7 +29,7 @@ export const MyPagePointHeaderText = styled.h1`
 export const MyPagePointBox = styled.div`
   width: 50%;
   height: 100%;
-  min-width: 400px;
+  min-width: 360px;
   display: flex;
   align-items: center;
 `;
