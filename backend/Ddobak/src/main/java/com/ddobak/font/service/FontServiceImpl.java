@@ -183,7 +183,7 @@ public class FontServiceImpl implements FontService {
     }
 
     @Override
-    public void finalMakeFont(FinalMakeRequest req, LoginInfo loginInfo){
+    public String finalMakeFont(FinalMakeRequest req, LoginInfo loginInfo){
         Font font = fontRepository.findById(req.fontId())
                 .orElseThrow(() -> {
                     log.error("Font not found with Id: {}", req.fontId());
@@ -191,7 +191,7 @@ public class FontServiceImpl implements FontService {
                 });
 
         font.finalMakeFont(req.fontFileUrl());
-
+        return font.getProducer().getEmail();
     }
 
     @Override
