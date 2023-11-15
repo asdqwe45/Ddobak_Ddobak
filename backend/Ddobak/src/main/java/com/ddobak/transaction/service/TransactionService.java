@@ -154,7 +154,7 @@ public class TransactionService {
         PurchaseResponse purchaseResponse;
 
         AtomicInteger forMultiplePurchaseAmount = new AtomicInteger();
-        AtomicInteger forMultiplePurchaseAfterAmount = new AtomicInteger();
+        AtomicInteger forMultiplePurchaseAfterAmount = new AtomicInteger(buyer.getPoint());
         if(totalAmount==1) { // 1개 거래
             // 거래 폰트 정보 가져오기
             Font purchaseFont = fontService.findByFontId(purchaseRequestList.get(0)
@@ -191,6 +191,7 @@ public class TransactionService {
                 .purchaseOrder(purchaseOrder)
                 .sellerAfterAmount(sellerAfterAmount)
                 .build();
+            transactionRepository.save(transaction);
         }
         else { // 2개 이상 거래
             Font firstFont = fontService.findByFontId(purchaseRequestList.get(0).fontId());
@@ -214,6 +215,7 @@ public class TransactionService {
                     Transaction transaction = Transaction.builder()
                         .transactionDate(now)
                         .seller(seller)
+                        .buyer(buyer)
                         .transactionFont(purchaseFont)
                         .purchaseOrder(purchaseOrder)
                         .transactionAmount(purchaseFont.getPrice())
@@ -221,7 +223,7 @@ public class TransactionService {
                         .sellerAfterAmount(sellAfterAmount.get())
                         .build();
                     transactionRepository.save(transaction);
-                    forMultiplePurchaseAfterAmount.addAndGet(buyer.withdrawPoint(forMultiplePurchaseAmount.get()));
+                    forMultiplePurchaseAfterAmount.addAndGet((-1) *purchaseFont.getPrice());
                     purchaseOrder.calcAfterAmount(forMultiplePurchaseAfterAmount.get());
                 }
             );
