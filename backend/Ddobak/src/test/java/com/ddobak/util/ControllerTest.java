@@ -1,6 +1,7 @@
 package com.ddobak.util;
 
 import com.ddobak.font.controller.FontController;
+import com.ddobak.font.service.FontEmailService;
 import com.ddobak.font.service.FontImageService;
 import com.ddobak.font.service.FontService;
 import com.ddobak.global.service.S3Service;
@@ -64,6 +65,7 @@ public class ControllerTest {
     @MockBean protected FontImageService fontImageService;
     @MockBean protected FontService fontService;
     @MockBean protected TransactionService transactionService;
+    @MockBean protected FontEmailService fontEmailService;
 
     // Repository
     @MockBean protected MemberRepository memberRepository;

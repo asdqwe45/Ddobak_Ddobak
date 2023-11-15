@@ -8,6 +8,7 @@ import com.ddobak.font.dto.response.FontListResponse;
 import com.ddobak.font.dto.response.MakingFontResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.exception.InvalidFileFormatException;
+import com.ddobak.font.service.FontEmailService;
 import com.ddobak.font.service.FontImageService;
 import com.ddobak.font.service.FontService;
 import com.ddobak.security.util.LoginInfo;
@@ -35,6 +36,7 @@ public class FontController {
     private final FontImageService fontImageService;
     private final FontService fontService;
     private final TransactionService transactionService;
+    private final FontEmailService fontEmailService;
 
     @GetMapping(value="/test")
     public ResponseEntity<String> test(@AuthenticationPrincipal LoginInfo loginInfo){
@@ -97,9 +99,11 @@ public class FontController {
     }
     @PutMapping(value = "/make/final")
     public ResponseEntity<String> makeFinalFont(@RequestBody FinalMakeRequest req, @AuthenticationPrincipal LoginInfo loginInfo){
-        System.out.println("############### fontId : " + req.fontId());
-        System.out.println("############### url : " + req.fontFileUrl());
-        fontService.finalMakeFont(req,loginInfo);
+        log.info("fontId : {}",req.fontId());
+        log.info("url : {}",req.fontFileUrl());
+        String email = fontService.finalMakeFont(req,loginInfo);
+        log.info("{}",email);
+        fontEmailService.sendCompleteEmail(email);
         return ResponseEntity.ok("success");
     }
     @GetMapping(value = "/list")
