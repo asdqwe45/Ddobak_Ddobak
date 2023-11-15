@@ -61,6 +61,7 @@ const FontResultModal: React.FC = () => {
 
   // redux
   const dispatch = useDispatch();
+
   const sortedUrl = useSelector((state: RootState) => state.resultModal.sortUrl);
 
   const clickResultHandler = () => {
@@ -81,7 +82,8 @@ const FontResultModal: React.FC = () => {
   };
 
   useEffect(() => {
-    if (sortedUrl) {
+    if (sortedUrl && showResultModal) {
+      console.log('여기2 실행됨');
       makeFontPreveiwReqeust(sortedUrl).then((r) => {
         setPreviewImgs(r);
         setIsLoading(false);
@@ -99,7 +101,7 @@ const FontResultModal: React.FC = () => {
         clearInterval(interval);
       };
     }
-  }, [sortedUrl]);
+  }, [sortedUrl, showResultModal]);
 
   // 제작 취소
   const cancleHandler = async () => {
@@ -333,17 +335,18 @@ const renderTopBlank = () => {
   }
   return boxes;
 };
-const renderBottomBlank = () => {
-  let boxes = [];
-  for (let i = 0; i < NUMBER_OF_SMALLBOXES; i++) {
-    boxes.push(
-      <div key={i + 'e'} className={classes.blankBottomBox}>
-        <div className={classes.blankContent}></div>
-      </div>,
-    );
-  }
-  return boxes;
-};
+
+// const renderBottomBlank = () => {
+//   let boxes = [];
+//   for (let i = 0; i < NUMBER_OF_SMALLBOXES; i++) {
+//     boxes.push(
+//       <div key={i + 'e'} className={classes.blankBottomBox}>
+//         <div className={classes.blankContent}></div>
+//       </div>,
+//     );
+//   }
+//   return boxes;
+// };
 
 interface TextSmallBoxProps {
   innerText?: string;
