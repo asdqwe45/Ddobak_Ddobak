@@ -7,13 +7,15 @@ from fastapi import HTTPException
 def auto_detect_edges(image):
     print("autodetededges")
     # 노이즈 제거를 위한 가우시안 블러
-    blurred = cv2.GaussianBlur(image, (5, 5), 0)
+    # blurred = cv2.GaussianBlur(image, (5, 5), 0)
+    blurred = image
 
     # 엣지 감지
     edged = cv2.Canny(blurred, 30, 150)
 
     # 윤곽선 찾기
-    contours, _ = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(
+        edged.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # 가장 큰 윤곽선 찾기 (표가 이미지의 주된 객체라고 가정)
     largest_contour = max(contours, key=cv2.contourArea)
@@ -72,11 +74,13 @@ def find_and_crop_table(image):
     edged = cv2.Canny(image, 50, 150)
 
     # 윤곽선 찾기
-    contours, _ = cv2.findContours(edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(
+        edged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # 윤곽선을 바탕으로 사각형 영역 찾기
     rects = [cv2.boundingRect(cnt) for cnt in contours]
-    rects = sorted(rects, key=lambda x: (x[2] * x[3]), reverse=True)  # 면적이 큰 순으로 정렬
+    rects = sorted(rects, key=lambda x: (
+        x[2] * x[3]), reverse=True)  # 면적이 큰 순으로 정렬
     if rects:
         # 가장 큰 사각형 (표라고 가정) 사용
         x, y, w, h = rects[0]
