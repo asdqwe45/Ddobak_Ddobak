@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { reviewModalActions } from 'store/reviewModalSlice';
 import ReviewModal from 'common/modals/reviewModal/ReviewModal';
@@ -72,9 +72,23 @@ const FontDetail: React.FC = () => {
     };
     if (fontId) {
       fetchFontDetails(fontId);
-      fetchBuyOrMake(fontId); // 폰트 ID로 폰트 정보를 불러오는 함수 호출
     }
   }, [fontId, dispatch]);
+
+  interface RefreshType {
+    refresh: {
+      fontDetail: number;
+    };
+  }
+
+  const refresh = useSelector((state: RefreshType) => state.refresh.fontDetail);
+
+  useEffect(() => {
+    console.log(fontId);
+    if (fontId) {
+      fetchBuyOrMake(fontId); // 폰트 ID로 폰트 정보를 불러오는 함수 호출
+    }
+  }, [fontId, dispatch, refresh]);
 
   // 구매했는지 확인해주는 함수
 

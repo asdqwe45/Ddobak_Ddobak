@@ -31,10 +31,7 @@ const SuccessModal: React.FC = () => {
     if (successContext === '장바구니 구매를 완료했어요!') {
       dispatch(successModalActions.showSomething({ successHeader: '', successContext: '' }));
       window.location.reload();
-    } else if (successHeader === '인출 요청') {
-      dispatch(successModalActions.showSomething({ successHeader: '', successContext: '' }));
-      window.location.reload();
-    } else if (successHeader === '충전 완료') {
+    } else if (successHeader === '인출 요청' || '충전 완료' || '구매 완료') {
       dispatch(successModalActions.showSomething({ successHeader: '', successContext: '' }));
       window.location.reload();
     } else {
