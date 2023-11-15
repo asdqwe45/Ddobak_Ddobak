@@ -1,8 +1,10 @@
 .container {
   border: 1px solid #b6b6b6;
   border-radius: 5px;
-  width: 28vw;
-  height: 40vh;
+  /* width: 28vw; */
+  width: 300px;
+  /* height: 40vh; */
+  height: 300px;
   box-sizing: border-box;
   margin: 10px;
 }
@@ -65,7 +67,10 @@
   border-top: 1px solid #b6b6b6;
 }
 
+/* 다람쥐 헌 쳇바퀴에 타고파 */
 .content {
-  font-size: 26px;
-  padding: 15px;
+  /* 행간 */
+  line-height: 45px;
+  font-size: 42px;
+  padding: 5px;
 }

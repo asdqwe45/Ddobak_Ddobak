@@ -9,6 +9,7 @@ import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
 import pointCoin from '../fontListPageAssets/point.png';
 
 import AlertCustomModal from 'common/modals/alertCustomModal/AlertCustomModal';
+import styled from '@emotion/styled';
 
 type Font = {
   dibCheck: boolean;
@@ -21,8 +22,21 @@ interface FontBoxProps {
   maker: string;
   dib: boolean;
   price: number;
+  font_file_url: string;
 }
+type CustomTextStyleType = {
+  fontFamily: string;
+  fontSrc: string;
+};
 
+const CustomTextStyle = styled.span<CustomTextStyleType>`
+  @font-face {
+    font-family: ${(props) => props.fontFamily};
+    src: url(${(props) => props.fontSrc});
+  }
+  
+  font-family: ${(props) => props.fontFamily};
+`;
 const FontBoxComponent: React.FC<FontBoxProps> = ({
   font_id,
   title,
@@ -30,6 +44,7 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({
   maker,
   dib,
   price,
+  font_file_url
 }) => {
   const navigate = useNavigate();
   const [showAlertModal, setShowAlertModal] = useState(false);
@@ -48,6 +63,7 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({
           title,
           maker,
           dib,
+          font_file_url
         },
       });
     } else {
@@ -189,8 +205,9 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({
         {/* box 중앙 선 */}
         <div className={classes.borderTop}></div>
         <div className={classes.content} onClick={handleTitleClick}>
-          {/* <span> {content} </span> */}
-          <span>다람쥐 헌 쳇바퀴에 타고파</span>
+        <CustomTextStyle fontFamily={title} fontSrc={font_file_url}>
+          <span>세상에 내가 쓴 글씨가 폰트가 되다니</span>
+          </CustomTextStyle>
         </div>
       </div>
       <AlertCustomModal

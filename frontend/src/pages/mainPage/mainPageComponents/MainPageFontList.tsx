@@ -33,9 +33,9 @@ type Font = {
   kor_font_name: string;
   producer_id: string;
   producer_name: string;
-  font_file_url: string;
   dibCheck: boolean;
   price: number;
+  font_file_url: string;
 };
 type FontList = {
   fontListResponse: Font[];
@@ -103,6 +103,7 @@ const MainPageFontList: React.FC = () => {
           maker={font.producer_name}
           dib={font.dibCheck}
           price={font.price}
+          font_file_url={font.font_file_url}
         />
       </SwiperSlide>
     ));
