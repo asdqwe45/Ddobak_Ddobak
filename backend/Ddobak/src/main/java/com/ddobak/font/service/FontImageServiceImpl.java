@@ -215,7 +215,7 @@ public class FontImageServiceImpl implements FontImageService {
         try (PDDocument document = PDDocument.load(inputFile)) {
 
             PDFRenderer pdfRenderer = new PDFRenderer(document);
-            image = pdfRenderer.renderImageWithDPI(0,300);
+            image = pdfRenderer.renderImageWithDPI(0,150);
         }
 
         ImageIO.write(image, "PNG", outputFile);
