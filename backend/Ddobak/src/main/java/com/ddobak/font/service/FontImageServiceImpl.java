@@ -151,7 +151,7 @@ public class FontImageServiceImpl implements FontImageService {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
         FileSystemResource resource1 = new FileSystemResource(imageFiles.get(0));
-        FileSystemResource resource2 = new FileSystemResource(imageFiles.get(0));
+        FileSystemResource resource2 = new FileSystemResource(imageFiles.get(1));
 
         body.add("kor_file",resource1);
         body.add("eng_file",resource2);
