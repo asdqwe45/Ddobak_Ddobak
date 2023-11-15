@@ -55,9 +55,9 @@ const MainPage: React.FC = () => {
       <MainFooter>
         <MainFooterBetween>
           <MainFooterBetweenInnerBox>
-            <MainFooterText screenWidth={screenWidth}>LEE JI EUN</MainFooterText>
-            <MainFooterText screenWidth={screenWidth}>LEE TAE SEONG</MainFooterText>
-            <MainFooterText screenWidth={screenWidth}>LEE JAE MYEONG</MainFooterText>
+            <MainFooterText screenWidth={screenWidth}>이 지 은</MainFooterText>
+            <MainFooterText screenWidth={screenWidth}>이 태 성</MainFooterText>
+            <MainFooterText screenWidth={screenWidth}>이 재 명</MainFooterText>
           </MainFooterBetweenInnerBox>
         </MainFooterBetween>
         <MainFooterMiddle>
@@ -68,9 +68,9 @@ const MainPage: React.FC = () => {
         </MainFooterMiddle>
         <MainFooterBetween>
           <MainFooterBetweenInnerBox>
-            <MainFooterText screenWidth={screenWidth}>KIM JIN JU</MainFooterText>
-            <MainFooterText screenWidth={screenWidth}>LEE MIN KYU</MainFooterText>
-            <MainFooterText screenWidth={screenWidth}>LEE KYU MIN</MainFooterText>
+            <MainFooterText screenWidth={screenWidth}>김 진 주</MainFooterText>
+            <MainFooterText screenWidth={screenWidth}>이 민 규</MainFooterText>
+            <MainFooterText screenWidth={screenWidth}>이 규 민</MainFooterText>
           </MainFooterBetweenInnerBox>
         </MainFooterBetween>
       </MainFooter>

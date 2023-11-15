@@ -49,7 +49,7 @@ export const MainFooterText = styled.p<MainFooterTextType>`
   display: ${(props) => (props.screenWidth < 680 ? 'none' : 'block')};
   margin: 0px;
   color: ${likeCountColor};
-  font-size: 16px;
+  font-size: 20px;
   padding-top: 10px;
 `;
 
