@@ -90,7 +90,7 @@ const FontListPage: React.FC = () => {
           price={font.price}
           font_file_url={font.font_file_url}
         />
-      ))
+      ));
     }
   };
   const sales = ['유료', '무료'];
@@ -255,7 +255,9 @@ const FontListPage: React.FC = () => {
 
             <div className={classes.filterBarWrapper}>
               <div
-                className={`${classes.filterBar} ${showFilterOptions ? classes.filterBarActive : ''}`}
+                className={`${classes.filterBar} ${
+                  showFilterOptions ? classes.filterBarActive : ''
+                }`}
                 onClick={() => setShowFilterOptions(!showFilterOptions)}
               >
                 폰트 스타일
@@ -263,8 +265,9 @@ const FontListPage: React.FC = () => {
                   size={22}
                   color="gray"
                   style={{ marginLeft: '4px' }}
-                  className={`${classes.filterIcon} ${showFilterOptions ? classes.filterIconActive : ''
-                    }`}
+                  className={`${classes.filterIcon} ${
+                    showFilterOptions ? classes.filterIconActive : ''
+                  }`}
                 />
               </div>
               {showFilterOptions && renderFilterOptions()}

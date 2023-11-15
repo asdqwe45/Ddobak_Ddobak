@@ -34,7 +34,7 @@ const CustomTextStyle = styled.span<CustomTextStyleType>`
     font-family: ${(props) => props.fontFamily};
     src: url(${(props) => props.fontSrc});
   }
-  
+
   font-family: ${(props) => props.fontFamily};
 `;
 const FontBoxComponent: React.FC<FontBoxProps> = ({
@@ -44,7 +44,7 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({
   maker,
   dib,
   price,
-  font_file_url
+  font_file_url,
 }) => {
   const navigate = useNavigate();
   const [showAlertModal, setShowAlertModal] = useState(false);
@@ -63,7 +63,7 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({
           title,
           maker,
           dib,
-          font_file_url
+          font_file_url,
         },
       });
     } else {
@@ -205,8 +205,8 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({
         {/* box 중앙 선 */}
         <div className={classes.borderTop}></div>
         <div className={classes.content} onClick={handleTitleClick}>
-        <CustomTextStyle fontFamily={title} fontSrc={font_file_url}>
-          <span>세상에 내가 쓴 글씨가 폰트가 되다니</span>
+          <CustomTextStyle fontFamily={title} fontSrc={font_file_url}>
+            <span>세상에 내가 쓴 글씨가 폰트가 되다니</span>
           </CustomTextStyle>
         </div>
       </div>

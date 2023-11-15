@@ -1,4 +1,4 @@
-import { axiosWithAuth, axiosWithFormData } from 'https/http';
+import { axiosWithAuth, axiosWithFormData, getData } from 'https/http';
 import JSZip from 'jszip';
 
 export async function makerIntroRequest(id: string): Promise<any> {
@@ -57,5 +57,17 @@ export async function makeFontPreveiwReqeust(sortUrl: string): Promise<any> {
     })
     .catch((e) => {
       console.error(e);
+    });
+}
+
+export async function fontMypageAPI(): Promise<any> {
+  const memberId = await getData('id');
+  return axiosWithAuth
+    .get('/font/mypage/' + memberId)
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
     });
 }
