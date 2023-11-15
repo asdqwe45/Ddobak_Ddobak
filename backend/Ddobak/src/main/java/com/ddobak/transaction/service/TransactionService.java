@@ -41,6 +41,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -246,38 +247,24 @@ public class TransactionService {
         List<PurchaseOrder> purchaseOrderList = purchaseOrderRepository.findOrdersByBuyer(memberId);
 
         // response 에 맞게 변환
-        List<TransactionResponse> transactionResponseList = new ArrayList<>();
-        for(int i=0;i< purchaseOrderList.size();i++) {
-            Font nowFont = fontService.findByFontId(purchaseOrderList.get(i).getFontId());
-            TransactionResponse transactionResponse;
-            if(purchaseOrderList.get(i).getOrderCount() > 1) {
-                transactionResponse = new TransactionResponse(
-                    purchaseOrderList.get(i).getOrderDate(),
+        List<TransactionResponse> transactionResponseList = purchaseOrderList.stream()
+            .map(purchaseOrder -> {
+                Font nowFont = fontService.findByFontId(purchaseOrder.getFontId());
+                boolean isMultipleOrder = purchaseOrder.getOrderCount() > 1;
+                return new TransactionResponse(
+                    purchaseOrder.getOrderDate(),
                     "폰트 구매",
-                    purchaseOrderList.get(i).getMainFont(),
+                    purchaseOrder.getMainFont(),
                     nowFont.getProducer().getNickname(),
-                    purchaseOrderList.get(i).getTotalAmount(),
-                    purchaseOrderList.get(i).getTotalAfterAmount(),
-                    true,
-                    purchaseOrderList.get(i).getOrderCount()
-                    );
-            }
-            else {
-                transactionResponse = new TransactionResponse(
-                    purchaseOrderList.get(i).getOrderDate(),
-                    "폰트 구매",
-                    purchaseOrderList.get(i).getMainFont(),
-                    nowFont.getProducer().getNickname(),
-                    purchaseOrderList.get(i).getTotalAmount(),
-                    purchaseOrderList.get(i).getTotalAfterAmount(),
-                        false,
-                    0
-                    );
-            }
-            transactionResponseList.add(transactionResponse);
-        }
+                    purchaseOrder.getTotalAmount(),
+                    purchaseOrder.getTotalAfterAmount(),
+                    isMultipleOrder,
+                    isMultipleOrder ? purchaseOrder.getOrderCount() : 0
+                );
+            })
+            .sorted(Comparator.comparing(TransactionResponse::transactionDate).reversed())
+            .collect(Collectors.toList());
 
-        transactionResponseList.sort(Comparator.comparing(TransactionResponse::transactionDate).reversed());
         return transactionResponseList;
     }
 
@@ -310,7 +297,6 @@ public class TransactionService {
         Member creator = memberService.findSellerById(memberId);
 
         LocalDateTime now = LocalDateTime.now();
-
         if(!creator.isProductionStatus()) {
             // 처음 제작
             creator.changeProductionStatus();
@@ -325,8 +311,7 @@ public class TransactionService {
             creationRepository.save(creation);
         }
         else {
-            // 2번 이상 제작 -> 거래 내역 필요
-            // 5만원
+            // 2번 이상 제작 -> 거래 내역 필요, 회당 5만원
             int createAfterAmount = creator.withdrawPoint(50000);
             Creation creation = Creation.builder()
                                         .createdFont(createdFont)
@@ -464,7 +449,7 @@ public class TransactionService {
 
     }
 
-    // 내 폰트 조회
+    //본인 제작, 구매 폰트 조회
     public List<MyFontResponse> getMyFontList(LoginInfo loginInfo) {
         Member member = memberService.findByEmail(loginInfo.email());
         // 제작 내역
@@ -500,27 +485,8 @@ public class TransactionService {
         return fontResponseList;
     }
 
-    // 구매한 폰트 디테일 정보 조회
-    public List<FontDetailResponse> getPurchaseList(LoginInfo loginInfo) {
-        Member member = memberService.findByEmail(loginInfo.email());
-        List<Transaction> purchaseList = transactionRepository.findTransactionBuyer(member.getId());
-
-        List<FontDetailResponse> fontDetailResponseList = purchaseList.stream()
-            .map(transaction -> new FontDetailResponse(
-                transaction.getTransactionFont().getId(),
-                transaction.getTransactionFont().getKorFontName(),
-                transaction.getTransactionFont().getFont_file_url(),
-                transaction.getTransactionFont().getProducer().getNickname(),
-                transaction.getTransactionFont().getOpen_status()
-            ))
-            .collect(Collectors.toList());
-
-        return fontDetailResponseList;
-    }
-
-
+    // 제작자 정보 조회
     public List<ProducerResponse> getProducerInfo(LoginInfo loginInfo, Long producerId) {
-        // Producer 폰트 리스트
         List<Creation> creationList = creationRepository.findCreationsByCreator(producerId);
 
         List<ProducerResponse> producerResponseList = creationList.stream()
@@ -533,5 +499,23 @@ public class TransactionService {
             .collect(Collectors.toList());
 
         return producerResponseList;
+    }
+
+    // 구매한 폰트 디테일 정보 조회
+    public List<FontDetailResponse> getPurchaseList(LoginInfo loginInfo) {
+        Member member = memberService.findByEmail(loginInfo.email());
+        List<Transaction> purchaseList = transactionRepository.findTransactionBuyer(member.getId());
+
+        List<FontDetailResponse> fontDetailResponseList = purchaseList.stream()
+            .map(transaction -> new FontDetailResponse(
+                 transaction.getTransactionFont().getId(),
+                 transaction.getTransactionFont().getKorFontName(),
+                 transaction.getTransactionFont().getFont_file_url(),
+                 transaction.getTransactionFont().getProducer().getNickname(),
+                 transaction.getTransactionFont().getOpen_status()
+            ))
+            .collect(Collectors.toList());
+
+        return fontDetailResponseList;
     }
 }

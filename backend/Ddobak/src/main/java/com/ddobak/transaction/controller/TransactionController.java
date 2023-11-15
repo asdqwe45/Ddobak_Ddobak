@@ -101,7 +101,7 @@ public class TransactionController {
         return ResponseEntity.ok().body(transactionResponseList);
     }
 
-//     판매 내역 반환
+    // 판매 내역 반환
     @GetMapping("/sell/list/{memberId}")
     public ResponseEntity<List<TransactionResponse>> requestSellList(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long memberId) {
         log.info("{} wants to show sellList",loginInfo.email());
