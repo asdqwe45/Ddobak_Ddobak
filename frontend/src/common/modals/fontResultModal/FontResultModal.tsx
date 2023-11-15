@@ -137,7 +137,7 @@ const FontResultModal: React.FC = () => {
     >
       <div className={modalClasses.modalContainer}>
         {isLoading ? (
-          <>
+          <div className={classes.loaderContainer}>
             <RotatingLines
               strokeColor="grey"
               strokeWidth="5"
@@ -146,7 +146,7 @@ const FontResultModal: React.FC = () => {
               visible={true}
             />
             <p className={modalClasses.justASecond}>잠깐만 기다려주세요... {elapsedTime}초 경과</p>
-          </>
+          </div>
         ) : (
           <>
             <div className={modalClasses.modalBox} style={{ justifyContent: 'flex-end' }}>
