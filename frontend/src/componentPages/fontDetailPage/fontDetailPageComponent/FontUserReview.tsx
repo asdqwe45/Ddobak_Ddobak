@@ -27,7 +27,7 @@ interface ReviewListType {
 
 const FontBoxSwiper = (data: ReviewListType[]) => {
   let boxes = [];
-  for (let i = data.length-1 ; i >= 0; i--) {
+  for (let i = data.length - 1; i >= 0; i--) {
     boxes.push(
       <SwiperSlide key={i + 'fff'} className={classes.swiperSlid}>
         <div className={classes.imgContainer}>
