@@ -31,7 +31,7 @@ public interface FontService {
 
     Boolean checkNameDuplicate(String korFontName, String engFontName);
 
-    void finalMakeFont(FinalMakeRequest req, LoginInfo loginInfo);
+    String finalMakeFont(FinalMakeRequest req, LoginInfo loginInfo);
 
     List<MakingFontResponse> getMakingFont(Long producerId);
 }
