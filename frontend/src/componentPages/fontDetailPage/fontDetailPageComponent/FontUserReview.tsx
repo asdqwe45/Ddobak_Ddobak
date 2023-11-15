@@ -78,7 +78,7 @@ const FontUserReview: React.FC<FontUserReviewType> = ({ fontId }) => {
   return (
     <>
       <div className={classes.container}>
-      {reviewList.length > 0 && (
+        {reviewList.length > 0 && (
           <div className={classes.swiperLargeBox}>
             <FaCircleChevronLeft
               size={40}
@@ -111,7 +111,7 @@ const FontUserReview: React.FC<FontUserReviewType> = ({ fontId }) => {
               className={classes.customBtn}
             />
           </div>
-      )}
+        )}
         {!hasReviews && ( // 후기가 없다면 안내 메시지 표시
           <p className={classes.noReviewsMessage}>
             후기가 아직 없어요.😅 활용 후기를 남겨주세요.📝
