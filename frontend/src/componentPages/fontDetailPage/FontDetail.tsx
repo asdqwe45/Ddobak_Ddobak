@@ -20,6 +20,7 @@ import { cartAddAPI } from 'https/utils/CartFunction';
 import { basketErrorModalActions } from 'store/basketErrorModalSlice';
 import { transactionBuyOrMakeAPI } from 'https/utils/TransactionFunction';
 import { progressLoaderActions } from 'store/progressLoaderSlice';
+import styled from '@emotion/styled';
 
 // API로부터 받아올 폰트 데이터의 타입을 정의
 type Font = {
@@ -38,12 +39,38 @@ type Font = {
   viewCount: bigint;
 };
 
+type CustomTextStyleType = {
+  fontFamily: string;
+  fontSrc: string;
+  fontSize: number;
+  inputText: string;
+};
+
+const CustomTextStyle = styled.div<CustomTextStyleType>`
+  @font-face {
+    font-family: ${(props) => props.fontFamily};
+    src: url(${(props) => props.fontSrc});
+  }
+  margin: 0px 50px;
+  margin-bottom: 50px;
+  padding-bottom: 20px;
+  font-family: ${(props) => props.fontFamily};
+  font-size: ${(props) => props.fontSize}px;
+  color: ${(props) => (props.inputText.length ? 'black' : 'lightGray')};
+  max-width: 1286px;
+  overflow: auto;
+`;
+
 const FontDetail: React.FC = () => {
   // 후기 등록 모달
   const dispatch = useDispatch();
   const { fontId } = useParams();
   const [fontDetail, setFontDetail] = useState<Font | null>(null);
   const [isBoughtOrMade, setIsBoughtOrMade] = useState<string>('nothing');
+
+  const [webFont, setWebFont] = useState<string>('');
+  const [fontName, setFontName] = useState<string>('');
+  const [fontPrice, setFontPrice] = useState<number>(0);
 
   // 컴포넌트 마운트시 API 호출
   useEffect(() => {
@@ -55,13 +82,16 @@ const FontDetail: React.FC = () => {
       setFontDetail(null);
       try {
         const response = await axiosWithAuth.get(`/font/detail/${fontId}`).then((r) => {
-          return r;
+          return r.data;
         });
-        if (response.data) {
-          console.log('API로부터 받은 데이터:', response.data);
-          setFontDetail(response.data); // 받아온 폰트 정보로 상태 업데이트
+        if (response) {
+          console.log('API로부터 받은 데이터:', response);
+          setFontDetail(response); // 받아온 폰트 정보로 상태 업데이트
+          setWebFont(response.fontFileUrl);
+          setFontPrice(response.fontPrice);
+          setFontName(response.fontName);
         } else {
-          console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
+          console.log('API 응답에 fonts 프로퍼티가 없습니다.', response);
         }
       } catch (error) {
         console.error('API 호출 에러:', error);
@@ -100,7 +130,6 @@ const FontDetail: React.FC = () => {
   const fetchBuyOrMake = async (fontId: string) => {
     const response = await transactionBuyOrMakeAPI()
       .then((r) => {
-        console.log(r);
         return r;
       })
       .catch((e) => {
@@ -169,11 +198,9 @@ const FontDetail: React.FC = () => {
   };
 
   // 웹 폰트 코드 넣기
-  const webFontCode = '@font-face: {}';
-
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(webFontCode);
+      await navigator.clipboard.writeText(webFont);
       console.log('클립보드에 복사되었습니다!');
     } catch (err) {
       console.log('복사에 실패했습니다.');
@@ -231,7 +258,6 @@ const FontDetail: React.FC = () => {
     if (fontId) {
       cartAddAPI(fontId)
         .then((r) => {
-          console.log(r);
           dispatch(goToBasketModalActions.toggle());
         })
         .catch((e) => {
@@ -242,6 +268,13 @@ const FontDetail: React.FC = () => {
   }
 
   window.scrollTo({ left: 0, top: 0 });
+
+  const fontFaceFC = (fontName: string, webFont: string) => {
+    return `@font-face { 
+      font-family: ${fontName};
+      src: ${webFont};
+       }`;
+  };
 
   return (
     <>
@@ -329,7 +362,12 @@ const FontDetail: React.FC = () => {
             </div>
 
             <div className={classes.introBox} style={{ width: '40vw' }}>
-              {webFontCode}
+              {fontPrice === 0
+                ? fontFaceFC(fontName, webFont)
+                : isBoughtOrMade === 'nothing'
+                ? '구매후 이용해주세요.💸'
+                : fontFaceFC(fontName, webFont)}
+              {}
             </div>
           </div>
         </div>
@@ -351,15 +389,14 @@ const FontDetail: React.FC = () => {
             {/* 폰트 크기 조절 바 */}
             <RangeSlider value={fontSize} onChange={handleFontSizeChange} />
           </div>
-          <div
-            className={classes.fontTest}
-            style={{
-              fontSize: `${fontSize}px`,
-              color: inputText ? 'black' : 'lightGray',
-            }}
+          <CustomTextStyle
+            fontSize={fontSize}
+            inputText={inputText}
+            fontFamily={fontName}
+            fontSrc={webFont}
           >
             {inputText || '다람쥐 헌 쳇바퀴에 타고파'}
-          </div>
+          </CustomTextStyle>
         </div>
 
         <div className={classes.intro}>
