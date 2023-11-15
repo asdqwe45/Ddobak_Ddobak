@@ -70,7 +70,6 @@ import { reviewModalActions } from 'store/reviewModalSlice';
 import { exchangeModalActions } from 'store/exchangeModalSlice';
 import { changeProfileImgModalActions } from 'store/changeProfileImgModalSlice';
 import { pointPayModalActions } from 'store/pointPayModalSlice';
-import { goToBasketModalActions } from 'store/goToBasketModalSlice';
 
 // navigation
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
@@ -88,6 +87,7 @@ import { followDeleteAPI, getFollowingList } from 'https/utils/FollowFunction';
 import styled from '@emotion/styled';
 import CommonEmptyBox from '../../common/commonEmptyBox/CommonEmptyBox';
 import { progressLoaderActions } from 'store/progressLoaderSlice';
+import { successModalActions } from 'store/successModalSlice';
 
 interface CartType {
   fontId: number;
@@ -411,10 +411,21 @@ const MyPage: React.FC = () => {
   const clickBasketHandler = async (fontId: string) => {
     cartAddAPI(fontId)
       .then(async (r) => {
-        dispatch(goToBasketModalActions.toggle());
+        dispatch(
+          successModalActions.showSomething({
+            successHeader: '담기 완료',
+            successContext: '장바구니에 잘 담아졌어요!',
+          }),
+        );
       })
       .catch((e) => {
         console.error(e);
+        dispatch(
+          successModalActions.showSomething({
+            successHeader: '담기 실패',
+            successContext: '이미 장바구니에 들어있어요.',
+          }),
+        );
       });
   };
 

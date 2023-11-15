@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import ReactModal from 'react-modal';
-
 import classes from './ReviewModal.module.css';
+import AlertCustomModal from '../alertCustomModal/AlertCustomModal';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { reviewModalActions } from 'store/reviewModalSlice';
@@ -17,6 +17,11 @@ interface ReviewModalState {
 }
 
 const ReviewModal: React.FC = () => {
+  const [alertModal, setAlertModal] = useState(false);
+  const handleAlertModal = () => {
+    setAlertModal(true);
+  }
+
   const fontId = useSelector((state: ReviewModalState) => state.reviewModal.fontId);
   useEffect(() => {
     ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
@@ -33,7 +38,6 @@ const ReviewModal: React.FC = () => {
   const [reviewImg, setReviewImg] = useState<string | null>(null);
   const [reviewImgName, setReviewImgName] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const contextRef = useRef<HTMLInputElement>(null);
   const [imgFile, setImgFile] = useState<File | string>();
   const handleImgChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
@@ -51,12 +55,11 @@ const ReviewModal: React.FC = () => {
     }
   };
   const registerReviewFC = () => {
-    const context = contextRef.current?.value;
     const newFontId = Number(fontId);
-    if (context && imgFile) {
+    if (inputReview && imgFile) {
       const data = {
         fontId: newFontId,
-        context: context,
+        context: inputReview,
       };
       reviewRegisterAPI(data, imgFile)
         .then(async (r) => {
@@ -67,9 +70,21 @@ const ReviewModal: React.FC = () => {
           console.error(e);
         });
     } else {
-      return alert('이미지, 한줄 평 모두 작성해주세요.');
+      return handleAlertModal()
+      // alert('한줄 리뷰와 이미지 모두 업로드 해주세요.');
     }
   };
+
+  const [inputReview, setInputReview] = useState<string>('');
+
+  // 폰트 소개글 핸들러 함수
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    if (newValue.length <= 30) {
+      setInputReview(newValue);
+    }
+  };
+
 
   return (
     <ReactModal
@@ -93,11 +108,12 @@ const ReviewModal: React.FC = () => {
           <AiOutlineClose size={30} className={classes.closeIcon} onClick={closeModal} />
         </div>
         <div className={classes.middleBox}>
-          <div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <p className={classes.innerText}>한줄 리뷰 작성하기</p>
+            <span style={{ marginLeft: '20px' }}>({inputReview.length}/30)</span>
           </div>
           <div>
-            <input type="text" className={classes.inputText} ref={contextRef} />
+            <input type="text" className={classes.inputText} value={inputReview} onChange={handleInputChange} />
           </div>
           <div className={classes.innerMiddleBox}>
             <p className={classes.innerText}>이미지 첨부</p>
@@ -142,6 +158,12 @@ const ReviewModal: React.FC = () => {
           </button>
         </div>
       </div>
+      <AlertCustomModal
+        show={alertModal}
+        onHide={() => { setAlertModal(false)}}
+        message1='한줄 리뷰와 이미지 모두 업로드 해주세요.' message2=''
+        btnName='확인'
+      />
     </ReactModal>
   );
 };

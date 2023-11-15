@@ -5,7 +5,7 @@ import { successModalActions } from 'store/successModalSlice';
 import { mainRedColor } from 'common/colors/CommonColors';
 import classes from './SuccessModal.module.css';
 import { AiOutlineClose } from 'react-icons/ai';
-import { BsCheck2Circle, BsCartCheck } from 'react-icons/bs';
+import { BsCheck2Circle, BsCartCheck, BsCartXFill, BsFillCartCheckFill } from 'react-icons/bs';
 import { FaHeart } from 'react-icons/fa';
 import { FaMoneyBillTransfer } from 'react-icons/fa6';
 import { GiReceiveMoney } from 'react-icons/gi';
@@ -96,6 +96,21 @@ const SuccessModal: React.FC = () => {
         ) : (
           <></>
         )}
+        {successHeader === '담기 완료' ? (
+          <>
+            <BsFillCartCheckFill size={100} color={mainRedColor} />
+          </>
+        ) : (
+          <></>
+        )}
+        {successHeader === '담기 실패' ? (
+          <>
+            <BsCartXFill size={100} color={mainRedColor} />
+          </>
+        ) : (
+          <></>
+        )}
+
         <h1 className={classes.innerHeader}>{successHeader}</h1>
         <p className={classes.innerText}>{successContext}</p>
 

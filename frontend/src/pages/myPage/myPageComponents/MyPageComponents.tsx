@@ -341,6 +341,7 @@ export const FontBasketTopBox = styled.div`
   width: 100%;
   box-sizing: border-box;
   background-color: white;
+  border-bottom: 2px solid #b6b6b6;
   margin-bottom: 20px;
   display: flex;
   justify-content: flex-end;
@@ -357,6 +358,7 @@ export const FontBasketBottomBox = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
+  border-top: 2px solid #b6b6b6;
 `;
 
 export const SelectListDelete = styled(ContentInnerContentText)`
