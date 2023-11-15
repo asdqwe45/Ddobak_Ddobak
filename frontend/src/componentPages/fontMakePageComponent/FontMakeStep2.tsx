@@ -8,6 +8,7 @@ import { axiosWithFormData } from 'https/http';
 
 import UploadFile from './fontMakePageAssets/upload_file.png';
 import { FaRegTimesCircle } from 'react-icons/fa';
+import { rootLoaderModalActions } from 'store/rootLoaderModalSlice';
 
 const FontMakeStep2: React.FC = () => {
   const [koreanFiles, setKoreanFiles] = useState<{ src: string; name: string }[]>([]);
@@ -151,6 +152,14 @@ const FontMakeStep2: React.FC = () => {
 
   // 이미지 반듯하게 처리
   const straightenImage = async () => {
+    dispatch(
+      rootLoaderModalActions.toggleModal({
+        type: '',
+        header: '이미지 반듯하게',
+        context: '이미지를 반듯하게 만들고 있어요.',
+        subContext: '※ 페이지를 벗어나지 마세요!',
+      }),
+    );
     console.log(KorfileData);
     console.log(EngfileData);
     if (KorfileData && EngfileData) {
@@ -161,9 +170,17 @@ const FontMakeStep2: React.FC = () => {
         formData.append('kor_file', KorfileData);
         formData.append('eng_file', EngfileData);
 
-        const response = axiosWithFormData
+        const response = await axiosWithFormData
           .post('/font/sort', formData)
           .then((r) => {
+            dispatch(
+              rootLoaderModalActions.toggleModal({
+                type: '',
+                header: '',
+                context: '',
+                subContext: '',
+              }),
+            );
             return r;
           })
           .catch((e) => {
