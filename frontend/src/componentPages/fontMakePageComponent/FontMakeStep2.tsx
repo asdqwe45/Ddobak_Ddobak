@@ -20,6 +20,8 @@ const FontMakeStep2: React.FC = () => {
   const englishFileInputRef = useRef<HTMLInputElement>(null);
 
   const [showAlertModal, setShowAlertModal] = useState(false);
+  const [showBigImgAlertModal, setShowBigImgAlertModal] = useState<boolean>(false);
+  const [showHorizonAlertModal, setShowHorizonAlertModal] = useState<boolean>(false);
 
   const handleInvalidFileType = () => {
     setShowAlertModal(true); //
@@ -214,9 +216,15 @@ const FontMakeStep2: React.FC = () => {
         } else {
           alert('이미지를 처리하는데 실패했다.');
         }
-      } catch (error) {
-        alert('이미지를 처리 중 오류가 발생하였습니다. 담당자에게 문의하세요.');
-        console.error('이미지 처리 중 오류가 발생했다:', error);
+      } catch (error: any) {
+        // alert('이미지를 처리 중 오류가 발생하였습니다. 담당자에게 문의하세요.');
+        // console.error('이미지 처리 중 오류가 발생했다:', error);
+        const errorType = error.response.status;
+        if (errorType === 500) {
+          setShowHorizonAlertModal(true);
+        } else if (errorType === 413) {
+          setShowBigImgAlertModal(true);
+        }
       }
     }
   };
@@ -341,6 +349,20 @@ const FontMakeStep2: React.FC = () => {
         onHide={() => setShowAlertModal(false)}
         message1="허용되지 않는 형식의 파일입니다."
         message2="pdf, jpg, png 파일로 업로드해주세요."
+        btnName="확인"
+      />
+      <AlertCustomModal
+        show={showBigImgAlertModal}
+        onHide={() => setShowBigImgAlertModal(false)}
+        message1="이미지의 용량이 너무 커요."
+        message2="3MB 이하의 사진을 올려주세요. 😅"
+        btnName="확인"
+      />
+      <AlertCustomModal
+        show={showHorizonAlertModal}
+        onHide={() => setShowHorizonAlertModal(false)}
+        message1="사진의 수평이 맞지 않아요."
+        message2="반듯하게 찍어서 다시 올려주세요. 😉"
         btnName="확인"
       />
     </>
