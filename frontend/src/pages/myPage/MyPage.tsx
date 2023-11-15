@@ -182,7 +182,6 @@ const MyPage: React.FC = () => {
         // 제작 상태 가져오기
         await fontMypageAPI()
           .then(async (r) => {
-            console.log(r);
             setCreatedFontList(r);
           })
           .catch((e) => {
@@ -233,7 +232,6 @@ const MyPage: React.FC = () => {
       dispatch(progressLoaderActions.startGuage());
       await fontMypageAPI()
         .then(async (r) => {
-          console.log(r);
           setCreatedFontList(r);
         })
         .catch((e) => console.error(e));
