@@ -17,6 +17,9 @@ from torchvision import transforms
 from .base.dataset import sample
 from .base.utils import save_tensor_to_image, load_reference, load_primals, load_decomposition
 
+device_id = 1
+
+torch.cuda.set_device(device_id)
 
 TRANSFORM = transforms.Compose([
     transforms.Resize((128, 128)),
@@ -93,9 +96,9 @@ def infer_DM(gen, save_dir, gen_chars, key_ref_dict, load_img, decomposition, ba
             path = save_dir / key / f"{char}.png"
             save_tensor_to_image(out, path)
 
+    del gen
+
     return outs
-
-
 
 
 def load_model(args, cfg, gen_model):

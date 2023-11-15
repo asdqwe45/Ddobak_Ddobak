@@ -23,6 +23,7 @@ from math import sqrt
 
 
 
+
 class Conv_ReLU_Block(nn.Module):
     def __init__(self):
         super(Conv_ReLU_Block, self).__init__()
@@ -79,8 +80,11 @@ def load_data(folder_path):
 
 def load_model(model_path, use_cuda=True):
     model = torch.load(model_path)
+    model.eval()
     if use_cuda and torch.cuda.is_available():
+        torch.cuda.set_device(1)
         model.cuda()
+        
     else:
         print("CUDA is not available. Using CPU.")
     return model
@@ -100,6 +104,7 @@ def infer_and_save(model, test_data, test_files, output_folder, test_size, use_c
 
         img = Image.fromarray(output)
         img.save(os.path.join(output_folder, test_files[t]))
+    del model
 
 # 메인 코드
 
