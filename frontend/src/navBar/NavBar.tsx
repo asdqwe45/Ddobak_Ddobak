@@ -78,9 +78,6 @@ const NavBar: React.FC = () => {
   const location = useLocation();
   const params = useParams();
   useEffect(() => {
-    console.log(params.makerName);
-    console.log(params.makerId);
-
     switch (location.pathname) {
       case '/fontMake':
         document.title = '제작하기 🛠 - 또박또박';
