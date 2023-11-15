@@ -6,6 +6,7 @@ import com.ddobak.font.dto.request.FinalMakeRequest;
 import com.ddobak.font.dto.response.FontDetailResponse;
 import com.ddobak.font.dto.response.FontIdResponse;
 import com.ddobak.font.dto.response.FontListResponse;
+import com.ddobak.font.dto.response.MakingFontResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.entity.FontStatusType;
 import com.ddobak.font.entity.Keyword;
@@ -21,6 +22,7 @@ import com.ddobak.review.dto.response.ReviewResponse;
 import com.ddobak.review.repository.ReviewRepository;
 import com.ddobak.review.service.ReviewService;
 import com.ddobak.security.util.LoginInfo;
+import com.ddobak.transaction.dto.response.MyFontResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -192,6 +194,13 @@ public class FontServiceImpl implements FontService {
 
     }
 
+    @Override
+    public List<MakingFontResponse> getMakingFont(Long producerId){
+        List<MakingFontResponse> result = fontRepository.findAllByMemberId(producerId)
+                .orElseThrow(() -> new EntityNotFoundException("제작한 폰트가 존재하지 않습니다."));
+
+        return result;
+    }
 
 }
 
