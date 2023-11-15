@@ -271,9 +271,11 @@ const FontDetail: React.FC = () => {
 
   const fontFaceFC = (fontName: string, webFont: string) => {
     return `@font-face { 
-      font-family: ${fontName};
-      src: ${webFont};
-       }`;
+      font-family: "${fontName}";
+      src: "${webFont}";
+       }
+       font-family: "${fontName}"
+       `;
   };
 
   return (
