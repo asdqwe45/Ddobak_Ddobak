@@ -19,7 +19,7 @@ public interface FontRepository extends JpaRepository<Font,Long> {
 
     Boolean existsByEngFontName(String eng_font_name);
 
-    @Query("SELECT new com.ddobak.font.dto.response.MakingFontResponse(f.id,f.korFontName,f.font_file_url,f.open_status,f.makeStatus) FROM Font f WHERE f.producer.id = :memberId")
+    @Query("SELECT new com.ddobak.font.dto.response.MakingFontResponse(f.id,f.korFontName,f.font_file_url,f.open_status,f.makeStatus) FROM Font f WHERE f.producer.id = :memberId AND f.makeStatus != 'FAIL'")
     Optional<List<MakingFontResponse>> findAllByMemberId(@Param("memberId") Long memberId);
 }
 
