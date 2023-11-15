@@ -352,95 +352,65 @@ public class TransactionService {
         List<TransactionResponse> transactionResponseList = new ArrayList<>();
 
         // 충전
-        List<Charge> chargeList = chargeRepository.findChargesByCharger(memberId);
-        for(int i=0;i<chargeList.size();i++) {
-            TransactionResponse transactionResponse =
-                new TransactionResponse(
-                    chargeList.get(i).getTransactionDate(),
-                    "포인트 충전",
-                    null,
-                    null,
-                    chargeList.get(i).getTransactionAmount(),
-                    chargeList.get(i).getTransactionAfterAmount(),
-                    false,
-                    0);
-            transactionResponseList.add(transactionResponse);
-        }
+        List<TransactionResponse> chargeList = chargeRepository.findChargesByCharger(memberId).stream()
+            .map(charge -> new TransactionResponse(
+                charge.getTransactionDate(),
+                "포인트 충전", null, null,
+                charge.getTransactionAmount(),
+                charge.getTransactionAfterAmount(),
+                false, 0
+            )).collect(Collectors.toList());
 
         // 인출
-        List<Withdrawal> withdrawalList = withdrawalRepository.findWithdrawalByWithdrawer(memberId);
-        for(int i=0;i<withdrawalList.size();i++) {
-            TransactionResponse transactionResponse =
-                new TransactionResponse(
-                    withdrawalList.get(i).getTransactionDate(),
-                    "포인트 인출",
-                    null,
-                    null,
-                    withdrawalList.get(i).getTransactionAmount(),
-                    withdrawalList.get(i).getTransactionAfterAmount(),
-                    false,
-                    0);
-            transactionResponseList.add(transactionResponse);
-        }
+        List<TransactionResponse> withdrawalList = withdrawalRepository.findWithdrawalByWithdrawer(memberId).stream()
+            .map(withdrawal -> new TransactionResponse(
+                withdrawal.getTransactionDate(),
+                "포인트 인출", null, null,
+                withdrawal.getTransactionAmount(),
+                withdrawal.getTransactionAfterAmount(),
+                false,0
+            )).collect(Collectors.toList());
 
         // 제작
-        List<Creation> creationList = creationRepository.findCreationsByCreator(memberId);
-        for(int i=0;i<creationList.size();i++) {
-            TransactionResponse transactionResponse = new TransactionResponse(
-                creationList.get(i).getTransactionDate(),
+        List<TransactionResponse> creationList = creationRepository.findCreationsByCreator(memberId).stream()
+            .map(creation -> new TransactionResponse(
+                creation.getTransactionDate(),
                 "제작",
-                creationList.get(i).getCreatedFont().getKorFontName(),
-                creationList.get(i).getCreatedFont().getProducer().getNickname(),
-                creationList.get(i).getTransactionAmount(),
-                creationList.get(i).getTransactionAfterAmount(),
-                false,
-                0
-            );
-            transactionResponseList.add(transactionResponse);
-        }
+                creation.getCreatedFont().getKorFontName(),
+                creation.getCreatedFont().getProducer().getNickname(),
+                creation.getTransactionAmount(),
+                creation.getTransactionAfterAmount(),
+                false,0
+            )).collect(Collectors.toList());
 
+        // 구매
+        List<TransactionResponse> purchaseList = purchaseOrderRepository.findOrdersByBuyer(memberId).stream()
+            .map(purchaseOrder -> {
+                Font purchasedFont = fontService.findByFontId(purchaseOrder.getFontId());
+                boolean checkMultiple = purchaseOrder.getOrderCount() > 1;
+                return new TransactionResponse(
+                    purchaseOrder.getOrderDate(),
+                    "폰트 구매",
+                    purchasedFont.getKorFontName(),
+                    purchasedFont.getProducer().getNickname(),
+                    purchaseOrder.getTotalAmount(),
+                    purchaseOrder.getTotalAfterAmount(),
+                    checkMultiple,
+                    purchaseOrder.getOrderCount()
+                );
+            }).collect(Collectors.toList());
 
-        // 구매 판매
-        // 구매(Order), 판매(Transaction)
-        List<PurchaseOrder> purchaseOrderList = purchaseOrderRepository.findOrdersByBuyer(memberId);
-        for(int i=0;i< purchaseOrderList.size();i++) {
-            Font purchasedFont = fontService.findByFontId(purchaseOrderList.get(i).getFontId());
-            boolean checkMultiple;
-            if(purchaseOrderList.get(i).getOrderCount() >= 2) {
-                checkMultiple = true;
-            }
-            else {
-                checkMultiple = false;
-            }
-            TransactionResponse transactionResponse = new TransactionResponse(
-                purchaseOrderList.get(i).getOrderDate(),
-                "폰트 구매",
-                purchasedFont.getKorFontName(),
-                purchasedFont.getProducer().getNickname(),
-                purchaseOrderList.get(i).getTotalAmount(),
-                purchaseOrderList.get(i).getTotalAfterAmount(),
-                checkMultiple,
-                purchaseOrderList.get(i).getOrderCount()
-            );
-            transactionResponseList.add(transactionResponse);
-        }
-
-
-        List<Transaction> transactionList = transactionRepository.findTransactionBySeller(memberId);
-        for(int i=0;i<transactionList.size();i++) {
-            TransactionResponse transactionResponse = new TransactionResponse(
-                transactionList.get(i).getTransactionDate(),
+        // 판매래
+        List<TransactionResponse> transactionList = transactionRepository.findTransactionBySeller(memberId).stream()
+            .map(transaction -> new TransactionResponse(
+                transaction.getTransactionDate(),
                 "폰트 판매",
-                transactionList.get(i).getTransactionFont().getKorFontName(),
-                transactionList.get(i).getSeller().getNickname(),
-                transactionList.get(i).getTransactionAmount(),
-                transactionList.get(i).getTransactionAfterAmount(),
-                false,
-                0
-            );
-            transactionResponseList.add(transactionResponse);
-        }
-
+                transaction.getTransactionFont().getKorFontName(),
+                transaction.getSeller().getNickname(),
+                transaction.getTransactionAmount(),
+                transaction.getTransactionAfterAmount(),
+                false,0
+            )).collect(Collectors.toList());
 
         // 날짜 순으로 정렬
         transactionResponseList.sort(Comparator.comparing(TransactionResponse::transactionDate).reversed());
@@ -460,8 +430,7 @@ public class TransactionService {
 
         // 구매 내역
         List<Transaction> purchaseList = transactionRepository.findTransactionBuyer(member.getId());
-        List<MyFontResponse> purchaseFontList = purchaseList.stream()
-            .map(
+        List<MyFontResponse> purchaseFontList = purchaseList.stream().map(
                 transaction -> new MyFontResponse(transaction.getTransactionFont().getId(), "구매")
             ).collect(Collectors.toList());
 
