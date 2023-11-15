@@ -111,8 +111,8 @@ const FontOptionPage: React.FC = () => {
   // 폰트 소개글 핸들러 함수
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = event.target.value;
-    if( newValue.length <= 80 ) {
-    setInputFontIntro(newValue);
+    if (newValue.length <= 80) {
+      setInputFontIntro(newValue);
     }
   };
 
