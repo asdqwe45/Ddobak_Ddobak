@@ -6,6 +6,7 @@ from sconf import Config
 from starlette.responses import FileResponse
 from torchvision import transforms
 import os
+import gc
 
 transform = transforms.Compose([
     transforms.Resize((128, 128)),
@@ -20,6 +21,9 @@ from .compress import create_zip_from_folder
 import shlex
 from subprocess import Popen, PIPE, STDOUT
 
+device_id = 1
+
+torch.cuda.set_device(device_id)
 
 def font_image_create(unique_kor_dir, unique_eng_dir, sample: bool, font_name=None):
     weight_path = "./font_create/service/100000.pth"  # path to weight to infer
@@ -51,7 +55,8 @@ def font_image_create(unique_kor_dir, unique_eng_dir, sample: bool, font_name=No
         gen_chars = "가나다라마바사아자차카타파하"  # characters to generate
         save_dir = "./font_sample_output"
         infer_DM(gen, save_dir, gen_chars, ref_dict, load_img, decomposition, batch_size)
-
+        torch.cuda.empty_cache()
+        gc.collect()
         target_dir = f'./image_sample/{unique_kor_dir}'
         if os.path.exists(target_dir):
             shutil.rmtree(target_dir)
@@ -67,7 +72,8 @@ def font_image_create(unique_kor_dir, unique_eng_dir, sample: bool, font_name=No
 
         # 복사한 생성 이미지 및 영어/숫자 이미지 zip파일 생성
         zip_file_path = create_zip_from_folder(target_dir, target_dir)
-
+        shutil.rmtree(target_dir)
+        del gen
         return FileResponse(path=zip_file_path, filename=os.path.basename(zip_file_path), media_type='application/zip')
 
     else:
@@ -75,7 +81,8 @@ def font_image_create(unique_kor_dir, unique_eng_dir, sample: bool, font_name=No
         # gen_chars = "가느다란명박이"  # characters to generate
         save_dir = "./font_image_output"
         infer_DM(gen, save_dir, gen_chars, ref_dict, load_img, decomposition, batch_size)
-
+        torch.cuda.empty_cache()
+        gc.collect()
         target_dir = f'./font_file/{font_name}'
         if os.path.exists(target_dir):
             shutil.rmtree(target_dir)
@@ -118,4 +125,5 @@ def font_image_create(unique_kor_dir, unique_eng_dir, sample: bool, font_name=No
         # Node.js 스크립트에서 출력된 .ttf 파일의 이름을 리턴합니다.
         ttf_file_name = stdout.decode().strip()  # stdout에서 파일 이름을 추출합니다.
         shutil.rmtree(f'./font_file/{font_name}')
-        return {"url":f"http://163.239.223.171:8786/font_file/{font_name}.ttf"}
+        del gen
+        return f"https://www.ddobak.o-r.kr/font_file/{font_name}.ttf"
