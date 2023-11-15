@@ -64,11 +64,11 @@ def font_image_create(unique_kor_dir, unique_eng_dir, sample: bool, font_name=No
         shutil.rmtree(f'./cropped_output_kor/{unique_kor_dir}')
         # 생성한 이미지를 복사 및 삭제
         shutil.copytree(f'./font_sample_output/{unique_kor_dir}', target_dir, dirs_exist_ok=True)
-        shutil.rmtree(f'./font_sample_output/{unique_kor_dir}')
+        # shutil.rmtree(f'./font_sample_output/{unique_kor_dir}')
 
         # 크롭한 영어 이미지 복사 및 삭제
         shutil.copytree(f'./cropped_output_eng/{unique_eng_dir}/{unique_eng_dir}', target_dir, dirs_exist_ok=True)
-        shutil.rmtree(f'./cropped_output_eng/{unique_eng_dir}')
+        # shutil.rmtree(f'./cropped_output_eng/{unique_eng_dir}')
 
         # 복사한 생성 이미지 및 영어/숫자 이미지 zip파일 생성
         zip_file_path = create_zip_from_folder(target_dir, target_dir)
