@@ -17,9 +17,12 @@ import ChangeMakerIntroModal from 'common/modals/changeMakerIntroModal/ChangeMak
 import BasketErrorModal from 'common/modals/basketErrorModal/BasketErrorModal';
 import SuccessModal from 'common/modals/successModal/SuccessModal';
 import DuplicatedEmailModal from 'common/modals/duplicatedEmailModal/DuplicatedEmailModal';
+import RootLoaderModal from 'common/modals/rootLoaderModal/RootLoaderModal';
+
 const RootLayout: React.FC = () => {
   return (
     <div>
+      <RootLoaderModal />
       <DuplicatedEmailModal />
       <SuccessModal />
       <BasketErrorModal />

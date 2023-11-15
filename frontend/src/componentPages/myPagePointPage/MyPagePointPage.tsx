@@ -289,6 +289,18 @@ const MyPagePointPage: React.FC = () => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
+  function tooltipFormat(datetimeStr: string) {
+    const dt = new Date(datetimeStr);
+    const year = dt.getFullYear();
+    const month = String(dt.getMonth() + 1).padStart(2, '0');
+    const day = String(dt.getDate()).padStart(2, '0');
+    const hour = String(dt.getHours()).padStart(2, '0');
+    const minute = String(dt.getMinutes()).padStart(2, '0');
+    const second = String(dt.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hour}시 ${minute}분 ${second}초`;
+  }
+
   return (
     <div className={classes.container}>
       <MyPagePointHeader>
@@ -386,7 +398,7 @@ const MyPagePointPage: React.FC = () => {
                             // 데이터 형식에 따라 다르게 적용
                             <MyPagePointContentIngredient key={index + 'allA'}>
                               <MyPagePointContentBox>
-                                <MyPagePointDateText>
+                                <MyPagePointDateText title={tooltipFormat(data.transactionDate)}>
                                   {formatDateTime(data.transactionDate)}
                                 </MyPagePointDateText>
                                 <MyPagePointContentText>
@@ -407,7 +419,7 @@ const MyPagePointPage: React.FC = () => {
                           return (
                             <MyPagePointContentIngredient key={index + 'allB'}>
                               <MyPagePointContentBox>
-                                <MyPagePointDateText>
+                                <MyPagePointDateText title={tooltipFormat(data.transactionDate)}>
                                   {formatDateTime(data.transactionDate)}
                                 </MyPagePointDateText>
                                 <MyPagePointContentText style={{ color: mainRedColor }}>
@@ -428,7 +440,7 @@ const MyPagePointPage: React.FC = () => {
                           return (
                             <MyPagePointContentIngredient key={index + 'allC'}>
                               <MyPagePointContentBox>
-                                <MyPagePointDateText>
+                                <MyPagePointDateText title={tooltipFormat(data.transactionDate)}>
                                   {formatDateTime(data.transactionDate)}
                                 </MyPagePointDateText>
                                 <MyPagePointContentText>판매</MyPagePointContentText>
@@ -450,7 +462,7 @@ const MyPagePointPage: React.FC = () => {
                           return (
                             <MyPagePointContentIngredient key={index + 'allD'}>
                               <MyPagePointContentBox>
-                                <MyPagePointDateText>
+                                <MyPagePointDateText title={tooltipFormat(data.transactionDate)}>
                                   {formatDateTime(data.transactionDate)}
                                 </MyPagePointDateText>
                                 <MyPagePointContentText style={{ color: mainRedColor }}>
@@ -475,7 +487,7 @@ const MyPagePointPage: React.FC = () => {
                         return (
                           <MyPagePointContentIngredient key={index + 'allE'}>
                             <MyPagePointContentBox>
-                              <MyPagePointDateText>
+                              <MyPagePointDateText title={tooltipFormat(data.transactionDate)}>
                                 {formatDateTime(data.transactionDate)}
                               </MyPagePointDateText>
                               <MyPagePointContentText style={{ color: mainRedColor }}>
@@ -519,7 +531,7 @@ const MyPagePointPage: React.FC = () => {
                         return (
                           <MyPagePointContentIngredient key={index + 'buy'}>
                             <MyPagePointContentBox>
-                              <MyPagePointDateText>
+                              <MyPagePointDateText title={tooltipFormat(data.transactionDate)}>
                                 {formatDateTime(data.transactionDate)}
                               </MyPagePointDateText>
                               <MyPagePointContentText style={{ color: mainRedColor }}>
@@ -563,7 +575,7 @@ const MyPagePointPage: React.FC = () => {
                         return (
                           <MyPagePointContentIngredient key={index + 'sell'}>
                             <MyPagePointContentBox>
-                              <MyPagePointDateText>
+                              <MyPagePointDateText title={tooltipFormat(data.transactionDate)}>
                                 {formatDateTime(data.transactionDate)}
                               </MyPagePointDateText>
                               <MyPagePointContentText>판매</MyPagePointContentText>
@@ -601,7 +613,7 @@ const MyPagePointPage: React.FC = () => {
                         return (
                           <MyPagePointContentIngredient key={index + 'charge'}>
                             <MyPagePointContentBox>
-                              <MyPagePointDateText>
+                              <MyPagePointDateText title={tooltipFormat(data.transactionDate)}>
                                 {formatDateTime(data.transactionDate)}
                               </MyPagePointDateText>
                               <MyPagePointContentText>포인트 충전</MyPagePointContentText>
@@ -636,7 +648,7 @@ const MyPagePointPage: React.FC = () => {
                         return (
                           <MyPagePointContentIngredient key={index + 'exchange'}>
                             <MyPagePointContentBox>
-                              <MyPagePointDateText>
+                              <MyPagePointDateText title={tooltipFormat(data.transactionDate)}>
                                 {formatDateTime(data.transactionDate)}
                               </MyPagePointDateText>
                               <MyPagePointContentText style={{ color: mainRedColor }}>
@@ -673,7 +685,7 @@ const MyPagePointPage: React.FC = () => {
                         return (
                           <MyPagePointContentIngredient key={index + 'make'}>
                             <MyPagePointContentBox>
-                              <MyPagePointDateText>
+                              <MyPagePointDateText title={tooltipFormat(data.transactionDate)}>
                                 {formatDateTime(data.transactionDate)}
                               </MyPagePointDateText>
                               <MyPagePointContentText style={{ color: mainRedColor }}>

@@ -57,20 +57,20 @@ const FaqPage: React.FC = () => {
         </div>
       </div>
       <div className={classes.containerStyle}>
-        {filteredFaqs.length > 0 ?(
-        filteredFaqs.map((faq, index) => (
-          <div key={index} className={classes.faqStyle}>
-            <div className={classes.qText}>Q. {faq.question}</div>
-            <hr />
-            <div className={classes.aText}>
-              <strong>A.</strong>
-              <div style={{ marginLeft: '35px', marginTop: '-35px' }}>{faq.answer}</div>
+        {filteredFaqs.length > 0 ? (
+          filteredFaqs.map((faq, index) => (
+            <div key={index} className={classes.faqStyle}>
+              <div className={classes.qText}>Q. {faq.question}</div>
+              <hr />
+              <div className={classes.aText}>
+                <strong>A.</strong>
+                <div style={{ marginLeft: '35px', marginTop: '-35px' }}>{faq.answer}</div>
+              </div>
             </div>
-          </div>
           ))
-          ):(
+        ) : (
           <div className={classes.noResult}>찾으시는 값이 없습니다. 💬</div>
-          )}
+        )}
       </div>
     </>
   );

@@ -30,6 +30,7 @@
 
   &:hover {
     color: #d71718;
+    opacity: 0.7;
   }
 }
 
