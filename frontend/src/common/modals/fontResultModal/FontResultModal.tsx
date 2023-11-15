@@ -137,126 +137,120 @@ const FontResultModal: React.FC = () => {
         },
       }}
     >
-      <div className={modalClasses.modalContainer}>
-        {isLoading ? (
-          <div className={classes.loaderContainer}>
-            <RotatingLines
-              strokeColor="grey"
-              strokeWidth="5"
-              animationDuration="0.75"
-              width="96"
-              visible={true}
-            />
-            <p className={modalClasses.justASecond}>잠깐만 기다려주세요... {elapsedTime}초 경과</p>
+      {isLoading ? (
+        <div className={modalClasses.loaderContainer}>
+          <RotatingLines
+            strokeColor="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="96"
+            visible={true}
+          />
+          <p className={modalClasses.justASecond}>잠깐만 기다려주세요... {elapsedTime}초 경과</p>
+        </div>
+      ) : (
+        <div className={modalClasses.modalContainer}>
+          <div className={modalClasses.modalBox} style={{ justifyContent: 'flex-end' }}>
+            <AiOutlineClose size={40} onClick={clickCloseIcon} className={modalClasses.closeIcon} />
           </div>
-        ) : (
           <>
-            <div className={modalClasses.modalBox} style={{ justifyContent: 'flex-end' }}>
-              <AiOutlineClose
-                size={40}
-                onClick={clickCloseIcon}
-                className={modalClasses.closeIcon}
-              />
+            <div className={classes.headerBox}>
+              <div className={classes.headerTextBox}>
+                <p className={classes.headerNoText}>No.</p>
+                <div className={classes.headerDiv}>
+                  <p className={classes.headerBigText}>1</p>
+                </div>
+              </div>
             </div>
-            <>
-              <div className={classes.headerBox}>
-                <div className={classes.headerTextBox}>
-                  <p className={classes.headerNoText}>No.</p>
-                  <div className={classes.headerDiv}>
-                    <p className={classes.headerBigText}>1</p>
-                  </div>
-                </div>
+            <div className={classes.largeBox}>
+              <div className={classes.blankLineBox}>{renderTopBlank()}</div>
+              {renderLineBoxes(1)}
+              <div className={classes.lineBox}>
+                <TextSmallBox />
+                <TextSmallBox innerText="폰" />
+                <TextSmallBox innerText="트" />
+                <TextSmallBox />
+                <TextSmallBox innerText="미" />
+                <TextSmallBox innerText="리" />
+                <TextSmallBox innerText="보" />
+                <TextSmallBox innerText="기" />
+                <TextSmallBox />
+                <TextSmallBox />
+                <TextSmallBox />
+                <TextSmallBox />
+                <TextSmallBox />
+                <TextSmallBox />
+                <TextSmallBox />
+                <TextSmallBox />
               </div>
-              <div className={classes.largeBox}>
-                <div className={classes.blankLineBox}>{renderTopBlank()}</div>
-                {renderLineBoxes(1)}
-                <div className={classes.lineBox}>
-                  <TextSmallBox />
-                  <TextSmallBox innerText="폰" />
-                  <TextSmallBox innerText="트" />
-                  <TextSmallBox />
-                  <TextSmallBox innerText="미" />
-                  <TextSmallBox innerText="리" />
-                  <TextSmallBox innerText="보" />
-                  <TextSmallBox innerText="기" />
-                  <TextSmallBox />
-                  <TextSmallBox />
-                  <TextSmallBox />
-                  <TextSmallBox />
-                  <TextSmallBox />
-                  <TextSmallBox />
-                  <TextSmallBox />
-                  <TextSmallBox />
-                </div>
-                <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-                {renderLineBoxes(1)}
-                <div className={classes.lineBox}>
-                  <TextSmallBox />
-                  {hangeul.map((value) => {
-                    // console.log('여기4', value);
-                    return (
-                      <div key={value} className={classes.smallBox}>
-                        <div className={classes.content}>
-                          <img
-                            src={previewImgs[value]}
-                            alt={value}
-                            className={modalClasses.fontImg}
-                          />
-                        </div>
+              <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
+              {renderLineBoxes(1)}
+              <div className={classes.lineBox}>
+                <TextSmallBox />
+                {hangeul.map((value) => {
+                  // console.log('여기4', value);
+                  return (
+                    <div key={value} className={classes.smallBox}>
+                      <div className={classes.content}>
+                        <img
+                          src={previewImgs[value]}
+                          alt={value}
+                          className={modalClasses.fontImg}
+                        />
                       </div>
-                    );
-                  })}
-                  <TextSmallBox />
-                </div>
-                <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-                <div className={classes.lineBox}>
-                  <TextSmallBox />
-                  {english.map((value) => {
-                    return (
-                      <div key={value} className={classes.smallBox}>
-                        <div className={classes.content}>
-                          <img
-                            src={previewImgs[value]}
-                            alt={value}
-                            className={modalClasses.fontImg}
-                          />
-                        </div>
+                    </div>
+                  );
+                })}
+                <TextSmallBox />
+              </div>
+              <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
+              <div className={classes.lineBox}>
+                <TextSmallBox />
+                {english.map((value) => {
+                  return (
+                    <div key={value} className={classes.smallBox}>
+                      <div className={classes.content}>
+                        <img
+                          src={previewImgs[value]}
+                          alt={value}
+                          className={modalClasses.fontImg}
+                        />
                       </div>
-                    );
-                  })}
-                  <TextSmallBox />
-                </div>
-                <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
-                {renderLineBoxes(1)}
-                <div className={classes.blankLineBox}>{renderTopBlank()}</div>
-                <div className={classes.blankLineBox}></div>
+                    </div>
+                  );
+                })}
+                <TextSmallBox />
               </div>
-              <div className={classes.footerBox}>
-                <div className={classes.footerTextBox}>
-                  <p className={classes.footerText}>16 X 6</p>
-                </div>
+              <div className={classes.blankMiddleLine}>{renderLineBlank()}</div>
+              {renderLineBoxes(1)}
+              <div className={classes.blankLineBox}>{renderTopBlank()}</div>
+              <div className={classes.blankLineBox}></div>
+            </div>
+            <div className={classes.footerBox}>
+              <div className={classes.footerTextBox}>
+                <p className={classes.footerText}>16 X 6</p>
               </div>
-            </>
-            <div className={modalClasses.buttonBox} style={{ justifyContent: 'center' }}>
-              <button
-                className={modalClasses.modalBtn}
-                style={{ backgroundColor: mainRedColor, color: 'white' }}
-                onClick={cancleHandler}
-              >
-                제작취소
-              </button>
-
-              <button
-                className={modalClasses.modalBtn}
-                style={{ backgroundColor: 'white', fontWeight: 'bold' }}
-                onClick={goToFontOptionStep}
-              >
-                정보입력
-              </button>
             </div>
           </>
-        )}
-      </div>
+          <div className={modalClasses.buttonBox} style={{ justifyContent: 'center' }}>
+            <button
+              className={modalClasses.modalBtn}
+              style={{ backgroundColor: mainRedColor, color: 'white' }}
+              onClick={cancleHandler}
+            >
+              제작취소
+            </button>
+
+            <button
+              className={modalClasses.modalBtn}
+              style={{ backgroundColor: 'white', fontWeight: 'bold' }}
+              onClick={goToFontOptionStep}
+            >
+              정보입력
+            </button>
+          </div>
+        </div>
+      )}
     </ReactModal>
   );
 };
