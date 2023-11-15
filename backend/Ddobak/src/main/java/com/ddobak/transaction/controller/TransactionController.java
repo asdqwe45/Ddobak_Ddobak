@@ -150,7 +150,7 @@ public class TransactionController {
     // 구매 폰트 디테일 조회
     @GetMapping("/font/detail")
     public ResponseEntity<List<FontDetailResponse>> requestPurchaseList(@AuthenticationPrincipal LoginInfo loginInfo) {
-        log.info("{}'s font detail info");
+        log.info("{}'s font detail info",loginInfo.email());
 
         List<FontDetailResponse> fontDetailResponseList = transactionService.getPurchaseList(loginInfo);
         return ResponseEntity.ok().body(fontDetailResponseList);
