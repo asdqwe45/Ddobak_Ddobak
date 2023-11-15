@@ -16,9 +16,9 @@ type Font = {
   kor_font_name: string;
   producer_id: string;
   producer_name: string;
-  font_file_url: string;
   dibCheck: boolean;
   price: number;
+  font_file_url: string;
 };
 
 const FontListPage: React.FC = () => {
@@ -88,8 +88,9 @@ const FontListPage: React.FC = () => {
           maker={font.producer_name}
           dib={font.dibCheck}
           price={font.price}
+          font_file_url={font.font_file_url}
         />
-      ));
+      ))
     }
   };
   const sales = ['유료', '무료'];
