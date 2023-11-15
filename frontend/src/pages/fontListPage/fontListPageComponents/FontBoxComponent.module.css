@@ -1,8 +1,10 @@
 .container {
   border: 1px solid #b6b6b6;
   border-radius: 5px;
-  width: 28vw;
-  height: 40vh;
+  /* width: 28vw; */
+  width: 300px;
+  /* height: 40vh; */
+  height: 300px;
   box-sizing: border-box;
   margin: 10px;
 }

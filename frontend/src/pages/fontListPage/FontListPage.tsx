@@ -231,74 +231,75 @@ const FontListPage: React.FC = () => {
 
   return (
     <>
-      <div className={classes.container}>
-        <div className={classes.topContainer}>
-          <PageTitle>
-            <span>모든 폰트</span>
-          </PageTitle>
-          <div className={classes.searchBar}>
-            <input
-              type="text"
-              placeholder="폰트명, 제작자 검색"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            {isSearching ? (
-              // 검색 중
-              <LiaTimesCircle size={24} color="black" onClick={clearSearch} />
-            ) : (
-              <FaSistrix size={24} color="black" />
-            )}
-          </div>
-
-          <div className={classes.filterBarWrapper}>
-            <div
-              className={`${classes.filterBar} ${showFilterOptions ? classes.filterBarActive : ''}`}
-              onClick={() => setShowFilterOptions(!showFilterOptions)}
-            >
-              폰트 스타일
-              <FaAngleDown
-                size={22}
-                color="gray"
-                style={{ marginLeft: '4px' }}
-                className={`${classes.filterIcon} ${
-                  showFilterOptions ? classes.filterIconActive : ''
-                }`}
+      <div className={classes.mainContainer}>
+        <div className={classes.container}>
+          <div className={classes.topContainer}>
+            <PageTitle>
+              <span>모든 폰트</span>
+            </PageTitle>
+            <div className={classes.searchBar}>
+              <input
+                type="text"
+                placeholder="폰트명, 제작자 검색"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
+              {isSearching ? (
+                // 검색 중
+                <LiaTimesCircle size={24} color="black" onClick={clearSearch} />
+              ) : (
+                <FaSistrix size={24} color="black" />
+              )}
             </div>
-            {showFilterOptions && renderFilterOptions()}
-          </div>
 
-          <div className={classes.filterBarWrapper}>
-            <div
-              className={`${classes.filterBar} ${showFilter ? classes.filterBarActive : ''}`}
-              onClick={() => setShowFilter(!showFilter)}
-              style={{ width: '86px' }}
-            >
-              판매 상태
-              <FaAngleDown
-                size={22}
-                color="gray"
-                style={{ marginLeft: '4px' }}
-                className={`${classes.filterIcon} ${showFilter ? classes.filterIconActive : ''}`}
-              />
+            <div className={classes.filterBarWrapper}>
+              <div
+                className={`${classes.filterBar} ${showFilterOptions ? classes.filterBarActive : ''}`}
+                onClick={() => setShowFilterOptions(!showFilterOptions)}
+              >
+                폰트 스타일
+                <FaAngleDown
+                  size={22}
+                  color="gray"
+                  style={{ marginLeft: '4px' }}
+                  className={`${classes.filterIcon} ${showFilterOptions ? classes.filterIconActive : ''
+                    }`}
+                />
+              </div>
+              {showFilterOptions && renderFilterOptions()}
             </div>
-            {showFilter && renderFilter()}
+
+            <div className={classes.filterBarWrapper}>
+              <div
+                className={`${classes.filterBar} ${showFilter ? classes.filterBarActive : ''}`}
+                onClick={() => setShowFilter(!showFilter)}
+                style={{ width: '86px' }}
+              >
+                판매 상태
+                <FaAngleDown
+                  size={22}
+                  color="gray"
+                  style={{ marginLeft: '4px' }}
+                  className={`${classes.filterIcon} ${showFilter ? classes.filterIconActive : ''}`}
+                />
+              </div>
+              {showFilter && renderFilter()}
+            </div>
           </div>
+          <div className={classes.fontBoxContainer}>{renderFontBoxes()}</div>
         </div>
-        <div className={classes.fontBoxContainer}>{renderFontBoxes()}</div>
-      </div>
-      <div className={classes.paginationContainer}>
-        {/* 페이지네이션 */}
-        {fonts.length > 0 ? (
-          <PageMiniManuscript
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePagination}
-          />
-        ) : (
-          <div className={classes.noResult}>찾으시는 값이 없습니다. 💬</div>
-        )}
+        <div className={classes.paginationContainer}>
+          {/* 페이지네이션 */}
+          {fonts.length > 0 ? (
+            <PageMiniManuscript
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePagination}
+            />
+          ) : (
+            <div className={classes.noResult}>찾으시는 값이 없습니다. 💬</div>
+          )}
+        </div>
       </div>
     </>
   );

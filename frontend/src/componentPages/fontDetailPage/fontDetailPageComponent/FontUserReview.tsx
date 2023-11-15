@@ -27,7 +27,7 @@ interface ReviewListType {
 
 const FontBoxSwiper = (data: ReviewListType[]) => {
   let boxes = [];
-  for (let i = 0; i < data.length; i++) {
+  for (let i = data.length-1 ; i >= 0; i--) {
     boxes.push(
       <SwiperSlide key={i + 'fff'} className={classes.swiperSlid}>
         <div className={classes.imgContainer}>
@@ -37,7 +37,6 @@ const FontBoxSwiper = (data: ReviewListType[]) => {
       </SwiperSlide>,
     );
   }
-
   return boxes;
 };
 
@@ -48,15 +47,7 @@ interface FontUserReviewType {
 const FontUserReview: React.FC<FontUserReviewType> = ({ fontId }) => {
   const swiperRef = useRef<SwiperCore>();
   const [reviewList, setReviewList] = useState<ReviewListType[]>([]);
-  // FontUserReview.js 예시
-  // const fetchReviews = async () => {
-  //   try {
-  //     const response = await axios.get('/api/review');
-  //     // 상태에 리뷰 데이터 저장
-  //   } catch (error) {
-  //     // 에러 핸들링
-  //   }
-  // };
+
   useEffect(() => {
     async function fetch() {
       const data = await reviewListAPI(fontId)
@@ -93,10 +84,10 @@ const FontUserReview: React.FC<FontUserReviewType> = ({ fontId }) => {
               slidesPerView={3.3}
               spaceBetween={10}
               loop={shouldLoop}
-              // autoplay={{
-              //   delay: 2500,
-              //   disableOnInteraction: false,
-              // }}
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+              }}
               modules={[Autoplay, Navigation]}
               className={classes.swiper}
             >
