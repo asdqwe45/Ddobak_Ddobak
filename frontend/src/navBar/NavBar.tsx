@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NavLink, NavigateFunction } from 'react-router-dom';
+import { NavLink, NavigateFunction, useParams } from 'react-router-dom';
 import classes from './NavBar.module.css';
 import NavLogo from '../common/commonAssets/ddobak_logo.png';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -76,6 +76,46 @@ const NavBar: React.FC = () => {
   }, [myToken, dispatch]);
 
   const location = useLocation();
+  const params = useParams();
+  useEffect(() => {
+    console.log(params.makerName);
+    console.log(params.makerId);
+
+    switch (location.pathname) {
+      case '/fontMake':
+        document.title = '제작하기 🛠 - 또박또박';
+        break;
+      case '/fontList':
+        document.title = '폰트보기 🔍 - 또박또박';
+        break;
+      case '/faqPage':
+        document.title = '궁금해요 💡 - 또박또박';
+        break;
+      case '/myPage':
+        document.title = '마이페이지 😎 - 또박또박';
+        break;
+      case '/login':
+        document.title = '또박또박 로그인 ✏';
+        break;
+      case '/signup':
+        document.title = '또박또박 회원가입 ✏';
+        break;
+      case `/font/${params.fontId}`:
+        document.title = '또박 폰트 상세보기 📑';
+        break;
+      case `/maker/${encodeURIComponent(params.makerName || '')}/${params.makerId}`:
+        document.title = `${params.makerName} 😊`;
+        break;
+      case '/point':
+        document.title = '포인트 💳- 또박또박';
+        break;
+
+      // 기타 경로에 대한 타이틀 설정
+      default:
+        document.title = '손글씨 제작, 또박또박 ✏';
+    }
+  }, [location, params]);
+
   const firstProgress = useSelector((state: ProgressType) => state.progress.gauge);
   const refresh = useSelector((state: ProgressType) => state.progress.refresh);
   const isActivePath = (pathPatterns: string[]): boolean => {

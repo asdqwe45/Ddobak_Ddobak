@@ -38,7 +38,7 @@ const store = configureStore({
     progress: progressLoaderSlice.reducer,
     duplicatedEmail: duplicatedEmailSlice.reducer,
     rootLoader: rootLoaderModalSlice.reducer,
-    refresh: refreshSlice.reducer
+    refresh: refreshSlice.reducer,
   },
 });
 
