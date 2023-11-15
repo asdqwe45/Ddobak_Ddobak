@@ -17,6 +17,7 @@ import successModalSlice from './successModalSlice';
 import progressLoaderSlice from './progressLoaderSlice';
 import duplicatedEmailSlice from './duplicatedEmailSlice';
 import rootLoaderModalSlice from './rootLoaderModalSlice';
+import refreshSlice from './refreshSlice';
 
 const store = configureStore({
   reducer: {
@@ -37,6 +38,7 @@ const store = configureStore({
     progress: progressLoaderSlice.reducer,
     duplicatedEmail: duplicatedEmailSlice.reducer,
     rootLoader: rootLoaderModalSlice.reducer,
+    refresh: refreshSlice.reducer
   },
 });
 

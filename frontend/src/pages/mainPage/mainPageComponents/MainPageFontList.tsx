@@ -25,7 +25,7 @@ import DdobakLogo from '../../../common/commonAssets/ddobak_logo.png';
 
 // API 호출
 import { axiosWithAuth, axiosWithoutAuth, getData } from 'https/http';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { progressLoaderActions } from 'store/progressLoaderSlice';
 
 type Font = {
@@ -42,10 +42,17 @@ type FontList = {
   fontCount: number;
 };
 
+interface RefreshType {
+  refresh: {
+    mainList: number;
+  };
+}
+
 const MainPageFontList: React.FC = () => {
   const swiperRef = useRef<SwiperCore>();
   const [fonts, setFonts] = useState<Font[]>([]); // 폰트 데이터를 위한 상태
   const dispatch = useDispatch();
+  const mainList = useSelector((state: RefreshType) => state.refresh);
   // 폰트 데이터를 가져오는 함수
   useEffect(() => {
     const fetchFonts = async () => {
@@ -84,7 +91,7 @@ const MainPageFontList: React.FC = () => {
       }
     };
     fetchFonts();
-  }, [dispatch]);
+  }, [dispatch, mainList]);
 
   const renderFontBoxes = () => {
     return fonts.map((font) => (

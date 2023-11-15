@@ -9,6 +9,8 @@ import pointCoin from '../../../fontListPage/fontListPageAssets/point.png';
 
 import { getData } from 'https/http';
 import AlertCustomModal from 'common/modals/alertCustomModal/AlertCustomModal';
+import { useDispatch } from 'react-redux';
+import { refreshActions } from 'store/refreshSlice';
 
 interface FontBoxProps {
   font_id: string;
@@ -29,7 +31,7 @@ const MainFontBox: React.FC<FontBoxProps> = ({
 }) => {
   const navigate = useNavigate();
   const [showAlertModal, setShowAlertModal] = useState(false);
-
+  const dispatch = useDispatch();
   const handleLoginAlert = () => {
     setShowAlertModal(true); //
   };
@@ -42,7 +44,7 @@ const MainFontBox: React.FC<FontBoxProps> = ({
     if (dib) {
       dibRemoveAPI(fontId)
         .then(async (r) => {
-          window.location.reload();
+          dispatch(refreshActions.mainPlus());
         })
         .catch((e) => {
           console.error(e);
@@ -50,7 +52,7 @@ const MainFontBox: React.FC<FontBoxProps> = ({
     } else {
       dibAddAPI(fontId)
         .then((r) => {
-          window.location.reload();
+          dispatch(refreshActions.mainPlus());
         })
         .catch((e) => {
           console.error(e);
