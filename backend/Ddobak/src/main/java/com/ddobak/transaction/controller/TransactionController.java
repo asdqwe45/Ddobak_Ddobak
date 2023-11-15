@@ -82,12 +82,14 @@ public class TransactionController {
 
     // 구매 요청(판매도 같이 되어야 함)
     @PostMapping("/purchase")
-    public ResponseEntity<PurchaseResponse> requestPurchaseFont(@AuthenticationPrincipal LoginInfo loginInfo, @RequestBody
-        List<PurchaseRequest> purchaseRequestList) {
+    public ResponseEntity<PurchaseResponse> requestPurchaseFont(@AuthenticationPrincipal LoginInfo loginInfo,
+        @RequestBody List<PurchaseRequest> purchaseRequestList) {
         int totalAmount = purchaseRequestList.size();
-        for(int i=0;i< purchaseRequestList.size();i++){
-            log.info("{} purchase font {}", loginInfo.email(), purchaseRequestList.get(i).fontId());
-        }
+        purchaseRequestList.stream().forEach(
+            purchaseRequest -> {
+                log.info("{} purchase font {}", loginInfo.email(), purchaseRequest.fontId());
+            }
+        );
         PurchaseResponse purchaseResponse = transactionService.purchaseFont(loginInfo, purchaseRequestList, totalAmount);
         return ResponseEntity.ok().body(purchaseResponse);
     }
