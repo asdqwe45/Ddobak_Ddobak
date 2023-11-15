@@ -5,8 +5,8 @@ import AlertCustomModal from '../alertCustomModal/AlertCustomModal';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { reviewModalActions } from 'store/reviewModalSlice';
-import { AiOutlineClose } from 'react-icons/ai';
-import { mainRedColor } from 'common/colors/CommonColors';
+import { AiOutlineClose, AiFillCloseCircle } from 'react-icons/ai';
+import { borderColor, mainRedColor } from 'common/colors/CommonColors';
 import { reviewRegisterAPI } from 'https/utils/ReviewFunction';
 
 interface ReviewModalState {
@@ -18,7 +18,9 @@ interface ReviewModalState {
 
 const ReviewModal: React.FC = () => {
   const [alertModal, setAlertModal] = useState(false);
-  const handleAlertModal = () => {
+  const handleAlertModal = async () => {
+    setMessage1('한줄 리뷰와 이미지 모두 업로드 해주세요.');
+    setMessage2('');
     setAlertModal(true);
   };
 
@@ -39,16 +41,34 @@ const ReviewModal: React.FC = () => {
   const [reviewImgName, setReviewImgName] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [imgFile, setImgFile] = useState<File | string>();
-  const handleImgChange = (e: ChangeEvent<HTMLInputElement>) => {
+
+  const [message1, setMessage1] = useState<string>('');
+  const [message2, setMessage2] = useState<string>('');
+
+  const handleImgChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     if (file) {
-      setImgFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setReviewImg(reader.result as string);
-        setReviewImgName(file.name); // 파일 이름 설정
-      };
-      reader.readAsDataURL(file);
+      const fileExtension = file.name.split('.').pop()?.toLowerCase();
+      if (
+        fileExtension === 'jpg' ||
+        fileExtension === 'png' ||
+        fileExtension === 'jpeg' ||
+        fileExtension === 'svg'
+      ) {
+        setImgFile(file);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setReviewImg(reader.result as string);
+          setReviewImgName(file.name); // 파일 이름 설정
+        };
+        reader.readAsDataURL(file);
+        return;
+      } else {
+        setMessage1('미리보기를 지원하지 않는');
+        setMessage2('파일 형식입니다.');
+        setAlertModal(true);
+        return;
+      }
     } else {
       setReviewImg(null);
       setReviewImgName(null);
@@ -137,10 +157,13 @@ const ReviewModal: React.FC = () => {
                 <img src={reviewImg} alt="Uploaded Preview" className={classes.innerImgSize} />
               )}
               <div className={classes.imgNameBox}>
-                <p className={classes.innerText}>{reviewImgName}</p>
+                <p className={classes.innerText} style={{ marginTop: 0, marginBottom: 0 }}>
+                  {reviewImgName}
+                </p>
                 {reviewImg && (
-                  <AiOutlineClose
+                  <AiFillCloseCircle
                     size={30}
+                    color={borderColor}
                     className={classes.closeIcon}
                     onClick={() => {
                       setReviewImg(null);
@@ -167,8 +190,8 @@ const ReviewModal: React.FC = () => {
         onHide={() => {
           setAlertModal(false);
         }}
-        message1="한줄 리뷰와 이미지 모두 업로드 해주세요."
-        message2=""
+        message1={message1}
+        message2={message2}
         btnName="확인"
       />
     </ReactModal>
