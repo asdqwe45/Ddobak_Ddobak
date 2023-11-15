@@ -5,11 +5,14 @@ import com.ddobak.font.dto.request.FinalMakeRequest;
 import com.ddobak.font.dto.response.FontDetailResponse;
 import com.ddobak.font.dto.response.FontIdResponse;
 import com.ddobak.font.dto.response.FontListResponse;
+import com.ddobak.font.dto.response.MakingFontResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.font.exception.InvalidFileFormatException;
 import com.ddobak.font.service.FontImageService;
 import com.ddobak.font.service.FontService;
 import com.ddobak.security.util.LoginInfo;
+import com.ddobak.transaction.dto.response.FontResponse;
+import com.ddobak.transaction.dto.response.TransactionResponse;
 import com.ddobak.transaction.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -142,5 +145,10 @@ public class FontController {
     public ResponseEntity<Boolean> checkFontName(@RequestParam(required = false) String korFontName, @RequestParam(required = false) String engFontName ,@AuthenticationPrincipal LoginInfo loginInfo){
         Boolean result = fontService.checkNameDuplicate(korFontName, engFontName);
         return ResponseEntity.ok(result);
+    }
+    @GetMapping("/mypage/{producerId}")
+    public ResponseEntity<List<MakingFontResponse>> requestFontList(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long producerId) {
+        List<MakingFontResponse> fontResponseList = fontService.getMakingFont(producerId);
+        return ResponseEntity.ok().body(fontResponseList);
     }
 }

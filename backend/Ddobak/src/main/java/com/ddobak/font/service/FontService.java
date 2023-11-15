@@ -6,6 +6,7 @@ import com.ddobak.font.dto.response.FontDetailResponse;
 import com.ddobak.font.dto.response.FontIdResponse;
 import com.ddobak.font.dto.response.FontListResponse;
 
+import com.ddobak.font.dto.response.MakingFontResponse;
 import com.ddobak.font.entity.Font;
 import com.ddobak.security.util.LoginInfo;
 import org.springframework.data.domain.Pageable;
@@ -31,5 +32,7 @@ public interface FontService {
     Boolean checkNameDuplicate(String korFontName, String engFontName);
 
     void finalMakeFont(FinalMakeRequest req, LoginInfo loginInfo);
+
+    List<MakingFontResponse> getMakingFont(Long producerId);
 }
 
