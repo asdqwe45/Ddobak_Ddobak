@@ -25,6 +25,7 @@ import {
   ContentInnerTextBox,
   ContentProducerName,
   ContentInnerHeaderText,
+  ContentInnerHeaderSpan,
   ContentInnerRight,
   ContentGrayDisabled,
   ContentGrayTransaction,
@@ -51,6 +52,7 @@ import { borderColor } from 'common/colors/CommonColors';
 import { FaBookmark, FaRegCheckSquare, FaRegSquare } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
 import { BsPersonWorkspace } from 'react-icons/bs';
+import { RiDoorClosedLine, RiDoorOpenLine } from 'react-icons/ri';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -767,6 +769,14 @@ const MyPage: React.FC = () => {
                                     >
                                       {font.fontName}
                                     </ContentInnerHeaderText>
+                                    <ContentInnerHeaderSpan>
+                                      {font.openStatus ? '| 공개 폰트' : '| 비공개 폰트'}
+                                      {font.openStatus ? (
+                                        <RiDoorOpenLine size={24} />
+                                      ) : (
+                                        <RiDoorClosedLine size={24} />
+                                      )}
+                                    </ContentInnerHeaderSpan>
                                   </ContentHeader>
                                   <div>
                                     <CartStyle
@@ -779,7 +789,7 @@ const MyPage: React.FC = () => {
                                 </ContentInnerTextBox>
                               </ContentInnerLeft>
                               <ContentInnerRight>
-                                <ContentGrayDisabled>결제완료</ContentGrayDisabled>
+                                <ContentGrayDisabled>제작 완료</ContentGrayDisabled>
                                 <ContentRedBtn
                                   onClick={() => {
                                     clickDownloadHandler(font);

@@ -226,13 +226,21 @@ export const ContentHeader = styled.div`
 `;
 export const ContentInnerHeaderText = styled.h1`
   margin: 0px;
-  margin-right: 10px;
   font-size: 24px;
   padding: 0px 10px;
   &:hover {
     cursor: pointer;
     background-color: #fff1f0;
   }
+`;
+export const ContentInnerHeaderSpan = styled.span`
+  margin: 0px;
+  margin-left: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  color: ${mainRedColor};
 `;
 
 export const ContentProducerName = styled.p`

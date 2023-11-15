@@ -38,7 +38,6 @@ const CustomTextStyle = styled.span<CustomTextStyleType>`
   font-family: ${(props) => props.fontFamily};
 `;
 
-
 const FontBoxComponent: React.FC<FontBoxProps> = ({
   font_id,
   title,
