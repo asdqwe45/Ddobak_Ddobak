@@ -20,7 +20,7 @@ const ReviewModal: React.FC = () => {
   const [alertModal, setAlertModal] = useState(false);
   const handleAlertModal = () => {
     setAlertModal(true);
-  }
+  };
 
   const fontId = useSelector((state: ReviewModalState) => state.reviewModal.fontId);
   useEffect(() => {
@@ -70,7 +70,7 @@ const ReviewModal: React.FC = () => {
           console.error(e);
         });
     } else {
-      return handleAlertModal()
+      return handleAlertModal();
       // alert('한줄 리뷰와 이미지 모두 업로드 해주세요.');
     }
   };
@@ -84,7 +84,6 @@ const ReviewModal: React.FC = () => {
       setInputReview(newValue);
     }
   };
-
 
   return (
     <ReactModal
@@ -113,7 +112,12 @@ const ReviewModal: React.FC = () => {
             <span style={{ marginLeft: '20px' }}>({inputReview.length}/30)</span>
           </div>
           <div>
-            <input type="text" className={classes.inputText} value={inputReview} onChange={handleInputChange} />
+            <input
+              type="text"
+              className={classes.inputText}
+              value={inputReview}
+              onChange={handleInputChange}
+            />
           </div>
           <div className={classes.innerMiddleBox}>
             <p className={classes.innerText}>이미지 첨부</p>
@@ -160,9 +164,12 @@ const ReviewModal: React.FC = () => {
       </div>
       <AlertCustomModal
         show={alertModal}
-        onHide={() => { setAlertModal(false)}}
-        message1='한줄 리뷰와 이미지 모두 업로드 해주세요.' message2=''
-        btnName='확인'
+        onHide={() => {
+          setAlertModal(false);
+        }}
+        message1="한줄 리뷰와 이미지 모두 업로드 해주세요."
+        message2=""
+        btnName="확인"
       />
     </ReactModal>
   );

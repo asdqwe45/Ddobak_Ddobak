@@ -227,6 +227,7 @@ const MyPage: React.FC = () => {
       dispatch(progressLoaderActions.startGuage());
       await transactionProducerAPI(myId)
         .then(async (r) => {
+          console.log(r);
           setCreatedFontList(r);
         })
         .catch((e) => console.error(e));
@@ -865,7 +866,12 @@ const MyPage: React.FC = () => {
                                     </ContentInnerHeaderText>
                                     <ContentProducerName>| {cart.producer} </ContentProducerName>
                                     <ContentProducerName style={{ marginLeft: 10 }}>
-                                      | {formatNumberWithCommas(cart.fontPrice)} P
+                                      |{' '}
+                                      {cart.fontPrice === 0 ? (
+                                        <span className={classes.freePrice}>무료 폰트</span>
+                                      ) : (
+                                        `${formatNumberWithCommas(cart.fontPrice)} P`
+                                      )}
                                     </ContentProducerName>
                                   </ContentHeader>
                                   <CartStyle

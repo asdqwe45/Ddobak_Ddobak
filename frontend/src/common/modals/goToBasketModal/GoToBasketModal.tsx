@@ -51,9 +51,7 @@ const GoToBasketModal: React.FC = () => {
           <AiOutlineClose size={30} className={classes.closeIcon} onClick={closeModal} />
         </div>
         <div className={classes.middleBox}>
-          <p className={classes.innerText}>
-            장바구니에 폰트를 잘 담았어요.
-          </p>
+          <p className={classes.innerText}>장바구니에 폰트를 잘 담았어요.</p>
         </div>
         <div className={classes.bottomBox}>
           <button
