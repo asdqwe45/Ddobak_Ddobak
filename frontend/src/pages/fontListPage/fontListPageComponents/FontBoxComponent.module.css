@@ -23,8 +23,9 @@
 }
 
 .title {
-  font-size: 28px;
+  font-size: 34px;
   font-weight: bold;
+  letter-spacing: -8px;
 }
 
 .title:hover {
@@ -46,7 +47,6 @@
   justify-content: space-between;
   font-size: 23px;
   padding: 5px 15px 15px 15px;
-  margin-top: 5px;
 }
 
 .coinIcon {
@@ -73,4 +73,5 @@
   line-height: 45px;
   font-size: 42px;
   padding: 5px;
+  letter-spacing: -5px;
 }

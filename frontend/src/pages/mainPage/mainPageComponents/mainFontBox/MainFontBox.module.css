@@ -21,8 +21,9 @@
 }
 
 .title {
-  font-size: 28px;
+  font-size: 34px;
   font-weight: bold;
+  letter-spacing: -8px;
 }
 
 .title:hover {
@@ -70,4 +71,5 @@
   line-height: 45px;
   font-size: 42px;
   padding: 5px;
+  letter-spacing: -8px;
 }
