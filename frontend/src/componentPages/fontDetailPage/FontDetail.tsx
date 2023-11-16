@@ -61,6 +61,16 @@ const CustomTextStyle = styled.div<CustomTextStyleType>`
   overflow: auto;
 `;
 
+
+const CustomTitleStyle = styled.div<CustomTextStyleType>`
+  @font-face {
+    font-family: ${(props) => props.fontFamily};
+    src: url(${(props) => props.fontSrc});
+  }
+  font-family: ${(props) => props.fontFamily};
+  font-size: ${(props) => props.fontSize}px;
+`;
+
 const FontDetail: React.FC = () => {
   // 후기 등록 모달
   const dispatch = useDispatch();
@@ -213,7 +223,7 @@ const FontDetail: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
   };
-  const [fontSize, setFontSize] = useState<number>(30);
+  const [fontSize, setFontSize] = useState<number>(40);
 
   const handleFontSizeChange = (size: number) => {
     setFontSize(size);
@@ -292,7 +302,14 @@ const FontDetail: React.FC = () => {
                 <FaRegBookmark className={classes.bookIcon} onClick={handleIconClick} />
               )}
             </div>
+            <CustomTitleStyle
+            fontSize={fontSize}
+            inputText={inputText}
+            fontFamily={fontName}
+            fontSrc={webFont}
+          >
             <div className={classes.title}>{fontDetail ? fontDetail.fontName : ''}</div>
+            </CustomTitleStyle>
           </div>
           <div>
             <span className={classes.price}>

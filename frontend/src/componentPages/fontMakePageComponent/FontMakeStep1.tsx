@@ -6,7 +6,7 @@ import guideLine from './fontMakePageAssets/guideLine.png';
 const handleEngDownload = async () => {
   try {
     const response = await fetch(
-      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/english_number_templateFinal.pdf',
+      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/eng_template.pdf',
     );
     if (response.ok) {
       const blob = await response.blob();
@@ -29,7 +29,7 @@ const handleEngDownload = async () => {
 const handleKorDownload = async () => {
   try {
     const response = await fetch(
-      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/templateFinal.pdf',
+      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/template.pdf',
     );
     if (response.ok) {
       const blob = await response.blob();
