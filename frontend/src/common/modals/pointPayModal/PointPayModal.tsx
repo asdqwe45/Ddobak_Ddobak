@@ -14,7 +14,7 @@ import { checkToken, userMypageAPI } from 'https/utils/AuthFunction';
 import { transactionPurchaseAPI } from 'https/utils/TransactionFunction';
 import { cartDeleteAPI } from 'https/utils/CartFunction';
 import { successModalActions } from 'store/successModalSlice';
-import { axiosWithAuth } from 'https/http';
+import { axiosWithAuth, getData } from 'https/http';
 import AlertCustomModal from '../alertCustomModal/AlertCustomModal';
 import { refreshActions } from 'store/refreshSlice';
 
@@ -93,8 +93,32 @@ const PointPayModal: React.FC = () => {
   const buyAll = useSelector((state: PointModalState) => state.pointModal.buyAll);
   const payHandler = async () => {
     if (currentPoint < howMuch) {
-      setShowAlertModal(true);
-      return null;
+      const productionStatus = await getData('bonjour');
+      if (productionStatus) {
+        setShowAlertModal(true);
+        return null;
+      } else {
+        if (boughtSomething === '폰트제작') {
+          await axiosWithAuth
+            .put('/font/make/request', makeFontRequest)
+            .then(async (r) => {
+              // clickPayHandler();
+              // 다음 페이지로 이동
+              dispatch(resultModalActions.nextStep());
+              dispatch(
+                successModalActions.showSomething({
+                  successHeader: '제작 결제 완료',
+                  successContext: '이용해주셔서 감사합니다.',
+                }),
+              );
+              return;
+            })
+            .catch((e) => {
+              console.error(e);
+            });
+          return;
+        }
+      }
     }
     dispatch(pointPayModalActions.resetState());
     // 결제가 완료되면 순차적으로 실행

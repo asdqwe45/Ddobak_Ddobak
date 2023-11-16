@@ -68,6 +68,7 @@ const NavBar: React.FC = () => {
           localStorage.removeItem('refreshToken');
           localStorage.removeItem('profileImgUrl');
           localStorage.removeItem('today');
+          localStorage.removeItem('bonjour');
           window.location.reload();
         }
       }
@@ -137,6 +138,7 @@ const NavBar: React.FC = () => {
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('profileImgUrl');
     localStorage.removeItem('today');
+    localStorage.removeItem('bonjour');
     navigate('/');
     window.location.reload();
   };
