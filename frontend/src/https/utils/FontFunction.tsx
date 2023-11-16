@@ -19,7 +19,7 @@ export async function changeMakerIntroRequest(modifiedText: string): Promise<any
       return r.data;
     })
     .catch((e) => {
-      console.log(e.message);
+      // console.log(e.message);
       throw e;
     });
 }

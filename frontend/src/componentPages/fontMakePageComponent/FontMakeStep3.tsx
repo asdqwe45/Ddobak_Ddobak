@@ -27,7 +27,7 @@ const FontMakeStep3: React.FC = () => {
 
   useEffect(() => {
     if (isPaid) {
-      console.log(boughtSometing, howMuch);
+      // console.log(boughtSometing, howMuch);
       const interval = setInterval(() => {
         setProgress((prevProgress) => {
           if (prevProgress >= 100) {

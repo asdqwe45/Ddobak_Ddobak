@@ -123,7 +123,7 @@ const PointPayModal: React.FC = () => {
     }
     dispatch(pointPayModalActions.resetState());
     // 결제가 완료되면 순차적으로 실행
-    console.log(makeFontRequest);
+    // console.log(makeFontRequest);
     if (boughtSomething === '폰트제작') {
       await axiosWithAuth
         .put('/font/make/request', makeFontRequest)

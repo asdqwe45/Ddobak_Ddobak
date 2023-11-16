@@ -35,10 +35,10 @@ const FontListPage: React.FC = () => {
           return r;
         });
         if (response.data) {
-          console.log('API로부터 받은 폰트 목록:', response.data);
+          // console.log('API로부터 받은 폰트 목록:', response.data);
           setFonts(response.data.fontListResponse);
         } else {
-          console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
+          // console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
         }
       } catch (error) {
         console.error('API 호출 에러:', error);
@@ -57,10 +57,10 @@ const FontListPage: React.FC = () => {
             return r;
           });
           if (response.data) {
-            console.log('API로부터 받은 데이터:', response.data);
+            // console.log('API로부터 받은 데이터:', response.data);
             setFonts(response.data.fontListResponse);
           } else {
-            console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
+            // console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
           }
         } catch (error) {
           console.error('API 호출 에러:', error);
@@ -77,7 +77,7 @@ const FontListPage: React.FC = () => {
 
   // 폰트보기 페이지의 폰트 목록 렌더링
   const renderFontBoxes = () => {
-    console.log(fonts);
+    // console.log(fonts);
     if (fonts) {
       return fonts.map((font) => (
         <FontBoxComponent

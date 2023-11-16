@@ -144,7 +144,7 @@ const MakerPage: React.FC = () => {
       // 제작한 폰트 리스트 가져오기
       transactionProducerAPI(makerId)
         .then(async (r) => {
-          console.log(r);
+          // console.log(r);
           setFontList(r);
         })
         .catch((e) => console.error('MakerPage TransactionProducerAPI Error: ' + e.message));
