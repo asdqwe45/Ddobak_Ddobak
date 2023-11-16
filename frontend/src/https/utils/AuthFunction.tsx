@@ -100,14 +100,6 @@ return item ? (parseJSON(item) as T) : initialValue
 
 // const localStorage = window.localStorage
 
-export async function userTestLogin(data: LoginType) {
-  console.log(data);
-  const testToken = 'DFGHJDFGHJKGHJKFGHJKLFGHJKFGHJKLFGHJK';
-  const jsonTestToken = JSON.stringify(testToken);
-  localStorage.setItem('testToken', jsonTestToken);
-  window.location.reload();
-}
-
 // 토큰이 있는지 확인해주는 함수
 export async function checkToken() {
   const accessToken = await localStorage.getItem('accessToken');
