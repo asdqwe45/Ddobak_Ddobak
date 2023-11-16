@@ -335,9 +335,9 @@ const FontDetail: React.FC = () => {
         <div className={classes.subContainer}>
           <div className={classes.makerContainer}>
             <p onClick={navigateToMaker}>
-              <strong>제작자 </strong> {fontDetail ? fontDetail.producerName : ''}
+              <strong>제작자 </strong> <span>{fontDetail ? fontDetail.producerName : ''}</span>
             </p>
-            <p>c
+            <p>
               <>
                 <strong>조회수 </strong> {fontDetail ? fontDetail.viewCount : ''}
               </>

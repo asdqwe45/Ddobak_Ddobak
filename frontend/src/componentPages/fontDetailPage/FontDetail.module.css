@@ -53,10 +53,15 @@
 .makerContainer p {
   font-size: 20px;
   margin: 20px 40px 15px 5px;
+  cursor: pointer;
 }
 
 .makerContainer strong {
   margin-right: 5px;
+}
+
+.makerContainer span:hover {
+  background-color: #fcfcca;
 }
 
 .buyContainer {

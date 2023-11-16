@@ -22,7 +22,7 @@ const resultModalSlice = createSlice({
       state.resultIsVisible = !state.resultIsVisible;
     },
     nextStep(state) {
-      state.step += 1;
+      state.step += 2;
     },
     setStep(state, action: PayloadAction<number>) {
       state.step = action.payload;
