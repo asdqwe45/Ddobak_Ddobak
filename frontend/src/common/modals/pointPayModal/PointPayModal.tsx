@@ -88,19 +88,17 @@ const PointPayModal: React.FC = () => {
     dispatch(chargePointModalActions.toggle());
   };
   const [showAlertModal, setShowAlertModal] = useState<boolean>(false);
-  const [showFreeModal, setShowFreeModal] = useState<boolean>(false);
 
   const makeFontRequest = useSelector((state: PointModalState) => state.pointModal.makeFontRequest);
   const boughtSomething = useSelector((state: PointModalState) => state.pointModal.boughtSometing);
   const buyAll = useSelector((state: PointModalState) => state.pointModal.buyAll);
   const payHandler = async () => {
+    const productionStatus = await getData('bonjour');
     if (currentPoint < howMuch) {
-      const productionStatus = await getData('bonjour');
       if (productionStatus) {
         setShowAlertModal(true);
         return null;
       } else {
-        setShowFreeModal(true);
         if (boughtSomething === '폰트제작') {
           await axiosWithAuth
             .put('/font/make/request', makeFontRequest)
@@ -114,7 +112,6 @@ const PointPayModal: React.FC = () => {
                   successContext: '이용해주셔서 감사합니다.❤',
                 }),
               );
-              setShowAlertModal(false); // 결제 완료 후 모달 닫히기
               return;
             })
             .catch((e) => {
@@ -134,12 +131,21 @@ const PointPayModal: React.FC = () => {
           // clickPayHandler();
           // 다음 페이지로 이동
           dispatch(resultModalActions.nextStep());
-          dispatch(
-            successModalActions.showSomething({
-              successHeader: '제작 결제 완료',
-              successContext: '이용해주셔서 감사합니다.',
-            }),
-          );
+          if (productionStatus) {
+            dispatch(
+              successModalActions.showSomething({
+                successHeader: '제작 결제 완료',
+                successContext: '이용해주셔서 감사합니다.',
+              }),
+            );
+          } else {
+            dispatch(
+              successModalActions.showSomething({
+                successHeader: '첫 번째 폰트 제작',
+                successContext: '이용해주셔서 감사합니다.❤',
+              }),
+            );
+          }
           return;
         })
         .catch((e) => {
@@ -295,13 +301,6 @@ const PointPayModal: React.FC = () => {
         onHide={() => setShowAlertModal(false)}
         message1="금액을 확인해주세요!"
         message2=""
-        btnName="확인"
-      />
-      <AlertCustomModal
-        show={showFreeModal}
-        onHide={() => setShowAlertModal(false)}
-        message1="첫 번째 결제는 무료입니다."
-        message2="부족한 금액이 있어도 결제가 진행됩니다."
         btnName="확인"
       />
     </>
