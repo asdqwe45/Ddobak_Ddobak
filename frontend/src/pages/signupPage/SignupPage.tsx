@@ -25,6 +25,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { signupLoaderActions } from 'store/signupLoaderSlice';
 import { duplicatedEmailActions } from 'store/duplicatedEmailSlice';
+import { rootLoaderModalActions } from 'store/rootLoaderModalSlice';
 
 const Circle = styled.div`
   width: 36px;
@@ -156,20 +157,41 @@ const SignupPage: React.FC = () => {
   const [disabledCheck, setDisabledCheck] = useState<boolean>(false);
   const clickCheckBtn = async () => {
     const email = emailInputRef.current?.value;
+    dispatch(
+      rootLoaderModalActions.toggleModal({
+        type: '',
+        header: '인증번호 발송',
+        context: '해당 이메일로 인증번호가 발송되었습니다.',
+        subContext: '경우에 따라 인증코드는 3 ~ 5분 소요될 수 있습니다.',
+      }),
+    );
     if (email && validateEmail(email)) {
-      signupLoaderHandler();
       // 타이머 실행
       // 인증번호 재발송 버튼 활성화
       // 인증번호 유효한지 확인
       await userEmailVerifyRequest(email)
         .then(async (r) => {
-          signupLoaderHandler();
           setDisabledCheck(true);
           startTimer();
+          dispatch(
+            rootLoaderModalActions.toggleModal({
+              type: '',
+              header: '',
+              context: '',
+              subContext: '',
+            }),
+          );
         })
         .catch(async (e) => {
           console.error(e);
-          signupLoaderHandler();
+          dispatch(
+            rootLoaderModalActions.toggleModal({
+              type: '',
+              header: '',
+              context: '',
+              subContext: '',
+            }),
+          );
           dispatch(duplicatedEmailActions.toggle());
         });
     } else {

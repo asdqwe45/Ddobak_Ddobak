@@ -21,7 +21,6 @@
 }
 
 @keyframes shake {
-
   0%,
   100% {
     transform: rotate(45deg) translateX(0);
@@ -54,7 +53,6 @@
   line-height: 13px;
   margin-bottom: 30px;
 }
-
 
 .loadingInfo p {
   font-size: 25px;

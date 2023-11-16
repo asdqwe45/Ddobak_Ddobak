@@ -25,6 +25,7 @@ import {
   ContentInnerTextBox,
   ContentProducerName,
   ContentInnerHeaderText,
+  ContentInnerHeaderSpan,
   ContentInnerRight,
   ContentGrayDisabled,
   ContentGrayTransaction,
@@ -51,6 +52,7 @@ import { borderColor } from 'common/colors/CommonColors';
 import { FaBookmark, FaRegCheckSquare, FaRegSquare } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
 import { BsPersonWorkspace } from 'react-icons/bs';
+import { RiDoorClosedLine, RiDoorOpenLine } from 'react-icons/ri';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -80,7 +82,7 @@ import { changeNicknameModalActions } from 'store/changeNicknameSlice';
 import { dibListAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
 import { chargePointModalActions } from 'store/chargePointModalSlice';
 import { getData } from 'https/http';
-import { transactionMyAllAPI, transactionProducerAPI } from 'https/utils/TransactionFunction';
+import { transactionMyAllAPI } from 'https/utils/TransactionFunction';
 import { cartAddAPI, cartDeleteAPI, cartGetAPI } from 'https/utils/CartFunction';
 import { followDeleteAPI, getFollowingList } from 'https/utils/FollowFunction';
 
@@ -88,6 +90,7 @@ import styled from '@emotion/styled';
 import CommonEmptyBox from '../../common/commonEmptyBox/CommonEmptyBox';
 import { progressLoaderActions } from 'store/progressLoaderSlice';
 import { successModalActions } from 'store/successModalSlice';
+import { fontMypageAPI } from 'https/utils/FontFunction';
 
 interface CartType {
   fontId: number;
@@ -179,9 +182,13 @@ const MyPage: React.FC = () => {
           .catch((e) => console.error(e));
 
         // 제작 상태 가져오기
-        transactionProducerAPI(id)
-          .then(async (r) => setCreatedFontList(r))
-          .catch((e) => console.error(e));
+        await fontMypageAPI()
+          .then(async (r) => {
+            setCreatedFontList(r);
+          })
+          .catch((e) => {
+            console.error(e);
+          });
         setProductsComplete(true);
       } else {
         navigate('/wrong');
@@ -225,9 +232,8 @@ const MyPage: React.FC = () => {
     if (pageName === 'productsState') {
       dispatch(progressLoaderActions.resetGauge());
       dispatch(progressLoaderActions.startGuage());
-      await transactionProducerAPI(myId)
+      await fontMypageAPI()
         .then(async (r) => {
-          console.log(r);
           setCreatedFontList(r);
         })
         .catch((e) => console.error(e));
@@ -368,7 +374,10 @@ const MyPage: React.FC = () => {
     fontName: string;
     fontFileUrl: string;
     openStatus: boolean;
+    makeStatus: string;
   }
+  // makeStatus: COMPLETE, MAKING, FAIL
+
   // 폰트 다운로드
   const clickDownloadHandler = async (item: FontType) => {
     const response = await fetch(item['fontFileUrl']);
@@ -577,6 +586,20 @@ const MyPage: React.FC = () => {
     navigate(`/font/${fontId}`);
   };
 
+  function removeSpaces(str: string) {
+    if (str === null) {
+      return '';
+    }
+    // 공백이 있는지 확인
+    if (str.includes(' ')) {
+      // 모든 공백 제거
+      return str.replace(/\s+/g, '');
+    } else {
+      // 공백이 없으면 원래 문자열 그대로 반환
+      return str;
+    }
+  }
+
   return (
     <div className={classes.container}>
       <div className={classes.header}>
@@ -733,41 +756,77 @@ const MyPage: React.FC = () => {
                   <ContentLargeBox>
                     {createdFontList.length > 0 ? (
                       createdFontList.map((font) => {
-                        return (
-                          <ContentIngredient key={font['fontId']}>
-                            <ContentInnerLeft>
-                              <ContentInnerTextBox>
-                                <ContentHeader>
-                                  <ContentInnerHeaderText
-                                    onClick={() => {
-                                      handleClickFontNameFC(font.fontId.toString());
-                                    }}
-                                  >
-                                    {font['fontName']}
-                                  </ContentInnerHeaderText>
-                                </ContentHeader>
-                                <div>
-                                  <CartStyle
-                                    fontFamily={font['fontName'].replaceAll(' ', '_')}
-                                    fontSrc={font['fontFileUrl']}
-                                  >
-                                    다람쥐 헌 쳇바퀴 타고파
-                                  </CartStyle>
-                                </div>
-                              </ContentInnerTextBox>
-                            </ContentInnerLeft>
-                            <ContentInnerRight>
-                              <ContentGrayDisabled>결제완료</ContentGrayDisabled>
-                              <ContentRedBtn
-                                onClick={() => {
-                                  clickDownloadHandler(font);
-                                }}
-                              >
-                                다운로드
-                              </ContentRedBtn>
-                            </ContentInnerRight>
-                          </ContentIngredient>
-                        );
+                        if (font.makeStatus === 'COMPLETE') {
+                          return (
+                            <ContentIngredient key={font.fontId + 'COMPLETE'}>
+                              <ContentInnerLeft>
+                                <ContentInnerTextBox>
+                                  <ContentHeader>
+                                    <ContentInnerHeaderText
+                                      onClick={() => {
+                                        handleClickFontNameFC(font.fontId.toString());
+                                      }}
+                                    >
+                                      {font.fontName}
+                                    </ContentInnerHeaderText>
+                                    <ContentInnerHeaderSpan>
+                                      {font.openStatus ? '| 공개 폰트' : '| 비공개 폰트'}
+                                      {font.openStatus ? (
+                                        <RiDoorOpenLine size={24} />
+                                      ) : (
+                                        <RiDoorClosedLine size={24} />
+                                      )}
+                                    </ContentInnerHeaderSpan>
+                                  </ContentHeader>
+                                  <div>
+                                    <CartStyle
+                                      fontFamily={removeSpaces(font.fontName)}
+                                      fontSrc={font.fontFileUrl}
+                                    >
+                                      다람쥐 헌 쳇바퀴 타고파
+                                    </CartStyle>
+                                  </div>
+                                </ContentInnerTextBox>
+                              </ContentInnerLeft>
+                              <ContentInnerRight>
+                                <ContentGrayDisabled>제작 완료</ContentGrayDisabled>
+                                <ContentRedBtn
+                                  onClick={() => {
+                                    clickDownloadHandler(font);
+                                  }}
+                                >
+                                  다운로드
+                                </ContentRedBtn>
+                              </ContentInnerRight>
+                            </ContentIngredient>
+                          );
+                        } else if (font.makeStatus === 'MAKING') {
+                          return (
+                            <ContentIngredient key={font.fontId + 'MAKING'}>
+                              <ContentInnerLeft>
+                                <ContentInnerTextBox>
+                                  <ContentHeader>
+                                    <ContentInnerHeaderText style={{ pointerEvents: 'none' }}>
+                                      {font.fontName}
+                                    </ContentInnerHeaderText>
+                                  </ContentHeader>
+                                  <div>
+                                    <CartStyle
+                                      fontFamily={removeSpaces(font.fontName)}
+                                      fontSrc={font.fontFileUrl}
+                                    >
+                                      다람쥐 헌 쳇바퀴 타고파
+                                    </CartStyle>
+                                  </div>
+                                </ContentInnerTextBox>
+                              </ContentInnerLeft>
+                              <ContentInnerRight>
+                                <ContentGrayDisabled>제작중</ContentGrayDisabled>
+                              </ContentInnerRight>
+                            </ContentIngredient>
+                          );
+                        }
+                        return null;
                       })
                     ) : (
                       <CommonEmptyBox text="제작한 폰트가 없습니다." />
@@ -786,7 +845,7 @@ const MyPage: React.FC = () => {
                     {dibList.length > 0 ? (
                       dibList.map((dib) => {
                         return (
-                          <ContentIngredient key={dib['fontId']}>
+                          <ContentIngredient key={dib['fontId'] + 'dib'}>
                             <ContentInnerLeft>
                               <ContentIconsBox
                                 onClick={() => {
@@ -931,7 +990,7 @@ const MyPage: React.FC = () => {
                     {purchaseFontList.length > 0 ? (
                       purchaseFontList.map((font) => {
                         return (
-                          <ContentIngredient key={font.fontId}>
+                          <ContentIngredient key={font.fontId + 'boughtFonts'}>
                             <ContentInnerLeft>
                               <ContentInnerTextBox>
                                 <ContentHeader>
@@ -995,7 +1054,10 @@ const MyPage: React.FC = () => {
                       >
                         {myFollowingList.map((item) => {
                           return (
-                            <SwiperSlide key={item['memberId']} className={classes.swiperSlide}>
+                            <SwiperSlide
+                              key={item['memberId'] + 'creator'}
+                              className={classes.swiperSlide}
+                            >
                               <img
                                 onClick={() => {
                                   navigate(`/maker/${item['nickname']}/${item['memberId']}`);

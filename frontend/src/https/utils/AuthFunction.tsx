@@ -126,17 +126,20 @@ export async function userLogin(data: LoginType): Promise<any> {
   return axiosWithoutAuth
     .post('/member/login', data)
     .then(async (r) => {
+      console.log(r);
       const offset = new Date().getTimezoneOffset() * 60000;
       const responseData = await r.data;
       const id = await JSON.stringify(responseData.id);
       const accessToken = await JSON.stringify(responseData.accessToken);
       const refreshToken = await JSON.stringify(responseData.refreshToken);
       const profileImgUrl = await JSON.stringify(responseData.profileImgUrl);
+      const productionStatus = await JSON.stringify(responseData.productionStatus);
       const today = new Date(Date.now() - offset);
       await localStorage.setItem('id', id);
       await localStorage.setItem('accessToken', accessToken);
       await localStorage.setItem('refreshToken', refreshToken);
       await localStorage.setItem('profileImgUrl', profileImgUrl);
+      await localStorage.setItem('bonjour', productionStatus);
       await localStorage.setItem('today', today.toISOString());
 
       return r.data;
