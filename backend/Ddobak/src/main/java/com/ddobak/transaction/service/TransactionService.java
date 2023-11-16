@@ -201,7 +201,7 @@ public class TransactionService {
                 .mainFont(firstFont.getKorFontName())
                 .fontId(firstFont.getId())
                 .orderCount(purchaseRequestList.size())
-                .totalAmount(totalAmount)
+                .totalAmount(0)
                 .build();
             purchaseOrderRepository.save(purchaseOrder);
             purchaseRequestList.stream().forEach(
@@ -225,7 +225,9 @@ public class TransactionService {
                     transactionRepository.save(transaction);
                     forMultiplePurchaseAfterAmount.addAndGet((-1) *purchaseFont.getPrice());
                     buyer.withdrawPoint(purchaseFont.getPrice());
+                    log.info("{}", forMultiplePurchaseAfterAmount.get());
                     purchaseOrder.calcAfterAmount(forMultiplePurchaseAfterAmount.get());
+                    purchaseOrder.calcTotalPrice(purchaseFont.getPrice());
                 }
             );
             purchaseResponse = new PurchaseResponse(forMultiplePurchaseAmount.get(), forMultiplePurchaseAfterAmount.get(),true);

@@ -43,4 +43,8 @@ public class PurchaseOrder extends BaseEntity {
     public void calcAfterAmount(int totalAfterAmount) {
         this.totalAfterAmount = totalAfterAmount;
     }
+
+    public void calcTotalPrice(int totalPrice) {
+        this.totalAmount += totalPrice;
+    }
 }
