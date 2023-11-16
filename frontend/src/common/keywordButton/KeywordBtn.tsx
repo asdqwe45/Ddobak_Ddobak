@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import classes from './KeywordBtn.module.css';
+import AlertCustomModal from 'common/modals/alertCustomModal/AlertCustomModal';
 
 const options = [
   '단정한',
@@ -21,6 +22,10 @@ interface KeywordBtnProps {
 }
 
 const KeywordBtn: React.FC<KeywordBtnProps> = ({ onKeywordsChange }) => {
+  const [alertModal, setAlerttModal] = useState(false);
+  const handleAlert = () => {
+    setAlerttModal(true); //
+  };
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
 
   const toggleKeyword = (keyword: string) => {
@@ -29,7 +34,8 @@ const KeywordBtn: React.FC<KeywordBtnProps> = ({ onKeywordsChange }) => {
       newSelectedKeywords = selectedKeywords.filter((k) => k !== keyword);
     } else {
       if (selectedKeywords.length >= 3) {
-        alert('3개까지만 선택 가능합니다.');
+        handleAlert();
+        // alert('3개까지만 선택 가능합니다.');
         return;
       }
       newSelectedKeywords = [...selectedKeywords, keyword];
@@ -61,6 +67,13 @@ const KeywordBtn: React.FC<KeywordBtnProps> = ({ onKeywordsChange }) => {
         {renderKeywords(options.slice(0, ROW_SIZE))}
         {renderKeywords(options.slice(ROW_SIZE))}
       </div>
+      <AlertCustomModal
+        show={alertModal}
+        onHide={() => setAlerttModal(false)}
+        message1="3개까지만 선택 가능합니다."
+        message2=""
+        btnName="확인"
+      />
     </>
   );
 };
