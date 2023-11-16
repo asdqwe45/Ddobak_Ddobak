@@ -299,7 +299,7 @@ const PointPayModal: React.FC = () => {
       />
       <AlertCustomModal
         show={showFreeModal}
-        onHide={() => setShowAlertModal(false)}
+        onHide={() => setShowFreeModal(false)}
         message1="첫 번째 결제는 무료입니다."
         message2="부족한 금액이 있어도 결제가 진행됩니다."
         btnName="확인"
