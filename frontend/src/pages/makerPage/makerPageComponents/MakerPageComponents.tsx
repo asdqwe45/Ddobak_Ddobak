@@ -91,7 +91,7 @@ export const MakerFontNameText = styled.p`
   font-size: 28px;
   font-weight: bold;
   margin-right: 20px;
-  padding: 0px 10px;
+  // padding: 0px 10px;
   &:hover {
     cursor: pointer;
     background-color: #fff1f0;
@@ -101,5 +101,6 @@ export const MakerFontNameText = styled.p`
 export const MakerFontCommentText = styled.div`
   font-size: 40px;
   font-weight: 0;
-  padding-left: 20px;
+  letter-spacing: -5px;
+  padding-left: 25px;
 `;

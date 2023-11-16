@@ -632,9 +632,9 @@ const MyPage: React.FC = () => {
 
   const checkIsBOMFC = (fontId: string) => {
     if (listBOM.length > 0) {
-      console.log(listBOM);
+      // console.log(listBOM);
       for (const lb of listBOM) {
-        console.log(lb);
+        // console.log(lb);
         if (lb.fontId.toString() === fontId) {
           if (lb.possessionType === '제작') {
             return '제작';

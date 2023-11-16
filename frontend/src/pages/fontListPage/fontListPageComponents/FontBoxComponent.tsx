@@ -117,7 +117,7 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({
         // console.log("API로부터 받은 데이터:", response.data);
         setFontDetail(response.data); // 받아온 폰트 정보로 상태 업데이트
       } else {
-        console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
+        // console.log('API 응답에 fonts 프로퍼티가 없습니다.', response.data);
       }
     } catch (error) {
       console.error('API 호출 에러:', error); // 에러 로깅 개선
@@ -174,12 +174,12 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({
       try {
         // 백엔드에 찜 상태 업데이트 요청
         await updateDibStatus(newDibCheck);
-        console.log('찜 상태 업데이트 성공');
+        // console.log('찜 상태 업데이트 성공');
       } catch (error) {
-        console.error('찜 상태 업데이트 실패:', error);
+        // console.error('찜 상태 업데이트 실패:', error);
       }
     } else {
-      console.error('fontId가 정의되지 않았습니다.');
+      // console.error('fontId가 정의되지 않았습니다.');
     }
   };
   const nameFormatFC = (fontName: string) => {

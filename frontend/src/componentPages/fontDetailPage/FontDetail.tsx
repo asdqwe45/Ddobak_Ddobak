@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { reviewModalActions } from 'store/reviewModalSlice';
 import ReviewModal from 'common/modals/reviewModal/ReviewModal';
 import classes from './FontDetail.module.css';
@@ -71,6 +71,7 @@ const CustomTitleStyle = styled.div<CustomTextStyleType>`
 `;
 
 const FontDetail: React.FC = () => {
+
   // 후기 등록 모달
   const dispatch = useDispatch();
   const { fontId } = useParams();
@@ -94,13 +95,13 @@ const FontDetail: React.FC = () => {
           return r.data;
         });
         if (response) {
-          console.log('API로부터 받은 데이터:', response);
+          // console.log('API로부터 받은 데이터:', response);
           setFontDetail(response); // 받아온 폰트 정보로 상태 업데이트
           setWebFont(response.fontFileUrl);
           setFontPrice(response.fontPrice);
           setFontName(response.fontName);
         } else {
-          console.log('API 응답에 fonts 프로퍼티가 없습니다.', response);
+          // console.log('API 응답에 fonts 프로퍼티가 없습니다.', response);
         }
       } catch (error) {
         console.error('API 호출 에러:', error);
@@ -123,7 +124,7 @@ const FontDetail: React.FC = () => {
   const refresh = useSelector((state: RefreshType) => state.refresh.fontDetail);
 
   useEffect(() => {
-    console.log(fontId);
+    // console.log(fontId);
     if (fontId) {
       fetchBuyOrMake(fontId); // 폰트 ID로 폰트 정보를 불러오는 함수 호출
     }
@@ -144,7 +145,7 @@ const FontDetail: React.FC = () => {
       .catch((e) => {
         console.error(e);
       });
-    console.log(response);
+    // console.log(response);
     for (const r of response) {
       if (r.fontId.toString() === fontId) {
         setIsBoughtOrMade(r.possessionType);
@@ -197,9 +198,9 @@ const FontDetail: React.FC = () => {
       try {
         // 백엔드에 찜 상태 업데이트 요청
         await updateDibStatus(newDibCheck, newDibCount);
-        console.log('찜 상태 업데이트 성공');
+        // console.log('찜 상태 업데이트 성공');
       } catch (error) {
-        console.error('찜 상태 업데이트 실패:', error);
+        // console.error('찜 상태 업데이트 실패:', error);
       }
     } else {
       console.error('fontId가 정의되지 않았습니다.');
@@ -216,9 +217,9 @@ const FontDetail: React.FC = () => {
     
     try {
       await navigator.clipboard.writeText(fontCode);
-      console.log('클립보드에 복사되었습니다!');
+      // console.log('클립보드에 복사되었습니다!');
     } catch (err) {
-      console.log('복사에 실패했습니다.');
+      // console.log('복사에 실패했습니다.');
     }
   };
 
@@ -244,12 +245,12 @@ const FontDetail: React.FC = () => {
 
   // // 바로 구매하기
   async function handlePayFC() {
-    console.log('pay');
+    // console.log('pay');
     const fontId = fontDetail?.fontId;
     const fontPrice = fontDetail?.fontPrice;
     const producerId = fontDetail?.producerId;
     const fontName = fontDetail?.fontName;
-    console.log(fontId, fontPrice, producerId);
+    // console.log(fontId, fontPrice, producerId);
     if (fontId && (fontPrice || fontPrice === 0) && producerId && fontName) {
       dispatch(
         pointPayModalActions.payThePrice({ howMuch: fontPrice, boughtSometing: '폰트구매' }),
@@ -293,6 +294,11 @@ const FontDetail: React.FC = () => {
        `;
   };
 
+  const navigate = useNavigate();
+  const navigateToMaker = () => {
+    navigate(`/maker/${fontDetail?.producerName}/${fontDetail?.producerId}`);
+  };
+
   return (
     <>
       <div className={classes.container}>
@@ -328,8 +334,8 @@ const FontDetail: React.FC = () => {
         </div>
         <div className={classes.subContainer}>
           <div className={classes.makerContainer}>
-            <p>
-              <strong>제작자 </strong> {fontDetail ? fontDetail.producerName : ''}
+            <p onClick={navigateToMaker}>
+              <strong>제작자 </strong> <span>{fontDetail ? fontDetail.producerName : ''}</span>
             </p>
             <p>
               <>

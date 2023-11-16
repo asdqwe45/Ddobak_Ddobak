@@ -118,7 +118,7 @@ export async function userLogin(data: LoginType): Promise<any> {
   return axiosWithoutAuth
     .post('/member/login', data)
     .then(async (r) => {
-      console.log(r);
+      // console.log(r);
       const offset = new Date().getTimezoneOffset() * 60000;
       const responseData = await r.data;
       const id = await JSON.stringify(responseData.id);

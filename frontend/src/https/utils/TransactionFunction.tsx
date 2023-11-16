@@ -167,7 +167,7 @@ export async function transactionBuyOrMakeAPI(): Promise<any> {
   return axiosWithAuth
     .get(BASE_URL + '/my')
     .then((r) => {
-      console.log('my');
+      // console.log('my');
       return r.data;
     })
     .catch((e) => {
