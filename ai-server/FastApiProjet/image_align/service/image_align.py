@@ -91,7 +91,7 @@ def find_and_crop_table(image):
         # 결과 이미지 리턴
         _, buffer = cv2.imencode('.png', cropped_table)
         cropped_byte_image = io.BytesIO(buffer.tobytes())
-        print(cropped_byte_image.getvalue())  # 이 부분에서 실제 바이트 데이터를 출력해 보고
+        # print(cropped_byte_image.getvalue())  # 이 부분에서 실제 바이트 데이터를 출력해 보고
 
         return cropped_byte_image
 

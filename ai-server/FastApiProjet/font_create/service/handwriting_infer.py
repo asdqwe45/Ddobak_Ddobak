@@ -82,7 +82,7 @@ def load_model(model_path, use_cuda=True):
     model = torch.load(model_path)
     model.eval()
     if use_cuda and torch.cuda.is_available():
-        torch.cuda.set_device(1)
+        torch.cuda.set_device(0)
         model.cuda()
         
     else:

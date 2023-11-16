@@ -17,9 +17,7 @@ from torchvision import transforms
 from .base.dataset import sample
 from .base.utils import save_tensor_to_image, load_reference, load_primals, load_decomposition
 
-device_id = 1
 
-torch.cuda.set_device(device_id)
 
 TRANSFORM = transforms.Compose([
     transforms.Resize((128, 128)),
@@ -60,7 +58,8 @@ def setup_eval_config(args, left_argv={}):
     return args, cfg, Generator, infer_func, infer_args
 
 
-def infer_DM(gen, save_dir, gen_chars, key_ref_dict, load_img, decomposition, batch_size=32, return_img=False):
+def infer_DM(gen, save_dir, gen_chars, key_ref_dict, load_img, decomposition,set_device, batch_size=32, return_img=False):
+    torch.cuda.set_device(set_device)
     save_dir = Path(save_dir)
     save_dir.mkdir(parents=True, exist_ok=True)
 
