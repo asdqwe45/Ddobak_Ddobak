@@ -34,6 +34,11 @@ const FontOptionPage: React.FC = () => {
   const handlePriceNumModalAlert = () => {
     setPriceNumModal(true); //
   };
+  const [notConfirmModal, setNotConfirmModal] = useState(false);
+  const handleNotConfirmAlert = () => {
+    setNotConfirmModal(true); //
+  };
+
   const [notAllInputModal, setNotAllInputModal] = useState(false);
   const handleNotAllInputAlert = () => {
     setNotAllInputModal(true); //
@@ -47,6 +52,7 @@ const FontOptionPage: React.FC = () => {
   // 폰트명 입력 핸들러 함수
   const handleKorNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKorFontName(event.target.value);
+    setIsKorNameAvailable(false); // 중복 확인 상태 초기화
   };
 
   const korNameCheck = async () => {
@@ -80,6 +86,7 @@ const FontOptionPage: React.FC = () => {
 
     if (regex.test(value)) {
       setEngFontName(value);
+      setIsEngNameAvailable(false); // 중복 확인 상태 초기화
     } else {
       handleEngFileModalAlert(); // 파일명 영문, 숫자, 언더바만 가능
     }
@@ -169,8 +176,8 @@ const FontOptionPage: React.FC = () => {
     const isPriceValid = !saleOption ? priceValue !== 0 : true;
     return (
       korFontName.trim() !== '' &&
-      isKorNameAvailable &&
       engFontName.trim() !== '' &&
+      isKorNameAvailable &&
       isEngNameAvailable &&
       inputFontIntro.trim() !== '' &&
       openOption !== undefined &&
@@ -185,6 +192,8 @@ const FontOptionPage: React.FC = () => {
   const handlePaymentClick = async () => {
     if (isReadyToPay()) {
       await clickPayHandler(); // 모든 조건 충족
+    } else if (!isKorNameAvailable && !isEngNameAvailable) {
+      handleNotConfirmAlert(); // 중복 확인
     } else {
       handleNotAllInputAlert(); // 모든 정보 입력
     }
@@ -346,6 +355,13 @@ const FontOptionPage: React.FC = () => {
         show={priceNumModal}
         onHide={() => setPriceNumModal(false)}
         message1="숫자만 입력해 주세요. 😀"
+        message2=""
+        btnName="확인"
+      />
+      <AlertCustomModal
+        show={notConfirmModal}
+        onHide={() => setNotConfirmModal(false)}
+        message1="📢 폰트 이름과 파일명 중복확인을 해주세요! 🚨"
         message2=""
         btnName="확인"
       />
