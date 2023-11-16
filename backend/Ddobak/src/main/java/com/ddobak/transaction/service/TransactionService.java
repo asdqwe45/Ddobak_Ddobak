@@ -240,26 +240,27 @@ public class TransactionService {
     @Transactional(readOnly = true)
     public List<TransactionResponse> getPurchaseList(Long memberId) {
         // 구매 내역 가져오기
-        List<PurchaseOrder> purchaseOrderList = purchaseOrderRepository.findOrdersByBuyer(memberId);
+        List<Transaction> transactionList = transactionRepository.findTransactionBuyer(memberId);
 
-        // response 에 맞게 변환
-        List<TransactionResponse> transactionResponseList = purchaseOrderList.stream()
-            .map(purchaseOrder -> {
-                Font nowFont = fontService.findByFontId(purchaseOrder.getFontId());
-                boolean isMultipleOrder = purchaseOrder.getOrderCount() > 1;
+        List<TransactionResponse> transactionResponseList = transactionList.stream()
+            .map(transaction -> {
+                Font nowFont = fontService.findByFontId(transaction.getTransactionFont().getId());
+                boolean isMultipleOrder = transaction.getPurchaseOrder().getOrderCount() > 1;
                 return new TransactionResponse(
-                    purchaseOrder.getOrderDate(),
+                    transaction.getTransactionDate(),
                     "폰트 구매",
-                    purchaseOrder.getMainFont(),
-                    nowFont.getProducer().getNickname(),
-                    purchaseOrder.getTotalAmount(),
-                    purchaseOrder.getTotalAfterAmount(),
+                    transaction.getTransactionFont().getKorFontName(),
+                    transaction.getTransactionFont().getProducer().getNickname(),
+                    transaction.getTransactionFont().getPrice(),
+                    transaction.getTransactionAfterAmount(),
                     isMultipleOrder,
-                    isMultipleOrder ? purchaseOrder.getOrderCount() : 0
+                    isMultipleOrder ? transaction.getPurchaseOrder()
+                                                 .getOrderCount() : 0
                 );
             })
             .sorted(Comparator.comparing(TransactionResponse::transactionDate).reversed())
             .collect(Collectors.toList());
+        // response 에 맞게 변환
 
         return transactionResponseList;
     }
@@ -377,21 +378,23 @@ public class TransactionService {
             )).collect(Collectors.toList());
 
         // 구매
-        List<TransactionResponse> purchaseList = purchaseOrderRepository.findOrdersByBuyer(memberId).stream()
-            .map(purchaseOrder -> {
-                Font purchasedFont = fontService.findByFontId(purchaseOrder.getFontId());
-                boolean checkMultiple = purchaseOrder.getOrderCount() > 1;
+        List<TransactionResponse> purchaseList = transactionRepository.findTransactionBuyer(memberId).stream()
+            .map(transaction -> {
+                Font purchasedFont = fontService.findByFontId(transaction.getTransactionFont().getId());
+                boolean isMultipleOrder = transaction.getPurchaseOrder().getOrderCount() > 1;
                 return new TransactionResponse(
-                    purchaseOrder.getOrderDate(),
+                    transaction.getTransactionDate(),
                     "폰트 구매",
-                    purchasedFont.getKorFontName(),
-                    purchasedFont.getProducer().getNickname(),
-                    purchaseOrder.getTotalAmount(),
-                    purchaseOrder.getTotalAfterAmount(),
-                    checkMultiple,
-                    purchaseOrder.getOrderCount()
+                    transaction.getTransactionFont().getKorFontName(),
+                    transaction.getTransactionFont().getProducer().getNickname(),
+                    transaction.getTransactionFont().getPrice(),
+                    transaction.getTransactionAfterAmount(),
+                    isMultipleOrder,
+                    isMultipleOrder ? transaction.getPurchaseOrder()
+                                                 .getOrderCount() : 0
                 );
             }).collect(Collectors.toList());
+
 
         // 판매래
         List<TransactionResponse> transactionList = transactionRepository.findTransactionBySeller(memberId).stream()
