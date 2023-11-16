@@ -84,8 +84,10 @@ const FontMakeStep2: React.FC = () => {
           const result = { src: reader.result as string, name: file.name };
           if (type === 'korean') {
             setKoreanFiles([result]);
+            setKorFileData(file);
           } else {
             setEnglishFiles([result]);
+            setEngFileData(file); 
           }
         };
         reader.readAsDataURL(file);
