@@ -53,7 +53,6 @@ import { borderColor } from 'common/colors/CommonColors';
 import { FaBookmark, FaRegCheckSquare, FaRegSquare } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
 import { BsPersonWorkspace } from 'react-icons/bs';
-import { RiDoorClosedLine, RiDoorOpenLine } from 'react-icons/ri';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -649,6 +648,14 @@ const MyPage: React.FC = () => {
     }
   };
 
+
+  const nameFormatFC = (fontName: string) => {
+    if (fontName.length > 14) {
+      return fontName.substring(0, 10) + " ..."
+    }
+    return fontName
+  }
+
   return (
     <div className={classes.container}>
       <div className={classes.header}>
@@ -815,16 +822,12 @@ const MyPage: React.FC = () => {
                                       onClick={() => {
                                         handleClickFontNameFC(font.fontId.toString());
                                       }}
+                                      title={font.fontName}
                                     >
-                                      {font.fontName}
+                                      {nameFormatFC(font.fontName)}
                                     </ContentInnerHeaderText>
                                     <ContentInnerHeaderSpan>
                                       {font.openStatus ? '| 공개 폰트' : '| 비공개 폰트'}
-                                      {font.openStatus ? (
-                                        <RiDoorOpenLine size={24} />
-                                      ) : (
-                                        <RiDoorClosedLine size={24} />
-                                      )}
                                     </ContentInnerHeaderSpan>
                                   </ContentHeader>
                                   <div>
