@@ -37,6 +37,15 @@
   align-items: center;
 }
 
+@font-face {
+  font-family: "밤톨체";
+  src: url("https://www.ddobak.o-r.kr/font_file/bamtol_font.ttf") format("truetype");
+}
+
+.content p {
+  font-family: "밤톨체";
+}
+
 /* font-size */
 .contentText {
   font-weight: bold;
