@@ -117,7 +117,7 @@ public class MemberService {
         String refreshToken = jwtProvider.createRefreshToken(member.getEmail(), secretKey);
         String profileImgUrl = member.getProfileImg();
 
-        return new LoginResponse(member.getId(), accessToken, refreshToken, profileImgUrl);
+        return new LoginResponse(member.getId(), accessToken, refreshToken, profileImgUrl, member.isProductionStatus());
     }
 
     @Transactional
