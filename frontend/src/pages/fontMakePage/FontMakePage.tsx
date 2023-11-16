@@ -27,9 +27,9 @@ const FontMakePage: React.FC = () => {
       dispatch(progressLoaderActions.startGuage());
       const token = await checkToken();
       if (token) {
-        console.log('have Token');
+        // console.log('have Token');
       } else {
-        console.log('잘못된 접근입니다.');
+        // console.log('잘못된 접근입니다.');
         navigate('/wrong');
       }
       setTimeout(() => {

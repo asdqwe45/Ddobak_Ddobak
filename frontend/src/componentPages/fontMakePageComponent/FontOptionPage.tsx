@@ -58,7 +58,7 @@ const FontOptionPage: React.FC = () => {
   const korNameCheck = async () => {
     if (!korFontName.trim()) {
       handleNameInputAlert(); // 폰트 이름을 입력
-      console.log(fontId, fontSortUrl);
+      // console.log(fontId, fontSortUrl);
       return;
     }
     try {
@@ -164,10 +164,10 @@ const FontOptionPage: React.FC = () => {
   // 약관 동의 여부
   const handleAgreement = (agreed: boolean) => {
     if (agreed) {
-      console.log('모든 약관에 모두 동의하였습니다.');
+      // console.log('모든 약관에 모두 동의하였습니다.');
       setAgreed(agreed);
     } else {
-      console.log('모든 약관에 동의하지 않았습니다.');
+      // console.log('모든 약관에 동의하지 않았습니다.');
     }
   };
 
@@ -190,10 +190,10 @@ const FontOptionPage: React.FC = () => {
 
   // 결제하기 버튼의 핸들러 함수
   const handlePaymentClick = async () => {
-    console.log('여기 클릭 아니야?');
+    // console.log('여기 클릭 아니야?');
     if (isReadyToPay()) {
       const productionStatus = await getData('bonjour');
-      console.log(productionStatus);
+      // console.log(productionStatus);
       if (productionStatus) {
         dispatch(pointPayModalActions.payThePrice({ howMuch: 50000, boughtSometing: '폰트제작' }));
       } else {

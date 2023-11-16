@@ -54,7 +54,7 @@ interface FontProps {
   fontName: string;
 }
 
-const NewMakerFontCommentText = styled(MakerFontCommentText)<FontProps>`
+const NewMakerFontCommentText = styled(MakerFontCommentText) <FontProps>`
   @font-face {
     font-family: ${(props) => props.fontName};
     src: url(${(props) => props.fontFileUrl});
@@ -144,7 +144,7 @@ const MakerPage: React.FC = () => {
       // 제작한 폰트 리스트 가져오기
       transactionProducerAPI(makerId)
         .then(async (r) => {
-          console.log(r);
+          // console.log(r);
           setFontList(r);
         })
         .catch((e) => console.error('MakerPage TransactionProducerAPI Error: ' + e.message));
@@ -223,7 +223,12 @@ const MakerPage: React.FC = () => {
                           navigate(`/font/${font['fontId']}`);
                         }}
                       >
-                        {font['fontName']}
+                        <NewMakerFontCommentText
+                          fontName={font['fontName']}
+                          fontFileUrl={font['fontFileUrl']}
+                        >
+                          {font['fontName']}
+                        </NewMakerFontCommentText>
                       </MakerFontNameText>
                     </MakerCommemtBox>
 
@@ -231,7 +236,7 @@ const MakerPage: React.FC = () => {
                       fontName={font['fontName']}
                       fontFileUrl={font['fontFileUrl']}
                     >
-                     웃는 날이 가득하길 바라요 :D
+                      웃는 날이 가득하길 바라요 :D
                     </NewMakerFontCommentText>
                   </MakerFontSmallBox>
                 );

@@ -43,11 +43,11 @@ const PaymentComponent: React.FC<PaymentProps> = ({
         // 3. 결제 완료 후 콜백 함수를 실행
         if (response.success) {
           // 결제 성공 시 로직
-          console.log('성공');
+          // console.log('성공');
           onPaymentSuccess(response);
         } else {
           // 결제 실패 시 로직
-          console.log('실패');
+          // console.log('실패');
           onPaymentFailure(response);
         }
       },
