@@ -192,7 +192,7 @@ const FontOptionPage: React.FC = () => {
   const handlePaymentClick = async () => {
     if (isReadyToPay()) {
       await clickPayHandler(); // 모든 조건 충족
-    } else if (!isKorNameAvailable && !isEngNameAvailable) {
+    } else if (!isKorNameAvailable || !isEngNameAvailable) {
       handleNotConfirmAlert(); // 중복 확인
     } else {
       handleNotAllInputAlert(); // 모든 정보 입력

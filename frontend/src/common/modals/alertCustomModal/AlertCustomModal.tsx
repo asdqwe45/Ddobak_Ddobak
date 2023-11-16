@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import ReactModal from 'react-modal';
 import classes from './AlertCustomModal.module.css';
 // import { useDispatch, useSelector } from 'react-redux';
@@ -23,17 +23,30 @@ const AlertCustomModal: React.FC<AlertCustomModalProps> = ({
   btnName,
   onMove,
 }) => {
-  useEffect(() => {
-    ReactModal.setAppElement('body'); // 앱의 루트 엘리먼트 설정
-  }, []);
 
-  const handleButton = () => {
+  const handleButton =  useCallback(() => {
     if (onMove) {
       onMove(); // onConfirm 함수가 제공되었다면, 호출
     } else {
       onHide(); // onConfirm 함수가 없다면, onHide 함수를 호출하여 모달을 닫음
     }
+  }, [onMove, onHide]);
+
+  useEffect(() => {
+    ReactModal.setAppElement('body'); // 앱의 루트 엘리먼트 설정
+   const handleKeyPress = (event: KeyboardEvent) => {
+    if (event.key === 'Enter' && show) {
+      handleButton(); // Enter 키가 눌렸을 때 handleButton 함수 호출
+    }
   };
+
+  window.addEventListener('keydown', handleKeyPress);
+
+  return () => {
+    window.removeEventListener('keydown', handleKeyPress);
+  };
+}, [show, handleButton]); // 의존성 배열에 show와 handleButton을 추가
+
 
   return (
     <ReactModal

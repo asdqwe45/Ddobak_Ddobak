@@ -210,6 +210,7 @@ const MakerPage: React.FC = () => {
                     </MakerCommemtBox>
 
                     <MakerFontCommentText>다람쥐 헌 쳇바퀴 타고파</MakerFontCommentText>
+                  
                   </MakerFontSmallBox>
                 );
               } else {
