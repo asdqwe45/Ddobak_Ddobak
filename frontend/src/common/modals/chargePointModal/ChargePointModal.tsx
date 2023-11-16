@@ -83,7 +83,7 @@ const ChargePointModal: React.FC = () => {
   };
 
   const handlePaymentCancel = (cancelData: any) => {
-    console.log('Payment Cancelled:', cancelData);
+    // console.log('Payment Cancelled:', cancelData);
     // 결제 취소 시 필요한 로직을 실행
   };
 

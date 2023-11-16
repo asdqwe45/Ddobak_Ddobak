@@ -128,10 +128,10 @@ const NavBar: React.FC = () => {
   const logoutHandler = async () => {
     await userLogout()
       .then(async (r) => {
-        console.log(r);
+        // console.log(r);
       })
       .catch((e) => {
-        console.error(e);
+        // console.error(e);
       });
     localStorage.removeItem('id');
     localStorage.removeItem('accessToken');
@@ -252,7 +252,7 @@ const hamburgerMenuBar = (
     setIsClicked(false);
     await userLogout()
       .then(async (r) => {
-        console.log(r);
+        // console.log(r);
         window.location.reload();
       })
       .catch((e) => {

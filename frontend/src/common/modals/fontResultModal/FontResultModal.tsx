@@ -83,7 +83,7 @@ const FontResultModal: React.FC = () => {
 
   useEffect(() => {
     if (sortedUrl && showResultModal) {
-      console.log('여기2 실행됨');
+      // console.log('여기2 실행됨');
       makeFontPreveiwReqeust(sortedUrl).then((r) => {
         setPreviewImgs(r);
         setIsLoading(false);

@@ -52,7 +52,7 @@ const FontUserReview: React.FC<FontUserReviewType> = ({ fontId }) => {
     async function fetch() {
       const data = await reviewListAPI(fontId)
         .then((r) => {
-          console.log(r);
+          // console.log(r);
           return r.reviewResponseList;
         })
         .catch((e) => {

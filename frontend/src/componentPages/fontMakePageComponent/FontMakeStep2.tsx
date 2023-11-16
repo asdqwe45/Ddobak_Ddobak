@@ -164,13 +164,13 @@ const FontMakeStep2: React.FC = () => {
         subContext: '※ 페이지를 벗어나지 마세요!',
       }),
     );
-    console.log(KorfileData);
-    console.log(EngfileData);
+    // console.log(KorfileData);
+    // console.log(EngfileData);
     if (KorfileData && EngfileData) {
       try {
         const formData = new FormData();
-        console.log(KorfileData);
-        console.log(EngfileData);
+        // console.log(KorfileData);
+        // console.log(EngfileData);
         formData.append('kor_file', KorfileData);
         formData.append('eng_file', EngfileData);
 
@@ -190,7 +190,7 @@ const FontMakeStep2: React.FC = () => {
           .catch((e) => {
             throw e;
           });
-        console.log((await response).data);
+        // console.log((await response).data);
         // 성공적으로 처리되었다면, 결과 이미지 URL을 파싱하여 상태 업데이트
         if ((await response).data) {
           // 이미지 URL을 `$` 기준으로 파싱
