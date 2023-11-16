@@ -287,6 +287,7 @@ public class TransactionService {
     public void requestFontTransaction(Font createdFont, Long memberId, int fontPrice) {
         log.info("{} create font:{}", memberId, createdFont.getKorFontName());
         Member creator = memberService.findSellerById(memberId);
+        creator.changeProductionStatus();
 
         LocalDateTime now = LocalDateTime.now();
         if(!creator.isProductionStatus()) {
