@@ -182,14 +182,24 @@ const FontBoxComponent: React.FC<FontBoxProps> = ({
       console.error('fontId가 정의되지 않았습니다.');
     }
   };
-
+  const nameFormatFC = (fontName: string) => {
+    if (fontName.length > 9) {
+      return fontName.substring(0, 5) + ' ...';
+    }
+    return fontName;
+  };
   return (
     <>
       <div className={classes.container}>
         <div className={classes.header}>
           <div className={classes.title} onClick={handleTitleClick}>
-            <CustomTextStyle fontFamily={title} fontSrc={font_file_url}>
-              <span> {title} </span>
+            <CustomTextStyle
+              title={title}
+              style={{ paddingRight: 10 }}
+              fontFamily={title}
+              fontSrc={font_file_url}
+            >
+              <span> {nameFormatFC(title)} </span>
             </CustomTextStyle>
           </div>
           {dibCheck ? (

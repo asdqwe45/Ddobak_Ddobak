@@ -62,8 +62,9 @@ const FontMakeStep3: React.FC = () => {
         <div className={classes.btnContainer}>
           <button
             className={classes.mypageBtn}
-            onClick={() => {
+            onClick={async () => {
               navigate('/myPage');
+              window.location.reload();
             }}
           >
             마이페이지로 이동

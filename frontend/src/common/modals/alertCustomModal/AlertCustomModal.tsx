@@ -23,8 +23,7 @@ const AlertCustomModal: React.FC<AlertCustomModalProps> = ({
   btnName,
   onMove,
 }) => {
-
-  const handleButton =  useCallback(() => {
+  const handleButton = useCallback(() => {
     if (onMove) {
       onMove(); // onConfirm 함수가 제공되었다면, 호출
     } else {
@@ -34,19 +33,18 @@ const AlertCustomModal: React.FC<AlertCustomModalProps> = ({
 
   useEffect(() => {
     ReactModal.setAppElement('body'); // 앱의 루트 엘리먼트 설정
-   const handleKeyPress = (event: KeyboardEvent) => {
-    if (event.key === 'Enter' && show) {
-      handleButton(); // Enter 키가 눌렸을 때 handleButton 함수 호출
-    }
-  };
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === 'Enter' && show) {
+        handleButton(); // Enter 키가 눌렸을 때 handleButton 함수 호출
+      }
+    };
 
-  window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener('keydown', handleKeyPress);
 
-  return () => {
-    window.removeEventListener('keydown', handleKeyPress);
-  };
-}, [show, handleButton]); // 의존성 배열에 show와 handleButton을 추가
-
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [show, handleButton]); // 의존성 배열에 show와 handleButton을 추가
 
   return (
     <ReactModal
