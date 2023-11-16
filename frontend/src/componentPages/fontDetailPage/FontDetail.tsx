@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { reviewModalActions } from 'store/reviewModalSlice';
 import ReviewModal from 'common/modals/reviewModal/ReviewModal';
 import classes from './FontDetail.module.css';
@@ -71,6 +71,7 @@ const CustomTitleStyle = styled.div<CustomTextStyleType>`
 `;
 
 const FontDetail: React.FC = () => {
+
   // 후기 등록 모달
   const dispatch = useDispatch();
   const { fontId } = useParams();
@@ -293,6 +294,11 @@ const FontDetail: React.FC = () => {
        `;
   };
 
+  const navigate = useNavigate();
+  const navigateToMaker = () => {
+    navigate(`/maker/${fontDetail?.producerName}/${fontDetail?.producerId}`);
+  };
+
   return (
     <>
       <div className={classes.container}>
@@ -328,10 +334,10 @@ const FontDetail: React.FC = () => {
         </div>
         <div className={classes.subContainer}>
           <div className={classes.makerContainer}>
-            <p>
+            <p onClick={navigateToMaker}>
               <strong>제작자 </strong> {fontDetail ? fontDetail.producerName : ''}
             </p>
-            <p>
+            <p>c
               <>
                 <strong>조회수 </strong> {fontDetail ? fontDetail.viewCount : ''}
               </>
