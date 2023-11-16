@@ -125,8 +125,8 @@ const MyPage: React.FC = () => {
     }
 
     font-family: ${(props) => props.fontFamily};
-    font-size: 24px;
-    margin: 0px;
+    font-size: 38px;
+    margin: -5px 0px -5px 0px;
   `;
 
   const [cartData, setCartData] = useState<CartType[]>([]);
@@ -713,7 +713,7 @@ const MyPage: React.FC = () => {
                     )}
                     {screenWidth > 1500 && isWorkspaceHovered ? (
                       <>
-                        <p className={classes.changeNickName}>메이커 페이지</p>
+                        <p className={classes.changeNickName}>소개 페이지</p>
                       </>
                     ) : (
                       <></>
@@ -834,7 +834,7 @@ const MyPage: React.FC = () => {
                                       fontFamily={removeSpaces(font.fontName)}
                                       fontSrc={font.fontFileUrl}
                                     >
-                                      다람쥐 헌 쳇바퀴 타고파
+                                      하나둘셋 파이팅 !!
                                     </CartStyle>
                                   </div>
                                 </ContentInnerTextBox>
@@ -866,7 +866,7 @@ const MyPage: React.FC = () => {
                                       fontFamily={removeSpaces(font.fontName)}
                                       fontSrc={font.fontFileUrl}
                                     >
-                                      다람쥐 헌 쳇바퀴 타고파
+                                      하나둘셋 파이팅 !!
                                     </CartStyle>
                                   </div>
                                 </ContentInnerTextBox>
@@ -921,7 +921,7 @@ const MyPage: React.FC = () => {
                                     fontFamily={dib.fontName.replaceAll(' ', '_')}
                                     fontSrc={dib.fontFileUrl}
                                   >
-                                    다람쥐 헌 쳇바퀴 타고파
+                                    하나둘셋 파이팅 !!
                                   </CartStyle>
                                 </div>
                               </ContentInnerTextBox>
@@ -1001,7 +1001,7 @@ const MyPage: React.FC = () => {
                                     fontFamily={cart.fontName.replace(' ', '_')}
                                     fontSrc={cart.fontUrl}
                                   >
-                                    다람쥐 헌 쳇바퀴 타고파
+                                    하나둘셋 파이팅 !!
                                   </CartStyle>
                                 </ContentInnerTextBox>
                               </ContentInnerLeft>
@@ -1072,7 +1072,7 @@ const MyPage: React.FC = () => {
                                     fontSrc={font.fontUrl}
                                     fontFamily={font.fontName.replaceAll(' ', '_')}
                                   >
-                                    다람쥐 헌 쳇바퀴 타고파
+                                    하나둘셋 파이팅 !!
                                   </CartStyle>
                                 </div>
                               </ContentInnerTextBox>

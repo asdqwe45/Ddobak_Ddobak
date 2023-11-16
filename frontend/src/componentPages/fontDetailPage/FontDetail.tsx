@@ -208,8 +208,14 @@ const FontDetail: React.FC = () => {
 
   // 웹 폰트 코드 넣기
   const copyToClipboard = async () => {
+    const fontCode = `@font-face { 
+      font-family: "${fontName}";
+      src: url("${webFont}");
+    }
+    font-family: "${fontName}";`;
+    
     try {
-      await navigator.clipboard.writeText(webFont);
+      await navigator.clipboard.writeText(fontCode);
       console.log('클립보드에 복사되었습니다!');
     } catch (err) {
       console.log('복사에 실패했습니다.');
