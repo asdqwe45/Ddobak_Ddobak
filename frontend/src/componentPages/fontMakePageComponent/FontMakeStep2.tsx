@@ -87,7 +87,7 @@ const FontMakeStep2: React.FC = () => {
             setKorFileData(file);
           } else {
             setEnglishFiles([result]);
-            setEngFileData(file); 
+            setEngFileData(file);
           }
         };
         reader.readAsDataURL(file);

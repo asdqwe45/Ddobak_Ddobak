@@ -10,7 +10,7 @@ import KeywordBtn from 'common/keywordButton/KeywordBtn';
 import TermsAgreement from 'common/checkButton/TermsAgreement';
 import { useSelector, useDispatch } from 'react-redux';
 import { pointPayModalActions } from 'store/pointPayModalSlice';
-import { axiosWithAuth } from 'https/http';
+import { axiosWithAuth, getData } from 'https/http';
 import type { RootState } from 'store';
 
 const FontOptionPage: React.FC = () => {
@@ -190,7 +190,16 @@ const FontOptionPage: React.FC = () => {
 
   // 결제하기 버튼의 핸들러 함수
   const handlePaymentClick = async () => {
+    console.log('여기 클릭 아니야?');
     if (isReadyToPay()) {
+      const productionStatus = await getData('bonjour');
+      console.log(productionStatus);
+      if (productionStatus) {
+        dispatch(pointPayModalActions.payThePrice({ howMuch: 50000, boughtSometing: '폰트제작' }));
+      } else {
+        setShowFreeModal(true);
+        dispatch(pointPayModalActions.payThePrice({ howMuch: 0, boughtSometing: '폰트제작' }));
+      }
       await clickPayHandler(); // 모든 조건 충족
     } else if (!isKorNameAvailable || !isEngNameAvailable) {
       handleNotConfirmAlert(); // 중복 확인
@@ -200,9 +209,8 @@ const FontOptionPage: React.FC = () => {
   };
 
   const dispatch = useDispatch();
-
+  const [showFreeModal, setShowFreeModal] = useState<boolean>(false);
   const clickPayHandler = async () => {
-    dispatch(pointPayModalActions.payThePrice({ howMuch: 50000, boughtSometing: '폰트제작' }));
     // 데이터를 다 넣어서 보내준다.
     dispatch(
       pointPayModalActions.makeFont({
@@ -370,6 +378,13 @@ const FontOptionPage: React.FC = () => {
         onHide={() => setNotAllInputModal(false)}
         message1="📢 모든 정보를 입력해주세요! 🚨"
         message2=""
+        btnName="확인"
+      />
+      <AlertCustomModal
+        show={showFreeModal}
+        onHide={() => setShowFreeModal(false)}
+        message1="첫 번째 결제는 무료입니다."
+        message2="다음 제작시 50,000 포인트가 소진됩니다."
         btnName="확인"
       />
     </>

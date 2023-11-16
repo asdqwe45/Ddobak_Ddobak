@@ -113,13 +113,25 @@ const MainFontBox: React.FC<FontBoxProps> = ({
     navigate('/login');
   };
 
+  const nameFormatFC = (fontName: string) => {
+    if (fontName.length > 10) {
+      return fontName.substring(0, 7) + ' ...';
+    }
+    return fontName;
+  };
+
   return (
     <>
       <div className={classes.container}>
         <div className={classes.header}>
           <div className={classes.title} onClick={handleTitleClick}>
-            <CustomTextStyle fontFamily={title} fontSrc={font_file_url}>
-              <span> {title} </span>
+            <CustomTextStyle
+              style={{ paddingRight: 10 }}
+              title={title}
+              fontFamily={title}
+              fontSrc={font_file_url}
+            >
+              <span> {nameFormatFC(title)} </span>
             </CustomTextStyle>
           </div>
           {dib ? (
