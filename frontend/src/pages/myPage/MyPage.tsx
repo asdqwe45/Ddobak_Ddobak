@@ -648,13 +648,12 @@ const MyPage: React.FC = () => {
     }
   };
 
-
   const nameFormatFC = (fontName: string) => {
     if (fontName.length > 14) {
-      return fontName.substring(0, 10) + " ..."
+      return fontName.substring(0, 10) + ' ...';
     }
-    return fontName
-  }
+    return fontName;
+  };
 
   return (
     <div className={classes.container}>
