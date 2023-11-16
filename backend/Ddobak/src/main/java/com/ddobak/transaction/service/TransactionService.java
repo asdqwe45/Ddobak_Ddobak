@@ -398,7 +398,7 @@ public class TransactionService {
                 transaction.getTransactionFont().getKorFontName(),
                 transaction.getSeller().getNickname(),
                 transaction.getTransactionAmount(),
-                transaction.getTransactionAfterAmount(),
+                transaction.getSellerAfterAmount(),
                 false,0
             )).collect(Collectors.toList());
 
