@@ -165,7 +165,7 @@ const PointPayModal: React.FC = () => {
           }
           if (data.length > 0) {
             cartDeleteAPI(data)
-              .then(async (r) => {})
+              .then(async (r) => { })
               .catch((e) => {
                 console.error(e);
               });
@@ -175,8 +175,8 @@ const PointPayModal: React.FC = () => {
           dispatch(pointPayModalActions.resetState());
           dispatch(
             successModalActions.showSomething({
-              successHeader: '구매 완료',
-              successContext: '폰트 구매를 완료했어요!',
+              successHeader: '[ 구매 완료 ]',
+              successContext: '마이페이지에서 ttf 파일을 다운 받을 수 있습니다.',
             }),
           );
         } else if (boughtSomething === '장바구니구매') {
