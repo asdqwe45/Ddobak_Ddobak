@@ -56,7 +56,7 @@ const CustomTextStyle = styled.div<CustomTextStyleType>`
   padding-bottom: 20px;
   font-family: ${(props) => props.fontFamily};
   font-size: ${(props) => props.fontSize}px;
-  color: ${(props) => (props.inputText.length ? 'black' : 'lightGray')};
+  color: ${(props) => (props.inputText.length ? 'black' : '#B6B6B6')};
   max-width: 1286px;
   overflow: auto;
 `;
