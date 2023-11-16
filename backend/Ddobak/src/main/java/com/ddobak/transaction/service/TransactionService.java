@@ -224,6 +224,7 @@ public class TransactionService {
                         .build();
                     transactionRepository.save(transaction);
                     forMultiplePurchaseAfterAmount.addAndGet((-1) *purchaseFont.getPrice());
+                    buyer.withdrawPoint(purchaseFont.getPrice());
                     purchaseOrder.calcAfterAmount(forMultiplePurchaseAfterAmount.get());
                 }
             );
