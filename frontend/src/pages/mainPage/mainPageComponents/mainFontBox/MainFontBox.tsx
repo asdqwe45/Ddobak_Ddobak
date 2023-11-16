@@ -118,8 +118,8 @@ const MainFontBox: React.FC<FontBoxProps> = ({
       <div className={classes.container}>
         <div className={classes.header}>
           <div className={classes.title} onClick={handleTitleClick}>
-          <CustomTextStyle fontFamily={title} fontSrc={font_file_url}>
-            <span> {title} </span>
+            <CustomTextStyle fontFamily={title} fontSrc={font_file_url}>
+              <span> {title} </span>
             </CustomTextStyle>
           </div>
           {dib ? (
@@ -147,8 +147,8 @@ const MainFontBox: React.FC<FontBoxProps> = ({
         {/* box 중앙 선 */}
         <div className={classes.borderTop}></div>
         <div className={classes.content} onClick={handleTitleClick}>
-        <CustomTextStyle fontFamily={title} fontSrc={font_file_url}>
-          <span>세상에 내 글씨가 font가 되다니!</span>
+          <CustomTextStyle fontFamily={title} fontSrc={font_file_url}>
+            <span>세상에 내 글씨가 font가 되다니!</span>
           </CustomTextStyle>
         </div>
       </div>
