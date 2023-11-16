@@ -114,6 +114,7 @@ const PointPayModal: React.FC = () => {
                   successContext: '이용해주셔서 감사합니다.❤',
                 }),
               );
+              setShowAlertModal(false); // 결제 완료 후 모달 닫히기
               return;
             })
             .catch((e) => {
