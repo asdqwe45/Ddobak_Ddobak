@@ -124,7 +124,7 @@ public class TransactionController {
     // 제작, 구매한 폰트 조회
     @GetMapping("/my")
     public ResponseEntity<List<MyFontResponse>> requestMyFontList(@AuthenticationPrincipal LoginInfo loginInfo) {
-        log.info("{} -> font");
+        log.info("{} -> fontList",loginInfo.email());
 
         List<MyFontResponse> myFontResponseList = transactionService.getMyFontList(loginInfo);
         return ResponseEntity.ok().body(myFontResponseList);
