@@ -223,7 +223,7 @@ const FontOptionPage: React.FC = () => {
               <InputTitle>폰트명</InputTitle>
               <input
                 type="text"
-                placeholder="예시) 또박또박_글씨체"
+                placeholder="예시) 또박또박체"
                 value={korFontName}
                 onChange={handleKorNameChange}
                 style={{ width: '20vw', height: '50px' }}
@@ -235,7 +235,7 @@ const FontOptionPage: React.FC = () => {
               <InputTitle>파일명(영문)</InputTitle>
               <input
                 type="text"
-                placeholder="예시) ddobak_test"
+                placeholder="예시) ddobak_font"
                 value={engFontName}
                 onChange={handleEngNameChange}
                 style={{ width: '20vw', height: '50px' }}
