@@ -91,6 +91,7 @@ import CommonEmptyBox from '../../common/commonEmptyBox/CommonEmptyBox';
 import { progressLoaderActions } from 'store/progressLoaderSlice';
 import { successModalActions } from 'store/successModalSlice';
 import { fontMypageAPI } from 'https/utils/FontFunction';
+import { refreshActions } from 'store/refreshSlice';
 
 interface CartType {
   fontId: number;
@@ -584,6 +585,7 @@ const MyPage: React.FC = () => {
 
   const handleClickFontNameFC = async (fontId: string) => {
     navigate(`/font/${fontId}`);
+    dispatch(refreshActions.detailPlus());
   };
 
   function removeSpaces(str: string) {

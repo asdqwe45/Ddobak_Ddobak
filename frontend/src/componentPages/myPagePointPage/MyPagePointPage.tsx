@@ -474,7 +474,9 @@ const MyPagePointPage: React.FC = () => {
                               </MyPagePointContentBox>
                               <MyPagePointContentPointBox>
                                 <MyPagePointContentText style={{ color: mainRedColor }}>
-                                  - {formatNumberWithCommas(data.transactionAmount)}
+                                  {data.transactionAmount > 0
+                                    ? '- ' + formatNumberWithCommas(data.transactionAmount)
+                                    : '무료'}
                                 </MyPagePointContentText>
                                 <MyPagePointDateText style={{ color: likeCountColor }}>
                                   잔여 {formatNumberWithCommas(data.transactionAfterAmount)} P
@@ -503,7 +505,9 @@ const MyPagePointPage: React.FC = () => {
                             </MyPagePointContentBox>
                             <MyPagePointContentPointBox>
                               <MyPagePointContentText style={{ color: mainRedColor }}>
-                                - {formatNumberWithCommas(data.transactionAmount)}
+                                {data.transactionAmount > 0
+                                  ? '- ' + formatNumberWithCommas(data.transactionAmount)
+                                  : '무료'}
                               </MyPagePointContentText>
                               <MyPagePointDateText style={{ color: likeCountColor }}>
                                 잔여 {formatNumberWithCommas(data.transactionAfterAmount)} P
@@ -547,7 +551,9 @@ const MyPagePointPage: React.FC = () => {
                             </MyPagePointContentBox>
                             <MyPagePointContentPointBox>
                               <MyPagePointContentText style={{ color: mainRedColor }}>
-                                - {formatNumberWithCommas(data.transactionAmount)}
+                                {data.transactionAmount > 0
+                                  ? '- ' + formatNumberWithCommas(data.transactionAmount)
+                                  : '무료'}
                               </MyPagePointContentText>
                               <MyPagePointDateText style={{ color: likeCountColor }}>
                                 잔여 {formatNumberWithCommas(data.transactionAfterAmount)} P
@@ -697,7 +703,9 @@ const MyPagePointPage: React.FC = () => {
                             </MyPagePointContentBox>
                             <MyPagePointContentPointBox>
                               <MyPagePointContentText style={{ color: mainRedColor }}>
-                                - {formatNumberWithCommas(data.totalOrderCount)}
+                                {data.transactionAmount > 0
+                                  ? '- ' + formatNumberWithCommas(data.transactionAmount)
+                                  : '무료'}
                               </MyPagePointContentText>
                               <MyPagePointDateText style={{ color: likeCountColor }}>
                                 잔여 {formatNumberWithCommas(data.transactionAfterAmount)} P

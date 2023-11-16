@@ -61,7 +61,6 @@ const CustomTextStyle = styled.div<CustomTextStyleType>`
   overflow: auto;
 `;
 
-
 const CustomTitleStyle = styled.div<CustomTextStyleType>`
   @font-face {
     font-family: ${(props) => props.fontFamily};
@@ -303,12 +302,12 @@ const FontDetail: React.FC = () => {
               )}
             </div>
             <CustomTitleStyle
-            fontSize={fontSize}
-            inputText={inputText}
-            fontFamily={fontName}
-            fontSrc={webFont}
-          >
-            <div className={classes.title}>{fontDetail ? fontDetail.fontName : ''}</div>
+              fontSize={fontSize}
+              inputText={inputText}
+              fontFamily={fontName}
+              fontSrc={webFont}
+            >
+              <div className={classes.title}>{fontDetail ? fontDetail.fontName : ''}</div>
             </CustomTitleStyle>
           </div>
           <div>
