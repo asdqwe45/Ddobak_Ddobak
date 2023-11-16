@@ -35,6 +35,7 @@ import {
 import { getProfileImg } from 'https/utils/AuthFunction';
 import { transactionProducerAPI } from 'https/utils/TransactionFunction';
 import CommonEmptyBox from 'common/commonEmptyBox/CommonEmptyBox';
+import styled from '@emotion/styled';
 // API로부터 받아올 폰트 데이터의 타입을 정의
 // type Font = {
 //   fontFileUrl: string;
@@ -44,6 +45,22 @@ import CommonEmptyBox from 'common/commonEmptyBox/CommonEmptyBox';
 //   producerName: string;
 //   fontName: string;
 // };
+
+// fontFileUrl
+// fontName
+
+interface FontProps {
+  fontFileUrl: string;
+  fontName: string;
+}
+
+const NewMakerFontCommentText = styled(MakerFontCommentText)<FontProps>`
+  @font-face {
+    font-family: ${(props) => props.fontName};
+    src: url(${(props) => props.fontFileUrl});
+  }
+  font-family: ${(props) => props.fontName};
+`;
 
 interface ChangeMakerIntroType {
   changeMakerIntro: {
@@ -127,6 +144,7 @@ const MakerPage: React.FC = () => {
       // 제작한 폰트 리스트 가져오기
       transactionProducerAPI(makerId)
         .then(async (r) => {
+          console.log(r);
           setFontList(r);
         })
         .catch((e) => console.error('MakerPage TransactionProducerAPI Error: ' + e.message));
@@ -209,7 +227,12 @@ const MakerPage: React.FC = () => {
                       </MakerFontNameText>
                     </MakerCommemtBox>
 
-                    <MakerFontCommentText>다람쥐 헌 쳇바퀴 타고파</MakerFontCommentText>
+                    <NewMakerFontCommentText
+                      fontName={font['fontName']}
+                      fontFileUrl={font['fontFileUrl']}
+                    >
+                      다람쥐 헌 쳇바퀴 타고파
+                    </NewMakerFontCommentText>
                   </MakerFontSmallBox>
                 );
               } else {

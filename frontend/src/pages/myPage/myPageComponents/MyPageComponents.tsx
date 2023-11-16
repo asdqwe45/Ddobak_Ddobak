@@ -306,6 +306,19 @@ export const NewBtnText = styled.p`
   font-size: 16px;
 `;
 
+export const GrayBtnBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  width: 80px;
+  border-radius: 10px;
+  border: 0px;
+  background-color: ${likeCountColor};
+  color: white;
+`;
+
 export const ContentGrayBtn = styled(ContentBtnIngredient)`
   background-color: ${likeCountColor};
   &:hover {
