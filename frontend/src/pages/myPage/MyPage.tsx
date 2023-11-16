@@ -42,6 +42,7 @@ import {
   LikeBoxText,
   CartPriceBox,
   CartPriceText,
+  GrayBtnBox,
 } from './myPageComponents/MyPageComponents';
 import classes from './MyPage.module.css';
 
@@ -66,7 +67,7 @@ import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper as SwiperCore } from 'swiper/types';
 
 // redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changePwModalActions } from 'store/changePwModalSlice';
 import { reviewModalActions } from 'store/reviewModalSlice';
 import { exchangeModalActions } from 'store/exchangeModalSlice';
@@ -82,7 +83,7 @@ import { changeNicknameModalActions } from 'store/changeNicknameSlice';
 import { dibListAPI, dibRemoveAPI } from 'https/utils/FavoriteFunction';
 import { chargePointModalActions } from 'store/chargePointModalSlice';
 import { getData } from 'https/http';
-import { transactionMyAllAPI } from 'https/utils/TransactionFunction';
+import { transactionBuyOrMakeAPI, transactionMyAllAPI } from 'https/utils/TransactionFunction';
 import { cartAddAPI, cartDeleteAPI, cartGetAPI } from 'https/utils/CartFunction';
 import { followDeleteAPI, getFollowingList } from 'https/utils/FollowFunction';
 
@@ -601,6 +602,52 @@ const MyPage: React.FC = () => {
       return str;
     }
   }
+  interface BOMType {
+    fontId: string;
+    possessionType: string;
+  }
+  const [listBOM, setListBOM] = useState<BOMType[]>([]);
+
+  interface RefreshType {
+    refresh: {
+      dibRefresh: number;
+    };
+  }
+
+  const dibRefresh = useSelector((state: RefreshType) => state.refresh);
+  useEffect(() => {
+    isBoughtOrMadeFC();
+  }, [dibRefresh]);
+
+  // 찜한거 장바구니 못담게 만들기
+  const isBoughtOrMadeFC = async () => {
+    const response = await transactionBuyOrMakeAPI()
+      .then((r) => {
+        return r;
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+    setListBOM(response);
+  };
+
+  const checkIsBOMFC = (fontId: string) => {
+    if (listBOM.length > 0) {
+      console.log(listBOM);
+      for (const lb of listBOM) {
+        console.log(lb);
+        if (lb.fontId.toString() === fontId) {
+          if (lb.possessionType === '제작') {
+            return '제작';
+          } else {
+            return '구매';
+          }
+        }
+      }
+    } else {
+      return '장바구니';
+    }
+  };
 
   return (
     <div className={classes.container}>
@@ -878,14 +925,27 @@ const MyPage: React.FC = () => {
                               </ContentInnerTextBox>
                             </ContentInnerLeft>
                             <ContentInnerRight style={{ justifyContent: 'center' }}>
-                              <NewBtnBox
-                                onClick={() => {
-                                  clickBasketHandler(dib.fontId.toString());
-                                }}
-                              >
-                                <NewBtnText>장바구니</NewBtnText>
-                                <NewBtnText>담기</NewBtnText>
-                              </NewBtnBox>
+                              {checkIsBOMFC(dib.fontId.toString()) === '제작' ? (
+                                <GrayBtnBox>
+                                  <NewBtnText>제작한</NewBtnText>
+                                  <NewBtnText>폰트</NewBtnText>
+                                </GrayBtnBox>
+                              ) : checkIsBOMFC(dib.fontId.toString()) === '구매' ? (
+                                <GrayBtnBox>
+                                  <NewBtnText>구매한</NewBtnText>
+                                  <NewBtnText>폰트</NewBtnText>
+                                </GrayBtnBox>
+                              ) : (
+                                <NewBtnBox
+                                  onClick={() => {
+                                    clickBasketHandler(dib.fontId.toString());
+                                  }}
+                                >
+                                  <NewBtnText>장바구니</NewBtnText>
+                                  <NewBtnText>담기</NewBtnText>
+                                </NewBtnBox>
+                              )}
+                              {/* <GrayBtnBox></GrayBtnBox> */}
                             </ContentInnerRight>
                           </ContentIngredient>
                         );
@@ -1033,7 +1093,7 @@ const MyPage: React.FC = () => {
                 <></>
               )}
             </>
-          ) : (
+          ) : pageLocation.likeProducers ? (
             <>
               {/* ======== */}
               {/* 찜한 제작자 */}
@@ -1100,6 +1160,8 @@ const MyPage: React.FC = () => {
                 <></>
               )}
             </>
+          ) : (
+            <></>
           )}
         </MyPageContent>
       </div>

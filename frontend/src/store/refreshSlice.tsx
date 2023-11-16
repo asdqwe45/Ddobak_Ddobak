@@ -5,6 +5,7 @@ const refreshSlice = createSlice({
   initialState: {
     mainList: 0,
     fontDetail: 0,
+    dibRefresh: 0,
   },
   reducers: {
     mainPlus(state) {
@@ -12,6 +13,9 @@ const refreshSlice = createSlice({
     },
     detailPlus(state) {
       state.fontDetail++;
+    },
+    dibPlus(state) {
+      state.dibRefresh++;
     },
   },
 });
