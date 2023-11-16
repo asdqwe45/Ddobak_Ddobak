@@ -129,7 +129,7 @@ public class MemberControllerTest extends ControllerTest {
     void memberLoginTest() throws Exception {
         MemberLoginRequest memberLoginRequest = new MemberLoginRequest("ddobak@naver.com","1234");
 
-        LoginResponse loginResponse = new LoginResponse(1L, "accessToken","refreshToken","profileImgUrl");
+        LoginResponse loginResponse = new LoginResponse(1L, "accessToken","refreshToken","profileImgUrl",false);
         when(memberService.loginMember(any())).thenReturn(loginResponse);
 
         mockMvc
@@ -151,7 +151,8 @@ public class MemberControllerTest extends ControllerTest {
                         fieldWithPath("id").description("회원 PK 값"),
                         fieldWithPath("accessToken").description("JWT access Token"),
                         fieldWithPath("refreshToken").description("JWT Refresh Token"),
-                        fieldWithPath("profileImgUrl").description("프로필 이미지 URL")
+                        fieldWithPath("profileImgUrl").description("프로필 이미지 URL"),
+                        fieldWithPath("productionStatus").description("처음 제작 여부")
                     )
                 )
             );
