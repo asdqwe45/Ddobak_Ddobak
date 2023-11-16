@@ -231,7 +231,7 @@ const MakerPage: React.FC = () => {
                       fontName={font['fontName']}
                       fontFileUrl={font['fontFileUrl']}
                     >
-                      다람쥐 헌 쳇바퀴 타고파
+                     웃는 날이 가득하길 바라요 :D
                     </NewMakerFontCommentText>
                   </MakerFontSmallBox>
                 );
