@@ -40,6 +40,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.hibernate:hibernate-core:5.6.15.Final'
+    implementation 'mysql:mysql-connector-java:8.0.26' // MySQL JDBC 드라이버 의존성
+
     testImplementation 'org.projectlombok:lombok:1.18.26'
     implementation 'com.h2database:h2'
     compileOnly 'org.projectlombok:lombok'

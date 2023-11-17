@@ -13,7 +13,7 @@ def crop_image_uniform(src_dir, dst_dir):
     if not os.path.exists(dst_dir):
         os.makedirs(dst_dir)
 
-    img = Image.open( src_dir )
+    img = Image.open( src_dir ).convert('L')
 
     width, height = img.size
     cell_width = width/float(cols)

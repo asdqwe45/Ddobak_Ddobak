@@ -8,6 +8,7 @@
   padding: 10px 25px;
   border-radius: 30px;
   width: 350px;
+  height: 22px;
   display: flex; /* searchBar 내의 요소들을 가로로 배열 */
 }
 
