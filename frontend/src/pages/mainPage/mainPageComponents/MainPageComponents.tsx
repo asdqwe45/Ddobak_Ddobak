@@ -41,9 +41,25 @@ export const MainFooterHeader = styled.p`
   font-weight: bold;
 `;
 
-export const MainFooterText = styled.p`
+interface MainFooterTextType {
+  screenWidth: number;
+}
+
+export const MainFooterText = styled.p<MainFooterTextType>`
+  display: ${(props) => (props.screenWidth < 680 ? 'none' : 'block')};
   margin: 0px;
   color: ${likeCountColor};
-  font-size: 16px;
+  font-size: 20px;
   padding-top: 10px;
+`;
+
+export const MainFooterHeaderText1 = styled.p`
+  margin: 0px;
+  font-size: 16px;
+  padding: 10px 0px;
+`;
+export const MainFooterHeaderText2 = styled.p`
+  margin: 0px;
+  font-size: 16px;
+  padding-bottom: 10px;
 `;

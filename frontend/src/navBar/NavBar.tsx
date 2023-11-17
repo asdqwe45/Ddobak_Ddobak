@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { NavLink, NavigateFunction } from 'react-router-dom';
+import { NavLink, NavigateFunction, useParams } from 'react-router-dom';
 import classes from './NavBar.module.css';
 import NavLogo from '../common/commonAssets/ddobak_logo.png';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { mainRedColor } from 'common/colors/CommonColors';
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import { userLogout } from 'https/utils/AuthFunction';
+import { useDispatch, useSelector } from 'react-redux';
 /*
 // Save to local storage
 window.localStorage.setItem(key, JSON.stringify(newValue))
@@ -29,6 +30,13 @@ localStorage.length;
 
 */
 
+interface ProgressType {
+  progress: {
+    gauge: number;
+    refresh: boolean;
+  };
+}
+
 const NavBar: React.FC = () => {
   // 로그인이 되면 새로고침되게 할 것
   const navigate = useNavigate();
@@ -36,24 +44,78 @@ const NavBar: React.FC = () => {
   const hamburgerToggle = () => {
     setIsClicked(!isClicked);
   };
-
   const [haveToken, setHaveToken] = useState<boolean>(false);
   const [myToken, setMyToken] = useState<string>('');
+  const dispatch = useDispatch();
   useEffect(() => {
     async function fetch() {
-      const testToken = localStorage.getItem('testToken');
-      if (testToken) {
-        const newTestToken = JSON.parse(testToken);
-        setHaveToken(true);
-        setMyToken(newTestToken);
+      const offset = new Date().getTimezoneOffset() * 60000;
+      const today = new Date(Date.now() - offset);
+      const accessToken = localStorage.getItem('accessToken');
+      const prevDate = localStorage.getItem('today');
+      if (accessToken && prevDate) {
+        const newAccessToken = JSON.parse(accessToken);
+        // 현재 시간이랑 비교
+        // 1시간
+        const oneHour = 3540000;
+        const prevToday = new Date(prevDate);
+        if (today.getTime() <= prevToday.getTime() + oneHour) {
+          setHaveToken(true);
+          setMyToken(newAccessToken);
+        } else {
+          localStorage.removeItem('id');
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          localStorage.removeItem('profileImgUrl');
+          localStorage.removeItem('today');
+          localStorage.removeItem('bonjour');
+          window.location.reload();
+        }
       }
-      console.log(myToken);
     }
     fetch();
-  }, [myToken]);
+  }, [myToken, dispatch]);
 
   const location = useLocation();
+  const params = useParams();
+  useEffect(() => {
+    switch (location.pathname) {
+      case '/fontMake':
+        document.title = '제작하기 🛠 - 또박또박';
+        break;
+      case '/fontList':
+        document.title = '폰트보기 🔍 - 또박또박';
+        break;
+      case '/faqPage':
+        document.title = '궁금해요 💡 - 또박또박';
+        break;
+      case '/myPage':
+        document.title = '마이페이지 😎 - 또박또박';
+        break;
+      case '/login':
+        document.title = '또박또박 로그인 ✏';
+        break;
+      case '/signup':
+        document.title = '또박또박 회원가입 ✏';
+        break;
+      case `/font/${params.fontId}`:
+        document.title = '또박 폰트 상세보기 📑';
+        break;
+      case `/maker/${encodeURIComponent(params.makerName || '')}/${params.makerId}`:
+        document.title = `${params.makerName} 😊`;
+        break;
+      case '/point':
+        document.title = '포인트 💳- 또박또박';
+        break;
 
+      // 기타 경로에 대한 타이틀 설정
+      default:
+        document.title = '손글씨 제작, 또박또박 ✏';
+    }
+  }, [location, params]);
+
+  const firstProgress = useSelector((state: ProgressType) => state.progress.gauge);
+  const refresh = useSelector((state: ProgressType) => state.progress.refresh);
   const isActivePath = (pathPatterns: string[]): boolean => {
     for (const pattern of pathPatterns) {
       if (location.pathname.startsWith(pattern)) {
@@ -62,22 +124,52 @@ const NavBar: React.FC = () => {
     }
     return false;
   };
+
+  const logoutHandler = async () => {
+    await userLogout()
+      .then(async (r) => {
+        // console.log(r);
+      })
+      .catch((e) => {
+        // console.error(e);
+      });
+    localStorage.removeItem('id');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('profileImgUrl');
+    localStorage.removeItem('today');
+    localStorage.removeItem('bonjour');
+    navigate('/');
+    window.location.reload();
+  };
   return (
     <div className={classes.header}>
+      <div className={classes.progressLoader}>
+        <div
+          className={classes.progressBar}
+          style={refresh ? { width: firstProgress + '%' } : { display: 'none' }}
+        ></div>
+      </div>
       <div className={classes.list}>
-        <div className={classes.leftBox}>
+        <div className={haveToken ? classes.leftBox : classes.leftNoTokenBox}>
           <div className={classes.logoBox}>
             <NavLink to="/">
               <img src={NavLogo} alt="NavLogo" className={classes.navImage} />
             </NavLink>
           </div>
           <div className={classes.smallBox}>
-            <NavLink
-              to="/fontMake"
-              className={({ isActive }) => (isActive ? classes.active : undefined)}
-            >
-              제작하기
-            </NavLink>
+            {haveToken ? (
+              <>
+                <NavLink
+                  to="/fontMake"
+                  className={({ isActive }) => (isActive ? classes.active : undefined)}
+                >
+                  제작하기
+                </NavLink>
+              </>
+            ) : (
+              <></>
+            )}
           </div>
           <div className={classes.smallBox}>
             <NavLink
@@ -110,13 +202,7 @@ const NavBar: React.FC = () => {
                 </NavLink>
               </div>
               <div className={classes.loginBox}>
-                <p
-                  className={classes.navFont}
-                  onClick={async () => {
-                    localStorage.clear();
-                    window.location.reload();
-                  }}
-                >
+                <p className={classes.navFont} onClick={logoutHandler}>
                   로그아웃
                 </p>
               </div>
@@ -149,18 +235,36 @@ const NavBar: React.FC = () => {
             onClick={hamburgerToggle}
             className={classes.hamburgerBar}
           />
-          {isClicked ? <>{testMenu(haveToken, navigate, setIsClicked)}</> : <></>}
+          {isClicked ? <>{hamburgerMenuBar(haveToken, navigate, setIsClicked)}</> : <></>}
         </div>
       </div>
     </div>
   );
 };
 export default NavBar;
-const testMenu = (
+
+const hamburgerMenuBar = (
   haveToken: boolean,
   navigate: NavigateFunction,
   setIsClicked: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
+  const logoutHandler = async () => {
+    setIsClicked(false);
+    await userLogout()
+      .then(async (r) => {
+        // console.log(r);
+        window.location.reload();
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+    localStorage.removeItem('id');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('profileImgUrl');
+    localStorage.removeItem('today');
+    navigate('/');
+  };
   return (
     <div className={classes.menuDiv}>
       <div className={classes.menuList}>
@@ -213,9 +317,7 @@ const testMenu = (
             <div
               className={classes.menuDetail}
               onClick={async () => {
-                setIsClicked(false);
-                localStorage.clear();
-                window.location.reload();
+                logoutHandler();
               }}
             >
               <p className={classes.menuFont}>로그아웃</p>
@@ -230,7 +332,6 @@ const testMenu = (
               onClick={async () => {
                 setIsClicked(false);
                 navigate('/login');
-                window.location.reload();
               }}
             >
               <p className={classes.menuFont}>로그인</p>

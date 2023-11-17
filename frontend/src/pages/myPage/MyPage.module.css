@@ -9,12 +9,25 @@
   color: #d71718;
 }
 
+.workspaceBtn {
+  margin-left: 10px;
+  &:hover {
+    color: #d71718;
+    cursor: pointer;
+  }
+}
+
+.changeNickName {
+  font-size: 16px;
+  margin: 0px 10px;
+  color: #d71718;
+}
+
 .header {
   width: 100%;
   height: 140px;
   padding-bottom: 20px;
   display: flex;
-  justify-content: space-around;
 }
 
 .content {
@@ -22,11 +35,20 @@
   height: 530px;
   box-sizing: border-box;
   padding: 0px 20px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .ImgStyle {
   width: 100%;
   height: 100%;
+  border-radius: 100%;
+  box-sizing: border-box;
+  border: 1px solid #b6b6b6;
+  &:hover {
+    border: #d71718 5px solid;
+    cursor: pointer;
+  }
 }
 
 .settingIcon {
@@ -92,4 +114,27 @@
   object-fit: cover;
   max-width: 300px;
   max-height: 300px;
+}
+
+@media (max-width: 1260px) {
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+.noContent {
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+}
+
+.freePrice {
+  margin: 0px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.textIcons {
+  padding-top: 30px;
 }

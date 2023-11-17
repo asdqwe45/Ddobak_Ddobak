@@ -1,5 +1,5 @@
 import classes from './MainPageGuide.module.css';
-import guideLine from '../mainPageAssets/guideline_ex.png';
+import guideLine from '../mainPageAssets/guideLine.png';
 import uploadPC from '../mainPageAssets/uploadPC.png';
 import payment from '../mainPageAssets/payment.png';
 import { FaCircleChevronRight } from 'react-icons/fa6';
@@ -16,14 +16,14 @@ const MainPageGuide: React.FC = () => {
         <div className={classes.contentBox}>
           <div className={classes.ingredientBox}>
             <div className={classes.contentImgBox}>
-              <div className={classes.aspectImg}>
-                <img src={guideLine} alt="" className={classes.guideImg} />
+              <div className={classes.aspectImg} style={{ height: '80%' }}>
+                <img src={guideLine} alt="가이드라인" className={classes.guideImg} />
               </div>
-            </div>
-            <div className={classes.btnBox}>
-              <button className={classes.downloadBtn} onClick={handleDownload}>
-                가이드라인 다운로드
-              </button>
+              <div className={classes.btnBox}>
+                <button className={classes.downloadBtn} onClick={handleDownload}>
+                  가이드라인 다운로드
+                </button>
+              </div>
             </div>
             <div className={classes.contentTextBox}>
               <p className={classes.contentHeader}>1. 작성하기</p>
@@ -85,7 +85,7 @@ export default MainPageGuide;
 const handleDownload = async () => {
   try {
     const response = await fetch(
-      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/english_number_template.pdf',
+      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/template_all.pdf',
     );
     if (response.ok) {
       const blob = await response.blob();
@@ -94,7 +94,7 @@ const handleDownload = async () => {
       a.style.display = 'none';
       a.href = url;
       // 다운로드 시, 파일 이름
-      a.download = 'ddobak_english_number_template.pdf';
+      a.download = 'ddobak_template.pdf';
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);

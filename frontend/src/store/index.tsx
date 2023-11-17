@@ -1,4 +1,4 @@
-import { createSlice, type PayloadAction, configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 
 import resultModalSlice from './resultModalSlice';
 import pointModalSlice from './pointPayModalSlice';
@@ -7,31 +7,17 @@ import reviewModalSlice from './reviewModalSlice';
 import chargePointModalSlice from './chargePointModalSlice';
 import exchangeModalSlice from './exchangeModalSlice';
 import changeProfileImgModalSlice from './changeProfileImgModalSlice';
-
-const initialState = { value: 0, showCounter: true, showModal: false };
-
-interface IncreaseAction {
-  amount: number;
-}
-
-const counterSlice = createSlice({
-  name: 'counter',
-  initialState,
-  reducers: {
-    increment(state) {
-      state.value++;
-    },
-    decrement(state) {
-      state.value--;
-    },
-    increase(state, action: PayloadAction<IncreaseAction>) {
-      state.value = state.value + action.payload.amount;
-    },
-    toggleCounter(state) {
-      state.showCounter = !state.showCounter;
-    },
-  },
-});
+import goToBasketModalSlice from './goToBasketModalSlice';
+import signupLoaderSlice from './signupLoaderSlice';
+import failAuthModalSlice from './failAuthModalSlice';
+import changeNicknameModalSlice from './changeNicknameSlice';
+import changeMakerIntroModalSlice from './changeMakerIntroSlice';
+import basketErrorModalSlice from './basketErrorModalSlice';
+import successModalSlice from './successModalSlice';
+import progressLoaderSlice from './progressLoaderSlice';
+import duplicatedEmailSlice from './duplicatedEmailSlice';
+import rootLoaderModalSlice from './rootLoaderModalSlice';
+import refreshSlice from './refreshSlice';
 
 const store = configureStore({
   reducer: {
@@ -42,8 +28,19 @@ const store = configureStore({
     chargePoint: chargePointModalSlice.reducer,
     exchangeModal: exchangeModalSlice.reducer,
     changeProfileImg: changeProfileImgModalSlice.reducer,
+    goToBasket: goToBasketModalSlice.reducer,
+    signupLoader: signupLoaderSlice.reducer,
+    failAuth: failAuthModalSlice.reducer,
+    changeNickname: changeNicknameModalSlice.reducer,
+    changeMakerIntro: changeMakerIntroModalSlice.reducer,
+    basketError: basketErrorModalSlice.reducer,
+    successModal: successModalSlice.reducer,
+    progress: progressLoaderSlice.reducer,
+    duplicatedEmail: duplicatedEmailSlice.reducer,
+    rootLoader: rootLoaderModalSlice.reducer,
+    refresh: refreshSlice.reducer,
   },
 });
 
-export const counterActions = counterSlice.actions;
+export type RootState = ReturnType<typeof store.getState>;
 export default store;

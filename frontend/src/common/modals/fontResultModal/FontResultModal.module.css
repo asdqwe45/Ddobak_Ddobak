@@ -1,18 +1,32 @@
 .overLay {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.2);
   width: 100%;
   height: 100vh;
   box-sizing: border-box;
   padding: 40px;
   display: flex;
   justify-content: center;
+  align-items: center;
   position: relative;
 }
 
 .modalContainer {
   background-color: white;
   width: 1000px;
-  height: 100%;
+  height: 635px;
+  border-radius: 20px;
+  border: 0px;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.loaderContainer {
+  background-color: white;
+  width: 1000px;
+  height: 635px;
   border-radius: 20px;
   border: 0px;
   box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
@@ -24,8 +38,16 @@
 
 .modalBox {
   width: 100%;
-  height: 60px;
-  padding: 5px 20px;
+  height: 20px;
+  padding: 20px;
+  display: flex;
+  box-sizing: border-box;
+}
+
+.buttonBox {
+  width: 100%;
+  height: 45px;
+  padding: 0px 20px;
   display: flex;
   box-sizing: border-box;
 }
@@ -45,7 +67,8 @@
 }
 
 .modalContentText {
-  font-size: 32px;
+  font-size: 45px;
+  font-weight: 700;
 }
 
 .closeIcon {
@@ -59,4 +82,40 @@
 .fontImg {
   width: 100%;
   height: 100%;
+}
+
+.justASecond {
+  font-size: 24px;
+  margin: 20px 0px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+}
+
+.baseFont {
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+  font-size: 40px;
+  justify-content: space-around;
+}
+
+:root {
+  accent-color: red;
+}
+
+input[type='radio'] {
+  width: 30px;
+  height: 30px;
+  border: 1px;
+}
+
+.baseFonts {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 79.5%;
+  width: 90%;
 }

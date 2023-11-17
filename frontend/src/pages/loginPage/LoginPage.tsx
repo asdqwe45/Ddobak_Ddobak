@@ -7,12 +7,18 @@ import { useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 // Auth 컴포넌트 가져오기
 import { AuthHeader, AuthInput } from 'common/authComponents/AuthComponents';
-// Login 컴포넌트 가져오기
-import { Forgot, ForgotText } from './loginPageComponents/LoginPageComponents';
 
-import { userTestLogin } from 'https/utils/AuthFunction';
+import { userLogin } from 'https/utils/AuthFunction';
+import { useDispatch } from 'react-redux';
+import { failAuthModalActions } from 'store/failAuthModalSlice';
 
 const LoginPage: React.FC = () => {
+  // 리덕스
+  const dispatch = useDispatch();
+  const openErrorModal = () => {
+    dispatch(failAuthModalActions.toggle());
+  };
+
   // 비밀번호 보기
   const [wantSee, setWantSee] = useState(false);
   // 이메일 입력
@@ -20,29 +26,72 @@ const LoginPage: React.FC = () => {
   // 비밀번호 입력
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
-  const clickLoginHandle = () => {
+  const clickLoginHandle = async () => {
     // 느낌표 없으면 에러
     const email = emailInputRef.current!.value;
     // 이메일 형식이 잘못되거나 입력하지 않은 경우
     // 우선 나중에
     const password = passwordInputRef.current!.value;
-    console.log(email, password);
     const data = {
       email: email,
-      password: password,
+      loginPassword: password,
     };
-    navigate('/');
-    userTestLogin(data);
+    userLogin(data)
+      .then((r) => {
+        navigate('/');
+        window.location.reload();
+      })
+      .catch(
+        (e) => {
+          console.error(e);
+          openErrorModal();
+        },
+        // 로그인 실패했기 때문에 모달
+      );
   };
+
+  // 이메일 확인
+  // 이메일 형식을 확인하는 함수
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(true);
+  const validateEmail = (email: string) => {
+    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return regex.test(email);
+  };
+  // 이메일 input의 onChange 이벤트 핸들러
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const email = e.target.value;
+    if (email) {
+      setIsValidEmail(validateEmail(email));
+    } else {
+      setIsValidEmail(true);
+    }
+  };
+
   return (
     <div className={classes.container}>
       <AuthHeader>로그인</AuthHeader>
-      <AuthInput placeholder="이메일" ref={emailInputRef}></AuthInput>
+      <div>
+        <AuthInput
+          placeholder="이메일"
+          ref={emailInputRef}
+          onChange={handleEmailChange}
+        ></AuthInput>
+        {isValidEmail ? (
+          <></>
+        ) : (
+          <p className={classes.notValidEmail}>이메일 형식이 올바르지 않습니다.</p>
+        )}
+      </div>
       <div style={{ marginBottom: 20 }}>
         <AuthInput
           placeholder="비밀번호"
           ref={passwordInputRef}
           type={wantSee ? undefined : 'password'}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              clickLoginHandle();
+            }
+          }}
         ></AuthInput>
         <div
           className={classes.passwordIcon}
@@ -53,9 +102,6 @@ const LoginPage: React.FC = () => {
           {wantSee ? <FaEye size={24} color="black" /> : <FaEyeSlash size={24} color="black" />}
         </div>
       </div>
-      <Forgot>
-        <ForgotText>비밀번호를 잊어버리셨나요?</ForgotText>
-      </Forgot>
       <button onClick={clickLoginHandle} className={classes.loginBtn} type="button">
         로그인
       </button>
