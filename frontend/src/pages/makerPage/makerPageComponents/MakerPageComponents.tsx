@@ -11,10 +11,10 @@ export const MakerTopBox = styled.div`
   align-items: center;
 `;
 
-export const MakerName = styled.p`
+export const MakerName = styled.div`
   font-size: 30px;
   font-weight: bold;
-  padding: 0px 40px;
+  text-align: center;
 `;
 
 export const MakerCommemtBox = styled.div`
@@ -27,7 +27,14 @@ export const MakerCommemtBox = styled.div`
 export const MakerComment = styled.p`
   margin: 0px;
   font-size: 30px;
-  padding: 0px 20px;
+  padding: 0px 10px;
+  height: 150px;
+  width: 100%;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 export const MakerSmallBox = styled.div`
@@ -38,7 +45,8 @@ export const MakerSmallBox = styled.div`
 export const MakerLikeCount = styled.p`
   font-size: 28px;
   font-weight: bold;
-  padding-left: 20px;
+  padding: 0px 20px;
+  width: 20px;
   color: ${likeCountColor};
 `;
 
@@ -83,9 +91,16 @@ export const MakerFontNameText = styled.p`
   font-size: 28px;
   font-weight: bold;
   margin-right: 20px;
+  // padding: 0px 10px;
+  &:hover {
+    cursor: pointer;
+    background-color: #fff1f0;
+  }
 `;
 
-export const MakerFontCommentText = styled(MakerComment)`
+export const MakerFontCommentText = styled.div`
   font-size: 40px;
   font-weight: 0;
+  letter-spacing: -5px;
+  padding-left: 25px;
 `;

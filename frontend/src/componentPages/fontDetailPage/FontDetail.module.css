@@ -1,12 +1,27 @@
+.container {
+  margin-bottom: 40px;
+}
+
 .topContainer {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   margin-top: 40px;
+}
+
+.topLeft {
+  display: flex;
+  flex-direction: row;
 }
 
 .title {
   font-size: 55px;
+}
+
+.price {
+  font-size: 45px;
+  margin-right: 10px;
 }
 
 .dibContainer {
@@ -38,15 +53,35 @@
 .makerContainer p {
   font-size: 20px;
   margin: 20px 40px 15px 5px;
+  cursor: pointer;
 }
 
 .makerContainer strong {
   margin-right: 5px;
 }
 
+.makerContainer span:hover {
+  background-color: #fcfcca;
+}
+
 .buyContainer {
   display: flex;
   justify-content: flex-end;
+}
+
+.cartBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 19px;
+  width: 180px;
+  height: 40px;
+  cursor: pointer;
+  margin-right: 10px;
+  background-color: #d71718;
+  border: 2px solid #d71718;
+  color: #fff;
 }
 
 .buyBtn {
@@ -59,8 +94,10 @@
   height: 40px;
   cursor: pointer;
   margin-right: 10px;
+  border: 2px solid #d71718;
 }
 
+.cartBtn:hover,
 .buyBtn:hover {
   /* 버튼 호버 시, 그림자 : 은은하고 넓은, 진하고 얇은 */
   box-shadow:
@@ -84,8 +121,10 @@
   line-height: 30px;
   margin-top: 10px;
   /* 내용이 박스를 초과하면 스크롤 생성 */
-  overflow-y: auto; /* 세로 스크롤 */
-  overflow-x: hidden; /* 가로 스크롤을 숨김 */
+  overflow-y: auto;
+  /* 세로 스크롤 */
+  overflow-x: hidden;
+  /* 가로 스크롤을 숨김 */
 }
 
 .titleContainer {
@@ -131,5 +170,38 @@
   border: none;
   outline: none;
   flex-grow: 1;
-  font-size: 16px;
+  font-size: 18px;
+}
+
+.fontTest {
+  margin-left: 50px;
+  margin-bottom: 50px;
+}
+
+.reviewBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 19px;
+  width: 180px;
+  height: 40px;
+  cursor: pointer;
+  margin-right: 10px;
+  background-color: #484848;
+  border: 2px solid #484848;
+  color: #fff;
+}
+
+.isBoughtOrMadeBox {
+  border-radius: 10px;
+  background-color: #484848;
+  border: 2px solid #484848;
+  width: 240px;
+  height: 40px;
+  color: #fff;
+  font-size: 19px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

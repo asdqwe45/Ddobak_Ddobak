@@ -4,8 +4,6 @@ import {
   axiosWithoutFormData,
   axiosWithFormData,
 } from 'https/http';
-
-// formData
 /*
 const aiDiagnosisRequest = {
       surveyResult: arrayString,
@@ -27,7 +25,7 @@ export async function userEmailVerifyRequest(email: string): Promise<any> {
   return axiosWithoutAuth
     .post('/member/email/verify-request', data)
     .then((r) => {
-      return r;
+      return r.data;
     })
     .catch((e) => {
       throw e;
@@ -50,7 +48,7 @@ export async function userEmailVerifyAPI(data: EmailCheckData): Promise<any> {
   return axiosWithoutAuth
     .post('/member/email/verify', data)
     .then((r) => {
-      return r;
+      return r.data;
     })
     .catch((e) => {
       throw e;
@@ -73,21 +71,19 @@ export async function userSignup(data: SignupData, profileImg: File | string): P
   // 이미지 파일을 추가합니다.
   if (profileImg) {
     await formData.append('profileImg', profileImg);
-    console.log(formData);
     return axiosWithoutFormData
       .post('/member/signup', formData)
       .then((r) => {
-        return r;
+        return r.data;
       })
       .catch((e) => {
         throw e;
       });
   } else {
-    console.log(json);
     return axiosWithoutFormData
       .post('/member/signup', formData)
       .then((r) => {
-        return r;
+        return r.data;
       })
       .catch((e) => {
         throw e;
@@ -103,14 +99,6 @@ return item ? (parseJSON(item) as T) : initialValue
 */
 
 // const localStorage = window.localStorage
-
-export async function userTestLogin(data: LoginType) {
-  console.log(data);
-  const testToken = 'DFGHJDFGHJKGHJKFGHJKLFGHJKFGHJKLFGHJK';
-  const jsonTestToken = JSON.stringify(testToken);
-  localStorage.setItem('testToken', jsonTestToken);
-  window.location.reload();
-}
 
 // 토큰이 있는지 확인해주는 함수
 export async function checkToken() {
@@ -130,15 +118,22 @@ export async function userLogin(data: LoginType): Promise<any> {
   return axiosWithoutAuth
     .post('/member/login', data)
     .then(async (r) => {
+      // console.log(r);
+      const offset = new Date().getTimezoneOffset() * 60000;
       const responseData = await r.data;
       const id = await JSON.stringify(responseData.id);
       const accessToken = await JSON.stringify(responseData.accessToken);
       const refreshToken = await JSON.stringify(responseData.refreshToken);
       const profileImgUrl = await JSON.stringify(responseData.profileImgUrl);
+      const productionStatus = await JSON.stringify(responseData.productionStatus);
+      const today = new Date(Date.now() - offset);
       await localStorage.setItem('id', id);
       await localStorage.setItem('accessToken', accessToken);
       await localStorage.setItem('refreshToken', refreshToken);
       await localStorage.setItem('profileImgUrl', profileImgUrl);
+      await localStorage.setItem('bonjour', productionStatus);
+      await localStorage.setItem('today', today.toISOString());
+
       return r.data;
     })
     .catch((e) => {
@@ -189,8 +184,12 @@ export async function userChangePwAPI(data: userChangePwType): Promise<any> {
 
 // 프로필 이미지 변경 폼데이터
 export async function userChangeProfileAPI(profileImg: File | string): Promise<any> {
+  const formData = new FormData();
+  if (profileImg) {
+    formData.append('profileImg', profileImg);
+  }
   return axiosWithFormData
-    .post('/member/profileImg')
+    .post('/member/profileImg', formData)
     .then((r) => {
       return r.data;
     })
@@ -206,7 +205,7 @@ interface userChnageNicknameType {
 
 export async function userChangeNicknameAPI(data: userChnageNicknameType): Promise<any> {
   return axiosWithAuth
-    .post('/member/nickname')
+    .post('/member/nickname', data)
     .then((r) => {
       return r.data;
     })
@@ -231,7 +230,6 @@ export async function userChangeInfoAPI(data: userChangeInfoType): Promise<any> 
 }
 
 // accessToken 만료 갱신??
-// 규민이한테 물어봐야함
 interface userAccessTokenType {
   refreshToken: string;
 }
@@ -240,6 +238,29 @@ export async function userAccessTokenAPI(data: userAccessTokenType): Promise<any
     .post('/member/refresh')
     .then((r) => {
       return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+
+// 마이페이지
+export async function userMypageAPI(): Promise<any> {
+  return axiosWithAuth
+    .get('/member/mypage')
+    .then((r) => {
+      return r.data;
+    })
+    .catch((e) => {
+      throw e;
+    });
+}
+
+export async function getProfileImg(id: string) {
+  return axiosWithAuth
+    .get(`/member/profileImg/${id}`)
+    .then((r) => {
+      return r.data.ProfileImg;
     })
     .catch((e) => {
       throw e;

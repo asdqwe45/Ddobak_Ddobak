@@ -1,0 +1,62 @@
+.manuscriptLargeBox {
+  height: 60px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  margin: 0px 30px;
+}
+
+.manuscriptSmallBox {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #d71718;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.manuscriptSmallBetweenBoxLeft {
+  width: 25px;
+  height: 40px;
+  border: 2px solid #d71718;
+  border-left-width: 0px;
+  border-right-width: 1px;
+}
+
+.manuscriptSmallBetweenBoxRight {
+  width: 25px;
+  height: 40px;
+  border: 2px solid #d71718;
+  border-left-width: 1px;
+  border-right-width: 0px;
+}
+
+.manuscriptMiddleBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 100%;
+}
+
+.manuscriptLine {
+  border: 2px solid #d71718;
+}
+
+.manuscriptText {
+  font-size: 22px;
+  font-weight: bold;
+  color: #484848;
+  cursor: pointer;
+}
+
+.manuscriptTextActive,
+.manuscriptText:hover {
+  color: #d71718;
+  font-size: 26px;
+  font-weight: 800;
+}

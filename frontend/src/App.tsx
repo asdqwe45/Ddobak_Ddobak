@@ -36,7 +36,7 @@ const router = createBrowserRouter([
       { path: '/fontMake', element: <FontMakePage /> },
       { path: '/fontMake/:fontId', element: <FontOptionPage /> },
       { path: '/faqPage', element: <FaqPage /> },
-      { path: '/maker', element: <MakerPage /> },
+      { path: '/maker/:makerName/:makerId', element: <MakerPage /> },
       { path: '/point', element: <MyPagePointPage /> },
     ],
   },

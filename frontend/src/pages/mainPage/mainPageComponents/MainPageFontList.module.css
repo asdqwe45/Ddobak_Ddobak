@@ -16,13 +16,6 @@
   padding: 0px 40px;
 }
 
-.swiperBox {
-  width: 50%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
 .swiperSlid {
   display: flex;
   justify-content: center;
@@ -37,9 +30,9 @@
   /* 줄바꿈 허용 */
 }
 
-.swiperHeader span {
+/* .swiperHeader span {
   font-size: 50px;
-}
+} */
 
 @keyframes shine {
   0% {
@@ -71,35 +64,44 @@
   from {
     width: 0;
   }
+
   to {
-    width: 300px;
+    width: 250px;
     padding-right: 5px;
   }
 }
+
 @keyframes blinkTextCursor {
   0%,
   50% {
-    border-right-color: #d71718; /* 커서가 보이는 상태를 유지 */
+    border-right-color: #d71718;
+    /* 커서가 보이는 상태를 유지 */
   }
+
   51%,
   100% {
-    border-right-color: transparent; /* 커서를 빠르게 숨김 */
+    border-right-color: transparent;
+    /* 커서를 빠르게 숨김 */
   }
 }
+
 .typeWriterContainer {
   display: inline-block;
   overflow: hidden;
-  vertical-align: Top; /* 이 속성은 레이아웃에 따라 조정이 필요할 수 있습니다. */
+  vertical-align: Top;
+  /* 이 속성은 레이아웃에 따라 조정이 필요할 수 있습니다. */
   height: 55px;
   margin-top: 10px;
 }
+.ddobakLogo {
+  height: 60px;
+  object-fit: cover;
+}
 
 .animationHeaderText {
-  display: inline-block; /* 이 부분이 중요하며, inline 요소에는 width 속성이 적용되지 않습니다. */
+  display: inline-block;
+  /* 이 부분이 중요하며, inline 요소에는 width 속성이 적용되지 않습니다. */
   margin: 0px;
-  font-size: 50px;
-  font-weight: bold;
-  color: #d71718;
   border-right: 3px solid #d71718;
   overflow: hidden;
   position: relative;
@@ -120,4 +122,76 @@
   width: 100%;
   height: 25%;
   text-align: center;
+}
+
+@media (max-width: 810px) {
+  .swiperHeader {
+    font-size: 28px;
+  }
+  .ddobakLogo {
+    height: 30px;
+  }
+  .typeWriterContainer {
+    height: 35px;
+    margin-top: 4px;
+  }
+  .headerBox {
+    height: 80px;
+  }
+  @keyframes typeWriter {
+    from {
+      width: 0;
+    }
+    to {
+      width: 120px;
+      padding-right: 5px;
+    }
+  }
+}
+
+@media (min-width: 810.001px) and (max-width: 948px) {
+  .swiperHeader {
+    font-size: 36px;
+  }
+  .ddobakLogo {
+    height: 34px;
+  }
+  .typeWriterContainer {
+    height: 40px;
+    margin-top: 4px;
+  }
+  @keyframes typeWriter {
+    from {
+      width: 0;
+    }
+    to {
+      width: 140px;
+      padding-right: 5px;
+    }
+  }
+  .swiper {
+    padding: 0px;
+  }
+}
+
+@media (min-width: 948.001px) and (max-width: 1140px) {
+  .swiperHeader {
+    font-size: 44px;
+  }
+  .ddobakLogo {
+    height: 40px;
+  }
+  .typeWriterContainer {
+    height: 48px;
+    margin-top: 4px;
+  }
+  @keyframes typeWriter {
+    from {
+      width: 0;
+    }
+    to {
+      width: 170px;
+      padding-right: 5px;
+    }
+  }
 }

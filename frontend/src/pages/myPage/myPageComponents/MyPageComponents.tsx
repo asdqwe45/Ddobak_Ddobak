@@ -12,6 +12,7 @@ export const IngredientContent = styled.div`
   border: 2px solid ${borderColor};
   border-radius: 10px;
   display: flex;
+  min-width: 380px;
 `;
 // profile
 export const ProfileBox = styled(IngredientBox)`
@@ -22,10 +23,6 @@ export const ProfilImgBox = styled.div`
   aspect-ratio: 1;
   padding: 20px;
   box-sizing: border-box; /* 이 줄을 추가합니다. */
-  &:hover {
-    opacity: 0.7;
-    cursor: pointer;
-  }
 `;
 
 export const ProfileContent = styled.div`
@@ -143,10 +140,12 @@ export const MyPageContent = styled.div`
   border-radius: 10px;
   border: 2px solid ${borderColor};
   display: flex;
+  min-width: 807px;
 `;
 // 선택 상자
 export const SelectBox = styled.div`
   min-height: 370px;
+  min-width: 214px;
   width: 28%;
   height: 100%;
   box-sizing: border-box;
@@ -228,7 +227,20 @@ export const ContentHeader = styled.div`
 export const ContentInnerHeaderText = styled.h1`
   margin: 0px;
   font-size: 24px;
-  padding-right: 20px;
+  padding: 0px 10px;
+  &:hover {
+    cursor: pointer;
+    background-color: #fff1f0;
+  }
+`;
+export const ContentInnerHeaderSpan = styled.span`
+  margin: 0px;
+  margin-left: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  color: ${mainRedColor};
 `;
 
 export const ContentProducerName = styled.p`
@@ -272,6 +284,41 @@ export const ContentRedBtn = styled(ContentBtnIngredient)`
   }
 `;
 
+export const NewBtnBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  width: 80px;
+  border-radius: 10px;
+  border: 0px;
+  background-color: ${mainRedColor};
+  color: white;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+`;
+
+export const NewBtnText = styled.p`
+  margin: 1px;
+  font-size: 16px;
+`;
+
+export const GrayBtnBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  width: 80px;
+  border-radius: 10px;
+  border: 0px;
+  background-color: ${likeCountColor};
+  color: white;
+`;
+
 export const ContentGrayBtn = styled(ContentBtnIngredient)`
   background-color: ${likeCountColor};
   &:hover {
@@ -301,8 +348,8 @@ export const ContentGrayTransaction = styled(ContentBtnIngredient)`
 // 아이콘
 export const ContentIconsBox = styled.div`
   box-sizing: border-box;
-  height: 80%;
-  aspect-ratio: 1;
+  height: 91.79px;
+  width: 60px;
   padding: 30px 20px;
   padding-left: 0px;
 `;
@@ -315,6 +362,7 @@ export const FontBasketTopBox = styled.div`
   width: 100%;
   box-sizing: border-box;
   background-color: white;
+  border-bottom: 2px solid #b6b6b6;
   margin-bottom: 20px;
   display: flex;
   justify-content: flex-end;
@@ -331,6 +379,7 @@ export const FontBasketBottomBox = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
+  border-top: 2px solid #b6b6b6;
 `;
 
 export const SelectListDelete = styled(ContentInnerContentText)`
@@ -373,4 +422,17 @@ export const LikeBoxText = styled.p`
   margin: 0px;
   font-size: 24px;
   font-weight: bold;
+`;
+
+export const CartPriceBox = styled.div`
+  height: 40px;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const CartPriceText = styled.h1`
+  margin: 0px;
+  font-size: 20px;
 `;
