@@ -7,11 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 public class Keyword extends BaseEntity {
 
     @Column(nullable = false)

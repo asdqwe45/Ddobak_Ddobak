@@ -1,5 +1,6 @@
 package com.ddobak.follow.service;
 
+import com.ddobak.follow.dto.FollowingMemberResponse;
 import com.ddobak.follow.entity.Follow;
 import com.ddobak.follow.exception.UserAlreadyFollowingException;
 import com.ddobak.follow.exception.UserNotFoundException;
@@ -9,8 +10,8 @@ import com.ddobak.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class FollowServiceImpl implements FollowService {
@@ -54,14 +55,25 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public List<Member> getFollowingsByFollower(Long followerId) {
+    public ArrayList<FollowingMemberResponse> getFollowingsByFollower(Long followerId) {
         List<Follow> follows = followRepository.findAllByFollowerId(followerId);
-        return follows.stream()
-                .map(Follow::getFollowing).collect(Collectors.toList());
+        ArrayList<FollowingMemberResponse> result = new ArrayList<>();
+
+            for (Follow follow: follows) {
+                Member member = follow.getFollowing();
+                FollowingMemberResponse followingMember = new FollowingMemberResponse(member.getId(), member.getNickname(), member.getProfileImg());
+                result.add(followingMember);
+            }
+            return result;
     }
 
     @Override
     public boolean existsByFollowerIdAndFollowingId(Long followerId, Long followingId) {
         return followRepository.existsByFollowerIdAndFollowingId(followerId, followingId);
+    }
+
+    @Override
+    public int countByFollowingId(Long followingId) {
+        return followRepository.findAllByFollowingId(followingId).size();
     }
 }

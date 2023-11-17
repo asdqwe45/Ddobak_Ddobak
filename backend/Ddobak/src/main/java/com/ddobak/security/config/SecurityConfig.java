@@ -28,7 +28,7 @@ public class SecurityConfig {
             .csrf().disable()
             .cors()
             .and()
-            .headers()
+            .headers().frameOptions().disable()
             .and()
             .sessionManagement()
             .sessionCreationPolicy(
@@ -38,7 +38,9 @@ public class SecurityConfig {
 
             // URL 별 권환 확인
             .authorizeRequests()
-            .antMatchers("/api/v1/member/email/**","/docs/**", "/api/v1/member/signup/**", "/api/v1/member/login/**", "/swagger-ui/**","/api/v1/member/nickname/duplicate/**","/api/v1/font/list/NoAuth/**").permitAll()
+            .antMatchers("/api/v1/member/email/**","/docs/**", "/api/v1/member/signup/**", "/api/v1/member/login/**", "/api/v1/member/nickname/duplicate/**","/api/v1/font/list/NoAuth/**").permitAll()
+            .antMatchers("/api/v2/**","/health","/swagger-ui.html","/swagger/**","/swagger-resources/**","/webjars/**","/v2/api-docs").permitAll()
+            .antMatchers("/api/v1/font/make/final").permitAll()
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -49,7 +51,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(
-            Arrays.asList("http://localhost:3000")); // 허용할 도메인 설정
+            Arrays.asList("http://localhost:3000","https://ddobak.com","http://163.239.223.171:8786")); // 허용할 도메인 설정
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // 허용할 HTTP 메서드 설정
         configuration.setAllowedHeaders(Arrays.asList("*")); // 허용할 헤더 설정
 

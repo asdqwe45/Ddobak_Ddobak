@@ -19,15 +19,13 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Collections;
 
 @Service
@@ -71,9 +69,8 @@ public class FontImageServiceImpl implements FontImageService {
         return zipResponse.getBody();
     }
 
-    public String createFont(MakeFontRequest req, LoginInfo loginInfo) throws IOException {
-        List<File> tempFile = urlToFile(req.fontSortUrl());
-        String fontUrl = getS3FontUrl(tempFile);
+    public String createFont(MakeFontRequest req) throws IOException {
+        String fontUrl = getS3FontUrl(req);
         return fontUrl;
     }
 
@@ -90,7 +87,7 @@ public class FontImageServiceImpl implements FontImageService {
 
         if ("png".equalsIgnoreCase(fileExtension)){
             return tempInputFile;
-        } else if ("JPG".equalsIgnoreCase(fileExtension)) {
+        } else if ("JPG".equalsIgnoreCase(fileExtension) || "JPEG".equalsIgnoreCase(fileExtension)) {
             tempOutputFile = convertJpgToPng(tempInputFile);
         }else if("pdf".equalsIgnoreCase(fileExtension)){
             convertPdfToPng(tempInputFile,tempOutputFile);
@@ -110,7 +107,9 @@ public class FontImageServiceImpl implements FontImageService {
     }
 
     private String getS3SortUrl(File imageFile) {// 8889  8786 http://163.239.223.171:8786/api/v1/image_align
-        String fastApiUrl = "http://163.239.223.171:8786/api/v1/image_align";
+        String fastapiServer = "http://163.239.223.171:8786/api/v1/image_align";
+        String myServer = "http://localhost:8000/sortUpload";
+        String fastApiUrl = fastapiServer;
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -124,17 +123,12 @@ public class FontImageServiceImpl implements FontImageService {
         body.add("file",resource);
 
         HttpEntity<MultiValueMap<String,Object>> requestEntity = new HttpEntity<>(body,headers);
-        System.out.println("AI request");
 
         ResponseEntity<byte[]> response = restTemplate.exchange(fastApiUrl, HttpMethod.POST, requestEntity,byte[].class);
-        System.out.println("AI response");
 
         String contentType = response.getHeaders().getContentType().toString();
-        System.out.println("2");
-        System.out.println(response.getBody());
-        String s3Url = s3Service.uploadSortFile(response.getBody(),"image/png");
-        System.out.println("2");
 
+        String s3Url = s3Service.uploadSortFile(response.getBody(),"image/png");
 
         return s3Url;
     }
@@ -157,13 +151,12 @@ public class FontImageServiceImpl implements FontImageService {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
         FileSystemResource resource1 = new FileSystemResource(imageFiles.get(0));
-        FileSystemResource resource2 = new FileSystemResource(imageFiles.get(0));
+        FileSystemResource resource2 = new FileSystemResource(imageFiles.get(1));
 
         body.add("kor_file",resource1);
         body.add("eng_file",resource2);
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-        System.out.println("???");
 
         ResponseEntity<byte[]> zip = restTemplate.exchange(
                 fastApiUrl,
@@ -171,13 +164,14 @@ public class FontImageServiceImpl implements FontImageService {
                 requestEntity,
                 byte[].class
         );
-        System.out.println("???");
 
         return new ResponseEntity<>(zip.getBody(), headers, HttpStatus.OK);
     }
 
-    public String getS3FontUrl(List<File> imageFiles) {
-        String fastApiUrl = "http://localhost:8000/makeUpload";
+    private String getS3FontUrl(MakeFontRequest req) {
+        String fastapiServer = "http://163.239.223.171:8786/api/v1/font_create/create_font";
+        String myServer = "http://localhost:8000/makeUpload";
+        String fastApiUrl = fastapiServer;
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -185,30 +179,29 @@ public class FontImageServiceImpl implements FontImageService {
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
-        int fileIndex = 1;
-        for (File imageFile : imageFiles) {
-            FileSystemResource resource = new FileSystemResource(imageFile);
-            body.add("file" + fileIndex, resource);
-            fileIndex++;
-        }
+        body.add("fontId", req.fontId().toString());
+        body.add("engFontName",req.engFontName());
+        body.add("url",req.fontSortUrl());
+
+//        int fileIndex = 1;
+//        for (File imageFile : imageFiles) {
+//            FileSystemResource resource = new FileSystemResource(imageFile);
+//            body.add("file" + fileIndex, resource);
+//            fileIndex++;
+//        }
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-        ResponseEntity<String> s3FontUrl = restTemplate.exchange(
+        ResponseEntity<String> result = restTemplate.exchange(
                 fastApiUrl,
                 HttpMethod.POST,
                 requestEntity,
                 String.class
         );
-        String responseBody = s3FontUrl.getBody();
+        String responseBody = result.getBody();
         if (responseBody != null) {
             responseBody = responseBody.replaceAll("^\"|\"$", "");
         }
-        System.out.println("############");
-        System.out.println(responseBody);
-        System.out.println("############");
-        System.out.println(s3FontUrl.getBody());
-        System.out.println("############");
 
         return responseBody;
     }
@@ -222,7 +215,7 @@ public class FontImageServiceImpl implements FontImageService {
         try (PDDocument document = PDDocument.load(inputFile)) {
 
             PDFRenderer pdfRenderer = new PDFRenderer(document);
-            image = pdfRenderer.renderImageWithDPI(0,200);
+            image = pdfRenderer.renderImageWithDPI(0,150);
         }
 
         ImageIO.write(image, "PNG", outputFile);
@@ -234,14 +227,10 @@ public class FontImageServiceImpl implements FontImageService {
     }
     private List<File> urlToFile(String url) throws IOException {
         String[] urls = url.split("\\$");
-        System.out.println("1");
-        System.out.println(urls[0]);
-        System.out.println(urls[1]);
+
         InputStream in1 = new URL(urls[0]).openStream();
-        System.out.println("1");
 
         InputStream in2 = new URL(urls[1]).openStream();
-        System.out.println("1");
 
         File tempFile1 = File.createTempFile("kor_file",".png");
         File tempFile2 = File.createTempFile("eng_file",".png");

@@ -1,13 +1,14 @@
 package com.ddobak.follow.controller;
 
+import com.ddobak.follow.dto.FollowingMemberResponse;
 import com.ddobak.follow.service.FollowService;
-import com.ddobak.member.entity.Member;
 import com.ddobak.security.util.LoginInfo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -37,9 +38,9 @@ public class FollowController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Member>> getFollowingByFollower(@AuthenticationPrincipal LoginInfo loginInfo) {
+    public ResponseEntity<List<FollowingMemberResponse>> getFollowingByFollower(@AuthenticationPrincipal LoginInfo loginInfo) {
         Long followerId = loginInfo.id();
-        List<Member> members = followService.getFollowingsByFollower(followerId);
+        ArrayList<FollowingMemberResponse> members = followService.getFollowingsByFollower(followerId);
         return ResponseEntity.ok(members);
     }
 
@@ -49,5 +50,12 @@ public class FollowController {
         Long followerId = loginInfo.id();
         boolean exists = followService.existsByFollowerIdAndFollowingId(followerId, followingId);
         return ResponseEntity.ok(exists);
+    }
+
+    @GetMapping("/count/{followingId}")
+    public ResponseEntity<Integer> countByFollowingId(@PathVariable Long followingId,
+                                                      @AuthenticationPrincipal LoginInfo loginInfo) {
+        int followingNum = followService.countByFollowingId(followingId);
+        return ResponseEntity.ok(followingNum);
     }
 }
