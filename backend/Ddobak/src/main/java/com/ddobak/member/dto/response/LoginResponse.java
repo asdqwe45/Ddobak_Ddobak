@@ -4,7 +4,8 @@ public record LoginResponse(
     Long id,
     String accessToken,
     String refreshToken,
-    String profileImgUrl
+    String profileImgUrl,
+    boolean productionStatus
 ) {
 
 }

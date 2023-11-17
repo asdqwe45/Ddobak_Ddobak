@@ -1,16 +1,20 @@
 package com.ddobak.font.controller;
 
 import com.ddobak.font.dto.request.MakeFontRequest;
+import com.ddobak.font.dto.request.FinalMakeRequest;
 import com.ddobak.font.dto.response.FontDetailResponse;
-import com.ddobak.font.dto.response.FontListWithCountResponse;
-import com.ddobak.font.dto.response.FontResponse;
+import com.ddobak.font.dto.response.FontIdResponse;
+import com.ddobak.font.dto.response.FontListResponse;
+import com.ddobak.font.dto.response.MakingFontResponse;
+import com.ddobak.font.entity.Font;
 import com.ddobak.font.exception.InvalidFileFormatException;
+import com.ddobak.font.service.FontEmailService;
 import com.ddobak.font.service.FontImageService;
 import com.ddobak.font.service.FontService;
 import com.ddobak.security.util.LoginInfo;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import com.ddobak.transaction.dto.response.FontResponse;
+import com.ddobak.transaction.dto.response.TransactionResponse;
+import com.ddobak.transaction.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -31,20 +35,17 @@ public class FontController {
 
     private final FontImageService fontImageService;
     private final FontService fontService;
+    private final TransactionService transactionService;
+    private final FontEmailService fontEmailService;
 
     @GetMapping(value="/test")
-    @Operation(summary = "테스트", description = "테스트하는 api 입니다.")
-    @ApiResponse(responseCode = "200", description = "리턴 값으로 test를 반환합니다.")
     public ResponseEntity<String> test(@AuthenticationPrincipal LoginInfo loginInfo){
         return ResponseEntity.ok("test");
     }
 
     @PostMapping(value = "/sort",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "정렬api", description = "이미지정렬 api 입니다.")
-    @ApiResponse(responseCode = "200", description = "리턴 값으로 s3Url을 반환합니다.")
     public ResponseEntity<String> sort(
-            @Parameter(description = "multipart/form-data 형식의 이미지 리스트를 input으로 받습니다. 이때 key 값은 multipartFile 입니다.")
             @RequestPart("kor_file") MultipartFile kor_file,
             @RequestPart("eng_file") MultipartFile eng_file) {
         try {
@@ -59,10 +60,8 @@ public class FontController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed ㅠㅠ");
         }
     }
-//    @CrossOrigin(origins = "http://localhost:3000") // React 앱의 URL을 허용합니다.
+
     @PostMapping(value = "/watch")
-    @Operation(summary = "미리보기", description = "미리보기 api 입니다.")
-    @ApiResponse(responseCode = "200", description = "리턴 값으로 zip파일을 반환합니다.")
     public ResponseEntity<byte[]> watchImage(@RequestParam(value = "sortUrl") String reqUrl,
                                              @AuthenticationPrincipal LoginInfo loginInfo){
         try {
@@ -79,56 +78,81 @@ public class FontController {
     }
 
     @PostMapping(value = "/goSetting")
-    @Operation(summary = "폰트 세팅으로 이동", description = "초기 세팅하는 api 입니다.")
-    @ApiResponse(responseCode = "200", description = "리턴 값으로 success를 반환합니다.")
-    public ResponseEntity<String> createFont(@RequestParam("sortUrl") String font_sort_url,
-                                           @AuthenticationPrincipal LoginInfo loginInfo) {
-        fontService.createFont(font_sort_url,loginInfo);
-        return ResponseEntity.ok("success");
+    public ResponseEntity<FontIdResponse> createFont(@RequestParam("sortUrl") String font_sort_url,
+        @AuthenticationPrincipal LoginInfo loginInfo) {
+        FontIdResponse fontIdResponse = fontService.createFont(font_sort_url,loginInfo);
+        return ResponseEntity.ok(fontIdResponse);
     }
 
-    @PostMapping(value = "/make")
-    @Operation(summary = "폰트 제작", description = "폰트 제작하는 api 입니다.")
-    @ApiResponse(responseCode = "200", description = "리턴 값으로 success를 반환합니다.")
+    @PutMapping(value = "/make/request")
     public ResponseEntity<String> makeFont(@RequestBody MakeFontRequest req,
-                                           @AuthenticationPrincipal LoginInfo loginInfo) throws IOException {
+        @AuthenticationPrincipal LoginInfo loginInfo) throws IOException {
         try {
-            System.out.println(req.fontSortUrl());
-            String fontUrl = fontImageService.createFont(req, loginInfo);
-            fontService.makeFont(req,loginInfo,fontUrl);
+            Font makedFont = fontService.makeFont(req,loginInfo);
+            fontImageService.createFont(req);
+            transactionService.requestFontTransaction(makedFont, loginInfo.id(),makedFont.getPrice());
             return ResponseEntity.ok("success");
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Font creation failed due to an internal error.");
         }
     }
-
+    @PutMapping(value = "/make/final")
+    public ResponseEntity<String> makeFinalFont(@RequestBody FinalMakeRequest req, @AuthenticationPrincipal LoginInfo loginInfo){
+        log.info("fontId : {}",req.fontId());
+        log.info("url : {}",req.fontFileUrl());
+        String email = fontService.finalMakeFont(req,loginInfo);
+        log.info("{}",email);
+        fontEmailService.sendCompleteEmail(email);
+        return ResponseEntity.ok("success");
+    }
     @GetMapping(value = "/list")
-    @Operation(summary = "폰트 목록", description = "폰트 목록 조회하는 api입니다.")
-    @ApiResponse(responseCode = "200", description = "리턴값으로 폰트목록에 필요한 값 리턴합니다.")
-    public ResponseEntity<FontListWithCountResponse> getFontList(@AuthenticationPrincipal LoginInfo loginInfo,@PageableDefault(size=12) Pageable pageable,@RequestPart(required = false) String search, @RequestPart(required = false) List<String> keywords, @RequestPart(required = false) Boolean free){
-        System.out.println("####################" + search);
-        List<FontResponse> fontList = fontService.getFontList(loginInfo,pageable,search,keywords,free);
-        FontListWithCountResponse result = new FontListWithCountResponse(fontList,fontList.stream().count());
+    public ResponseEntity<FontListResponse> getFontList(@AuthenticationPrincipal LoginInfo loginInfo,@PageableDefault(size=1000) Pageable pageable,@RequestParam(required = false) String search, @RequestParam(required = false) List<String> keywords, @RequestParam(required = false) String freeCheck){
+
+        Boolean free = null;
+        if(freeCheck != null){
+            if(freeCheck.equals("true")) {
+                free = true;
+            }
+            else{
+                free = false;
+            }
+        }
+
+        FontListResponse result = fontService.getFontList(loginInfo,pageable,search,keywords,free);
+
         return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/list/NoAuth")
-    @Operation(summary = "폰트 목록", description = "폰트 목록 조회하는 api입니다.")
-    @ApiResponse(responseCode = "200", description = "리턴값으로 폰트목록에 필요한 값 리턴합니다.")
-    public ResponseEntity<FontListWithCountResponse> getFontList(@PageableDefault(size=12) Pageable pageable,@RequestPart(required = false) String search, @RequestPart(required = false) List<String> keywords, @RequestPart(required = false) Boolean free){
-        System.out.println("####################" + search);
-        List<FontResponse> fontList = fontService.getFontListNoAuth(pageable,search,keywords,free);
-        FontListWithCountResponse result = new FontListWithCountResponse(fontList,fontList.stream().count());
+    public ResponseEntity<FontListResponse> getFontList(@PageableDefault(size=1000) Pageable pageable,@RequestParam(required = false) String search, @RequestParam(required = false) List<String> keywords, @RequestParam(required = false) String freeCheck){
+
+        Boolean free = null;
+        if(freeCheck != null){
+            if(freeCheck.equals("true")) {
+                free = true;
+            }
+            else{
+                free = false;
+            }
+        }
+        FontListResponse result = fontService.getFontListNoAuth(pageable,search,keywords,free);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/detail/{fontId}")
-    @Operation(summary = "폰트 디테일",  description = "폰트 디테일을 조회하는 api입니다.")
-    @ApiResponse(responseCode = "200", description = "리턴값으로 조회한 폰트의 디테일 값을 리턴합니다.")
     public ResponseEntity<FontDetailResponse> getFontDetail(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long fontId){
         FontDetailResponse result = fontService.getFontDetail(fontId, loginInfo);
         return ResponseEntity.ok(result);
     }
-
+    @GetMapping(value = "/name/check")
+    public ResponseEntity<Boolean> checkFontName(@RequestParam(required = false) String korFontName, @RequestParam(required = false) String engFontName ,@AuthenticationPrincipal LoginInfo loginInfo){
+        Boolean result = fontService.checkNameDuplicate(korFontName, engFontName);
+        return ResponseEntity.ok(result);
+    }
+    @GetMapping("/mypage/{producerId}")
+    public ResponseEntity<List<MakingFontResponse>> requestFontList(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long producerId) {
+        List<MakingFontResponse> fontResponseList = fontService.getMakingFont(producerId);
+        return ResponseEntity.ok().body(fontResponseList);
+    }
 }

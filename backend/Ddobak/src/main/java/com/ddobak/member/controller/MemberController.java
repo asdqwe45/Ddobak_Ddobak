@@ -9,16 +9,23 @@ import com.ddobak.member.dto.request.ModifyLoginPasswordRequest;
 import com.ddobak.member.dto.request.ModifyNicknameRequest;
 import com.ddobak.member.dto.request.RefreshTokenRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
+import com.ddobak.member.dto.response.InfoTextResponse;
 import com.ddobak.member.dto.response.LoginResponse;
+import com.ddobak.member.dto.response.MyOwnFontResponse;
+import com.ddobak.member.dto.response.MyPageResponse;
+import com.ddobak.member.dto.response.ProfileImgResponse;
 import com.ddobak.member.dto.response.RefreshTokenResponse;
 import com.ddobak.member.service.MemberService;
 import com.ddobak.security.util.LoginInfo;
+import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -132,6 +139,15 @@ public class MemberController {
         return ResponseEntity.noContent().build();
     }
 
+    // 회원 프로필 이미지 조회
+    @GetMapping("/profileImg/{memberId}")
+    public ResponseEntity<ProfileImgResponse> requestProfileImg(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long memberId) {
+        log.info("{} request profileImg");
+
+        ProfileImgResponse profileImgResponse = memberService.getProfileImg(memberId);
+        return ResponseEntity.ok().body(profileImgResponse);
+    }
+
     // 프로필이미지 변경
     @PostMapping("/profileImg")
     public ResponseEntity<Void> modifyProfileImg(@AuthenticationPrincipal LoginInfo loginInfo, @RequestPart MultipartFile profileImg) {
@@ -139,5 +155,29 @@ public class MemberController {
 
         memberService.modifyProfileImg(loginInfo, profileImg);
         return ResponseEntity.noContent().build();
+    }
+
+    // 마이 페이지 조회
+    @GetMapping("/mypage")
+    public ResponseEntity<MyPageResponse> requestMyPage(@AuthenticationPrincipal LoginInfo loginInfo) {
+        log.info("{} mypage", loginInfo.email());
+
+        MyPageResponse myPageResponse = memberService.getMyPage(loginInfo);
+        return ResponseEntity.ok().body(myPageResponse);
+    }
+
+    // 제작자 소개글 조회
+    @GetMapping("/textinfo/{producerId}")
+    public ResponseEntity<InfoTextResponse> requestInfoText(@AuthenticationPrincipal LoginInfo loginInfo, @PathVariable Long producerId) {
+        log.info("{} wants InfoText", loginInfo.email());
+
+        InfoTextResponse infoTextResponse = memberService.getInfoText(producerId);
+        return ResponseEntity.ok().body(infoTextResponse);
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<Void> testException(@AuthenticationPrincipal LoginInfo loginInfo) {
+            memberService.test();
+            return null;
     }
 }

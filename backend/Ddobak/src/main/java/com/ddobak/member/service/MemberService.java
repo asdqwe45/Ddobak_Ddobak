@@ -1,5 +1,7 @@
 package com.ddobak.member.service;
 
+import com.ddobak.font.entity.Font;
+import com.ddobak.font.service.FontService;
 import com.ddobak.global.exception.ErrorCode;
 import com.ddobak.global.service.S3Service;
 import com.ddobak.member.dto.request.MemberLoginRequest;
@@ -7,7 +9,10 @@ import com.ddobak.member.dto.request.ModifyInfoTextRequest;
 import com.ddobak.member.dto.request.ModifyLoginPasswordRequest;
 import com.ddobak.member.dto.request.ModifyNicknameRequest;
 import com.ddobak.member.dto.request.SignUpRequest;
+import com.ddobak.member.dto.response.InfoTextResponse;
 import com.ddobak.member.dto.response.LoginResponse;
+import com.ddobak.member.dto.response.MyPageResponse;
+import com.ddobak.member.dto.response.ProfileImgResponse;
 import com.ddobak.member.dto.response.RefreshTokenResponse;
 import com.ddobak.member.entity.Member;
 import com.ddobak.member.entity.SignUpType;
@@ -42,6 +47,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final EmailService emailService;
     private final S3Service s3Service;
+
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
@@ -56,7 +62,7 @@ public class MemberService {
         String authCode = createCode();
 
         // 메일 보내기
-        emailService.sendEmail(email,title,authCode);
+        emailService.sendHTMLEmail(email, title, authCode);
 
         // 이메일 인증 요청 시 인증 번호 Redis에 저장 후 비교
         redisTemplate.opsForValue().set(EMAIL_PREFIX + email, authCode, emailExpireTimeMs, TimeUnit.MILLISECONDS);
@@ -111,7 +117,7 @@ public class MemberService {
         String refreshToken = jwtProvider.createRefreshToken(member.getEmail(), secretKey);
         String profileImgUrl = member.getProfileImg();
 
-        return new LoginResponse(member.getId(), accessToken, refreshToken, profileImgUrl);
+        return new LoginResponse(member.getId(), accessToken, refreshToken, profileImgUrl, member.isProductionStatus());
     }
 
     @Transactional
@@ -181,13 +187,39 @@ public class MemberService {
 
     }
 
-    private Member findByEmail(String email) {
+    @Transactional
+    public MyPageResponse getMyPage(LoginInfo loginInfo) {
+        Member member = findByEmail(loginInfo.email());
+        return new MyPageResponse(member.getProfileImg(), member.getNickname(), member.getPoint());
+    }
+
+    @Transactional(readOnly = true)
+    public InfoTextResponse getInfoText(Long producerId) {
+        Member member = findMemberById(producerId);
+        return new InfoTextResponse(member.getIntroduceText());
+    }
+
+    @Transactional(readOnly = true)
+    public ProfileImgResponse getProfileImg(Long memberId) {
+        Member member = findMemberById(memberId);
+        return new ProfileImgResponse(member.getProfileImg());
+    }
+
+    public Member findByEmail(String email) {
         return memberRepository.findByEmail(email).orElseThrow(() -> new MemberException(ErrorCode.USER_NOT_FOUND));
     }
 
     private Member findByEmailGeneral(String email, SignUpType signUpType) {
         return memberRepository.findByEmailAndSignUpType(email,signUpType)
                                .orElseThrow(() -> new MemberException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    public Member findSellerById(Long id) {
+        return memberRepository.findById(id).orElseThrow(() -> new MemberException(ErrorCode.SELLER_NOT_FOUND));
+    }
+
+    public Member findMemberById(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(() -> new MemberException(ErrorCode.USER_NOT_FOUND));
     }
 
     private String createCode() {
@@ -211,5 +243,9 @@ public class MemberService {
             log.info("Already exists email {}", email);
             throw new MemberException(ErrorCode.EMAIL_DUPLICATED);
         }
+    }
+
+    public void test() {
+        throw new MemberException(ErrorCode.EMAIL_SEND_ERROR);
     }
 }

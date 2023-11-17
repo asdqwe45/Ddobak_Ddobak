@@ -1,8 +1,12 @@
 package com.ddobak.font.entity;
 
+import com.ddobak.cart.entity.Cart;
+import com.ddobak.favorite.entity.Favorite;
 import com.ddobak.font.dto.request.MakeFontRequest;
 import com.ddobak.global.entity.BaseEntity;
-import java.time.LocalDate;
+
+import com.ddobak.transaction.entity.Creation;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,10 +35,10 @@ public class Font extends BaseEntity{
     private String font_file_url;
 
     @Column(columnDefinition = "varchar(255) default 'koNameDefault'")
-    private String kor_font_name;
+    private String korFontName;
 
     @Column(columnDefinition = "varchar(255) default 'enNameDefault'")
-    private String eng_font_name;
+    private String engFontName;
 
     @Column(columnDefinition = "BOOLEAN default false")
     private Boolean open_status;
@@ -52,21 +56,28 @@ public class Font extends BaseEntity{
     private String introduce_text;
 
     @Column
-    private LocalDate create_date;
+    private LocalDateTime create_datetime;
 
-    @Column
+    @Column(columnDefinition = "BOOLEAN default false")
     private Boolean copyright_notice;
 
-    @Column
+    @Column(columnDefinition = "BOOLEAN default false")
     private Boolean same_person_check;
 
-    @Column
-    private String copyrigher;
+    @Column(columnDefinition = "varchar(255) default 'copyrighterDefault'")
+    private String copyrighter;
 
-    @Column
+    @Column(columnDefinition = "int default 0")
     private Integer viewCount;
 
-    @ManyToMany
+    @Enumerated(EnumType.STRING)
+    @Column
+    private FontStatusType makeStatus;
+
+    @OneToOne(mappedBy = "createdFont")
+    private Creation creation;
+
+    @ManyToMany()
     @JoinTable(
             name = "font_keyword",
             joinColumns = @JoinColumn(name = "font_id"),
@@ -74,27 +85,35 @@ public class Font extends BaseEntity{
     )
     private List<Keyword> keywords;
 
+    @OneToMany(mappedBy = "font")
+    private List<Cart> carts;
 
-    public static Font from(String font_sort_url, Member producer) {
+    @OneToMany(mappedBy = "font")
+    private List<Favorite> favorite;
+
+    public static Font from(String font_sort_url, Member producer, FontStatusType makeStatus) {
         return Font.builder()
                 .producer(producer)
                 .font_sort_url(font_sort_url)
+                .makeStatus(makeStatus)
                 .build();
     }
-    public void makeDetail(MakeFontRequest req, String fontUrl){
-        this.font_file_url=fontUrl;
-        this.kor_font_name = req.korFontName();
-        this.eng_font_name = req.engFontName();
+    public void makeDetail(MakeFontRequest req){
+        this.korFontName = req.korFontName().trim();
+        this.engFontName = req.engFontName().trim();
         this.open_status = req.openStatus();
         this.free_status = req.freeStatus();
         this.price=req.price();
-        this.commerce_status = req.commerceStatus();
         this.introduce_text = req.introduceText();
-        this.copyright_notice=req.copyrightNotice();
-        this.same_person_check = req.samePersonCheck();
-        this.copyrigher=req.copyrighter();
-        this.create_date= LocalDate.now();
+        this.create_datetime= LocalDateTime.now();
         this.viewCount=0;
+        this.makeStatus=FontStatusType.MAKING;
+    }
+
+    public void finalMakeFont(String fontUrl){
+        this.font_file_url=fontUrl;
+        this.create_datetime=LocalDateTime.now();
+        this.makeStatus=FontStatusType.COMPLETE;
     }
     public void plusViewCount() {
         this.viewCount = this.viewCount + 1;
