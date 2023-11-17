@@ -1,10 +1,10 @@
 </br>
 
 <div align="left">
-<img width="300" src="exec\assets\ddobak_logo.png">
+<img width="300" src="exec\images\ddobak_logo.png">
 </div>
 
-### 손글씨가 담고 있는 이야기, 손글씨로 전해지는 마음 
+### 손글씨가 담고 있는 이야기, 손글씨로 전해지는 마음
 
 ### 당신의 손글씨를 폰트로 만들어 드립니다.
 
@@ -17,6 +17,7 @@
 계속 들여다 보게 되는 손글씨
 
 폰트로 오래오래 간직해 보세요.
+
 #### AI 기반 손글씨 제작 서비스 ,
 
 </br>
@@ -29,7 +30,7 @@
 # 📝 또박또박만의 특별한 기능
 
 1.  사용자의 손글씨 업로드 및 **폰트** 생성
-2.  생성된 폰트 **미리보기** 
+2.  생성된 폰트 **미리보기**
 3.  손글씨 폰트의 **온라인 거래 제공**
 4.  **포인트 충전 및 결제** 시스템
 5.  사용자 간의 손글씨 활용 리뷰 시스템
@@ -113,49 +114,6 @@
 
 <br/>
 
-## 파트별 💻 기능구현 소개
-
-### Back-end
-
-    회원가입, 아이디 중복체크, 로그인, 로그아웃, 이메일 인증, 이메일 인증 확인
-    회원가입시 이메일 인증번호 전송
-    JWT토큰을 발급해 로그인을 유지시키도록 함
-    
-    
-### Front-end
-
-    react-router를 통한 페이지 분할 및 ProtectedRoute/PublicRoute 구분을 통해 url 직접 접근 차단
-    react-router의 children과 outlet을 통해 새로고침 되지 않는 페이지 전환 구현(사용자 UX 개선)
-    props를 통한 상위/하위 컴포넌트간 데이터 전송, querystring을 통한 페이지 간 데이터 전송
-    axios를 통한 backend 서버와 통신
-    useState를 통한 상태 관리
-    backend 서버에서 보낸 캐릭터 좌표를 css 뷰포트 좌표로 변환하여 화면상에 캐릭터 이미지 표출
-    getBoundingClientRect()를 사용하여 타겟 요소의 위치 파악, 미션 구현
-
-### AI
-
-    
-
-<!-- 예시
-### Front-end (수정해야 함)
-    - react-qr 이용하여 QR코드 카메라 인식
-    - 지도API 연동
-    - IMPORT 연동 r
-    - KakaoMap을 이용하여 키오스크 현황 제공
-    - D3.js를 이용하여 관리자 통계정보 제공 (수익추이, 사용횟수, 사용자별 이용내역, 사용자 계정정보 관리)
-    - Back-end에서 제공한 JWT 토큰을 이용해서 로그인 구현
-
-### Back-end
-    - JWT토큰을 이용한 회원가입, 로그인, 회원정보 조회, 회원정보 수정, 회원탈퇴, 아이디 찾기, 비밀번호 찾기 구현 (사용자, 사장님)
-    - 사장님 페이지에 매출관리 기능제공 (일별 및 월별 수익현황 등)
-    - 상점, 상품, 장바구니. 주문, 결제, 키워드, 찜, 후기 등 구현
-    - Zxing, UUID 를 이용한 QRCode, 소소티콘 생성
-    - Amazon S3 를 이용한 QRCode이미지 업로드(보안의 측면)
-    - Swagger/OpenAPI를 이용하여 API 명세서 구현
- -->
-
-<br/>
-
 ## 사용기술스택
 
 - Front-End-Web
@@ -169,24 +127,24 @@
 - Backend
   - Database: MariaDB
   - Web: SpringBoot
+  - JWT
 - CI/CD
   - Docker
   - Jenkins
   - Nginx
+  - Goofys
 - Server
   - AWS EC2
+  - AWS CloudFront CDN
 - AI
-
-<br/>
-
-| Tech         | Stack                |
-| ------------ | -------------------- |
-| **Language** | TypeScript, Java     |
-| **Backend**  | Java SpringBoot      |
-| **Frontend** | React, React-Native  |
-| **Database** | MariaDB              |
-| **Server**   | AWS EC2              |
-| **DevOps**   | Git, Docker, Jenkins |
+  - Teachable Machine
+  - FastAPI
+  - uvicorn
+  - Redis
+  - Pytorch
+  - CUDA
+  - openCV
+  - Teachable Machine
 
 <br/>
 
@@ -194,25 +152,37 @@
 
 <br/>
 
-![image](./system.png)
+![image](exec/images/system.png)
+<br/>
 
+## ERD
+
+<br/>
+
+![image](exec/images/ERD.png)
 <br/>
 
 ## 서비스화면
 
-### 1. 사용자 웹
+|              메인페이지              |              마이페이지              |
+| :----------------------------------: | :----------------------------------: |
+| ![image](exec/images/메인페이지.gif) | ![image](exec/images/마이페이지.gif) |
 
-|                  메인1                   |                  메인2                   |                  메인3                   |                    고객문의                    |
-| :--------------------------------------: | :--------------------------------------: | :--------------------------------------: | :--------------------------------------------: |
-| ![image](exec/assets/메인페이지1.png) | ![image](exec/assets/메인페이지2.png) | ![image](exec/assets/메인페이지3.png) | ![image](exec/assets/메인페이지%20푸터.png) |
+|                    폰트제작1                     |                    폰트제작2                     |
+| :----------------------------------------------: | :----------------------------------------------: |
+| ![image](<exec/images/제작하기(1)_또박또박.gif>) | ![image](<exec/images/제작하기(2)_또박또박.gif>) |
 
-|         회원가입        |        이메일인증    |    이메일수신    |    폰트상세보기           |
-| :---------------------------------------: | :-----------------------------------------: | :-----------------------------------------: | :-------------------------------------------: |
-| ![image](exec/assets/회원가입.png) | ![image](exec/assets/회원가입%20이메일인증.png) | ![image](exec/assets/회원가입%20이메일%20인증%20확인.png) | ![image](exec/assets/회원가입%20완료.png) |
+|             폰트 목록              |             폰트 상세              |
+| :--------------------------------: | :--------------------------------: |
+| ![image](exec/images/폰트보기.gif) | ![image](exec/images/폰트상세.gif) |
 
-|                  마이페이지                   |                  찜목록                  |                  구매내역                   |                  상점상세                   |
-| :-------------------------------------------: | :---------------------------------------: | :-----------------------------------------: | :-----------------------------------------: |
-| ![image](exec/images/customer/마이페이지.png) | ![image](exec/images/customer/찜목록.png) | ![image](exec/images/customer/구매내역.png) | ![image](exec/images/customer/상점상세.png) |
+|              회원가입              |               이메일 인증 메일                |              로그인              |              궁금해요              |
+| :--------------------------------: | :-------------------------------------------: | :------------------------------: | :--------------------------------: |
+| ![image](exec/images/회원가입.png) | ![image](exec/images/회원가입_이메일인증.png) | ![image](exec/images/로그인.png) | ![image](exec/images/궁금해요.png) |
+
+|                 포인트 내역                 |                 포인트 충전                 |                포인트 인출                |                FAQ                 |              소개페이지              |
+| :-----------------------------------------: | :-----------------------------------------: | :---------------------------------------: | :--------------------------------: | :----------------------------------: |
+| ![image](exec/images/포인트페이지_내역.png) | ![image](exec/images/포인트페이지_충전.png) | ![image](exec/images/마이페이지_인출.png) | ![image](exec/images/궁금해요.png) | ![image](exec/images/소개페이지.png) |
 
 <hr/>
 
@@ -222,18 +192,18 @@
 
 ### - PPT
 
-[특화PJT*광주\_1반\_C109*발표자료.pptx](./exec/특화PJT_광주_1반_C109_발표자료.pptx) (\*.pptx)
+[특화PJT*광주\_1반\_C109*발표자료.pptx](./exec/자율PJT_광주_2반_C208_발표자료.pptx) (\*.pptx)
 
 ### - 포팅 매뉴얼
 
-[포팅 매뉴얼](./exec/포팅메뉴얼.pdf) (\*.pdf)
+[포팅 매뉴얼](./exec/C208_포팅메뉴얼.pdf) (\*.pdf)
 
 <br/>
 
 ## 협업툴
 
-|                GITLAB                 |                 JIRA                  |
-| :-----------------------------------: | :-----------------------------------: |
-| ![image](exec/images/협업툴_깃랩.png) | ![image](exec/images/협업툴_지라.png) |
+|              GITLAB              |              JIRA              |
+| :------------------------------: | :----------------------------: |
+| ![image](exec/images/gitlab.png) | ![image](exec/images/jira.png) |
 
 <hr>
