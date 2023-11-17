@@ -1,0 +1,36 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[[source]]
+url = "https://download.pytorch.org/whl/cu118"
+veriyfy_ssl = true
+name = "downloadpytorch"
+
+[packages]
+fastapi = "*"
+uvicorn = { extras = ["standard"], version = "*" }
+opencv-python = "*"
+numpy = "*"
+scipy = "*"
+torch = { version = "==2.0.0", index = "downloadpytorch" }
+torchvision = { version = "==0.15.1", index = "downloadpytorch" }
+tqdm="*"
+sconf="*"
+scikit-image="*"
+lpips="*"
+notebook="*"
+tensorboardx="*"
+pillow="<=9.5.0"
+python-multipart = "*"
+matplotlib = "*"
+redis = "*"
+rembg = "*"
+
+[dev-packages]
+ipykernel = "*"
+
+[requires]
+python_version = "3.11"
+python_full_version = "3.11.4"

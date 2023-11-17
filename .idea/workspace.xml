@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="42588689-721d-4ce2-8f75-5d7862f4ce0f" name="Changes" comment="&lt;feat&gt;[#136-LJE] 찜 API 구현">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/eng_template.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/eng_template.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/eng_template_original.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/eng_template_original.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/english_crop.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/eng/english_crop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/handwriting_template2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/kor/delete_margin.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/kor/delete_margin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/kor/template.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/data_preprocessing/kor/template.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/kor/template.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/data_preprocessing/template.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/merge/char2unicode.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/merge/char2unicode.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/study/merge/generateTTF.js" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/study/merge/generateTTF.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/backend/Ddobak">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/backend/Ddobak">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2XSiC6oR1SJiveNRo1JwiGPnIWQ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "feat/136-LJE",
+    "last_opened_file_path": "C:/Users/SSAFY/Desktop/S09P31C208/backend/Ddobak/src",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="DdobakApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <envs>
+        <env name="EMAIL_SERVICE_ID" value="ddobak1324@gmail.com" />
+        <env name="EMAIL_SERVICE_PASSWORD" value="musb bmbj agds pinq" />
+        <env name="JWT_SECRET_KEY" value="jsonWebTokenjsonWebTokenjsonWebTokenjsonWebTokenjsonWebTokenjsonWebToken" />
+        <env name="MYSQL_USER" value="ddobak" />
+        <env name="MYSQL_PASSWORD" value="ddobak1234" />
+        <env name="REDIS_PASSWORD" value="ddobak1234" />
+        <env name="S3_BUCKET_NAME" value="ddobak-profile-image" />
+        <env name="S3_REGION" value="ap-northeast-2" />
+        <env name="S3_ACCESS_KEY" value="AKIAVAKDL6FT5VX7CVUA" />
+        <env name="S3_SECRET_KEY" value="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" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="com.ddobak.DdobakApplication" />
+      <module name="Ddobak.main" />
+      <option name="VM_PARAMETERS" value="-Dcom.amazonaws.sdk.disableEc2Metadata=true" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ddobak.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+        <option name="credential" />
+        <option name="region" />
+        <option name="useCurrentConnection" value="false" />
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.DdobakApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="42588689-721d-4ce2-8f75-5d7862f4ce0f" name="Changes" comment="" />
+      <created>1693186827683</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1693186827683</updated>
+      <workItem from="1698628755781" duration="739000" />
+      <workItem from="1698716680603" duration="64000" />
+    </task>
+    <task id="LOCAL-00001" summary="&lt;feat&gt;[#136-LJE] 찜 API 구현">
+      <option name="closed" value="true" />
+      <created>1699000160066</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1699000160066</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="&lt;feat&gt;[#136-LJE] 찜 API 구현" />
+    <option name="LAST_COMMIT_MESSAGE" value="&lt;feat&gt;[#136-LJE] 찜 API 구현" />
+  </component>
+</project>
