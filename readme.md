@@ -1,7 +1,7 @@
 </br>
 
 <div align="left">
-<img width="300" src="exec\images\ddobak_logo.png">
+<img width="300" src="exec/images/ddobak_logo.png">
 </div>
 
 ### 손글씨가 담고 있는 이야기, 손글씨로 전해지는 마음
