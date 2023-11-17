@@ -51,17 +51,16 @@ const GoToBasketModal: React.FC = () => {
           <AiOutlineClose size={30} className={classes.closeIcon} onClick={closeModal} />
         </div>
         <div className={classes.middleBox}>
-          <p className={classes.innerText}>
-            장바구니에 폰트를 잘 담았어요.
-            <br />
-            어떤 멘트를 쓰면 좋을까요?
-          </p>
+          <p className={classes.innerText}>장바구니에 폰트를 잘 담았어요.</p>
         </div>
         <div className={classes.bottomBox}>
           <button
             className={classes.modalBtn}
             style={{ backgroundColor: likeCountColor }}
-            onClick={closeModal}
+            onClick={async () => {
+              navigate('/fontList');
+              closeModal();
+            }}
           >
             더 둘러보기
           </button>

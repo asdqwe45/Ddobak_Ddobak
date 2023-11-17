@@ -1,12 +1,14 @@
 import React, { useState, useRef } from 'react';
 import classes from './FontMakeStep2.module.css';
-import UploadFile from './fontDetailPageAssets/upload_file.png';
-import { FaRegTimesCircle } from 'react-icons/fa';
-import { resultModalActions } from 'store/resultModalSlice';
-import { useDispatch } from 'react-redux';
 import AlertCustomModal from 'common/modals/alertCustomModal/AlertCustomModal';
-// import axios from 'axios';
+
+import { useDispatch } from 'react-redux';
+import { resultModalActions, setSortUrl } from 'store/resultModalSlice';
 import { axiosWithFormData } from 'https/http';
+
+import UploadFile from './fontMakePageAssets/upload_file.png';
+import { FaRegTimesCircle } from 'react-icons/fa';
+import { rootLoaderModalActions } from 'store/rootLoaderModalSlice';
 
 const FontMakeStep2: React.FC = () => {
   const [koreanFiles, setKoreanFiles] = useState<{ src: string; name: string }[]>([]);
@@ -18,6 +20,8 @@ const FontMakeStep2: React.FC = () => {
   const englishFileInputRef = useRef<HTMLInputElement>(null);
 
   const [showAlertModal, setShowAlertModal] = useState(false);
+  const [showBigImgAlertModal, setShowBigImgAlertModal] = useState<boolean>(false);
+  const [showHorizonAlertModal, setShowHorizonAlertModal] = useState<boolean>(false);
 
   const handleInvalidFileType = () => {
     setShowAlertModal(true); //
@@ -25,14 +29,14 @@ const FontMakeStep2: React.FC = () => {
 
   // 파일 형식 검증 함수
   const isValidFileType = (file: File) => {
-    const validExtensions = ['png', 'pdf', 'jpg', 'jpeg']; // 허용되는 파일 확장자 목록
+    const validExtensions = ['png', 'pdf', 'jpg', 'jpeg'];
     const fileExtension = file.name.split('.').pop()?.toLowerCase();
     return validExtensions.includes(fileExtension || '');
   };
   const handleKoreanFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
     if (fileList) {
-      const file = fileList[0]; // 첫 번째 파일만 선택합니다.
+      const file = fileList[0]; // 첫 번째 파일 선택
       if (isValidFileType(file)) {
         setKorFileData(file);
         const reader = new FileReader();
@@ -49,7 +53,7 @@ const FontMakeStep2: React.FC = () => {
   const handleEnglishFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
     if (fileList) {
-      const file = fileList[0]; // 첫 번째 파일만 선택합니다.
+      const file = fileList[0]; // 첫 번째 파일 선택
       if (isValidFileType(file)) {
         setEngFileData(file);
 
@@ -66,22 +70,24 @@ const FontMakeStep2: React.FC = () => {
 
   // 파일 darg & drop
   const onDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault(); // 기본 이벤트를 막습니다.
+    event.preventDefault(); // 기본 이벤트 막기
   };
 
   const onDrop = (event: React.DragEvent<HTMLDivElement>, type: 'korean' | 'english') => {
     event.preventDefault();
     const files = event.dataTransfer.files;
     if (files.length > 0) {
-      const file = files[0]; // 첫 번째 파일을 사용합니다.
+      const file = files[0]; // 첫 번째 파일 사용
       if (isValidFileType(file)) {
         const reader = new FileReader();
         reader.onload = () => {
           const result = { src: reader.result as string, name: file.name };
           if (type === 'korean') {
             setKoreanFiles([result]);
+            setKorFileData(file);
           } else {
             setEnglishFiles([result]);
+            setEngFileData(file);
           }
         };
         reader.readAsDataURL(file);
@@ -94,6 +100,7 @@ const FontMakeStep2: React.FC = () => {
   // 파일 삭제
   const removeKoreanFile = (index: number) => {
     setKoreanFiles((prev) => prev.filter((_, i) => i !== index));
+    setIsImageStraightened(false);
     if (koreanFileInputRef.current) {
       koreanFileInputRef.current.value = ''; // input 초기화 (재업로드 가능하도록)
     }
@@ -101,6 +108,7 @@ const FontMakeStep2: React.FC = () => {
 
   const removeEnglishFile = (index: number) => {
     setEnglishFiles((prev) => prev.filter((_, i) => i !== index));
+    setIsImageStraightened(false);
     if (englishFileInputRef.current) {
       englishFileInputRef.current.value = '';
     }
@@ -128,7 +136,9 @@ const FontMakeStep2: React.FC = () => {
     else if (fileExtension === 'pdf') {
       return (
         <div className={classes.pdfPreview}>
-          <object data={file.src} type="application/pdf" height="210">pdf미리보기</object>
+          <object data={file.src} type="application/pdf" height="210">
+            pdf미리보기
+          </object>
         </div>
       );
     }
@@ -146,38 +156,55 @@ const FontMakeStep2: React.FC = () => {
 
   // 이미지 반듯하게 처리
   const straightenImage = async () => {
-    console.log(KorfileData);
-    console.log(EngfileData);
+    dispatch(
+      rootLoaderModalActions.toggleModal({
+        type: '',
+        header: '이미지 반듯하게',
+        context: '이미지를 반듯하게 만들고 있어요.',
+        subContext: '※ 페이지를 벗어나지 마세요!',
+      }),
+    );
+    // console.log(KorfileData);
+    // console.log(EngfileData);
     if (KorfileData && EngfileData) {
       try {
         const formData = new FormData();
-        console.log(KorfileData);
-        console.log(EngfileData);
+        // console.log(KorfileData);
+        // console.log(EngfileData);
         formData.append('kor_file', KorfileData);
         formData.append('eng_file', EngfileData);
 
-        const response = axiosWithFormData
+        const response = await axiosWithFormData
           .post('/font/sort', formData)
           .then((r) => {
+            dispatch(
+              rootLoaderModalActions.toggleModal({
+                type: '',
+                header: '',
+                context: '',
+                subContext: '',
+              }),
+            );
             return r;
           })
           .catch((e) => {
             throw e;
           });
-        console.log((await response).data)
+        // console.log((await response).data);
         // 성공적으로 처리되었다면, 결과 이미지 URL을 파싱하여 상태 업데이트
         if ((await response).data) {
           // 이미지 URL을 `$` 기준으로 파싱
           const imageUrls = (await response).data
             .split('$')
             .filter((url: string) => url.trim() !== '');
-          // const imageUrls = (await response).data.body
           // console.log(imageUrls)
+
+          const sortedUrl = (await response).data;
+          dispatch(setSortUrl(sortedUrl));
 
           // 첫 번째 이미지로 한국어 파일 미리보기 업데이트
           if (imageUrls.length > 0) {
             setKoreanFiles([{ ...koreanFiles[0], src: imageUrls[0] }]);
-            // 미리보기 생성 가능
             createFilePreview({ src: imageUrls[0], name: 'kor_file.png' }); // 파일 이름은 예시임
           }
 
@@ -191,13 +218,21 @@ const FontMakeStep2: React.FC = () => {
         } else {
           alert('이미지를 처리하는데 실패했다.');
         }
-      } catch (error) {
-        console.error('이미지 처리 중 오류가 발생했다:', error);
+      } catch (error: any) {
+        // alert('이미지를 처리 중 오류가 발생하였습니다. 담당자에게 문의하세요.');
+        // console.error('이미지 처리 중 오류가 발생했다:', error);
+        const errorType = error.response.status;
+        if (errorType === 500) {
+          setShowHorizonAlertModal(true);
+        } else if (errorType === 413) {
+          setShowBigImgAlertModal(true);
+        }
       }
     }
   };
   // 미리보기 모달 가져오기
   const dispatch = useDispatch();
+
   const showPreviewHandler = () => {
     dispatch(resultModalActions.toggle());
   };
@@ -300,22 +335,36 @@ const FontMakeStep2: React.FC = () => {
         </div>
       </div>
       <div className={classes.btnContainer}>
-        {koreanFiles.length > 0 && englishFiles.length > 0 && !isImageStraightened ? (
+        {koreanFiles.length > 0 && englishFiles.length > 0 && !isImageStraightened && (
           <button className={classes.cropBtn} onClick={straightenImage}>
             이미지 반듯하게
           </button>
-        ) : null}
-        {koreanFiles.length > 0 && englishFiles.length > 0 && isImageStraightened ? (
+        )}
+        {koreanFiles.length > 0 && englishFiles.length > 0 && isImageStraightened && (
           <button className={classes.nextBtn} onClick={showPreviewHandler}>
             다음
           </button>
-        ) : null}
+        )}
       </div>
       <AlertCustomModal
         show={showAlertModal}
         onHide={() => setShowAlertModal(false)}
         message1="허용되지 않는 형식의 파일입니다."
         message2="pdf, jpg, png 파일로 업로드해주세요."
+        btnName="확인"
+      />
+      <AlertCustomModal
+        show={showBigImgAlertModal}
+        onHide={() => setShowBigImgAlertModal(false)}
+        message1="이미지의 용량이 너무 커요."
+        message2="3MB 이하의 사진을 올려주세요. 😅"
+        btnName="확인"
+      />
+      <AlertCustomModal
+        show={showHorizonAlertModal}
+        onHide={() => setShowHorizonAlertModal(false)}
+        message1="사진의 수평이 맞지 않아요."
+        message2="반듯하게 찍어서 다시 올려주세요. 😉"
         btnName="확인"
       />
     </>

@@ -59,3 +59,14 @@
   left: 5px;
   font-size: 18px;
 }
+
+.termText {
+  white-space: pre-line;
+}
+
+.termSmallText {
+  font-weight: 600;
+  font-size: 18px;
+  margin: 10px 60px;
+  line-height: 15px;
+}

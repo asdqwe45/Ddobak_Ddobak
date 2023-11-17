@@ -11,6 +11,8 @@ import { useDispatch } from 'react-redux';
 import { exchangeModalActions } from 'store/exchangeModalSlice';
 import { AiOutlineClose, AiFillCloseCircle } from 'react-icons/ai';
 import { mainRedColor, borderColor } from 'common/colors/CommonColors';
+import { transactionWithdrawAPI } from 'https/utils/TransactionFunction';
+import { successModalActions } from 'store/successModalSlice';
 
 interface ExchangeModalState {
   exchangeModal: {
@@ -94,12 +96,18 @@ const BANK_LIST = [
   '엘아이지투자증권',
 ];
 
+interface ChargePointType {
+  chargePoint: {
+    myPoint: number;
+  };
+}
+
 const ExchangeModal: React.FC = () => {
+  const myPoint = useSelector((state: ChargePointType) => state.chargePoint.myPoint);
   useEffect(() => {
     ReactModal.setAppElement('body'); // body나 다른 id를 사용할 수 있습니다.
-
-    setTotalPoint(CURRENT_POINT);
-  }, []);
+    setTotalPoint(myPoint);
+  }, [myPoint]);
   const dispatch = useDispatch();
   const clickChargeHandler = () => {
     dispatch(exchangeModalActions.toggle());
@@ -111,17 +119,16 @@ const ExchangeModal: React.FC = () => {
     clickChargeHandler();
   };
 
-  const CURRENT_POINT = 45000;
+  // 인출 완료 모달 실행
 
   // 선택은행
   // 계좌번호
   const [selectedBank, setSelectedBank] = useState<string>('');
 
-  // const [currentPoint, setCurrentPoint] = useState<number>(CURRENT_POINT);
+  // const [currentPoint, setCurrentPoint] = useState<number>(myPoint);
   const [exchangePoint, setExchangePoint] = useState<number>(0);
   const [totalPoint, setTotalPoint] = useState<number>(0);
   const howMuchCharge = (value: number) => {
-    // console.log(currentPoint, value);
     if (totalPoint < value) {
       alert('인출할 금액을 초과하였습니다.');
       return;
@@ -131,8 +138,25 @@ const ExchangeModal: React.FC = () => {
   };
   const removeCharge = () => {
     setExchangePoint(0);
-    setTotalPoint(CURRENT_POINT);
+    setTotalPoint(myPoint);
   };
+
+  const exchangeFC = () => {
+    transactionWithdrawAPI(exchangePoint)
+      .then(async (r) => {
+        closeModal();
+        dispatch(
+          successModalActions.showSomething({
+            successHeader: '인출 요청',
+            successContext: '인출은 최대 3일이 소요됩니다.',
+          }),
+        );
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
   return (
     <ReactModal
       isOpen={showExchange}
@@ -163,7 +187,7 @@ const ExchangeModal: React.FC = () => {
             }}
           >
             <p className={classes.innerText}>현재 포인트</p>
-            <p className={classes.innerText}>{CURRENT_POINT} P</p>
+            <p className={classes.innerText}>{myPoint.toLocaleString()} P</p>
           </div>
           <div
             className={classes.innerMiddleBox}
@@ -177,7 +201,7 @@ const ExchangeModal: React.FC = () => {
             style={{ height: 60, justifyContent: 'flex-end' }}
           >
             <div className={classes.chargeBox}>
-              <p className={classes.chargeText}>{exchangePoint} P</p>
+              <p className={classes.chargeText}>{exchangePoint.toLocaleString()} P</p>
               <div className={classes.removeImgBox}>
                 <AiFillCloseCircle size={32} color={borderColor} onClick={removeCharge} />
               </div>
@@ -260,14 +284,14 @@ const ExchangeModal: React.FC = () => {
             <p className={classes.innerText} style={{ color: mainRedColor }}>
               나머지 포인트
             </p>
-            <p className={classes.innerText}>{totalPoint} P</p>
+            <p className={classes.innerText}>{totalPoint.toLocaleString()} P</p>
           </div>
         </div>
         <div className={classes.bottomBox}>
           <button
             className={classes.modalBtn}
             style={{ backgroundColor: mainRedColor }}
-            onClick={closeModal}
+            onClick={exchangeFC}
           >
             인출하기
           </button>

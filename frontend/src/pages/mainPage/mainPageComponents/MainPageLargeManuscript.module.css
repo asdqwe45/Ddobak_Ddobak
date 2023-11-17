@@ -1,0 +1,425 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.largeBox {
+  width: 75%;
+}
+
+.smallBox {
+  width: 6.25%;
+  position: relative;
+  border: 4px solid #e18e85;
+  border-left-width: 2px;
+  border-right-width: 2px;
+}
+
+.smallBox::after {
+  display: block;
+  content: '';
+  padding-bottom: 100%;
+}
+
+/* font 삽입 부분 */
+.content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@font-face {
+  font-family: "밤톨체";
+  src: url("https://www.ddobak.o-r.kr/font_file/bamtol_font.ttf") format("truetype");
+}
+
+.content p {
+  font-family: "밤톨체";
+}
+
+/* font-size */
+.contentText {
+  font-weight: bold;
+  font-size: 48px;
+  margin: 0px;
+  opacity: 0;
+  transition: opacity 1s ease-in;
+}
+
+.lineBox {
+  width: 100%;
+  display: flex;
+  border-left: 2px solid #e18e85;
+  border-right: 2px solid #e18e85;
+}
+
+.blankBox {
+  width: 6.25%;
+  position: relative;
+}
+
+.blankBoxleft {
+  width: 6.25%;
+  position: relative;
+  border-left: 2px solid #e18e85;
+}
+
+.blankBoxRight {
+  width: 6.25%;
+  position: relative;
+  border-right: 2px solid #e18e85;
+}
+
+.blankBox::after {
+  display: block;
+  content: '';
+  padding-bottom: 25%;
+}
+
+.blankContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.blankLineBox {
+  width: 100%;
+  display: flex;
+  border-left: 2px solid white;
+}
+
+.blankMiddleLine {
+  width: 100%;
+  border-left: 2px solid #e18e85;
+  border-right: 2px solid #e18e85;
+  display: flex;
+}
+
+.blankTopBox {
+  width: 6.25%;
+  position: relative;
+  border-top: 4px solid #e18e85;
+}
+
+.blankTopBox::after {
+  display: block;
+  content: '';
+  padding-bottom: 25%;
+}
+
+.blankBottomBox {
+  width: 6.25%;
+  position: relative;
+  border-bottom: 4px solid #e18e85;
+}
+
+.blankBottomBox::after {
+  display: block;
+  content: '';
+  padding-bottom: 25%;
+}
+
+/* 원고지 헤더 */
+.headerBox {
+  width: 75%;
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 10px;
+}
+
+.headerTextBox {
+  width: 20%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.headerNoText {
+  font-weight: bold;
+  font-size: 20px;
+  margin: 0px;
+  color: #e18e85;
+}
+
+.headerBigText {
+  font-weight: bold;
+  font-size: 30px;
+  margin: 0px;
+}
+
+.headerDiv {
+  height: 100%;
+  width: 100%;
+  border-bottom: 2px solid #e18e85;
+  display: flex;
+  justify-content: center;
+}
+
+/* 원고지 푸터 */
+.footerBox {
+  width: 75%;
+  padding-top: 10px;
+}
+
+.footerTextBox {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+}
+
+.footerText {
+  font-size: 20px;
+  font-weight: bold;
+  color: #e18e85;
+  margin: 0px;
+}
+
+/* 화면 폭이 200px 미만일 때 적용되는 스타일 */
+@media (max-width: 199px) {
+  .contentText {
+    font-size: 4px;
+    /* 폰트 크기 설정 */
+  }
+
+  .footerText {
+    font-size: 9px;
+  }
+
+  .headerNoText {
+    font-size: 9px;
+  }
+
+  .headerBigText {
+    font-size: 20px;
+  }
+}
+
+/* 화면 폭이 200px 이상 300px 미만일 때 적용되는 스타일 */
+@media (min-width: 200px) and (max-width: 299px) {
+  .contentText {
+    font-size: 8px;
+    /* 폰트 크기 설정 */
+  }
+
+  .footerText {
+    font-size: 10px;
+  }
+
+  .headerNoText {
+    font-size: 10px;
+  }
+
+  .headerBigText {
+    font-size: 20px;
+  }
+}
+
+/* 화면 폭이 300px 이상 400px 미만일 때 적용되는 스타일 */
+@media (min-width: 300px) and (max-width: 399px) {
+  .contentText {
+    font-size: 12px;
+    /* 폰트 크기 설정 */
+  }
+
+  .footerText {
+    font-size: 11px;
+  }
+
+  .headerNoText {
+    font-size: 11px;
+  }
+
+  .headerBigText {
+    font-size: 22px;
+  }
+}
+
+/* 화면 폭이 400px 이상 500px 미만일 때 적용되는 스타일 */
+@media (min-width: 400px) and (max-width: 499px) {
+  .contentText {
+    font-size: 16px;
+    /* 폰트 크기 설정 */
+  }
+
+  .footerText {
+    font-size: 12px;
+  }
+
+  .headerNoText {
+    font-size: 12px;
+  }
+
+  .headerBigText {
+    font-size: 22px;
+  }
+}
+
+/* 화면 폭이 500px 이상 600px 미만일 때 적용되는 스타일 */
+@media (min-width: 500px) and (max-width: 599px) {
+  .contentText {
+    font-size: 20px;
+    /* 폰트 크기 설정 */
+  }
+
+  .footerText {
+    font-size: 13px;
+  }
+
+  .headerNoText {
+    font-size: 13px;
+  }
+
+  .headerBigText {
+    font-size: 24px;
+  }
+}
+
+/* 화면 폭이 600px 이상 700px 미만일 때 적용되는 스타일 */
+@media (min-width: 600px) and (max-width: 699px) {
+  .contentText {
+    font-size: 24px;
+    /* 폰트 크기 설정 */
+  }
+
+  .footerText {
+    font-size: 14px;
+  }
+
+  .headerNoText {
+    font-size: 14px;
+  }
+
+  .headerBigText {
+    font-size: 24px;
+  }
+}
+
+/* 화면 폭이 700px 이상 800px 미만일 때 적용되는 스타일 */
+@media (min-width: 700px) and (max-width: 799px) {
+  .contentText {
+    font-size: 28px;
+    /* 폰트 크기 설정 */
+  }
+
+  .footerText {
+    font-size: 15px;
+  }
+
+  .headerNoText {
+    font-size: 15px;
+  }
+
+  .headerBigText {
+    font-size: 26px;
+  }
+}
+
+/* 화면 폭이 800px 이상 900px 미만일 때 적용되는 스타일 */
+@media (min-width: 800px) and (max-width: 899px) {
+  .contentText {
+    font-size: 32px;
+    /* 폰트 크기 설정 */
+  }
+
+  .footerText {
+    font-size: 16px;
+  }
+
+  .headerNoText {
+    font-size: 16px;
+  }
+
+  .headerBigText {
+    font-size: 26px;
+  }
+}
+
+/* 화면 폭이 900px 이상 1000px 미만일 때 적용되는 스타일 */
+@media (min-width: 900px) and (max-width: 999px) {
+  .contentText {
+    font-size: 36px;
+    /* 폰트 크기 설정 */
+  }
+
+  .footerText {
+    font-size: 17px;
+  }
+
+  .headerNoText {
+    font-size: 17px;
+  }
+
+  .headerBigText {
+    font-size: 28px;
+  }
+}
+
+/* 화면 폭이 900px 이상 1000px 미만일 때 적용되는 스타일 */
+@media (min-width: 1000px) and (max-width: 1099px) {
+  .contentText {
+    font-size: 40px;
+    /* 폰트 크기 설정 */
+  }
+
+  .footerText {
+    font-size: 18px;
+  }
+
+  .headerNoText {
+    font-size: 18px;
+  }
+
+  .headerBigText {
+    font-size: 28px;
+  }
+}
+
+/* 화면 폭이 900px 이상 1000px 미만일 때 적용되는 스타일 */
+@media (min-width: 1100px) and (max-width: 1199px) {
+  .contentText {
+    font-size: 44px;
+    /* 폰트 크기 설정 */
+  }
+
+  .footerText {
+    font-size: 19px;
+  }
+
+  .headerNoText {
+    font-size: 19px;
+  }
+
+  .headerBigText {
+    font-size: 30px;
+  }
+}
+
+/* 화면 폭이 1000px 이상일 때 적용되는 스타일 (필요한 경우) */
+@media (min-width: 1200px) {
+  .contentText {
+    /* 원하는 폰트 크기로 설정 */
+    font-size: 48px;
+  }
+
+  .footerText {
+    font-size: 20px;
+  }
+
+  .headerNoText {
+    font-size: 20px;
+  }
+
+  .headerBigText {
+    font-size: 30px;
+  }
+}

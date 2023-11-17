@@ -11,10 +11,23 @@ import ExchangeModal from 'common/modals/exchangeModal/ExchangeModal';
 import ChangeProfileImgModal from 'common/modals/changeProfileImgModal/ChangeProfileImgModal';
 import GoToBasketModal from 'common/modals/goToBasketModal/GoToBasketModal';
 import SignupLoaderModal from 'common/modals/signupLoaderModal/SignupLoaderModal';
+import FailAuthModal from 'common/modals/failAuthModal/FailAuthModal';
+import ChangeNicknameModal from 'common/modals/changeNicknameModal/ChangeNicknameModal';
+import ChangeMakerIntroModal from 'common/modals/changeMakerIntroModal/ChangeMakerIntroModal';
+import BasketErrorModal from 'common/modals/basketErrorModal/BasketErrorModal';
+import SuccessModal from 'common/modals/successModal/SuccessModal';
+import DuplicatedEmailModal from 'common/modals/duplicatedEmailModal/DuplicatedEmailModal';
+import RootLoaderModal from 'common/modals/rootLoaderModal/RootLoaderModal';
 
 const RootLayout: React.FC = () => {
   return (
     <div>
+      <RootLoaderModal />
+      <DuplicatedEmailModal />
+      <SuccessModal />
+      <BasketErrorModal />
+      <ChangeNicknameModal />
+      <FailAuthModal />
       <SignupLoaderModal />
       <GoToBasketModal />
       <ChangeProfileImgModal />
@@ -25,6 +38,7 @@ const RootLayout: React.FC = () => {
       <FontResultModal />
       <ReviewModal />
       <NavBar />
+      <ChangeMakerIntroModal />
       <div className={classes.container}>
         <Outlet />
       </div>

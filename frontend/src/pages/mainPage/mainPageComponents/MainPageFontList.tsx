@@ -15,7 +15,7 @@ import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper as SwiperCore } from 'swiper/types';
 
 // 컴포넌트
-import FontBoxComponent from 'pages/fontListPage/fontListPageComponents/FontBoxComponent';
+import MainFontBox from './mainFontBox/MainFontBox';
 
 import { FaCircleChevronLeft, FaCircleChevronRight } from 'react-icons/fa6';
 import { mainRedColor } from 'common/colors/CommonColors';
@@ -24,50 +24,132 @@ import { mainRedColor } from 'common/colors/CommonColors';
 import DdobakLogo from '../../../common/commonAssets/ddobak_logo.png';
 
 // API 호출
-import { axiosWithAuth } from 'https/http';
+import { axiosWithAuth, axiosWithoutAuth, getData } from 'https/http';
+import { useDispatch, useSelector } from 'react-redux';
+import { progressLoaderActions } from 'store/progressLoaderSlice';
 
 type Font = {
-  font_id: bigint;
+  font_id: string;
   kor_font_name: string;
+  producer_id: string;
   producer_name: string;
+  dibCheck: boolean;
+  price: number;
+  font_file_url: string;
 };
+type FontList = {
+  fontListResponse: Font[];
+  fontCount: number;
+};
+
+interface RefreshType {
+  refresh: {
+    mainList: number;
+  };
+}
 
 const MainPageFontList: React.FC = () => {
   const swiperRef = useRef<SwiperCore>();
   const [fonts, setFonts] = useState<Font[]>([]); // 폰트 데이터를 위한 상태
-
+  const dispatch = useDispatch();
+  const mainList = useSelector((state: RefreshType) => state.refresh);
   // 폰트 데이터를 가져오는 함수
   useEffect(() => {
     const fetchFonts = async () => {
-      try {
-        const response = await axiosWithAuth.get('/font/list'); // API 경로는 예시입니다
-        setFonts(response.data); // 폰트 데이터 상태 업데이트
-      } catch (error) {
-        console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
+      dispatch(progressLoaderActions.startGuage());
+      const token = await getData('accessToken');
+      if (token) {
+        try {
+          const response: FontList = await axiosWithAuth.get('/font/list').then((r) => {
+            return r.data;
+          }); // API 경로는 예시입니다
+          setFonts(response.fontListResponse); // 폰트 데이터 상태 업데이트
+          setTimeout(() => {
+            dispatch(progressLoaderActions.resetGauge());
+          }, 1500);
+        } catch (error) {
+          console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
+          setTimeout(() => {
+            dispatch(progressLoaderActions.resetGauge());
+          }, 1500);
+        }
+      } else {
+        try {
+          const response: FontList = await axiosWithoutAuth.get('/font/list/NoAuth').then((r) => {
+            return r.data;
+          }); // API 경로는 예시입니다
+          setFonts(response.fontListResponse); // 폰트 데이터 상태 업데이트
+          setTimeout(() => {
+            dispatch(progressLoaderActions.resetGauge());
+          }, 1500);
+        } catch (error) {
+          console.error('폰트 데이터를 가져오는 데 실패했습니다:', error);
+          setTimeout(() => {
+            dispatch(progressLoaderActions.resetGauge());
+          }, 1500);
+        }
       }
     };
     fetchFonts();
-  }, []);
+  }, [dispatch, mainList]);
 
   const renderFontBoxes = () => {
     return fonts.map((font) => (
       <SwiperSlide key={font.font_id} className={classes.swiperSlid}>
-        <FontBoxComponent id={font.font_id} title={font.kor_font_name} maker={font.producer_name} />
+        <MainFontBox
+          font_id={font.font_id.toString()}
+          title={font.kor_font_name}
+          producer_id={font.producer_id.toString()}
+          maker={font.producer_name}
+          dib={font.dibCheck}
+          price={font.price}
+          font_file_url={font.font_file_url}
+        />
       </SwiperSlide>
     ));
   };
+
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [getNumber, setGetNumber] = useState<number>(3);
+  const [gapSize, setGapSize] = useState<number>(31);
+  // 화면 크기가 변경될 때 호출되는 함수
+  const handleResize = () => {
+    setScreenWidth(window.innerWidth);
+  };
+
+  // useEffect 내에서 화면 크기에 따라 getNumber 상태를 설정하는 로직
+  useEffect(() => {
+    if (screenWidth <= 930) {
+      setGetNumber(1);
+      setGapSize(40);
+    } else if (screenWidth <= 1200) {
+      setGetNumber(2);
+      setGapSize(40);
+    } else {
+      setGetNumber(3);
+      setGapSize(31);
+    }
+  }, [screenWidth]); // screenWidth가 변경될 때마다 이 효과를 실행합니다.
+
+  // resize 이벤트에 대한 리스너를 설정합니다.
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너를 정리합니다.
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []); // 빈 의존성 배열로 이 효과는 컴포넌트가 마운트될 때 한 번만 실행됩니다.
 
   return (
     <div className={classes.container}>
       <div className={classes.headerBox}>
         <h1 className={classes.swiperHeader}>
           "여러분의 손글씨도 폰트가 될 수 있습니다."
-          <br /> <span>폰트 제작 서비스, </span>
+          <br /> <span className={classes.swiperHeader}>폰트 제작 서비스, </span>
           <span className={classes.typeWriterContainer}>
-            {/* <span className={classes.animationHeaderText}>또박또박</span> */}
-            {/* test */}
             <span className={classes.animationHeaderText}>
-              <img src={DdobakLogo} style={{ height: 60 }} alt="또박또박" />
+              <img src={DdobakLogo} className={classes.ddobakLogo} alt="또박또박" />
             </span>
           </span>
         </h1>
@@ -83,9 +165,9 @@ const MainPageFontList: React.FC = () => {
         />
         <Swiper
           onBeforeInit={(swiper: SwiperInstance) => (swiperRef.current = swiper)} // ref에 swiper 저장
-          slidesPerView={3}
-          spaceBetween={30}
-          loop={fonts.length > 3}
+          slidesPerView={getNumber}
+          spaceBetween={gapSize}
+          loop={fonts && fonts.length > 3}
           autoplay={{
             delay: 2500,
             disableOnInteraction: false,
@@ -94,7 +176,7 @@ const MainPageFontList: React.FC = () => {
           className={classes.swiper}
         >
           {/* {FontBoxSwiper()} */}
-          {fonts.length > 0 ? renderFontBoxes() : <div>로딩 중...</div>}
+          {fonts && fonts.length > 0 ? renderFontBoxes() : <div>로딩 중...</div>}
         </Swiper>
         <FaCircleChevronRight
           size={50}
@@ -123,4 +205,3 @@ export default MainPageFontList;
 
 //   return boxes;
 // };
-

@@ -6,27 +6,32 @@ import { useNavigate } from 'react-router-dom';
 const WrongPage: React.FC = () => {
   const navigate = useNavigate();
 
-  // 컴포넌트가 마운트될 때 body의 overflow를 hidden으로 설정
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
+    // 세로 스크롤 막기, 가로 스크롤 허용
+    document.body.style.overflowY = 'hidden';
+    document.body.style.overflowX = 'auto'; // 또는 'scroll'
 
     // 컴포넌트가 언마운트될 때 원래 상태로 복구
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflowY = 'auto';
+      document.body.style.overflowX = 'auto'; // 원래의 스크롤 설정으로 복구
     };
-  }, []); // 빈 의존성 배열로 마운트와 언마운트 시점에만 실행
+  }, []);
   return (
-    <div className={classes.container}>
+    <div id={'scroll'} className={classes.container}>
       <div className={classes.warningBox}>
-        <h1 style={{ marginBottom: 5 }}>Something went wrong</h1>
+        <h1 style={{ marginBottom: 20, fontSize: 90 }}>잠시만요!</h1>
+        <h1 style={{ marginBottom: 5, fontSize: 24 }}>
+          로그인 상태 또는 접속 경로를 확인해주세요.
+        </h1>
         <div>
           <button
-            className={classes.loginBtn}
+            className={classes.signupBtn}
             onClick={() => {
               navigate('/');
             }}
           >
-            홈페이지 이동
+            또박또박으로 가기
           </button>
           <button
             className={classes.signupBtn}
@@ -34,7 +39,7 @@ const WrongPage: React.FC = () => {
               navigate('/login');
             }}
           >
-            로그인 하기
+            로그인 하러가기
           </button>
         </div>
       </div>

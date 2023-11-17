@@ -9,8 +9,16 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthHeader, AuthInput } from 'common/authComponents/AuthComponents';
 
 import { userLogin } from 'https/utils/AuthFunction';
+import { useDispatch } from 'react-redux';
+import { failAuthModalActions } from 'store/failAuthModalSlice';
 
 const LoginPage: React.FC = () => {
+  // 리덕스
+  const dispatch = useDispatch();
+  const openErrorModal = () => {
+    dispatch(failAuthModalActions.toggle());
+  };
+
   // 비밀번호 보기
   const [wantSee, setWantSee] = useState(false);
   // 이메일 입력
@@ -24,18 +32,22 @@ const LoginPage: React.FC = () => {
     // 이메일 형식이 잘못되거나 입력하지 않은 경우
     // 우선 나중에
     const password = passwordInputRef.current!.value;
-    console.log(email, password);
     const data = {
       email: email,
       loginPassword: password,
     };
     userLogin(data)
       .then((r) => {
-        console.log(r);
         navigate('/');
         window.location.reload();
       })
-      .catch((e) => console.error(e));
+      .catch(
+        (e) => {
+          console.error(e);
+          openErrorModal();
+        },
+        // 로그인 실패했기 때문에 모달
+      );
   };
 
   // 이메일 확인
@@ -47,7 +59,6 @@ const LoginPage: React.FC = () => {
   };
   // 이메일 input의 onChange 이벤트 핸들러
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(isValidEmail);
     const email = e.target.value;
     if (email) {
       setIsValidEmail(validateEmail(email));
@@ -76,6 +87,11 @@ const LoginPage: React.FC = () => {
           placeholder="비밀번호"
           ref={passwordInputRef}
           type={wantSee ? undefined : 'password'}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              clickLoginHandle();
+            }
+          }}
         ></AuthInput>
         <div
           className={classes.passwordIcon}
