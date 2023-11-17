@@ -1,4 +1,4 @@
-import React from 'react'; // , { useState }
+import React, { useState } from 'react'; // , { useState }
 import classes from './FontOptionPage.module.css';
 
 // components
@@ -15,6 +15,12 @@ interface FontOptionPageProps {
 }
 
 const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
+  const [inputValue, setInputValue] = useState('');
+
+  // input 변경 핸들러 함수
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInputValue(event.target.value);
+  };
   // 라디오 버튼 선택
   // const [selectedOption, setSelectedOption] = useState<string>('');
 
@@ -29,6 +35,7 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
 
   const dispatch = useDispatch();
   const clickPayHandler = async () => {
+    dispatch(pointPayModalActions.payThePrice({ howMuch: 50000, boughtSometing: '폰트제작' }));
     dispatch(pointPayModalActions.toggle());
     if (step && setStep) {
       const nextStep = step + 1;
@@ -66,6 +73,22 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
               />
               <button>중복확인</button>
             </div>
+          </div>
+        </div>
+        <br />
+        <hr />
+        <br />
+        <div className={classes.fontInfoContainer}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <BoxTitle>폰트 소개글</BoxTitle>
+            <span style={{ marginLeft: '20px' }}>({inputValue.length}/200)</span>
+          </div>
+          <div>
+            <textarea
+              placeholder=""
+              value={inputValue} // input 상태 바인딩
+              onChange={handleInputChange} // input 변경시 호출될 함수
+            />
           </div>
         </div>
         <br />
@@ -127,9 +150,9 @@ const FontOptionPage: React.FC<FontOptionPageProps> = ({ setStep, step }) => {
             />
           </div>
           <div className={classes.rowContainer}>
-            <InputTitle style={{ width: '20vw' }}>수정 허용</InputTitle>
+            <InputTitle style={{ width: '20vw' }}>폰트 변형</InputTitle>
             <RadioBtn
-              options={['수정', '금지']}
+              options={['가능', '금지']}
               name="edit"
               // onChange={setSelectedOption}
             />

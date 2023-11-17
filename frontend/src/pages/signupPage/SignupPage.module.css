@@ -47,13 +47,12 @@
   font-weight: bold;
   border: 0px;
   border-radius: 6.5px;
-  cursor: pointer;
   margin-top: 8.5px;
   margin-bottom: 8.5px;
-}
-
-.signupBtn:hover {
-  background-color: #f66c5c;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
 }
 
 .emailCheckBtn {
@@ -67,11 +66,10 @@
   color: white;
   font-size: 14px;
   font-weight: 600;
-  cursor: pointer;
-}
-
-.emailCheckBtn:hover {
-  background-color: #f66c5c;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
 }
 
 .notValidEmail {

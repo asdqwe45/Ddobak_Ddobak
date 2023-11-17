@@ -6,23 +6,19 @@ import { useNavigate } from 'react-router-dom';
 import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
 
 interface FontBoxProps {
-  id?: string;
-  title?: string;
-  maker?: string;
-  content?: string;
+  id: bigint;
+  title: string;
+  maker: string;
 }
 
-const FontBoxComponent: React.FC<FontBoxProps> = (props) => {
+const FontBoxComponent: React.FC<FontBoxProps> = ({ id, title, maker }) => {
   const navigate = useNavigate();
 
   const handleTitleClick = () => {
-    navigate(`/font/${props.id}`, {
+    navigate(`/font/${id}`, {
       // state 객체 전달
       state: {
-        id: props.id,
-        title: props.title,
-        maker: props.maker,
-        content: props.content,
+        id, title, maker
       },
     });
   };
@@ -31,10 +27,7 @@ const FontBoxComponent: React.FC<FontBoxProps> = (props) => {
     navigate(`/maker`, {
       // state 객체 전달
       state: {
-        id: props.id,
-        title: props.title,
-        maker: props.maker,
-        content: props.content,
+        id, title, maker
       },
     });
   };
@@ -50,7 +43,7 @@ const FontBoxComponent: React.FC<FontBoxProps> = (props) => {
       <div className={classes.container}>
         <div className={classes.header}>
           <div className={classes.title} onClick={handleTitleClick}>
-            {props.title}
+            <span> {title} </span>
           </div>
           {isClicked ? (
             <FaBookmark className={classes.bookIcon} onClick={handleIconClick} />
@@ -59,12 +52,13 @@ const FontBoxComponent: React.FC<FontBoxProps> = (props) => {
           )}
         </div>
         <div className={classes.fontMaker} onClick={handleMakerClick}>
-          {props.maker}
+          <span> {maker} </span>
         </div>
         {/* box 중앙 선 */}
         <div className={classes.borderTop}></div>
         <div className={classes.content} onClick={handleTitleClick}>
-          {props.content}
+          {/* <span> {content} </span> */}
+          <span>다람쥐 헌 쳇바퀴에 타고파</span>
         </div>
       </div>
     </>

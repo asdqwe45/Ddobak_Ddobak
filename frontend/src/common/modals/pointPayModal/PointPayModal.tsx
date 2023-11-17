@@ -13,6 +13,8 @@ import { borderColor, mainRedColor, likeCountColor } from 'common/colors/CommonC
 interface PointModalState {
   pointModal: {
     pointPayVisible: boolean;
+    howMuch: number;
+    boughtSometing: string;
   };
 }
 
@@ -25,14 +27,21 @@ const PointPayModal: React.FC = () => {
     dispatch(pointPayModalActions.toggle());
   };
   const showPayModal = useSelector((state: PointModalState) => state.pointModal.pointPayVisible);
-
+  const howMuch = useSelector((state: PointModalState) => state.pointModal.howMuch);
   const closeModal = () => {
     clickPayHandler();
   };
   const clickChargeHandler = () => {
     dispatch(chargePointModalActions.toggle());
   };
-
+  const payHandler = async () => {
+    // 결제가 완료되면 순차적으로 실행
+    dispatch(pointPayModalActions.paidSomething());
+    clickPayHandler();
+  };
+  function formatNumberWithCommas(x: number) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
   return (
     <ReactModal
       isOpen={showPayModal}
@@ -64,7 +73,7 @@ const PointPayModal: React.FC = () => {
           </div>
           <div className={classes.innerBox}>
             <p className={classes.innerText}>구매 포인트</p>
-            <p className={classes.innerText}>50,000 P</p>
+            <p className={classes.innerText}>{formatNumberWithCommas(howMuch)} P</p>
           </div>
           <div className={classes.innerBox}>
             <p className={classes.innerText}>잔여 포인트</p>
@@ -93,7 +102,7 @@ const PointPayModal: React.FC = () => {
           <button
             className={classes.modalBtn}
             style={{ backgroundColor: mainRedColor }}
-            onClick={closeModal}
+            onClick={payHandler}
           >
             결제하기
           </button>

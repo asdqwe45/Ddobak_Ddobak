@@ -1,13 +1,14 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://ddobak.com:7077/api/v1';
+const BASE_URL = 'https://ddobak.com/api/v1';
 
 // 토큰 가져오기 함수
-const getData = async (key: string) => {
+export const getData = async (key: string) => {
   try {
     const value = await localStorage.getItem(key);
     if (value !== null) {
-      return value;
+      const validValue = JSON.parse(value);
+      return validValue;
     }
   } catch (e) {
     console.error(e);
@@ -22,6 +23,22 @@ export const axiosWithoutAuth = axios.create({
   },
 });
 
+// 폼데이터 형식일 때
+export const axiosWithoutFormData = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+});
+
+export const axiosWithFormData = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    'Content-Type': 'multipart/form-data',
+    Authorization: '',
+  },
+});
+
 // Authorization이 필요한 인스턴스
 export const axiosWithAuth = axios.create({
   baseURL: BASE_URL,
@@ -33,11 +50,22 @@ export const axiosWithAuth = axios.create({
 
 axiosWithAuth.interceptors.request.use(
   async (config) => {
-    console.log('ok');
+    const accessToken = await getData('accessToken'); // await를 사용하여 토큰 값을 가져옵니다.
+    if (accessToken) {
+      config.headers['Authorization'] = 'Bearer ' + accessToken;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
-    const refreshToken = await getData('refreshToken'); // await를 사용하여 토큰 값을 가져옵니다.
-    if (refreshToken) {
-      config.headers['Authorization'] = 'Bearer ' + refreshToken;
+axiosWithFormData.interceptors.request.use(
+  async (config) => {
+    const accessToken = await getData('accessToken'); // await를 사용하여 토큰 값을 가져옵니다.
+    if (accessToken) {
+      config.headers['Authorization'] = 'Bearer ' + accessToken;
     }
     return config;
   },

@@ -24,6 +24,9 @@ notebook="*"
 tensorboardx="*"
 pillow="<=9.5.0"
 python-multipart = "*"
+matplotlib = "*"
+redis = "*"
+rembg = "*"
 
 [dev-packages]
 ipykernel = "*"
