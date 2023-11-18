@@ -36,8 +36,17 @@ const MainPageLargeManuscript: React.FC = () => {
         <div className={classes.headerTextBox}>
           <p className={classes.headerNoText}>No.</p>
           <div className={classes.headerDiv}>
-            <p className={classes.headerBigText} 
-            style={{ fontFamily: "밤톨체", letterSpacing: "-5px", fontSize: "40px", marginBottom: "-5px"}}>밤톨체</p>
+            <p
+              className={classes.headerBigText}
+              style={{
+                fontFamily: '밤톨체',
+                letterSpacing: '-5px',
+                fontSize: '40px',
+                marginBottom: '-5px',
+              }}
+            >
+              밤톨체
+            </p>
           </div>
         </div>
       </div>
@@ -244,8 +253,10 @@ const MainPageLargeManuscript: React.FC = () => {
           {/* . */}
           <div className={classes.smallBox}>
             <div className={classes.content}>
-              <p className={classes.contentText} 
-              style={{ marginBottom: "-25px", opacity: visibility[17] ? 1 : 0 }}>
+              <p
+                className={classes.contentText}
+                style={{ marginBottom: '-25px', opacity: visibility[17] ? 1 : 0 }}
+              >
                 .
               </p>
             </div>
