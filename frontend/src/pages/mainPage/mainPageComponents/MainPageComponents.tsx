@@ -45,12 +45,13 @@ interface MainFooterTextType {
   screenWidth: number;
 }
 
-export const MainFooterText = styled.p<MainFooterTextType>`
+export const MainFooterText = styled.pre<MainFooterTextType>`
   display: ${(props) => (props.screenWidth < 680 ? 'none' : 'block')};
   margin: 0px;
   color: ${likeCountColor};
   font-size: 20px;
   padding-top: 10px;
+  font-family: NanumGothic;
 `;
 
 export const MainFooterHeaderText1 = styled.p`
