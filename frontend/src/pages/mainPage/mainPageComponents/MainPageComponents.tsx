@@ -45,7 +45,7 @@ interface MainFooterTextType {
   screenWidth: number;
 }
 
-export const MainFooterText = styled.p<MainFooterTextType>`
+export const MainFooterText = styled.pre<MainFooterTextType>`
   display: ${(props) => (props.screenWidth < 680 ? 'none' : 'block')};
   margin: 0px;
   color: ${likeCountColor};
