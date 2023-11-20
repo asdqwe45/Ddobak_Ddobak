@@ -71,7 +71,6 @@ const CustomTitleStyle = styled.div<CustomTextStyleType>`
 `;
 
 const FontDetail: React.FC = () => {
-
   // 후기 등록 모달
   const dispatch = useDispatch();
   const { fontId } = useParams();
@@ -211,10 +210,10 @@ const FontDetail: React.FC = () => {
   const copyToClipboard = async () => {
     const fontCode = `@font-face { 
       font-family: "${fontName}";
-      src: url("${webFont}");
+      src: url("${webFont}")format("truetype");
     }
     font-family: "${fontName}";`;
-    
+
     try {
       await navigator.clipboard.writeText(fontCode);
       // console.log('클립보드에 복사되었습니다!');

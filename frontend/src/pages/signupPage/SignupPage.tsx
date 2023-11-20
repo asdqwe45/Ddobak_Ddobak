@@ -63,16 +63,16 @@ const ProfileImg = styled.img`
   width: 90px;
   height: 90px;
   border-radius: 100%;
-  border: 1px solid #B6B6B6;
+  border: 1px solid #b6b6b6;
   // object-fit: cover; /* 이미지 비율을 유지하면서 요소의 전체 너비와 높이에 맞게 조정합니다. */
-`
+`;
 
 const SignupPage: React.FC = () => {
   const [passwordShow, setPasswordShow] = useState(false);
   const [checkPWShow, setCheckPWShow] = useState(false);
   // 프로필 이미지
   const [profile, setProfile] = useState<string | null>(null);
-  const [haveProfile, setHaveProfile] = useState(false)
+  const [haveProfile, setHaveProfile] = useState(false);
   // 연결
   const fileInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -88,10 +88,10 @@ const SignupPage: React.FC = () => {
         setProfile(reader.result as string);
       };
       reader.readAsDataURL(file);
-      setHaveProfile(true)
+      setHaveProfile(true);
     } else {
       setProfile(null);
-      setHaveProfile(false)
+      setHaveProfile(false);
     }
   };
 
@@ -407,7 +407,11 @@ const SignupPage: React.FC = () => {
     <div className={classes.container}>
       <AuthHeader>회원가입</AuthHeader>
       <div className={classes.profileBox}>
-        {haveProfile ? <ProfileImg  src={profile ? profile: "#"}/> : <FaCircleUser color="#B6B6B6" size={90} />}
+        {haveProfile ? (
+          <ProfileImg src={profile ? profile : '#'} />
+        ) : (
+          <FaCircleUser color="#B6B6B6" size={90} />
+        )}
         <Circle className={classes.cameraTransfrom}>
           <HiddenInput
             type="file"

@@ -54,7 +54,7 @@ interface FontProps {
   fontName: string;
 }
 
-const NewMakerFontCommentText = styled(MakerFontCommentText) <FontProps>`
+const NewMakerFontCommentText = styled(MakerFontCommentText)<FontProps>`
   @font-face {
     font-family: ${(props) => props.fontName};
     src: url(${(props) => props.fontFileUrl});
