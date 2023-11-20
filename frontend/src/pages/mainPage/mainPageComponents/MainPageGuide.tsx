@@ -1,7 +1,7 @@
 import classes from './MainPageGuide.module.css';
 import guideLine from '../mainPageAssets/guideLine.png';
-import uploadPC from '../mainPageAssets/uploadPC.png';
-import payment from '../mainPageAssets/payment.png';
+import UploadPC from '../mainPageAssets/UploadPC.png';
+import Payment from '../mainPageAssets/Payment.png';
 import { FaCircleChevronRight } from 'react-icons/fa6';
 import { mainRedColor } from 'common/colors/CommonColors';
 const MainPageGuide: React.FC = () => {
@@ -42,7 +42,7 @@ const MainPageGuide: React.FC = () => {
           <div className={classes.ingredientBox}>
             <div className={classes.contentImgBox}>
               <div className={classes.aspectImg}>
-                <img src={uploadPC} alt="" className={classes.contentImg} />
+                <img src={UploadPC} alt="" className={classes.contentImg} />
               </div>
             </div>
             <div className={classes.contentTextBox}>
@@ -62,7 +62,7 @@ const MainPageGuide: React.FC = () => {
           <div className={classes.ingredientBox}>
             <div className={classes.contentImgBox}>
               <div className={classes.aspectImg}>
-                <img src={payment} alt="" className={classes.contentImg} />
+                <img src={Payment} alt="" className={classes.contentImg} />
               </div>
             </div>
             <div className={classes.contentTextBox}>
