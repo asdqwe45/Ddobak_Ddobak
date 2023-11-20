@@ -11,6 +11,9 @@ import {
   MainFooterHeaderText2,
 } from './mainPageComponents/MainPageComponents';
 import MainPageMiniManuscript from './mainPageComponents/MainPageMiniManuscript';
+import MainPageGuide from './mainPageComponents/MainPageGuide';
+import MainPageLargeManuscript from './mainPageComponents/MainPageLargeManuscript';
+import MainPageFontList from './mainPageComponents/MainPageFontList';
 const MainPage: React.FC = () => {
   const [screenWidth, setScreenWidth] = useState<number>(1001);
   const handleResize = () => {

@@ -22,31 +22,31 @@
 
 /* CSS 파일 내에서 */
 body::-webkit-scrollbar {
-    display: none; /* 스크롤바를 숨깁니다 */
+  display: none; /* 스크롤바를 숨깁니다 */
 }
 .screen {
-    width: 100%;
+  width: 100%;
 }
 
 ::-webkit-scrollbar {
-    width: 15px;
+  width: 15px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #D71718;
-    max-height: 100px;
-    border-radius: 12px 12px 12px 12px;
+  background: #d71718;
+  max-height: 100px;
+  border-radius: 12px 12px 12px 12px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #B6B6B6;
+  background-color: #b6b6b6;
 }
 
 ::-webkit-scrollbar-track {
-    background: #EBB4AD;
-    border-radius: 12px 12px 12px 12px;
+  background: #ebb4ad;
+  border-radius: 12px 12px 12px 12px;
 }
 
 ::-webkit-scrollbar-track:hover {
-    background: #ECECEC;
+  background: #ececec;
 }
