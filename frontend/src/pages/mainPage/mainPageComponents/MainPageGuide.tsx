@@ -85,7 +85,7 @@ export default MainPageGuide;
 const handleDownload = async () => {
   try {
     const response = await fetch(
-      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/template/template_all.pdf',
+      'https://ddobakimage.s3.ap-northeast-2.amazonaws.com/fianltemplete/template.pdf',
     );
     if (response.ok) {
       const blob = await response.blob();
