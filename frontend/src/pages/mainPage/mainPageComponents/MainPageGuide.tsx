@@ -1,7 +1,7 @@
 import classes from './MainPageGuide.module.css';
 import guideLine from '../mainPageAssets/guideLine.png';
-import UploadPC from '../mainPageAssets/UploadPC.png';
-import Payment from '../mainPageAssets/Payment.png';
+import UploadPC from '../mainPageAssets/UploadImg.png';
+import Payment from '../mainPageAssets/PayImg.png';
 import { FaCircleChevronRight } from 'react-icons/fa6';
 import { mainRedColor } from 'common/colors/CommonColors';
 const MainPageGuide: React.FC = () => {
