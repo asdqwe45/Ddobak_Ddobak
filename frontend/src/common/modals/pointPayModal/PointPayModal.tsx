@@ -165,7 +165,7 @@ const PointPayModal: React.FC = () => {
           }
           if (data.length > 0) {
             cartDeleteAPI(data)
-              .then(async (r) => { })
+              .then(async (r) => {})
               .catch((e) => {
                 console.error(e);
               });
