@@ -210,7 +210,7 @@ const FontDetail: React.FC = () => {
   const copyToClipboard = async () => {
     const fontCode = `@font-face { 
       font-family: "${fontName}";
-      src: url("${webFont}");
+      src: url("${webFont}")format("truetype");
     }
     font-family: "${fontName}";`;
 
