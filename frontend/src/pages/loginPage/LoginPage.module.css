@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 85px;
+}
+
+.loginBtn {
+  width: 300px;
+  height: 48px;
+  background-color: #d71718;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  border: 0px;
+  border-radius: 6.5px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.loginBtn:hover {
+  background-color: #f66c5c;
+}
+
+.passwordIcon {
+  position: absolute;
+  transform: translate(260px, -45px);
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.passwordIcon:hover {
+  opacity: 0.7;
+}
+
+.navigator {
+  margin-top: 18px;
+  text-decoration: none;
+  color: black;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+::placeholder {
+  /* 최신 브라우저 */
+  color: #6d6d6d;
+}
+
+.notValidEmail {
+  margin: 0px 20px;
+  color: #d71718;
+  font-size: 14px;
+}
