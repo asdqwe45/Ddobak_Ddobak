@@ -1,0 +1,78 @@
+.container {
+  width: 100%;
+}
+.mainLargePage {
+  width: 100%;
+  height: 90vh;
+}
+
+@media (max-width: 510px) {
+  .mainLargePage {
+    height: 60vh;
+  }
+}
+/* @media (max-width: 680px) {
+
+} */
+@media (min-width: 510.001px) and (max-width: 810px) {
+  .mainLargePage {
+    height: 80vh;
+  }
+}
+
+.manuscriptLargeBox {
+  width: 240px;
+  height: 60px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  margin: 0px 30px;
+}
+.manuscriptLargeBox:hover {
+  opacity: 0.7;
+}
+
+.manuscriptSmallBox {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #d71718;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.manuscriptSmallBetweenBoxLeft {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #d71718;
+  border-left-width: 0px;
+  border-right-width: 1px;
+}
+.manuscriptSmallBetweenBoxRight {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #d71718;
+  border-left-width: 1px;
+  border-right-width: 0px;
+}
+
+.manuscriptMiddleBox {
+  display: flex;
+  height: 40px;
+  width: 100%;
+  margin-bottom: 3px;
+}
+.manuscriptLine {
+  border: 2px solid #d71718;
+}
+
+.manuscriptText {
+  font-size: 20px;
+  font-weight: bold;
+  color: #484848;
+  margin: 0px;
+}

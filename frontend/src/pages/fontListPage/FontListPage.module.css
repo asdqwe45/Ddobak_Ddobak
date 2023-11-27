@@ -1,0 +1,185 @@
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.fontListContainer {
+  margin-bottom: 50px;
+}
+
+.topContainer {
+  position: relative;
+  /* .filterOptions의 절대 위치 기준점 */
+  display: flex;
+  margin: 60px 0px 40px 30px;
+}
+
+.searchBar {
+  border: 2px solid #b6b6b6;
+  padding: 10px 25px;
+  border-radius: 30px;
+  width: 25vw;
+  height: 22px;
+  display: flex;
+  margin-right: 20px;
+}
+
+.searchBar input {
+  border: none;
+  outline: none;
+  flex-grow: 1;
+  font-size: 16px;
+}
+
+.filterBarWrapper {
+  margin-right: 20px;
+}
+
+.filterBar {
+  width: 100px;
+  border: 2px solid #b6b6b6;
+  padding: 10px 16px 10px 25px;
+  border-radius: 30px;
+  display: flex;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* 체크박스 스타일링 */
+.filterOptions input[type='checkbox'] {
+  appearance: none;
+  /* 기본 스타일 제거 */
+  border: 2px solid #d4d4d4;
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+/* 체크된 상태의 체크박스 스타일링 */
+.filterOptions input[type='checkbox']:checked {
+  border: 2px solid #d71718;
+}
+
+/* 체크된 상태의 체크 표시 스타일링 */
+.filterOptions input[type='checkbox']:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: red;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.filterOptions {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 15px;
+  font-size: 18px;
+  line-height: 30px;
+  width: 110px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.filterBarActive {
+  border: 2px solid #d71718;
+}
+
+.filterIconActive {
+  transform: rotate(180deg);
+}
+
+.fontBoxContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  /* 왼쪽 정렬 */
+  max-height: calc(310px * 3);
+  /* 항목 높이 * 세로로 표시할 항목 수 */
+}
+
+.fontBoxContainer > * {
+  flex: 0 0 calc(24% - 10px);
+  /* 가로 한 줄에 4개씩, margin 고려 */
+  margin: 5px;
+  /* 항목 사이의 마진 */
+}
+
+@media (max-width: 1200px) {
+  .fontBoxContainer > * {
+    flex-basis: calc(40% - 10px);
+  }
+
+  .mainContainer {
+    height: 300vh;
+  }
+}
+
+@media (max-width: 1000px) {
+  .fontBoxContainer > * {
+    flex-basis: calc(50% - 10px);
+  }
+
+  .mainContainer {
+    height: 580vh;
+  }
+}
+
+@media (max-width: 600px) {
+  .fontBoxContainer > * {
+    flex-basis: 80%;
+  }
+
+  .mainContainer {
+    height: 580vh;
+  }
+}
+
+/* 페이지네이션 */
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  margin: 70px 0;
+}
+
+.pageNumber {
+  display: inline-block;
+  /* 인라인 블록으로 설정해 옆으로 나열 */
+  margin: 0 5px;
+  padding: 10px 15px;
+  border: 2px solid #ddd;
+  color: #333;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 20px;
+}
+
+.pageNumber:hover {
+  background-color: #d71718;
+  color: white;
+}
+
+.activePage {
+  background-color: #d71718;
+  color: white;
+}
+
+.noResult {
+  text-align: center;
+  padding: 90px;
+  font-size: 25px;
+}

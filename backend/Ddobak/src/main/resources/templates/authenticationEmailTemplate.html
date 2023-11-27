@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<table
+    align="center"
+    width="670"
+    style="
+        border-top: 6px solid#FF3F34;
+        border-right: 1px solid #e7e7e7;
+        border-left: 1px solid #e7e7e7;
+        border-bottom: 1px solid #e7e7e7;
+      "
+>
+  <tbody>
+  <tr>
+    <td
+        style="
+              background-color: #ffffff;
+              padding: 40px 30px 0 35px;
+              text-align: center;
+            "
+    >
+      <table
+          width="605"
+          cellpadding="0"
+          cellspacing="0"
+          style="text-align: left"
+      >
+        <thead>
+        <tr>
+          <td
+              style="
+                      font-size: 20px;
+                      text-align: left;
+                      width: 352px;
+                      word-spacing: -1px;
+                      vertical-align: top;
+                    "
+          >
+            또박또박
+          </td>
+        </tr>
+        <tr>
+          <td
+              style="
+                      font-size: 35px;
+                      text-align: left;
+                      width: 352px;
+                      word-spacing: -1px;
+                      vertical-align: top;
+                    "
+          >
+            메일인증 안내입니다.
+            <br />
+            <br />
+          </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td
+              style="
+                      font-size: 20px;
+                      vertical-align: bottom;
+                      height: 27px;
+                    "
+          >
+            안녕하세요.<br />
+            <br />
+            또박또박을 이용해 주셔서 진심으로 감사드립니다. <br />
+            아래 인증번호를 입력하시고 회원가입을 진행해 주세요. <br />
+            <br />
+            감사합니다.
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding: 39px 196px 70px">
+      <table width="278" style="background-color: #d54d45">
+        <tbody>
+        <tr>
+          <td height="49" style="text-align: center; color: #fff; font-size:20px;">
+            인증번호 : <span style="font-weight:bold" th:text="${authCode}"></span>
+            <span><b></b></span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

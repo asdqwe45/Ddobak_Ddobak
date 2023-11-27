@@ -1,0 +1,84 @@
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 150px;
+}
+
+.loadingBar {
+  width: 40%;
+  background-color: #e0e0e0;
+  position: relative;
+  height: 30px;
+  display: flex;
+}
+
+.redPencilImg {
+  width: 6vw;
+  transform: rotate(35deg);
+  animation: shake 0.5s infinite;
+  margin-top: -55px;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: rotate(45deg) translateX(0);
+  }
+
+  25% {
+    transform: rotate(45deg) translateX(-5px);
+  }
+
+  75% {
+    transform: rotate(45deg) translateX(5px);
+  }
+}
+
+.progressBar {
+  height: 100%;
+  background-color: #d71718;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.1s ease-in-out;
+}
+
+.loadingInfo {
+  margin-top: 30px;
+  font-size: 30px;
+  text-align: center;
+  font-weight: 600;
+  line-height: 13px;
+  margin-bottom: 30px;
+}
+
+.loadingInfo p {
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.btnContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px;
+}
+
+.mypageBtn {
+  width: 200px;
+  height: 50px;
+  border-radius: 6.5px;
+  border: 0px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #d71718;
+  color: white;
+  &:hover {
+    cursor: pointer;
+    background-color: white;
+    border: 4px solid #d71718;
+    color: black;
+  }
+}

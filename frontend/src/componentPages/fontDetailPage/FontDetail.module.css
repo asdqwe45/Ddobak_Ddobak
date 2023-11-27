@@ -1,0 +1,207 @@
+.container {
+  margin-bottom: 40px;
+}
+
+.topContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.topLeft {
+  display: flex;
+  flex-direction: row;
+}
+
+.title {
+  font-size: 55px;
+}
+
+.price {
+  font-size: 45px;
+  margin-right: 10px;
+}
+
+.dibContainer {
+  margin-right: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.bookIcon {
+  width: 35px;
+  height: 35px;
+  color: #d71718;
+}
+
+.subContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.makerContainer {
+  display: flex;
+}
+
+.makerContainer p {
+  font-size: 20px;
+  margin: 20px 40px 15px 5px;
+  cursor: pointer;
+}
+
+.makerContainer strong {
+  margin-right: 5px;
+}
+
+.makerContainer span:hover {
+  background-color: #fcfcca;
+}
+
+.buyContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cartBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 19px;
+  width: 180px;
+  height: 40px;
+  cursor: pointer;
+  margin-right: 10px;
+  background-color: #d71718;
+  border: 2px solid #d71718;
+  color: #fff;
+}
+
+.buyBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 19px;
+  width: 180px;
+  height: 40px;
+  cursor: pointer;
+  margin-right: 10px;
+  border: 2px solid #d71718;
+}
+
+.cartBtn:hover,
+.buyBtn:hover {
+  /* 버튼 호버 시, 그림자 : 은은하고 넓은, 진하고 얇은 */
+  box-shadow:
+    5px 10px 20px rgba(0, 0, 0, 0.2),
+    5px 6px 4px rgba(0, 0, 0, 0.2);
+}
+
+.boxContainer {
+  display: flex;
+  /* align-items: center; */
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.introBox {
+  height: 80px;
+  border: 1px solid #484848;
+  padding: 22px 30px 0 30px;
+  font-size: 20px;
+  white-space: pre-line;
+  line-height: 30px;
+  margin-top: 10px;
+  /* 내용이 박스를 초과하면 스크롤 생성 */
+  overflow-y: auto;
+  /* 세로 스크롤 */
+  overflow-x: hidden;
+  /* 가로 스크롤을 숨김 */
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 10px;
+}
+
+.copyIconContainer {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.copyIconContainer:hover {
+  text-decoration: 2px solid underline #d71718;
+}
+
+.fontContainer {
+  margin: 40px 0;
+}
+
+/* 예시 문구, 슬라이더 */
+.testContainer {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 20px;
+}
+
+.typingBar {
+  border: 2px solid #b6b6b6;
+  padding: 10px 25px;
+  border-radius: 30px;
+  width: 30vw;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  color: #484848;
+}
+
+.typingBar input {
+  border: none;
+  outline: none;
+  flex-grow: 1;
+  font-size: 18px;
+}
+
+.fontTest {
+  margin-left: 50px;
+  margin-bottom: 50px;
+}
+
+.reviewBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 19px;
+  width: 180px;
+  height: 40px;
+  cursor: pointer;
+  margin-right: 10px;
+  background-color: #484848;
+  border: 2px solid #484848;
+  color: #fff;
+}
+
+.isBoughtOrMadeBox {
+  border-radius: 10px;
+  background-color: #484848;
+  border: 2px solid #484848;
+  width: 240px;
+  height: 40px;
+  color: #fff;
+  font-size: 19px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
