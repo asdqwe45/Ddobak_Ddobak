@@ -211,3 +211,7 @@
 | ![image](exec/images/gitlab.png) | ![image](exec/images/jira.png) |
 
 <hr>
+
+### Acknowledgements
+---
+[dmfont](https://github.com/clovaai/dmfont) by [clovaai](https://github.com/clovaai)
